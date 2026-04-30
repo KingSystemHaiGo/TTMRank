@@ -32,6 +32,6 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No data changes'
           else
-            git commit -m 'Auto refresh data [skip ci]'
+            git commit -m 'Auto refresh data'
             git push
           fi
