@@ -12,7 +12,8 @@ if errorlevel 1 (
 echo Pushing to GitHub...
 git push
 if errorlevel 1 (
-    echo Push failed, retrying...
+    echo Remote has new commits, pulling first...
+    git pull
     git push
     if errorlevel 1 (
         echo Push failed again. Please check your network.
