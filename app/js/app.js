@@ -256,6 +256,13 @@ async function doSummary() {
 
 async function doRefresh() {
   const btn = document.getElementById('btnRefresh');
+  // GitHub Pages 不支持 /refresh 端点，引导用户去 Actions 手动触发
+  if (location.hostname.includes('github.io')) {
+    if (confirm('GitHub Pages 不支持直接刷新数据。是否前往 GitHub Actions 手动触发更新？')) {
+      window.open('https://github.com/KingSystemHaiGo/TTMRank/actions/workflows/refresh.yml', '_blank');
+    }
+    return;
+  }
   btn.disabled = true;
   const orig = btn.innerHTML;
   btn.innerHTML = '<span class="spinner" style="border-color:rgba(0,0,0,0.2);border-top-color:#14b9c8"></span>';
