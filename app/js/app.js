@@ -289,6 +289,11 @@ async function doRefresh() {
   }
 }
 document.getElementById('btnRefresh').onclick = doRefresh;
+// Hide refresh button on GitHub Pages (no /refresh endpoint)
+if (location.hostname.includes('github.io')) {
+  const btnRefresh = document.getElementById('btnRefresh');
+  if (btnRefresh) btnRefresh.style.display = 'none';
+}
 
 function openModal() {
   document.getElementById('iUrl').value = cfg.url||'';
