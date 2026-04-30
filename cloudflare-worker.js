@@ -37,7 +37,22 @@ export default {
       });
     }
 
+    if (request.method !== 'POST') {
+      return new Response('TTMRank LLM Proxy is running. Send a POST request with JSON body.', {
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+      });
+    }
+
     const body = await request.text();
+    if (!body) {
+      return new Response(JSON.stringify({error: 'Empty request body'}), {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Access-Control-Allow-Origin': '*'
+        }
+      });
+    }
 
     const resp = await fetch(LLM_URL, {
       method: 'POST',

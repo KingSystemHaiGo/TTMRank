@@ -10,7 +10,7 @@ const SYSTEM_PROMPT = `你是游戏市场数据分析师。基于提供的榜单
 const WORKER_URL = 'https://ttmrank-proxy.kingsystem0613.workers.dev';
 let data = null, activePlat = 'android', activeKey = 'hot', charts = {}, currentItems = [];
 let cfg = JSON.parse(localStorage.getItem('ttm_llm')||'null');
-if (!cfg) cfg = {url: WORKER_URL, key: 'worker', model: 'deepseek-chat'};
+if (!cfg) cfg = {url: WORKER_URL, key: 'worker', model: 'deepseek-v4-flash'};
 
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
