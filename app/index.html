@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TTMRank - TapTap 排行榜聚合</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<link rel="stylesheet" href="css/style.css?v=10">
+<script>
+(function(){
+  function applyTheme(t){ document.documentElement.setAttribute('data-theme', t==='dark'?'dark':'light'); }
+  function toggleTheme(){ var d=document.documentElement.getAttribute('data-theme')==='dark'; applyTheme(d?'light':'dark'); localStorage.setItem('ttm_theme',d?'light':'dark'); }
+  var s=localStorage.getItem('ttm_theme'); applyTheme(s==='dark'?'dark':'light');
+  window.toggleTheme=toggleTheme;
+})();
+</script>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="brand">
+      <h1>TTM<span>Rank</span></h1>
+      <p class="sub">TapTap 排行榜聚合</p>
+      <p class="time" id="updateTime">加载中...</p>
+    </div>
+    <div class="header-actions">
+      <a class="btn-made" href="taptapmaker.html">TapTap制造</a>
+      <button class="btn-icon" id="btnRefresh" title="刷新数据">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+      </button>
+      <button class="btn-icon" id="btnTheme" title="切换主题" onclick="toggleTheme()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+      <button class="btn-icon" id="btnSet" title="LLM配置">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.68 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="plat-bar" id="platBar"></div>
+  <div class="tabs-wrap"><div class="tabs" id="tabs"></div></div>
+  <div id="main"></div>
+
+  <footer>数据来源 <a href="https://www.taptap.cn/top" target="_blank">TapTap</a> · 仅供学习</footer>
+</div>
+
+<div class="game-modal-bg" id="gameModalBg">
+  <div class="game-modal" id="gameModal"></div>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3>LLM 配置</h3>
+    <div class="fm"><label>API URL</label><input id="iUrl" placeholder="https://api.deepseek.com/chat/completions"><small>支持 OpenAI / DeepSeek 兼容格式</small></div>
+    <div class="fm"><label>API Key</label><input type="password" id="iKey" placeholder="sk-..."></div>
+    <div class="fm"><label>模型</label><input id="iModel" placeholder="deepseek-chat"></div>
+    <div class="modal-btns">
+      <button class="btn-s" id="btnCancel">取消</button>
+      <button class="btn-p" id="btnSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js?v=10"></script>
+</body>
+</html>
