@@ -260,7 +260,10 @@ const RANK_TYPES = [
 const PLATFORMS = [{key:'android',name:'Android'},{key:'ios',name:'iOS'}];
 const SYSTEM_PROMPT = `你是游戏市场数据分析师。基于提供的 TapTap 制造标签游戏的全量跨榜单数据，输出以创作机会、热度评价、排名分析为核心的专业简报。不评价平台本身，不讨论 AI 工具。\n\n分析框架（必须覆盖全部维度）：\n\n1. 全局排名格局（200字）\n   - 全部入榜游戏的排名分布：进入前10/前30的比例，头部固化程度。\n   - 跨榜单对比：哪些榜单 TapTap 制造游戏表现最强（平均排名最高、数量最多）？哪些榜单最弱？分析原因。\n   - 排名与评分的关联模式：高排名由高热驱动还是口碑驱动？\n\n2. 跨榜单竞争力对比（200字）\n   - 各榜单中 TapTap 制造游戏的数量、平均排名、平均评分横向对比。\n   - 同一款游戏在不同榜单中的排名差异，反映什么用户需求差异？\n   - 安卓 vs iOS 平台的表现差异与原因。\n\n3. 热度评价（150字）\n   - 全量游戏的热度分布：是否存在"热度断层"？\n   - 高热度作品的共性（品类、题材、玩法）。\n   - 低热度高评分的潜在价值：被低估的细分机会。\n\n4. 重点游戏拆解（200字，3-5款）\n   - 点名具体最佳排名、评分、所属榜单，分析其跨榜单表现驱动力。\n   - 识别异常值："高口碑低流量"与"高流量低口碑"。\n\n5. 创作机会（250字）\n   - 竞争不饱和赛道：哪些榜单/品类 TapTap 制造游戏占比低但用户热度高？\n   - 跨榜单套利机会：在某榜单验证成功、可快速复制到其他榜单的玩法/题材。\n   - 跨界融合方向：未被尝试的品类组合。\n   - 题材空白：基于 tags 分布找出未覆盖的方向。\n   - 差异化切入点：避开红海的具体策略。\n\n6. 风险与壁垒（150字）\n   - 同质化红海：哪些品类已有过多相似产品。\n   - 头部挤压：榜单头部大作的竞争压力。\n   - 跨榜单复制的可行性风险：某榜单的成功模式是否适用于其他榜单。\n\n输出要求：\n- 中文，专业术语准确，杜绝空洞形容词\n- 必须有具体数据支撑观点\n- 总字数 1000-1300 字\n- 不要解释分析过程，直接输出结论`;
 
-let data = null, activePlat = 'android', activeKey = 'hot', charts = {}, cfg = JSON.parse(localStorage.getItem('ttm_llm')||'{}');
+const WORKER_URL = 'https://ttmrank-proxy.kingsystem0613.workers.dev';
+let data = null, activePlat = 'android', activeKey = 'hot', charts = {};
+let cfg = JSON.parse(localStorage.getItem('ttm_llm')||'null');
+if (!cfg) cfg = {url: WORKER_URL, key: 'worker', model: 'deepseek-chat'};
 
 async function init() {
   try {
@@ -455,6 +458,9 @@ async function doSummary() {
   const btn = document.getElementById('btnAi');
   const box = document.getElementById('aiResult');
   if (!cfg.url || !cfg.key || !cfg.model) { alert('请先配置LLM（点击右上角齿轮）'); openModal(); return; }
+  if (cfg.url === WORKER_URL && cfg.key === 'worker') {
+    // 使用内置 Workers 代理，无需额外配置
+  }
 
   const made = data.taptap_made || [];
   if (!made.length) { alert('暂无 TapTap 制造游戏数据'); return; }

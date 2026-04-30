@@ -7,7 +7,10 @@ const RANK_TYPES = [
 const PLATFORMS = [{key:'android',name:'Android'},{key:'ios',name:'iOS'}];
 const SYSTEM_PROMPT = `你是游戏市场数据分析师。基于提供的榜单全量数据，输出以创作机会、热度评价、排名分析为核心的专业简报。不评价平台本身，不讨论 AI 工具。\n\n分析框架（必须覆盖全部维度）：\n\n1. 排名格局分析（200字）\n   - 当前榜单排名分布特征：头部固化还是流动频繁？Top10/Top20/Top50 的集中度变化。\n   - 新品冲榜速度与老品守榜能力对比，判断市场进入窗口期宽窄。\n   - 排名与评分、热度的相关性：高排名由高热驱动还是口碑驱动？\n\n2. 热度评价（200字）\n   - 全榜热度分布：是否存在"热度断层"（前几名垄断流量，中腰部断层）？\n   - 高热度游戏的共性特征（品类、题材、玩法机制、上线时长）。\n   - 低热度高评分游戏的潜在价值：是否被低估的细分机会？\n   - 热度增速异常值：近期热度飙升或下跌的游戏及其驱动因素。\n\n3. 重点游戏拆解（200字，3-5款）\n   - 点名具体排名、评分、热度，分析其市场表现的核心驱动力（玩法、题材、运营事件）。\n   - 识别异常值："高口碑低流量"（获客难）与"高流量低口碑"（买量或 IP 透支）。\n   - 判断生命周期阶段（导入期/成长期/成熟期/衰退期）与后续走势预判。\n\n4. 创作机会（250字）\n   - 竞争不饱和赛道：哪些品类头部集中度低、新进入者存活率高？\n   - 跨界融合方向：未被尝试的品类组合（如放置+叙事、Roguelike+社交）。\n   - 用户痛点映射为产品机会：评分低但热度高的品类说明需求存在但供给质量不足。\n   - 题材空白：基于 tags 分布找出未被覆盖的题材与风格组合。\n   - 差异化切入点：避开头部红海、切入细分需求的具体策略。\n\n5. 风险与壁垒（150字）\n   - 同质化红海：哪些品类已有过多相似产品，新进入者难以突围？\n   - 头部护城河：IP、社交、玩法专利等壁垒对新团队的挑战。\n   - 评分通胀风险：某品类评分普遍虚高可能暗示用户期望落差。\n\n输出要求：\n- 中文，专业术语准确，杜绝"内容丰富""体验优秀"等空洞形容词\n- 必须有具体数据支撑观点（如：Top3平均评分8.9，二次元品类占比35%，热度断层系数）\n- 总字数 900-1200 字\n- 不要解释分析过程，直接输出结论`;
 
-let data = null, activePlat = 'android', activeKey = 'hot', charts = {}, cfg = JSON.parse(localStorage.getItem('ttm_llm')||'{}'), currentItems = [];
+const WORKER_URL = 'https://ttmrank-proxy.kingsystem0613.workers.dev';
+let data = null, activePlat = 'android', activeKey = 'hot', charts = {}, currentItems = [];
+let cfg = JSON.parse(localStorage.getItem('ttm_llm')||'null');
+if (!cfg) cfg = {url: WORKER_URL, key: 'worker', model: 'deepseek-chat'};
 
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
@@ -197,6 +200,9 @@ async function doSummary() {
   const btn = document.getElementById('btnAi');
   const box = document.getElementById('aiResult');
   if (!cfg.url || !cfg.key || !cfg.model) { alert('请先配置LLM（点击右上角齿轮）'); openModal(); return; }
+  if (cfg.url === WORKER_URL && cfg.key === 'worker') {
+    // 使用内置 Workers 代理，无需额外配置
+  }
   if (!data || !data.platforms || !data.platforms[activePlat] || !data.platforms[activePlat][activeKey]) {
     alert('当前榜单数据未加载，请刷新页面'); return;
   }
