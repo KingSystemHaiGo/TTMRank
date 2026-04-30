@@ -364,10 +364,27 @@ def main():
     # 4. 补充榜单前20名的开发者信息
     patch_developers(result["platforms"], max_workers=MAX_WORKERS)
 
-    # 保存
+    # 保存完整数据（供 taptapmaker.html 等需要全量数据的页面使用）
     out_path = os.path.join(DATA_DIR, "rankings.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
+
+    # 保存分榜单文件（供首页懒加载）
+    meta = {"updated_at": result["updated_at"], "platforms": {}}
+    for platform, charts in result["platforms"].items():
+        meta["platforms"][platform] = {}
+        for chart_key, chart_data in charts.items():
+            chart_file = os.path.join(DATA_DIR, f"rankings-{platform}-{chart_key}.json")
+            with open(chart_file, "w", encoding="utf-8") as f:
+                json.dump(chart_data, f, ensure_ascii=False, indent=2)
+            meta["platforms"][platform][chart_key] = {
+                "title": chart_data.get("title", ""),
+                "count": len(chart_data.get("items", [])),
+            }
+    meta["taptap_made_count"] = len(result.get("taptap_made", []))
+    meta_path = os.path.join(DATA_DIR, "meta.json")
+    with open(meta_path, "w", encoding="utf-8") as f:
+        json.dump(meta, f, ensure_ascii=False, indent=2)
 
     save_history(result)
 

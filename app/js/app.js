@@ -55,9 +55,22 @@ function showSkeleton() {
 async function init() {
   showSkeleton();
   try {
-    const rankRes = await fetch('data/rankings.json?t=' + Date.now());
-    if (!rankRes.ok) throw new Error('HTTP '+rankRes.status);
-    data = await rankRes.json();
+    // Try lightweight meta.json first; fallback to full rankings.json
+    const metaRes = await fetch('data/meta.json?t=' + Date.now());
+    if (metaRes.ok) {
+      const meta = await metaRes.json();
+      data = { updated_at: meta.updated_at, platforms: {}, taptap_made_count: meta.taptap_made_count || 0 };
+      for (const [plat, charts] of Object.entries(meta.platforms)) {
+        data.platforms[plat] = {};
+        for (const [key, info] of Object.entries(charts)) {
+          data.platforms[plat][key] = { title: info.title, items: [], _count: info.count };
+        }
+      }
+    } else {
+      const rankRes = await fetch('data/rankings.json?t=' + Date.now());
+      if (!rankRes.ok) throw new Error('HTTP '+rankRes.status);
+      data = await rankRes.json();
+    }
     document.getElementById('updateTime').textContent = '更新: ' + data.updated_at;
     renderPlatBar();
     renderTabs();
@@ -83,18 +96,48 @@ function switchPlat(key) {
 function renderTabs() {
   const platData = data?.platforms?.[activePlat] || {};
   document.getElementById('tabs').innerHTML = RANK_TYPES.map(t => {
-    const cnt = platData[t.key]?.items?.length || 0;
+    const chart = platData[t.key];
+    const cnt = chart?._count ?? (chart?.items?.length || 0);
     return '<button class="tab '+(t.key===activeKey?'active':'')+'" data-key="'+t.key+'" onclick="switchTab(\''+t.key+'\')">'+t.name+' '+cnt+'</button>';
   }).join('');
 }
 
-function switchTab(key) {
+async function switchTab(key) {
   activeKey = key;
   document.querySelectorAll('.tab').forEach(btn => {
     btn.classList.toggle('active', btn.getAttribute('data-key') === key);
   });
-  const r = data?.platforms?.[activePlat]?.[key];
+  let r = data?.platforms?.[activePlat]?.[key];
   if (!r) { document.getElementById('main').innerHTML='<div class="err">该榜单暂无数据</div>'; return; }
+
+  // Lazy-load per-chart data if using meta.json mode
+  if (r._count !== undefined && (!r.items || r.items.length === 0)) {
+    document.getElementById('main').innerHTML =
+      '<div class="dash">'+
+        '<div class="dash-box"><div class="dash-title">游戏类型分布</div><div class="dash-chart" id="c-tag"></div></div>'+
+        '<div class="dash-box"><div class="dash-title">平台分布</div><div class="dash-chart" id="c-plat"></div></div>'+
+        '<div class="dash-box"><div class="dash-title">评分分布</div><div class="dash-chart" id="c-score"></div></div>'+
+        '<div class="dash-box"><div class="dash-title">热度区间分布</div><div class="dash-chart" id="c-heat"></div></div>'+
+      '</div>'+
+      '<div style="text-align:center;padding:40px;color:#aaa;font-size:14px;">加载榜单数据中...</div>';
+    try {
+      const res = await fetch('data/rankings-'+activePlat+'-'+key+'.json?t=' + Date.now());
+      if (res.ok) {
+        const chart = await res.json();
+        r.items = chart.items || [];
+        r.title = chart.title || r.title;
+        r.description = chart.description || '';
+      } else {
+        throw new Error('HTTP ' + res.status);
+      }
+    } catch(e) {
+      document.getElementById('main').innerHTML = '<div class="err">榜单数据加载失败: ' + e.message + '</div>';
+      return;
+    }
+    // If user switched to another tab while loading, abort rendering this tab
+    if (activeKey !== key) return;
+  }
+
   currentItems = r.items || [];
 
   const itemsHtml = r.items.map(item => {
