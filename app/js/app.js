@@ -55,7 +55,7 @@ function showSkeleton() {
 async function init() {
   showSkeleton();
   try {
-    const rankRes = await fetch('data/rankings.json');
+    const rankRes = await fetch('data/rankings.json?t=' + Date.now());
     if (!rankRes.ok) throw new Error('HTTP '+rankRes.status);
     data = await rankRes.json();
     document.getElementById('updateTime').textContent = '更新: ' + data.updated_at;
