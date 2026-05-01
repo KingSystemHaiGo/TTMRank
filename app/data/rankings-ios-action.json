@@ -12,9 +12,9 @@
         "搜打撤",
         "生存"
       ],
-      "count": 18336718,
-      "reserve": 3626299,
-      "count_str": "1833.7万",
+      "count": 18344733,
+      "reserve": 3626293,
+      "count_str": "1834.5万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/330259",
@@ -36,9 +36,9 @@
         "开放世界",
         "都市"
       ],
-      "count": 4472391,
-      "reserve": 6324150,
-      "count_str": "447.2万",
+      "count": 4517631,
+      "reserve": 6323702,
+      "count_str": "451.8万",
       "count_label": "热度",
       "hints": [
         "公测已正式开启"
@@ -62,9 +62,9 @@
         "可爱",
         "平台跳跃"
       ],
-      "count": 573234,
+      "count": 576696,
       "reserve": 78,
-      "count_str": "57.3万",
+      "count_str": "57.7万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/827946",
@@ -80,14 +80,14 @@
       "id": 234280,
       "title": "鸣潮",
       "icon": "https://img-tc.tapimg.com/market/images/197919623b5375c76349b897029ee19a.png/_tap_appicon.jpg",
-      "score": "7.2",
+      "score": "7.1",
       "tags": [
         "开放世界",
         "动作"
       ],
-      "count": 21231930,
-      "reserve": 4400426,
-      "count_str": "2123.2万",
+      "count": 21242763,
+      "reserve": 4400406,
+      "count_str": "2124.3万",
       "count_label": "热度",
       "hints": [
         "昨天 新版本更新"
@@ -111,9 +111,9 @@
         "买断制",
         "Steam移植"
       ],
-      "count": 7362216,
+      "count": 7362718,
       "reserve": 6987175,
-      "count_str": "736.2万",
+      "count_str": "736.3万",
       "count_label": "热度",
       "hints": [
         "全新官方梦境【蒸汽朋克派对】上线"
@@ -136,9 +136,9 @@
         "乙女",
         "恋爱"
       ],
-      "count": 9000258,
+      "count": 9003718,
       "reserve": 745597,
-      "count_str": "900.0万",
+      "count_str": "900.4万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/201633",
@@ -151,32 +151,6 @@
     },
     {
       "rank": 7,
-      "id": 837335,
-      "title": "对不起，我是警察",
-      "icon": "https://img-tc.tapimg.com/market/images/e8531e97dd24c73d526fe6dcf6b76517.png/_tap_appicon.jpg",
-      "score": "8.3",
-      "tags": [
-        "冒险",
-        "动作"
-      ],
-      "count": 12190,
-      "reserve": 13025,
-      "count_str": "1.2万",
-      "count_label": "热度",
-      "hints": [
-        "3天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/837335",
-      "platforms": [
-        "android",
-        "ios",
-        "steam"
-      ],
-      "released_time": 1777341621,
-      "developer": "小有内容"
-    },
-    {
-      "rank": 8,
       "id": 714123,
       "title": "超自然行动组",
       "icon": "https://img-tc.tapimg.com/market/images/bcec76f0e878361961d21993a82c4467.png/_tap_appicon.jpg",
@@ -185,9 +159,9 @@
         "合作",
         "密室"
       ],
-      "count": 15645437,
+      "count": 15652455,
       "reserve": 2822,
-      "count_str": "1564.5万",
+      "count_str": "1565.2万",
       "count_label": "热度",
       "hints": [
         "今天 新版本更新"
@@ -202,7 +176,56 @@
       "developer": "巨人网络"
     },
     {
+      "rank": 8,
+      "id": 222638,
+      "title": "战地1914",
+      "icon": "https://img-tc.tapimg.com/market/images/d48910e9065060f3d438e1ae67e01b17.jpg/_tap_appicon.jpg",
+      "score": "6.7",
+      "tags": [
+        "军事",
+        "动作"
+      ],
+      "count": 4472503,
+      "reserve": 364,
+      "count_str": "447.3万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/222638",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1641793708,
+      "developer": "拷贝工厂"
+    },
+    {
       "rank": 9,
+      "id": 837335,
+      "title": "对不起，我是警察",
+      "icon": "https://img-tc.tapimg.com/market/images/e8531e97dd24c73d526fe6dcf6b76517.png/_tap_appicon.jpg",
+      "score": "8.3",
+      "tags": [
+        "冒险",
+        "动作"
+      ],
+      "count": 12601,
+      "reserve": 13024,
+      "count_str": "1.3万",
+      "count_label": "热度",
+      "hints": [
+        "3天前 首发"
+      ],
+      "url": "https://www.taptap.cn/app/837335",
+      "platforms": [
+        "android",
+        "ios",
+        "steam"
+      ],
+      "released_time": 1777341621,
+      "developer": "小有内容"
+    },
+    {
+      "rank": 10,
       "id": 792018,
       "title": "真・三国无双 天下",
       "icon": "https://img-tc.tapimg.com/market/images/f96afd3d98234a9945c13b01da64027a.png/_tap_appicon.jpg",
@@ -212,7 +235,7 @@
         "角色扮演"
       ],
       "count": 0,
-      "reserve": 153704,
+      "reserve": 153784,
       "count_str": "0",
       "count_label": "热度",
       "hints": [],
@@ -225,29 +248,6 @@
       "developer": "盛天游戏"
     },
     {
-      "rank": 10,
-      "id": 222638,
-      "title": "战地1914",
-      "icon": "https://img-tc.tapimg.com/market/images/d48910e9065060f3d438e1ae67e01b17.jpg/_tap_appicon.jpg",
-      "score": "6.7",
-      "tags": [
-        "军事",
-        "动作"
-      ],
-      "count": 4472227,
-      "reserve": 364,
-      "count_str": "447.2万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/222638",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1641793708,
-      "developer": "拷贝工厂"
-    },
-    {
       "rank": 11,
       "id": 172664,
       "title": "火炬之光：无限",
@@ -257,9 +257,9 @@
         "ARPG",
         "刷宝"
       ],
-      "count": 4992459,
-      "reserve": 1540402,
-      "count_str": "499.2万",
+      "count": 4993230,
+      "reserve": 1540398,
+      "count_str": "499.3万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/172664",
@@ -281,8 +281,8 @@
         "类银河恶魔城",
         "动作"
       ],
-      "count": 179057,
-      "reserve": 44955,
+      "count": 179214,
+      "reserve": 44952,
       "count_str": "17.9万",
       "count_label": "热度",
       "hints": [],
@@ -296,6 +296,30 @@
     },
     {
       "rank": 13,
+      "id": 168332,
+      "title": "原神",
+      "icon": "https://img-tc.tapimg.com/market/images/4c441769b5fb3b670c8b59a6124d9ff2.png/_tap_appicon.jpg",
+      "score": "7.8",
+      "tags": [
+        "开放世界",
+        "二次元"
+      ],
+      "count": 88827277,
+      "reserve": 3115361,
+      "count_str": "8882.7万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/168332",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1601020800,
+      "developer": "miHoYo"
+    },
+    {
+      "rank": 14,
       "id": 208370,
       "title": "坐在罐子里的人",
       "icon": "https://img-tc.tapimg.com/market/images/b802b957f2287907f8988860dc00bd94.png/_tap_appicon.jpg",
@@ -304,7 +328,7 @@
         "魔性",
         "高难度"
       ],
-      "count": 1299761,
+      "count": 1299836,
       "reserve": 279785,
       "count_str": "130.0万",
       "count_label": "热度",
@@ -318,30 +342,6 @@
       "developer": "ZPLAY"
     },
     {
-      "rank": 14,
-      "id": 168332,
-      "title": "原神",
-      "icon": "https://img-tc.tapimg.com/market/images/4c441769b5fb3b670c8b59a6124d9ff2.png/_tap_appicon.jpg",
-      "score": "7.8",
-      "tags": [
-        "开放世界",
-        "二次元"
-      ],
-      "count": 88822214,
-      "reserve": 3115361,
-      "count_str": "8882.2万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/168332",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1601020800,
-      "developer": "miHoYo"
-    },
-    {
       "rank": 15,
       "id": 247283,
       "title": "无限暖暖",
@@ -351,9 +351,9 @@
         "开放世界",
         "多人联机"
       ],
-      "count": 6709842,
-      "reserve": 2527192,
-      "count_str": "671.0万",
+      "count": 6711584,
+      "reserve": 2527183,
+      "count_str": "671.2万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/247283",
@@ -376,8 +376,8 @@
         "像素",
         "Steam移植"
       ],
-      "count": 579533,
-      "reserve": 191776,
+      "count": 579714,
+      "reserve": 191774,
       "count_str": "58.0万",
       "count_label": "热度",
       "hints": [],
@@ -399,9 +399,9 @@
         "竞技",
         "射击"
       ],
-      "count": 6850194,
-      "reserve": 3847192,
-      "count_str": "685.0万",
+      "count": 6853752,
+      "reserve": 3847180,
+      "count_str": "685.4万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/722210",
@@ -422,8 +422,8 @@
         "Steam移植",
         "射击"
       ],
-      "count": 360664,
-      "reserve": 26310,
+      "count": 360824,
+      "reserve": 26309,
       "count_str": "36.1万",
       "count_label": "热度",
       "hints": [],
@@ -445,9 +445,9 @@
         "开放世界",
         "动作"
       ],
-      "count": 13413205,
-      "reserve": 2171247,
-      "count_str": "1341.3万",
+      "count": 13416562,
+      "reserve": 2171237,
+      "count_str": "1341.7万",
       "count_label": "热度",
       "hints": [
         "7天前 新版本更新"
@@ -463,6 +463,29 @@
     },
     {
       "rank": 20,
+      "id": 171015,
+      "title": "重生细胞",
+      "icon": "https://img-tc.tapimg.com/market/images/72865e0ec923daf3486b2e002f254aec.png/_tap_appicon.jpg",
+      "score": "8.2",
+      "tags": [
+        "动作",
+        "单机"
+      ],
+      "count": 12154826,
+      "reserve": 1620815,
+      "count_str": "1215.5万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/171015",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1612281602,
+      "developer": "哔哩哔哩游戏"
+    },
+    {
+      "rank": 21,
       "id": 744415,
       "title": "王者荣耀世界",
       "icon": "https://img-tc.tapimg.com/market/images/f58ed707bf44eebffe59b0e811a92abd.png/_tap_appicon.jpg",
@@ -471,9 +494,9 @@
         "角色扮演",
         "ARPG"
       ],
-      "count": 1865296,
-      "reserve": 2875215,
-      "count_str": "186.5万",
+      "count": 1872755,
+      "reserve": 2875082,
+      "count_str": "187.3万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/744415",
@@ -483,29 +506,6 @@
         "pc"
       ],
       "released_time": 1776211375,
-      "developer": "腾讯"
-    },
-    {
-      "rank": 21,
-      "id": 171015,
-      "title": "重生细胞",
-      "icon": "https://img-tc.tapimg.com/market/images/72865e0ec923daf3486b2e002f254aec.png/_tap_appicon.jpg",
-      "score": "8.2",
-      "tags": [
-        "动作",
-        "单机"
-      ],
-      "count": 12154333,
-      "reserve": 1620815,
-      "count_str": "1215.4万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/171015",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1612281602,
       "developer": "未知"
     },
     {
@@ -518,9 +518,9 @@
         "Roguelike",
         "地牢"
       ],
-      "count": 37271342,
+      "count": 37273157,
       "reserve": 28385,
-      "count_str": "3727.1万",
+      "count_str": "3727.3万",
       "count_label": "热度",
       "hints": [
         "3天前 新版本更新"
@@ -543,8 +543,8 @@
         "买断制",
         "支持手柄"
       ],
-      "count": 297696,
-      "reserve": 989971,
+      "count": 297738,
+      "reserve": 989970,
       "count_str": "29.8万",
       "count_label": "热度",
       "hints": [],
@@ -558,6 +558,31 @@
     },
     {
       "rank": 24,
+      "id": 242283,
+      "title": "魔法工艺",
+      "icon": "https://img-tc.tapimg.com/market/images/d18b178c494bf8ee6d8928b61bd63730.png/_tap_appicon.jpg",
+      "score": "8.5",
+      "tags": [
+        "Steam移植",
+        "角色扮演"
+      ],
+      "count": 567718,
+      "reserve": 77094,
+      "count_str": "56.8万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/242283",
+      "platforms": [
+        "android",
+        "ios",
+        "pc",
+        "steam"
+      ],
+      "released_time": 1766368806,
+      "developer": "未知"
+    },
+    {
+      "rank": 25,
       "id": 235001,
       "title": "黎明前20分钟",
       "icon": "https://img-tc.tapimg.com/market/images/53bc61c919dad36a475fd5131bb751a7.jpg/_tap_appicon.jpg",
@@ -566,7 +591,7 @@
         "割草Roguelike",
         "射击"
       ],
-      "count": 3261857,
+      "count": 3262252,
       "reserve": 90561,
       "count_str": "326.2万",
       "count_label": "热度",
@@ -582,32 +607,31 @@
       "developer": "未知"
     },
     {
-      "rank": 25,
-      "id": 242283,
-      "title": "魔法工艺",
-      "icon": "https://img-tc.tapimg.com/market/images/d18b178c494bf8ee6d8928b61bd63730.png/_tap_appicon.jpg",
-      "score": "8.5",
+      "rank": 26,
+      "id": 139301,
+      "title": "使命召唤手游",
+      "icon": "https://img-tc.tapimg.com/market/images/a7291585766f2aa38a4926717f2af466.png/_tap_appicon.jpg",
+      "score": "7.6",
       "tags": [
-        "Steam移植",
-        "角色扮演"
+        "FPS",
+        "高画质"
       ],
-      "count": 567532,
-      "reserve": 77093,
-      "count_str": "56.8万",
+      "count": 12765537,
+      "reserve": 3725258,
+      "count_str": "1276.6万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/242283",
+      "url": "https://www.taptap.cn/app/139301",
       "platforms": [
         "android",
         "ios",
-        "pc",
-        "steam"
+        "pc"
       ],
-      "released_time": 1766368806,
+      "released_time": 1608853527,
       "developer": "未知"
     },
     {
-      "rank": 26,
+      "rank": 27,
       "id": 240587,
       "title": "暖雪",
       "icon": "https://img-tc.tapimg.com/market/images/1f4b3625a2f6bc2a57fc85d34dcef7b3.png/_tap_appicon.jpg",
@@ -616,8 +640,8 @@
         "动作",
         "角色扮演"
       ],
-      "count": 3679163,
-      "reserve": 360482,
+      "count": 3679398,
+      "reserve": 360481,
       "count_str": "367.9万",
       "count_label": "热度",
       "hints": [
@@ -634,7 +658,7 @@
       "developer": "未知"
     },
     {
-      "rank": 27,
+      "rank": 28,
       "id": 742939,
       "title": "汉克旅店",
       "icon": "https://img-tc.tapimg.com/market/images/2b07ef832598bc950113e693e466a843.png/_tap_appicon.jpg",
@@ -643,7 +667,7 @@
         "Roguelike",
         "动作"
       ],
-      "count": 289661,
+      "count": 289808,
       "reserve": 46379,
       "count_str": "29.0万",
       "count_label": "热度",
@@ -657,51 +681,27 @@
       "developer": "未知"
     },
     {
-      "rank": 28,
-      "id": 139301,
-      "title": "使命召唤手游",
-      "icon": "https://img-tc.tapimg.com/market/images/a7291585766f2aa38a4926717f2af466.png/_tap_appicon.jpg",
-      "score": "7.6",
-      "tags": [
-        "FPS",
-        "高画质"
-      ],
-      "count": 12764851,
-      "reserve": 3725258,
-      "count_str": "1276.5万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/139301",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1608853527,
-      "developer": "未知"
-    },
-    {
       "rank": 29,
-      "id": 834269,
-      "title": "开局变丧尸，感染一城人",
-      "icon": "https://img-tc.tapimg.com/market/images/Fozaj1C2tmRMV7ZtpQjpy_lmODHX.png/_tap_appicon.jpg",
-      "score": "8.0",
+      "id": 222089,
+      "title": "尘白禁区",
+      "icon": "https://img-tc.tapimg.com/market/images/dbea10e8d04bd90dcf933d6d52c40911.png/_tap_appicon.jpg",
+      "score": "7.9",
       "tags": [
-        "TapTap制造",
-        "动作"
+        "二次元",
+        "美少女"
       ],
-      "count": 38190,
-      "reserve": 0,
-      "count_str": "3.8万",
+      "count": 12498830,
+      "reserve": 1826026,
+      "count_str": "1249.9万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/834269",
+      "url": "https://www.taptap.cn/app/222089",
       "platforms": [
         "android",
         "ios",
         "pc"
       ],
-      "released_time": 1775363389,
+      "released_time": 1689732003,
       "developer": "未知"
     }
   ]
