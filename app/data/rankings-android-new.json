@@ -12,9 +12,9 @@
         "开放世界",
         "都市"
       ],
-      "count": 4756685,
-      "reserve": 6321644,
-      "count_str": "475.7万",
+      "count": 4759491,
+      "reserve": 6321610,
+      "count_str": "475.9万",
       "count_label": "热度",
       "hints": [
         "公测已正式开启"
@@ -38,9 +38,9 @@
         "解压",
         "涂色"
       ],
-      "count": 611261,
+      "count": 612413,
       "reserve": 501348,
-      "count_str": "61.1万",
+      "count_str": "61.2万",
       "count_label": "热度",
       "hints": [
         "4天前 首发"
@@ -62,7 +62,7 @@
       "tags": [
         "休闲"
       ],
-      "count": 18680,
+      "count": 19019,
       "reserve": 2,
       "count_str": "1.9万",
       "count_label": "热度",
@@ -82,12 +82,12 @@
       "id": 813133,
       "title": "善良都市",
       "icon": "https://img-tc.tapimg.com/market/images/13ba2d912b226a540fe1787af6a58464.png/_tap_appicon.jpg",
-      "score": "5.8",
+      "score": "5.9",
       "tags": [
         "角色扮演"
       ],
-      "count": 24536,
-      "reserve": 51334,
+      "count": 24774,
+      "reserve": 51339,
       "count_str": "2.5万",
       "count_label": "热度",
       "hints": [
@@ -112,7 +112,7 @@
         "末日"
       ],
       "count": 0,
-      "reserve": 24108,
+      "reserve": 24171,
       "count_str": "0",
       "count_label": "热度",
       "hints": [
@@ -136,7 +136,7 @@
         "割草Roguelike",
         "轻度Roguelike"
       ],
-      "count": 20052,
+      "count": 20096,
       "reserve": 1051,
       "count_str": "2.0万",
       "count_label": "热度",
@@ -161,7 +161,7 @@
       "tags": [
         "模拟"
       ],
-      "count": 12624,
+      "count": 12691,
       "reserve": 5547,
       "count_str": "1.3万",
       "count_label": "热度",
@@ -186,8 +186,8 @@
         "模拟经营",
         "治愈"
       ],
-      "count": 36095,
-      "reserve": 33141,
+      "count": 36149,
+      "reserve": 33139,
       "count_str": "3.6万",
       "count_label": "热度",
       "hints": [],
@@ -201,54 +201,6 @@
     },
     {
       "rank": 9,
-      "id": 848143,
-      "title": "FPS反应训练器",
-      "icon": "https://img-tc.tapimg.com/market/images/FvOlLVYpTcd6RIi-topYH2Uk_sGb.jpg/_tap_appicon.jpg",
-      "score": "7.9",
-      "tags": [
-        "TapTap制造",
-        "休闲"
-      ],
-      "count": 8219,
-      "reserve": 0,
-      "count_str": "8219",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/848143",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1776963054,
-      "developer": "初火"
-    },
-    {
-      "rank": 10,
-      "id": 764167,
-      "title": "你好！我们还有场恋爱没谈",
-      "icon": "https://img-tc.tapimg.com/market/images/3cb777a7243a2bf9fce8a70f54899ae8.jpg/_tap_appicon.jpg",
-      "score": "7.8",
-      "tags": [
-        "休闲"
-      ],
-      "count": 2630,
-      "reserve": 18674,
-      "count_str": "2630",
-      "count_label": "热度",
-      "hints": [
-        "今天 首发"
-      ],
-      "url": "https://www.taptap.cn/app/764167",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777628900,
-      "developer": "念念而忘工作室"
-    },
-    {
-      "rank": 11,
       "id": 810791,
       "title": "借眼",
       "icon": "https://img-tc.tapimg.com/market/images/dfa795ff6d66da5c18b6fb0b7f5a09a2.jpg/_tap_appicon.jpg",
@@ -256,7 +208,7 @@
       "tags": [
         "益智"
       ],
-      "count": 39984,
+      "count": 40026,
       "reserve": 34307,
       "count_str": "4.0万",
       "count_label": "热度",
@@ -270,6 +222,54 @@
       "developer": "勾陈一工作室"
     },
     {
+      "rank": 10,
+      "id": 848143,
+      "title": "FPS反应训练器",
+      "icon": "https://img-tc.tapimg.com/market/images/FvOlLVYpTcd6RIi-topYH2Uk_sGb.jpg/_tap_appicon.jpg",
+      "score": "7.9",
+      "tags": [
+        "TapTap制造",
+        "休闲"
+      ],
+      "count": 8279,
+      "reserve": 0,
+      "count_str": "8279",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/848143",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1776963054,
+      "developer": "初火"
+    },
+    {
+      "rank": 11,
+      "id": 764167,
+      "title": "你好！我们还有场恋爱没谈",
+      "icon": "https://img-tc.tapimg.com/market/images/3cb777a7243a2bf9fce8a70f54899ae8.jpg/_tap_appicon.jpg",
+      "score": "7.8",
+      "tags": [
+        "休闲"
+      ],
+      "count": 2673,
+      "reserve": 18674,
+      "count_str": "2673",
+      "count_label": "热度",
+      "hints": [
+        "今天 首发"
+      ],
+      "url": "https://www.taptap.cn/app/764167",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1777628900,
+      "developer": "念念而忘工作室"
+    },
+    {
       "rank": 12,
       "id": 388796,
       "title": "我有一个末日安全屋",
@@ -280,7 +280,7 @@
         "Roguelike"
       ],
       "count": 0,
-      "reserve": 263529,
+      "reserve": 263545,
       "count_str": "0",
       "count_label": "热度",
       "hints": [
@@ -304,7 +304,7 @@
         "Roguelike",
         "自走棋"
       ],
-      "count": 12768,
+      "count": 12797,
       "reserve": 252,
       "count_str": "1.3万",
       "count_label": "热度",
@@ -327,7 +327,7 @@
         "动作",
         "冒险"
       ],
-      "count": 72315,
+      "count": 72346,
       "reserve": 139829,
       "count_str": "7.2万",
       "count_label": "热度",
@@ -352,9 +352,9 @@
       "tags": [
         "休闲"
       ],
-      "count": 1861,
+      "count": 1880,
       "reserve": 364,
-      "count_str": "1861",
+      "count_str": "1880",
       "count_label": "热度",
       "hints": [
         "2天前 首发"
@@ -369,6 +369,32 @@
     },
     {
       "rank": 16,
+      "id": 848903,
+      "title": "我在伪人世界当房东",
+      "icon": "https://img-tc.tapimg.com/market/images/FtxTUldc3Wmf6NKrSdZg641TaitS.png/_tap_appicon.jpg",
+      "score": "9.0",
+      "tags": [
+        "养成",
+        "生存"
+      ],
+      "count": 7106,
+      "reserve": 0,
+      "count_str": "7106",
+      "count_label": "热度",
+      "hints": [
+        "6天前 首发"
+      ],
+      "url": "https://www.taptap.cn/app/848903",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1777141609,
+      "developer": "小小梦想工作室"
+    },
+    {
+      "rank": 17,
       "id": 837335,
       "title": "对不起，我是警察",
       "icon": "https://img-tc.tapimg.com/market/images/e8531e97dd24c73d526fe6dcf6b76517.png/_tap_appicon.jpg",
@@ -377,8 +403,8 @@
         "冒险",
         "动作"
       ],
-      "count": 15238,
-      "reserve": 12999,
+      "count": 15264,
+      "reserve": 12998,
       "count_str": "1.5万",
       "count_label": "热度",
       "hints": [
@@ -394,33 +420,33 @@
       "developer": "小有内容"
     },
     {
-      "rank": 17,
-      "id": 848903,
-      "title": "我在伪人世界当房东",
-      "icon": "https://img-tc.tapimg.com/market/images/FtxTUldc3Wmf6NKrSdZg641TaitS.png/_tap_appicon.jpg",
-      "score": "9.0",
+      "rank": 18,
+      "id": 848057,
+      "title": "灵瞳觉醒：横扫古董市场",
+      "icon": "https://img-tc.tapimg.com/market/images/FtIliX7vY7VeDe5ALFsxris6DR8y.png/_tap_appicon.jpg",
+      "score": "8.4",
       "tags": [
-        "养成",
-        "生存"
+        "TapTap制造",
+        "模拟"
       ],
-      "count": 7038,
+      "count": 5484,
       "reserve": 0,
-      "count_str": "7038",
+      "count_str": "5484",
       "count_label": "热度",
       "hints": [
-        "6天前 首发"
+        "5天前 首发"
       ],
-      "url": "https://www.taptap.cn/app/848903",
+      "url": "https://www.taptap.cn/app/848057",
       "platforms": [
         "android",
         "ios",
         "pc"
       ],
-      "released_time": 1777141609,
-      "developer": "小小梦想工作室"
+      "released_time": 1777264401,
+      "developer": "奇迹游戏"
     },
     {
-      "rank": 18,
+      "rank": 19,
       "id": 828773,
       "title": "神魔传",
       "icon": "https://img-tc.tapimg.com/market/images/893003623e95fcb2c96ee9cb3d70c233.png/_tap_appicon.jpg",
@@ -444,32 +470,6 @@
       "developer": "噜噜游戏"
     },
     {
-      "rank": 19,
-      "id": 848057,
-      "title": "灵瞳觉醒：横扫古董市场",
-      "icon": "https://img-tc.tapimg.com/market/images/FtIliX7vY7VeDe5ALFsxris6DR8y.png/_tap_appicon.jpg",
-      "score": "8.4",
-      "tags": [
-        "TapTap制造",
-        "模拟"
-      ],
-      "count": 5457,
-      "reserve": 0,
-      "count_str": "5457",
-      "count_label": "热度",
-      "hints": [
-        "5天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/848057",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777264401,
-      "developer": "奇迹游戏"
-    },
-    {
       "rank": 20,
       "id": 848487,
       "title": "东宫妃妾模拟器",
@@ -479,9 +479,9 @@
         "策略",
         "剧情"
       ],
-      "count": 8341,
+      "count": 8376,
       "reserve": 0,
-      "count_str": "8341",
+      "count_str": "8376",
       "count_label": "热度",
       "hints": [
         "6天前 首发"
@@ -505,7 +505,7 @@
         "TapTap制造",
         "模拟"
       ],
-      "count": 11755,
+      "count": 11787,
       "reserve": 0,
       "count_str": "1.2万",
       "count_label": "热度",
@@ -531,9 +531,9 @@
         "策略",
         "模拟"
       ],
-      "count": 1903,
+      "count": 1924,
       "reserve": 181,
-      "count_str": "1903",
+      "count_str": "1924",
       "count_label": "热度",
       "hints": [
         "2天前 首发"
@@ -558,9 +558,9 @@
         "经营",
         "放置"
       ],
-      "count": 3945,
+      "count": 3958,
       "reserve": 2604,
-      "count_str": "3945",
+      "count_str": "3958",
       "count_label": "热度",
       "hints": [
         "2天前 首发"
@@ -583,9 +583,9 @@
         "TapTap制造",
         "模拟"
       ],
-      "count": 2867,
+      "count": 2890,
       "reserve": 0,
-      "count_str": "2867",
+      "count_str": "2890",
       "count_label": "热度",
       "hints": [
         "3天前 首发"
@@ -608,7 +608,7 @@
       "tags": [
         "模拟"
       ],
-      "count": 15710,
+      "count": 15730,
       "reserve": 388,
       "count_str": "1.6万",
       "count_label": "热度",
@@ -624,6 +624,30 @@
     },
     {
       "rank": 26,
+      "id": 849031,
+      "title": "史莱姆大魔王2",
+      "icon": "https://img-tc.tapimg.com/market/images/30ee5e97a02f2be3f316b182e12682ae.png/_tap_appicon.jpg",
+      "score": "9.3",
+      "tags": [
+        "冒险"
+      ],
+      "count": 1813,
+      "reserve": 0,
+      "count_str": "1813",
+      "count_label": "热度",
+      "hints": [
+        "2天前 首发"
+      ],
+      "url": "https://www.taptap.cn/app/849031",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1777514421,
+      "developer": "未知"
+    },
+    {
+      "rank": 27,
       "id": 830140,
       "title": "灵宝派对",
       "icon": "https://img-tc.tapimg.com/market/images/e6d2b53eaede8fb920f9d20ff5853b5b.png/_tap_appicon.jpg",
@@ -633,7 +657,7 @@
         "收集"
       ],
       "count": 0,
-      "reserve": 2512,
+      "reserve": 2511,
       "count_str": "0",
       "count_label": "热度",
       "hints": [
@@ -648,31 +672,31 @@
       "developer": "未知"
     },
     {
-      "rank": 27,
-      "id": 849031,
-      "title": "史莱姆大魔王2",
-      "icon": "https://img-tc.tapimg.com/market/images/30ee5e97a02f2be3f316b182e12682ae.png/_tap_appicon.jpg",
-      "score": "9.3",
+      "rank": 28,
+      "id": 806064,
+      "title": "仙魔道",
+      "icon": "https://img-tc.tapimg.com/market/images/0eebe3e22c59430c82ed7e80ef5cadf2.png/_tap_appicon.jpg",
+      "score": "9.5",
       "tags": [
-        "冒险"
+        "角色扮演"
       ],
-      "count": 1799,
-      "reserve": 0,
-      "count_str": "1799",
+      "count": 4830,
+      "reserve": 739,
+      "count_str": "4830",
       "count_label": "热度",
       "hints": [
-        "2天前 首发"
+        "今天0点 首发"
       ],
-      "url": "https://www.taptap.cn/app/849031",
+      "url": "https://www.taptap.cn/app/806064",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1777514421,
+      "released_time": 1777651800,
       "developer": "未知"
     },
     {
-      "rank": 28,
+      "rank": 29,
       "id": 850011,
       "title": "大明·浮生志",
       "icon": "https://img-tc.tapimg.com/market/images/FqWZcUFK--LriZ-WesB1tuyC_2Gr.png/_tap_appicon.jpg",
@@ -681,9 +705,9 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 2189,
+      "count": 2207,
       "reserve": 0,
-      "count_str": "2189",
+      "count_str": "2207",
       "count_label": "热度",
       "hints": [
         "3天前 首发"
@@ -698,30 +722,6 @@
       "developer": "未知"
     },
     {
-      "rank": 29,
-      "id": 806064,
-      "title": "仙魔道",
-      "icon": "https://img-tc.tapimg.com/market/images/0eebe3e22c59430c82ed7e80ef5cadf2.png/_tap_appicon.jpg",
-      "score": "9.5",
-      "tags": [
-        "角色扮演"
-      ],
-      "count": 4815,
-      "reserve": 739,
-      "count_str": "4815",
-      "count_label": "热度",
-      "hints": [
-        "今天0点 首发"
-      ],
-      "url": "https://www.taptap.cn/app/806064",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777651800,
-      "developer": "未知"
-    },
-    {
       "rank": 30,
       "id": 812827,
       "title": "嘎嘎射击",
@@ -730,9 +730,9 @@
       "tags": [
         "动作"
       ],
-      "count": 7501,
+      "count": 7517,
       "reserve": 5162,
-      "count_str": "7501",
+      "count_str": "7517",
       "count_label": "热度",
       "hints": [
         "3天前 首发"
@@ -755,9 +755,9 @@
         "TapTap制造",
         "模拟"
       ],
-      "count": 7280,
+      "count": 7302,
       "reserve": 0,
-      "count_str": "7280",
+      "count_str": "7302",
       "count_label": "热度",
       "hints": [
         "7天前 首发"
@@ -781,9 +781,9 @@
         "角色扮演",
         "卡牌"
       ],
-      "count": 5550,
+      "count": 5563,
       "reserve": 7608,
-      "count_str": "5550",
+      "count_str": "5563",
       "count_label": "热度",
       "hints": [
         "3天前 首发"
@@ -806,7 +806,7 @@
         "手绘",
         "2D"
       ],
-      "count": 25696,
+      "count": 25713,
       "reserve": 31113,
       "count_str": "2.6万",
       "count_label": "热度",
@@ -829,9 +829,9 @@
         "Roguelike",
         "休闲"
       ],
-      "count": 2811,
+      "count": 2824,
       "reserve": 451,
-      "count_str": "2811",
+      "count_str": "2824",
       "count_label": "热度",
       "hints": [
         "昨天 首发"
@@ -854,9 +854,9 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 4002,
+      "count": 4021,
       "reserve": 0,
-      "count_str": "4002",
+      "count_str": "4021",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/847597",
@@ -877,9 +877,9 @@
       "tags": [
         "休闲"
       ],
-      "count": 527,
+      "count": 534,
       "reserve": 32,
-      "count_str": "527",
+      "count_str": "534",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/851329",
@@ -892,31 +892,6 @@
     },
     {
       "rank": 37,
-      "id": 827126,
-      "title": "无光之国",
-      "icon": "https://img-tc.tapimg.com/market/images/0bc2a81d49bc52a4023aff379c1c5af0.png/_tap_appicon.jpg",
-      "score": "8.4",
-      "tags": [
-        "策略",
-        "DBG"
-      ],
-      "count": 0,
-      "reserve": 9565,
-      "count_str": "0",
-      "count_label": "热度",
-      "hints": [
-        "测试下载已开启"
-      ],
-      "url": "https://www.taptap.cn/app/827126",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 0,
-      "developer": "未知"
-    },
-    {
-      "rank": 38,
       "id": 842675,
       "title": "末日危城：我能合成万物",
       "icon": "https://img-tc.tapimg.com/market/images/Fsf3hgi2VkeaqNqaNSm0U9hq0vsw.png/_tap_appicon.jpg",
@@ -925,9 +900,9 @@
         "养成",
         "放置"
       ],
-      "count": 1701,
+      "count": 1719,
       "reserve": 0,
-      "count_str": "1701",
+      "count_str": "1719",
       "count_label": "热度",
       "hints": [
         "3天前 首发"
@@ -942,6 +917,31 @@
       "developer": "未知"
     },
     {
+      "rank": 38,
+      "id": 827126,
+      "title": "无光之国",
+      "icon": "https://img-tc.tapimg.com/market/images/0bc2a81d49bc52a4023aff379c1c5af0.png/_tap_appicon.jpg",
+      "score": "8.4",
+      "tags": [
+        "策略",
+        "DBG"
+      ],
+      "count": 0,
+      "reserve": 9571,
+      "count_str": "0",
+      "count_label": "热度",
+      "hints": [
+        "测试下载已开启"
+      ],
+      "url": "https://www.taptap.cn/app/827126",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 0,
+      "developer": "未知"
+    },
+    {
       "rank": 39,
       "id": 848627,
       "title": "你是哪种傻福？",
@@ -951,9 +951,9 @@
         "TapTap制造",
         "益智"
       ],
-      "count": 2950,
+      "count": 2976,
       "reserve": 0,
-      "count_str": "2950",
+      "count_str": "2976",
       "count_label": "热度",
       "hints": [
         "7天前 首发"
@@ -969,31 +969,6 @@
     },
     {
       "rank": 40,
-      "id": 751306,
-      "title": "联盟战歌",
-      "icon": "https://img-tc.tapimg.com/market/images/cf4d4e76c44c4831a95f113843bb30e8.jpg/_tap_appicon.jpg",
-      "score": "8.4",
-      "tags": [
-        "魔幻",
-        "放置"
-      ],
-      "count": 29289,
-      "reserve": 12533,
-      "count_str": "2.9万",
-      "count_label": "热度",
-      "hints": [
-        "2天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/751306",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777510807,
-      "developer": "未知"
-    },
-    {
-      "rank": 41,
       "id": 151502,
       "title": "大航海时代：起源",
       "icon": "https://img-tc.tapimg.com/market/images/69d85e4b156ee5e31bdd518be0bb5b68.jpg/_tap_appicon.jpg",
@@ -1002,7 +977,7 @@
         "模拟经营",
         "冒险"
       ],
-      "count": 20598,
+      "count": 20612,
       "reserve": 34044,
       "count_str": "2.1万",
       "count_label": "热度",
@@ -1019,6 +994,31 @@
       "developer": "未知"
     },
     {
+      "rank": 41,
+      "id": 751306,
+      "title": "联盟战歌",
+      "icon": "https://img-tc.tapimg.com/market/images/cf4d4e76c44c4831a95f113843bb30e8.jpg/_tap_appicon.jpg",
+      "score": "8.4",
+      "tags": [
+        "魔幻",
+        "放置"
+      ],
+      "count": 29300,
+      "reserve": 12533,
+      "count_str": "2.9万",
+      "count_label": "热度",
+      "hints": [
+        "2天前 首发"
+      ],
+      "url": "https://www.taptap.cn/app/751306",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1777510807,
+      "developer": "未知"
+    },
+    {
       "rank": 42,
       "id": 848108,
       "title": "离职模拟器",
@@ -1027,9 +1027,9 @@
       "tags": [
         "休闲"
       ],
-      "count": 4448,
+      "count": 4457,
       "reserve": 0,
-      "count_str": "4448",
+      "count_str": "4457",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/848108",
@@ -1051,7 +1051,7 @@
         "美少女"
       ],
       "count": 0,
-      "reserve": 3162,
+      "reserve": 3164,
       "count_str": "0",
       "count_label": "热度",
       "hints": [
@@ -1067,6 +1067,31 @@
     },
     {
       "rank": 44,
+      "id": 848940,
+      "title": "萨拉热窝：黄金家族",
+      "icon": "https://img-tc.tapimg.com/market/images/197c7d81bd1fa7497065ab520110d784.png/_tap_appicon.jpg",
+      "score": "8.5",
+      "tags": [
+        "TapTap制造",
+        "策略"
+      ],
+      "count": 1756,
+      "reserve": 0,
+      "count_str": "1756",
+      "count_label": "热度",
+      "hints": [
+        "3天前 首发"
+      ],
+      "url": "https://www.taptap.cn/app/848940",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1777446792,
+      "developer": "未知"
+    },
+    {
+      "rank": 45,
       "id": 816839,
       "title": "萌妖出没",
       "icon": "https://img-tc.tapimg.com/market/images/a2eb94f5060b77ac1d0201c8e13f6512.png/_tap_appicon.jpg",
@@ -1076,7 +1101,7 @@
         "卡牌"
       ],
       "count": 0,
-      "reserve": 1984,
+      "reserve": 1986,
       "count_str": "0",
       "count_label": "热度",
       "hints": [
@@ -1091,56 +1116,7 @@
       "developer": "未知"
     },
     {
-      "rank": 45,
-      "id": 848940,
-      "title": "萨拉热窝：黄金家族",
-      "icon": "https://img-tc.tapimg.com/market/images/197c7d81bd1fa7497065ab520110d784.png/_tap_appicon.jpg",
-      "score": "8.5",
-      "tags": [
-        "TapTap制造",
-        "策略"
-      ],
-      "count": 1751,
-      "reserve": 0,
-      "count_str": "1751",
-      "count_label": "热度",
-      "hints": [
-        "3天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/848940",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777446792,
-      "developer": "未知"
-    },
-    {
       "rank": 46,
-      "id": 850462,
-      "title": "封神行",
-      "icon": "https://img-tc.tapimg.com/market/images/b74b02a86099dd898bbbdab96f17cf05.png/_tap_appicon.jpg",
-      "score": "9.8",
-      "tags": [
-        "卡牌"
-      ],
-      "count": 0,
-      "reserve": 154,
-      "count_str": "0",
-      "count_label": "热度",
-      "hints": [
-        "测试下载已开启"
-      ],
-      "url": "https://www.taptap.cn/app/850462",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 0,
-      "developer": "未知"
-    },
-    {
-      "rank": 47,
       "id": 834102,
       "title": "不修仙了，没流量了",
       "icon": "https://img-tc.tapimg.com/market/images/FiXd83D6cIVHMeXrrgHuWKJAh_w1.jpg/_tap_appicon.jpg",
@@ -1149,9 +1125,9 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 1621,
+      "count": 1639,
       "reserve": 0,
-      "count_str": "1621",
+      "count_str": "1639",
       "count_label": "热度",
       "hints": [
         "5天前 首发"
@@ -1166,7 +1142,7 @@
       "developer": "未知"
     },
     {
-      "rank": 48,
+      "rank": 47,
       "id": 828616,
       "title": "打工修仙记",
       "icon": "https://img-tc.tapimg.com/market/images/FjjwhvEGLNoDlcyQYCdUVKpWq_6w.png/_tap_appicon.jpg",
@@ -1175,9 +1151,9 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 9151,
+      "count": 9165,
       "reserve": 0,
-      "count_str": "9151",
+      "count_str": "9165",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/828616",
@@ -1190,7 +1166,7 @@
       "developer": "未知"
     },
     {
-      "rank": 49,
+      "rank": 48,
       "id": 829999,
       "title": "单词啾啾冒险",
       "icon": "https://img-tc.tapimg.com/market/images/7a4f2cdf5d641f85001ff371d9012a6a.png/_tap_appicon.jpg",
@@ -1198,9 +1174,9 @@
       "tags": [
         "教育"
       ],
-      "count": 1924,
+      "count": 1927,
       "reserve": 0,
-      "count_str": "1924",
+      "count_str": "1927",
       "count_label": "热度",
       "hints": [
         "6天前 首发"
@@ -1214,7 +1190,7 @@
       "developer": "未知"
     },
     {
-      "rank": 50,
+      "rank": 49,
       "id": 819270,
       "title": "解压箭头",
       "icon": "https://img-tc.tapimg.com/market/images/d5a52dd088bd88f7c8a34a7fa27ad016.png/_tap_appicon.jpg",
@@ -1222,9 +1198,9 @@
       "tags": [
         "休闲"
       ],
-      "count": 5853,
+      "count": 5858,
       "reserve": 221,
-      "count_str": "5853",
+      "count_str": "5858",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/819270",
@@ -1236,7 +1212,7 @@
       "developer": "未知"
     },
     {
-      "rank": 51,
+      "rank": 50,
       "id": 847363,
       "title": "飞天将军",
       "icon": "https://img-tc.tapimg.com/market/images/d313d9cc6d4b8a6b64e161cb3f0e1f4c.png/_tap_appicon.jpg",
@@ -1260,7 +1236,7 @@
       "developer": "未知"
     },
     {
-      "rank": 52,
+      "rank": 51,
       "id": 843853,
       "title": "狗狗搜打撤",
       "icon": "https://img-tc.tapimg.com/market/images/1c309d6b661b056c026d2bbd55ed598c.png/_tap_appicon.jpg",
@@ -1268,9 +1244,9 @@
       "tags": [
         "休闲"
       ],
-      "count": 1195,
+      "count": 1201,
       "reserve": 0,
-      "count_str": "1195",
+      "count_str": "1201",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/843853",
@@ -1282,7 +1258,7 @@
       "developer": "未知"
     },
     {
-      "rank": 53,
+      "rank": 52,
       "id": 848946,
       "title": "存钱",
       "icon": "https://img-tc.tapimg.com/market/images/FmaI1AGWh9DUHJ4PgxqDCNMyqrdh.png/_tap_appicon.jpg",
@@ -1291,9 +1267,9 @@
         "TapTap制造",
         "休闲"
       ],
-      "count": 1199,
+      "count": 1213,
       "reserve": 0,
-      "count_str": "1199",
+      "count_str": "1213",
       "count_label": "热度",
       "hints": [
         "4天前 首发"
@@ -1308,7 +1284,7 @@
       "developer": "未知"
     },
     {
-      "rank": 54,
+      "rank": 53,
       "id": 843543,
       "title": "16人格生存日记",
       "icon": "https://img-tc.tapimg.com/market/images/a4b9942e119b7c997202ff774a595d7a.png/_tap_appicon.jpg",
@@ -1317,9 +1293,9 @@
         "角色扮演",
         "剧情"
       ],
-      "count": 2360,
+      "count": 2364,
       "reserve": 856,
-      "count_str": "2360",
+      "count_str": "2364",
       "count_label": "热度",
       "hints": [
         "3天前 首发"
@@ -1333,7 +1309,7 @@
       "developer": "未知"
     },
     {
-      "rank": 55,
+      "rank": 54,
       "id": 836286,
       "title": "完美道途",
       "icon": "https://img-tc.tapimg.com/market/images/2eedd0ea3934839733db4c9cdbb58d32.jpg/_tap_appicon.jpg",
@@ -1341,9 +1317,9 @@
       "tags": [
         "文字"
       ],
-      "count": 1873,
+      "count": 1879,
       "reserve": 0,
-      "count_str": "1873",
+      "count_str": "1879",
       "count_label": "热度",
       "hints": [
         "4天前 首发"
@@ -1357,31 +1333,7 @@
       "developer": "未知"
     },
     {
-      "rank": 56,
-      "id": 850929,
-      "title": "神之守护",
-      "icon": "https://img-tc.tapimg.com/market/images/06de67f7c8ac6d9ac3a8b27d1da70531.png/_tap_appicon.jpg",
-      "score": "9.7",
-      "tags": [
-        "策略"
-      ],
-      "count": 0,
-      "reserve": 588,
-      "count_str": "0",
-      "count_label": "热度",
-      "hints": [
-        "测试下载已开启"
-      ],
-      "url": "https://www.taptap.cn/app/850929",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 0,
-      "developer": "未知"
-    },
-    {
-      "rank": 57,
+      "rank": 55,
       "id": 846591,
       "title": "零氪修仙·无限充值",
       "icon": "https://img-tc.tapimg.com/market/images/Fj41TQ9BigVw_LjByC5HX2huELMm.jpg/_tap_appicon.jpg",
@@ -1390,9 +1342,9 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 8086,
+      "count": 8097,
       "reserve": 0,
-      "count_str": "8086",
+      "count_str": "8097",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/846591",
@@ -1405,7 +1357,7 @@
       "developer": "未知"
     },
     {
-      "rank": 58,
+      "rank": 56,
       "id": 812121,
       "title": "羊村大乱斗",
       "icon": "https://img-tc.tapimg.com/market/images/58c2394fccecee0f6328253709c13121.jpg/_tap_appicon.jpg",
@@ -1413,9 +1365,9 @@
       "tags": [
         "休闲"
       ],
-      "count": 3361,
+      "count": 3366,
       "reserve": 3272,
-      "count_str": "3361",
+      "count_str": "3366",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/812121",
@@ -1427,55 +1379,7 @@
       "developer": "未知"
     },
     {
-      "rank": 59,
-      "id": 794147,
-      "title": "无尽花界",
-      "icon": "https://img-tc.tapimg.com/market/images/618136bd3455c4649d3fdb8a80820544.png/_tap_appicon.jpg",
-      "score": "7.4",
-      "tags": [
-        "卡牌"
-      ],
-      "count": 4106,
-      "reserve": 7160,
-      "count_str": "4106",
-      "count_label": "热度",
-      "hints": [
-        "2天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/794147",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777392002,
-      "developer": "未知"
-    },
-    {
-      "rank": 60,
-      "id": 845992,
-      "title": "星卡奇缘",
-      "icon": "https://img-tc.tapimg.com/market/images/65812b28555db85967d6fd6d1430e0d0.png/_tap_appicon.jpg",
-      "score": "9.4",
-      "tags": [
-        "策略"
-      ],
-      "count": 1551,
-      "reserve": 0,
-      "count_str": "1551",
-      "count_label": "热度",
-      "hints": [
-        "3天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/845992",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777431605,
-      "developer": "未知"
-    },
-    {
-      "rank": 61,
+      "rank": 57,
       "id": 845985,
       "title": "矫诏：蜀汉余响",
       "icon": "https://img-tc.tapimg.com/market/images/Fo4o0VwOFC5JvgM0Gt4cOy-Jkk8V.jpg/_tap_appicon.jpg",
@@ -1484,9 +1388,9 @@
         "TapTap制造",
         "冒险"
       ],
-      "count": 2055,
+      "count": 2065,
       "reserve": 0,
-      "count_str": "2055",
+      "count_str": "2065",
       "count_label": "热度",
       "hints": [
         "5天前 首发"
@@ -1500,943 +1404,51 @@
       "developer": "未知"
     },
     {
-      "rank": 62,
-      "id": 179074,
-      "title": "真相只有一个",
-      "icon": "https://img-tc.tapimg.com/market/images/45aac8e37afd0577bc90f43bcfe2987a.png/_tap_appicon.jpg",
-      "score": "6.9",
+      "rank": 58,
+      "id": 794147,
+      "title": "无尽花界",
+      "icon": "https://img-tc.tapimg.com/market/images/618136bd3455c4649d3fdb8a80820544.png/_tap_appicon.jpg",
+      "score": "7.4",
       "tags": [
-        "剧情",
-        "推理"
-      ],
-      "count": 2439,
-      "reserve": 10267,
-      "count_str": "2439",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/179074",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777013416,
-      "developer": "未知"
-    },
-    {
-      "rank": 63,
-      "id": 846815,
-      "title": "末世安全区：极限搜打撤",
-      "icon": "https://img-tc.tapimg.com/market/images/53cf4c975eb742b847ee5b611470eb69.png/_tap_appicon.jpg",
-      "score": "8.1",
-      "tags": [
-        "Roguelike",
-        "搜打撤"
-      ],
-      "count": 3029,
-      "reserve": 0,
-      "count_str": "3029",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/846815",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1776807003,
-      "developer": "未知"
-    },
-    {
-      "rank": 64,
-      "id": 847885,
-      "title": "MOBA策划模拟器",
-      "icon": "https://img-tc.tapimg.com/market/images/FiW5OGiR9yXu83vceUibPfb9Ggsv.png/_tap_appicon.jpg",
-      "score": "8.9",
-      "tags": [
-        "TapTap制造",
-        "模拟"
-      ],
-      "count": 1567,
-      "reserve": 0,
-      "count_str": "1567",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/847885",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1776919951,
-      "developer": "未知"
-    },
-    {
-      "rank": 65,
-      "id": 816896,
-      "title": "第八大陆（TapTap 测试版）",
-      "icon": "https://img-tc.tapimg.com/market/images/58e0f01b213c0491d109ba9a7ec5f21f.png/_tap_appicon.jpg",
-      "score": "6.7",
-      "tags": [
-        "休闲"
-      ],
-      "count": 2086,
-      "reserve": 165,
-      "count_str": "2086",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/816896",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1776652196,
-      "developer": "未知"
-    },
-    {
-      "rank": 66,
-      "id": 844922,
-      "title": "篮球生涯模拟器",
-      "icon": "https://img-tc.tapimg.com/market/images/FoqnwJ6gKY1ENQSbhpUhp6OgecT3.png/_tap_appicon.jpg",
-      "score": "8.3",
-      "tags": [
-        "TapTap制造",
-        "体育"
-      ],
-      "count": 3513,
-      "reserve": 0,
-      "count_str": "3513",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/844922",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777196802,
-      "developer": "未知"
-    },
-    {
-      "rank": 67,
-      "id": 848085,
-      "title": "恒星之怒：戴森球抵抗",
-      "icon": "https://img-tc.tapimg.com/market/images/FgIpi7Dynm7BPzZAjFLUU2USHT7y.jpg/_tap_appicon.jpg",
-      "score": "9.4",
-      "tags": [
-        "TapTap制造",
-        "动作"
-      ],
-      "count": 1992,
-      "reserve": 0,
-      "count_str": "1992",
-      "count_label": "热度",
-      "hints": [
-        "6天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/848085",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777188771,
-      "developer": "未知"
-    },
-    {
-      "rank": 68,
-      "id": 847297,
-      "title": "你是哪位历史将军",
-      "icon": "https://img-tc.tapimg.com/market/images/a442f40c5995fe8425b9dd3d42ce453d.png/_tap_appicon.jpg",
-      "score": "8.9",
-      "tags": [
-        "TapTap制造",
-        "益智"
-      ],
-      "count": 2319,
-      "reserve": 0,
-      "count_str": "2319",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/847297",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1776842131,
-      "developer": "未知"
-    },
-    {
-      "rank": 69,
-      "id": 821110,
-      "title": "三国志：群雄逐鹿",
-      "icon": "https://img-tc.tapimg.com/market/images/FtipiF_b3LHFL8ssYo8_nbipmZvh.jpg/_tap_appicon.jpg",
-      "score": "10",
-      "tags": [
-        "TapTap制造",
-        "策略"
-      ],
-      "count": 832,
-      "reserve": 0,
-      "count_str": "832",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/821110",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777476365,
-      "developer": "未知"
-    },
-    {
-      "rank": 70,
-      "id": 834152,
-      "title": "大有可为：从零开始",
-      "icon": "https://img-tc.tapimg.com/market/images/FipfAMRUlwc6L2FNztlNQywX9tgz.png/_tap_appicon.jpg",
-      "score": "8.6",
-      "tags": [
-        "TapTap制造",
-        "模拟"
-      ],
-      "count": 3684,
-      "reserve": 0,
-      "count_str": "3684",
-      "count_label": "热度",
-      "hints": [
-        "7天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/834152",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777105511,
-      "developer": "未知"
-    },
-    {
-      "rank": 71,
-      "id": 847404,
-      "title": "江湖万里行",
-      "icon": "https://img-tc.tapimg.com/market/images/FjTmz_2hJavAiKsBeQMUPb4gU3fH.png/_tap_appicon.jpg",
-      "score": "9.7",
-      "tags": [
-        "TapTap制造",
-        "角色扮演"
-      ],
-      "count": 2860,
-      "reserve": 0,
-      "count_str": "2860",
-      "count_label": "热度",
-      "hints": [
-        "4天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/847404",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777347558,
-      "developer": "未知"
-    },
-    {
-      "rank": 72,
-      "id": 839143,
-      "title": "一车当千",
-      "icon": "https://img-tc.tapimg.com/market/images/9490af0e50496e7010abb4183afee123.jpg/_tap_appicon.jpg",
-      "score": "3.1",
-      "tags": [
-        "休闲"
-      ],
-      "count": 1522,
-      "reserve": 50,
-      "count_str": "1522",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/839143",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1776740402,
-      "developer": "未知"
-    },
-    {
-      "rank": 73,
-      "id": 849161,
-      "title": "黑心工会与牛马勇者",
-      "icon": "https://img-tc.tapimg.com/market/images/Fk3UAneTKZc4Rf4GVk7J7pnLbtqj.png/_tap_appicon.jpg",
-      "score": "5.7",
-      "tags": [
-        "TapTap制造",
-        "角色扮演"
-      ],
-      "count": 536,
-      "reserve": 0,
-      "count_str": "536",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/849161",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777362574,
-      "developer": "未知"
-    },
-    {
-      "rank": 74,
-      "id": 844333,
-      "title": "竞技大亨",
-      "icon": "https://img-tc.tapimg.com/market/images/Fvt4WP5v7tOEQW11O2Vu_sYAnOhz.png/_tap_appicon.jpg",
-      "score": "8.6",
-      "tags": [
-        "TapTap制造",
-        "模拟"
-      ],
-      "count": 1947,
-      "reserve": 0,
-      "count_str": "1947",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/844333",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1776829711,
-      "developer": "未知"
-    },
-    {
-      "rank": 75,
-      "id": 796397,
-      "title": "最强斗王",
-      "icon": "https://img-tc.tapimg.com/market/images/6b1e209cba43388358a1ca3e7a724439.png/_tap_appicon.jpg",
-      "score": "5.8",
-      "tags": [
-        "策略",
-        "放置"
-      ],
-      "count": 4146,
-      "reserve": 3059,
-      "count_str": "4146",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/796397",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1776960002,
-      "developer": "未知"
-    },
-    {
-      "rank": 76,
-      "id": 710765,
-      "title": "失落星环",
-      "icon": "https://img-tc.tapimg.com/market/images/df67ef19aefb6327da7f8907a3635fb1.png/_tap_appicon.jpg",
-      "score": "7.8",
-      "tags": [
-        "放置",
         "卡牌"
       ],
-      "count": 74594,
-      "reserve": 26711,
-      "count_str": "7.5万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/710765",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1776823200,
-      "developer": "未知"
-    },
-    {
-      "rank": 77,
-      "id": 844463,
-      "title": "明星经纪人",
-      "icon": "https://img-tc.tapimg.com/market/images/FgMr7Iz8RKIKjK8AHmvowND0kDtM.png/_tap_appicon.jpg",
-      "score": "8.4",
-      "tags": [
-        "TapTap制造",
-        "模拟"
-      ],
-      "count": 4504,
-      "reserve": 0,
-      "count_str": "4504",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/844463",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1776647856,
-      "developer": "未知"
-    },
-    {
-      "rank": 78,
-      "id": 846706,
-      "title": "60秒猜人物挑战",
-      "icon": "https://img-tc.tapimg.com/market/images/FtSt1hpQqusoJptDiVXtg2WztkKm.png/_tap_appicon.jpg",
-      "score": "7.2",
-      "tags": [
-        "TapTap制造",
-        "益智"
-      ],
-      "count": 6727,
-      "reserve": 0,
-      "count_str": "6727",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/846706",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1776766083,
-      "developer": "未知"
-    },
-    {
-      "rank": 79,
-      "id": 814642,
-      "title": "开派大祖师",
-      "icon": "https://img-tc.tapimg.com/market/images/a4588ac9afabb174d72130072b8a4a52.png/_tap_appicon.jpg",
-      "score": "7.6",
-      "tags": [
-        "国风",
-        "模拟经营"
-      ],
-      "count": 0,
-      "reserve": 8044,
-      "count_str": "0",
+      "count": 4114,
+      "reserve": 7160,
+      "count_str": "4114",
       "count_label": "热度",
       "hints": [
-        "测试下载已开启"
+        "2天前 首发"
       ],
-      "url": "https://www.taptap.cn/app/814642",
+      "url": "https://www.taptap.cn/app/794147",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 0,
+      "released_time": 1777392002,
       "developer": "未知"
     },
     {
-      "rank": 80,
-      "id": 845615,
-      "title": "魔域",
-      "icon": "https://img-tc.tapimg.com/market/images/02baa323408d4f962a9f59da0848fa33.png/_tap_appicon.jpg",
-      "score": "9.5",
-      "tags": [
-        "角色扮演"
-      ],
-      "count": 1381,
-      "reserve": 0,
-      "count_str": "1381",
-      "count_label": "热度",
-      "hints": [
-        "5天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/845615",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777225475,
-      "developer": "未知"
-    },
-    {
-      "rank": 81,
-      "id": 847290,
-      "title": "资源战争",
-      "icon": "https://img-tc.tapimg.com/market/images/be92089fa451f04aa1cbccbb1c5fdb8b.png/_tap_appicon.jpg",
-      "score": "7.8",
+      "rank": 59,
+      "id": 845992,
+      "title": "星卡奇缘",
+      "icon": "https://img-tc.tapimg.com/market/images/65812b28555db85967d6fd6d1430e0d0.png/_tap_appicon.jpg",
+      "score": "9.4",
       "tags": [
         "策略"
       ],
-      "count": 1898,
+      "count": 1553,
       "reserve": 0,
-      "count_str": "1898",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/847290",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1776936717,
-      "developer": "未知"
-    },
-    {
-      "rank": 82,
-      "id": 851093,
-      "title": "深渊炼狱：堕落之塔2",
-      "icon": "https://img-tc.tapimg.com/market/images/Fv0b29Wr2FBc3Ia6AC66sjy2FAaV.png/_tap_appicon.jpg",
-      "score": "0",
-      "tags": [
-        "TapTap制造",
-        "角色扮演"
-      ],
-      "count": 295,
-      "reserve": 0,
-      "count_str": "295",
-      "count_label": "热度",
-      "hints": [
-        "今天10点 首发"
-      ],
-      "url": "https://www.taptap.cn/app/851093",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777689667,
-      "developer": "未知"
-    },
-    {
-      "rank": 83,
-      "id": 831630,
-      "title": "离线挂机系统：飞升",
-      "icon": "https://img-tc.tapimg.com/market/images/c5940cfc6db166e1136ba1fefd6117fd.png/_tap_appicon.jpg",
-      "score": "8.3",
-      "tags": [
-        "文字"
-      ],
-      "count": 5959,
-      "reserve": 1930,
-      "count_str": "5959",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/831630",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777010400,
-      "developer": "未知"
-    },
-    {
-      "rank": 84,
-      "id": 847575,
-      "title": "绿茵生涯",
-      "icon": "https://img-tc.tapimg.com/market/images/FoxTXSHEDGMfKCefxLcrCUI3dihp.png/_tap_appicon.jpg",
-      "score": "9.1",
-      "tags": [
-        "TapTap制造",
-        "体育"
-      ],
-      "count": 5512,
-      "reserve": 0,
-      "count_str": "5512",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/847575",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1776886369,
-      "developer": "未知"
-    },
-    {
-      "rank": 85,
-      "id": 850065,
-      "title": "我的武林人生",
-      "icon": "https://img-tc.tapimg.com/market/images/3465cfebea269fe99fe6d097dd767722.jpg/_tap_appicon.jpg",
-      "score": "0",
-      "tags": [
-        "休闲"
-      ],
-      "count": 452,
-      "reserve": 178,
-      "count_str": "452",
-      "count_label": "热度",
-      "hints": [
-        "昨天 首发"
-      ],
-      "url": "https://www.taptap.cn/app/850065",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777600803,
-      "developer": "未知"
-    },
-    {
-      "rank": 86,
-      "id": 803113,
-      "title": "保安致富记",
-      "icon": "https://img-tc.tapimg.com/market/images/fedde3ad02798ad2c88977966b9745e9.png/_tap_appicon.jpg",
-      "score": "8.4",
-      "tags": [
-        "单机",
-        "经营"
-      ],
-      "count": 2667,
-      "reserve": 2621,
-      "count_str": "2667",
-      "count_label": "热度",
-      "hints": [
-        "4天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/803113",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777341613,
-      "developer": "未知"
-    },
-    {
-      "rank": 87,
-      "id": 841429,
-      "title": "战姬防线",
-      "icon": "https://img-tc.tapimg.com/market/images/Fvukjzdxj_svUu4g4OfR29H4To8j.png/_tap_appicon.jpg",
-      "score": "9.8",
-      "tags": [
-        "收集",
-        "美少女"
-      ],
-      "count": 1518,
-      "reserve": 0,
-      "count_str": "1518",
-      "count_label": "热度",
-      "hints": [
-        "4天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/841429",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777343058,
-      "developer": "未知"
-    },
-    {
-      "rank": 88,
-      "id": 848594,
-      "title": "纹章战记",
-      "icon": "https://img-tc.tapimg.com/market/images/Fogv_HjWfxBQSReDtLIS_xxt4xUP.png/_tap_appicon.jpg",
-      "score": "8.8",
-      "tags": [
-        "TapTap制造",
-        "策略"
-      ],
-      "count": 2670,
-      "reserve": 0,
-      "count_str": "2670",
-      "count_label": "热度",
-      "hints": [
-        "7天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/848594",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777088549,
-      "developer": "未知"
-    },
-    {
-      "rank": 89,
-      "id": 845195,
-      "title": "学校帝国模拟器",
-      "icon": "https://img-tc.tapimg.com/market/images/FnwCuqxrFi6QKopS0bNZHVdmK5MC.jpg/_tap_appicon.jpg",
-      "score": "7.0",
-      "tags": [
-        "TapTap制造",
-        "模拟"
-      ],
-      "count": 3586,
-      "reserve": 0,
-      "count_str": "3586",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/845195",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1776519375,
-      "developer": "未知"
-    },
-    {
-      "rank": 90,
-      "id": 840291,
-      "title": "一般回合",
-      "icon": "https://img-tc.tapimg.com/market/images/Fsyh9B8TWvaCkz1Xq_jWsMNjUVHa.png/_tap_appicon.jpg",
-      "score": "8.7",
-      "tags": [
-        "TapTap制造",
-        "角色扮演"
-      ],
-      "count": 912,
-      "reserve": 0,
-      "count_str": "912",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/840291",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777369067,
-      "developer": "未知"
-    },
-    {
-      "rank": 91,
-      "id": 842281,
-      "title": "三界轮回",
-      "icon": "https://img-tc.tapimg.com/market/images/f9b25955c9f9ded7043b775d22172e86.jpg/_tap_appicon.jpg",
-      "score": "8.0",
-      "tags": [
-        "修仙",
-        "放置"
-      ],
-      "count": 586,
-      "reserve": 208,
-      "count_str": "586",
-      "count_label": "热度",
-      "hints": [
-        "昨天 首发"
-      ],
-      "url": "https://www.taptap.cn/app/842281",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777600802,
-      "developer": "未知"
-    },
-    {
-      "rank": 92,
-      "id": 848359,
-      "title": "无限合成进化系统",
-      "icon": "https://img-tc.tapimg.com/market/images/FmhFkAggQ3noutPQto4dXSRXGlnP.png/_tap_appicon.jpg",
-      "score": "7.0",
-      "tags": [
-        "单机",
-        "合成"
-      ],
-      "count": 2542,
-      "reserve": 0,
-      "count_str": "2542",
-      "count_label": "热度",
-      "hints": [
-        "4天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/848359",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777334534,
-      "developer": "未知"
-    },
-    {
-      "rank": 93,
-      "id": 839176,
-      "title": "真实人生：模拟生活",
-      "icon": "https://img-tc.tapimg.com/market/images/FlRFrjDpVn5v14b27dphPKihHNfu.png/_tap_appicon.jpg",
-      "score": "8.5",
-      "tags": [
-        "休闲",
-        "TapTap制造"
-      ],
-      "count": 2169,
-      "reserve": 0,
-      "count_str": "2169",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/839176",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1776995892,
-      "developer": "未知"
-    },
-    {
-      "rank": 94,
-      "id": 842450,
-      "title": "千侠传",
-      "icon": "https://img-tc.tapimg.com/market/images/9051f6a5c6d4eb38c82a745ddd76b1b6.jpg/_tap_appicon.jpg",
-      "score": "8.0",
-      "tags": [
-        "角色扮演",
-        "放置"
-      ],
-      "count": 0,
-      "reserve": 1035,
-      "count_str": "0",
-      "count_label": "热度",
-      "hints": [
-        "测试下载已开启"
-      ],
-      "url": "https://www.taptap.cn/app/842450",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 0,
-      "developer": "未知"
-    },
-    {
-      "rank": 95,
-      "id": 846615,
-      "title": "孤岛生存模拟器",
-      "icon": "https://img-tc.tapimg.com/market/images/07d828ca095e0a77875a2bf329730fc5.png/_tap_appicon.jpg",
-      "score": "6.1",
-      "tags": [
-        "模拟"
-      ],
-      "count": 1001,
-      "reserve": 18,
-      "count_str": "1001",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/846615",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1776929217,
-      "developer": "未知"
-    },
-    {
-      "rank": 96,
-      "id": 849714,
-      "title": "大家一起来猜词",
-      "icon": "https://img-tc.tapimg.com/market/images/Fuqmq-24W9bmtJWgfDEqd1fAMH2C.png/_tap_appicon.jpg",
-      "score": "9.9",
-      "tags": [
-        "TapTap制造",
-        "文字"
-      ],
-      "count": 463,
-      "reserve": 0,
-      "count_str": "463",
+      "count_str": "1553",
       "count_label": "热度",
       "hints": [
         "3天前 首发"
       ],
-      "url": "https://www.taptap.cn/app/849714",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777396862,
-      "developer": "未知"
-    },
-    {
-      "rank": 97,
-      "id": 792661,
-      "title": "王者舰队",
-      "icon": "https://img-tc.tapimg.com/market/images/c0a4ffbe361cc5acd0adc8a46e658af0.jpg/_tap_appicon.jpg",
-      "score": "6.4",
-      "tags": [
-        "放置挂机",
-        "竖屏"
-      ],
-      "count": 5459,
-      "reserve": 3611,
-      "count_str": "5459",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/792661",
+      "url": "https://www.taptap.cn/app/845992",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1776736805,
-      "developer": "未知"
-    },
-    {
-      "rank": 98,
-      "id": 815605,
-      "title": "六道轮回",
-      "icon": "https://img-tc.tapimg.com/market/images/f001a89f250204c8b5f6a6cd8a6e86b1.png/_tap_appicon.jpg",
-      "score": "6.7",
-      "tags": [
-        "角色扮演"
-      ],
-      "count": 3029,
-      "reserve": 3279,
-      "count_str": "3029",
-      "count_label": "热度",
-      "hints": [
-        "3天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/815605",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777392005,
-      "developer": "未知"
-    },
-    {
-      "rank": 99,
-      "id": 848139,
-      "title": "七海之王",
-      "icon": "https://img-tc.tapimg.com/market/images/cfbc45561b541f9533a81c84f5090779.png/_tap_appicon.jpg",
-      "score": "8.3",
-      "tags": [
-        "策略"
-      ],
-      "count": 517,
-      "reserve": 50,
-      "count_str": "517",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/848139",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777015802,
-      "developer": "未知"
-    },
-    {
-      "rank": 100,
-      "id": 844838,
-      "title": "王朝崛起",
-      "icon": "https://img-tc.tapimg.com/market/images/FhsOG8hSU_wdE-xv4YkTkh5XSO0n.png/_tap_appicon.jpg",
-      "score": "8.9",
-      "tags": [
-        "TapTap制造",
-        "策略"
-      ],
-      "count": 4385,
-      "reserve": 0,
-      "count_str": "4385",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/844838",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1776840047,
+      "released_time": 1777431605,
       "developer": "未知"
     }
   ]
