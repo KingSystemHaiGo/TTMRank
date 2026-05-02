@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-02 21:00:11",
+  "updated_at": "2026-05-02 21:20:12",
   "platforms": {
     "android": {
       "hot": {
@@ -12,11 +12,11 @@
       },
       "reserve": {
         "title": "预约榜",
-        "count": 89
+        "count": 100
       },
       "new": {
         "title": "新品榜",
-        "count": 59
+        "count": 100
       },
       "action": {
         "title": "动作榜",
@@ -86,7 +86,7 @@
       },
       "shooter": {
         "title": "射击榜",
-        "count": 44
+        "count": 29
       },
       "roguelike": {
         "title": "Roguelike",
@@ -118,5 +118,5 @@
       }
     }
   },
-  "taptap_made_count": 68
+  "taptap_made_count": 76
 }
