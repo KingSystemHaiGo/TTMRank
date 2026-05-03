@@ -11,10 +11,11 @@
       "tags": [
         "搜打撤",
         "生存",
-        "射击"
+        "射击",
+        "动作"
       ],
-      "count": 18420033,
-      "reserve": 3626240,
+      "count": 18420364,
+      "reserve": 3626239,
       "count_str": "1842.0万",
       "count_label": "热度",
       "hints": [],
@@ -36,10 +37,13 @@
       "tags": [
         "抓宠",
         "回合制",
-        "养成"
+        "养成",
+        "童年",
+        "宠物",
+        "角色扮演"
       ],
-      "count": 5450629,
-      "reserve": 3907400,
+      "count": 5450911,
+      "reserve": 3907399,
       "count_str": "545.1万",
       "count_label": "热度",
       "hints": [],
@@ -61,11 +65,16 @@
       "tags": [
         "开放世界",
         "都市",
-        "角色扮演"
+        "角色扮演",
+        "二次元",
+        "剧情",
+        "竞速",
+        "动作",
+        "新怪谈"
       ],
-      "count": 4846351,
-      "reserve": 6320789,
-      "count_str": "484.6万",
+      "count": 4847654,
+      "reserve": 6320768,
+      "count_str": "484.8万",
       "count_label": "热度",
       "hints": [
         "公测已正式开启"
@@ -88,9 +97,15 @@
       "tags": [
         "Steam移植",
         "恐怖",
-        "冒险"
+        "冒险",
+        "剧情",
+        "买断制",
+        "独立游戏",
+        "解谜",
+        "单机",
+        "横版"
       ],
-      "count": 904300,
+      "count": 904390,
       "reserve": 1472714,
       "count_str": "90.4万",
       "count_label": "热度",
@@ -112,10 +127,18 @@
       "tags": [
         "单机",
         "模拟经营",
-        "休闲"
+        "休闲",
+        "Steam移植",
+        "独立游戏",
+        "像素",
+        "海洋",
+        "探索",
+        "冒险",
+        "经营",
+        "角色扮演"
       ],
-      "count": 1738754,
-      "reserve": 1538214,
+      "count": 1738802,
+      "reserve": 1538212,
       "count_str": "173.9万",
       "count_label": "热度",
       "hints": [],
@@ -137,9 +160,10 @@
       "tags": [
         "可爱",
         "平台跳跃",
-        "动作"
+        "动作",
+        "休闲"
       ],
-      "count": 618518,
+      "count": 618743,
       "reserve": 78,
       "count_str": "61.9万",
       "count_label": "热度",
@@ -161,9 +185,14 @@
       "tags": [
         "买断制",
         "模拟",
-        "冒险"
+        "冒险",
+        "3D",
+        "Steam移植",
+        "独立游戏",
+        "物理",
+        "闯关"
       ],
-      "count": 404280,
+      "count": 404319,
       "reserve": 301326,
       "count_str": "40.4万",
       "count_label": "热度",
@@ -185,9 +214,15 @@
       "tags": [
         "模拟经营",
         "治愈",
-        "多人联机"
+        "多人联机",
+        "建造",
+        "角色扮演",
+        "3D",
+        "种田",
+        "养成",
+        "休闲"
       ],
-      "count": 56363548,
+      "count": 56364065,
       "reserve": 2404720,
       "count_str": "5636.4万",
       "count_label": "热度",
@@ -210,9 +245,10 @@
       "tags": [
         "FPS",
         "单机",
-        "射击"
+        "射击",
+        "TapTap制造"
       ],
-      "count": 116824,
+      "count": 116902,
       "reserve": 0,
       "count_str": "11.7万",
       "count_label": "热度",
@@ -235,11 +271,13 @@
       "tags": [
         "解压",
         "涂色",
-        "二次元"
+        "二次元",
+        "弹幕射击",
+        "卡牌"
       ],
-      "count": 648309,
-      "reserve": 501237,
-      "count_str": "64.8万",
+      "count": 648804,
+      "reserve": 501235,
+      "count_str": "64.9万",
       "count_label": "热度",
       "hints": [
         "5天前 首发"
@@ -254,29 +292,6 @@
     },
     {
       "rank": 11,
-      "id": 724400,
-      "title": "蜡笔小新之小帮手大作战",
-      "icon": "https://img-tc.tapimg.com/market/images/332dee2f99fd6aff3d94cda64bf7b4bd.png/_tap_appicon.jpg",
-      "score": "7.9",
-      "tags": [
-        "教育",
-        "休闲"
-      ],
-      "count": 0,
-      "reserve": 2201334,
-      "count_str": "0",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/724400",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 0,
-      "developer": "neos"
-    },
-    {
-      "rank": 12,
       "id": 840742,
       "title": "SBTI人格测试",
       "icon": "https://img-tc.tapimg.com/market/images/Fg3VMpOqdEcNzFG29X1-mf7lGwQ6.png/_tap_appicon.jpg",
@@ -285,7 +300,7 @@
         "TapTap制造",
         "益智"
       ],
-      "count": 325332,
+      "count": 325425,
       "reserve": 0,
       "count_str": "32.5万",
       "count_label": "热度",
@@ -300,6 +315,29 @@
       "developer": "狗头工作室"
     },
     {
+      "rank": 12,
+      "id": 724400,
+      "title": "蜡笔小新之小帮手大作战",
+      "icon": "https://img-tc.tapimg.com/market/images/332dee2f99fd6aff3d94cda64bf7b4bd.png/_tap_appicon.jpg",
+      "score": "7.9",
+      "tags": [
+        "教育",
+        "休闲"
+      ],
+      "count": 0,
+      "reserve": 2201350,
+      "count_str": "0",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/724400",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 0,
+      "developer": "neos"
+    },
+    {
       "rank": 13,
       "id": 229435,
       "title": "全面憨憨战争模拟器",
@@ -308,9 +346,11 @@
       "tags": [
         "买断制",
         "模拟",
-        "策略"
+        "策略",
+        "单机",
+        "战争"
       ],
-      "count": 2123358,
+      "count": 2123393,
       "reserve": 1313506,
       "count_str": "212.3万",
       "count_label": "热度",
@@ -332,9 +372,17 @@
       "tags": [
         "射击",
         "吃鸡",
-        "战斗"
+        "战斗",
+        "多人联机",
+        "卡通",
+        "合作",
+        "团队合作",
+        "竞技",
+        "UP主推荐",
+        "TPS",
+        "大型多人在线"
       ],
-      "count": 271733405,
+      "count": 271733850,
       "reserve": 850364,
       "count_str": "2.7亿",
       "count_label": "热度",

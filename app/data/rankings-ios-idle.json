@@ -11,7 +11,8 @@
       "tags": [
         "像素",
         "放置",
-        "角色扮演"
+        "角色扮演",
+        "刷宝"
       ],
       "count": 0,
       "reserve": 24812,
@@ -35,9 +36,10 @@
       "tags": [
         "单机",
         "点击",
-        "放置"
+        "放置",
+        "休闲"
       ],
-      "count": 281570,
+      "count": 281591,
       "reserve": 188,
       "count_str": "28.2万",
       "count_label": "热度",
@@ -59,11 +61,12 @@
       "tags": [
         "模拟经营",
         "放置",
-        "TapTap制造"
+        "TapTap制造",
+        "策略"
       ],
-      "count": 9821,
+      "count": 9823,
       "reserve": 0,
-      "count_str": "9821",
+      "count_str": "9823",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/838227",
@@ -84,9 +87,14 @@
       "tags": [
         "放置",
         "角色扮演",
-        "冒险"
+        "冒险",
+        "竖屏",
+        "二次元",
+        "养成",
+        "可爱",
+        "策略"
       ],
-      "count": 3047729,
+      "count": 3047777,
       "reserve": 315865,
       "count_str": "304.8万",
       "count_label": "热度",
@@ -110,11 +118,15 @@
       "tags": [
         "竖屏",
         "美少女",
-        "二次元"
+        "二次元",
+        "放置",
+        "养成",
+        "角色扮演",
+        "策略"
       ],
-      "count": 2511491,
+      "count": 2511520,
       "reserve": 10262,
-      "count_str": "251.1万",
+      "count_str": "251.2万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/67245",
@@ -134,7 +146,10 @@
       "tags": [
         "国风",
         "养成",
-        "放置"
+        "放置",
+        "三国",
+        "竖屏",
+        "卡牌"
       ],
       "count": 0,
       "reserve": 5704,
@@ -158,7 +173,9 @@
       "tags": [
         "放置",
         "合成",
-        "模拟经营"
+        "模拟经营",
+        "治愈",
+        "休闲"
       ],
       "count": 0,
       "reserve": 54371,
@@ -182,9 +199,14 @@
       "tags": [
         "放置",
         "角色扮演",
-        "低多边形"
+        "低多边形",
+        "刷宝",
+        "养成",
+        "魔幻",
+        "策略",
+        "竖屏"
       ],
-      "count": 284111,
+      "count": 284112,
       "reserve": 168,
       "count_str": "28.4万",
       "count_label": "热度",
@@ -199,6 +221,35 @@
     },
     {
       "rank": 9,
+      "id": 247873,
+      "title": "听说这里有怪兽",
+      "icon": "https://img-tc.tapimg.com/market/images/90d8cff4bc69d5a4c2454ac673de160f.png/_tap_appicon.jpg",
+      "score": "8.9",
+      "tags": [
+        "放置",
+        "休闲",
+        "收集",
+        "点击",
+        "竖屏",
+        "养成",
+        "单机",
+        "像素"
+      ],
+      "count": 604795,
+      "reserve": 4892,
+      "count_str": "60.5万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/247873",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1683269682,
+      "developer": "苒酱紫工作室"
+    },
+    {
+      "rank": 10,
       "id": 730946,
       "title": "大话蜀山",
       "icon": "https://img-tc.tapimg.com/market/images/4c79787e4a4ac01d2d59962e0fdd6868.png/_tap_appicon.jpg",
@@ -206,9 +257,14 @@
       "tags": [
         "修仙",
         "解压",
-        "放置"
+        "放置",
+        "策略",
+        "弹幕射击",
+        "轻度roguelike",
+        "割草",
+        "养成"
       ],
-      "count": 325882,
+      "count": 325892,
       "reserve": 2993,
       "count_str": "32.6万",
       "count_label": "热度",
@@ -224,30 +280,6 @@
       "developer": "西出工作室"
     },
     {
-      "rank": 10,
-      "id": 247873,
-      "title": "听说这里有怪兽",
-      "icon": "https://img-tc.tapimg.com/market/images/90d8cff4bc69d5a4c2454ac673de160f.png/_tap_appicon.jpg",
-      "score": "8.9",
-      "tags": [
-        "放置",
-        "休闲",
-        "收集"
-      ],
-      "count": 604780,
-      "reserve": 4892,
-      "count_str": "60.5万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/247873",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1683269682,
-      "developer": "苒酱紫工作室"
-    },
-    {
       "rank": 11,
       "id": 382414,
       "title": "女巫来了",
@@ -258,7 +290,7 @@
         "放置",
         "休闲"
       ],
-      "count": 145532,
+      "count": 145545,
       "reserve": 150,
       "count_str": "14.6万",
       "count_label": "热度",
@@ -282,7 +314,7 @@
         "放置",
         "休闲"
       ],
-      "count": 1365901,
+      "count": 1365908,
       "reserve": 299251,
       "count_str": "136.6万",
       "count_label": "热度",
@@ -304,9 +336,11 @@
       "tags": [
         "模拟经营",
         "像素",
-        "放置"
+        "放置",
+        "单机",
+        "模拟"
       ],
-      "count": 80366,
+      "count": 80368,
       "reserve": 12340,
       "count_str": "8.0万",
       "count_label": "热度",
@@ -328,9 +362,11 @@
       "tags": [
         "单机",
         "休闲",
-        "放置"
+        "放置",
+        "TapTap制造",
+        "角色扮演"
       ],
-      "count": 126890,
+      "count": 126922,
       "reserve": 0,
       "count_str": "12.7万",
       "count_label": "热度",

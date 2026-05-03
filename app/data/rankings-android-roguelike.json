@@ -11,9 +11,17 @@
       "tags": [
         "Roguelike",
         "地牢",
-        "像素"
+        "像素",
+        "UP主推荐",
+        "本地联机",
+        "弹幕",
+        "冒险",
+        "多人联机",
+        "独立游戏",
+        "上帝视角",
+        "ARPG"
       ],
-      "count": 37293351,
+      "count": 37293445,
       "reserve": 28385,
       "count_str": "3729.3万",
       "count_label": "热度",
@@ -37,10 +45,13 @@
       "tags": [
         "Steam移植",
         "动作",
-        "Roguelike"
+        "Roguelike",
+        "赛博朋克",
+        "冒险",
+        "闯关"
       ],
-      "count": 4811331,
-      "reserve": 540461,
+      "count": 4811365,
+      "reserve": 540460,
       "count_str": "481.1万",
       "count_label": "热度",
       "hints": [],
@@ -65,7 +76,7 @@
         "射击",
         "动作"
       ],
-      "count": 3266869,
+      "count": 3266890,
       "reserve": 90561,
       "count_str": "326.7万",
       "count_label": "热度",
@@ -89,9 +100,18 @@
       "tags": [
         "卡牌",
         "自走棋",
-        "策略"
+        "策略",
+        "单机",
+        "竖屏",
+        "独立游戏",
+        "冒险",
+        "童话",
+        "UP主推荐",
+        "多结局",
+        "手绘",
+        "Roguelike"
       ],
-      "count": 14695746,
+      "count": 14695775,
       "reserve": 35387,
       "count_str": "1469.6万",
       "count_label": "热度",
@@ -114,9 +134,10 @@
       "tags": [
         "Roguelike",
         "休闲",
-        "模拟"
+        "模拟",
+        "策略"
       ],
-      "count": 373513,
+      "count": 373531,
       "reserve": 47311,
       "count_str": "37.4万",
       "count_label": "热度",
@@ -138,9 +159,12 @@
       "tags": [
         "地牢",
         "像素",
-        "单机"
+        "单机",
+        "冒险",
+        "2d横版",
+        "动作"
       ],
-      "count": 2933319,
+      "count": 2933333,
       "reserve": 18332,
       "count_str": "293.3万",
       "count_label": "热度",
@@ -162,9 +186,23 @@
       "tags": [
         "动作",
         "单机",
-        "移植"
+        "移植",
+        "像素",
+        "横版",
+        "地牢",
+        "收集",
+        "2D",
+        "独立游戏",
+        "高难度",
+        "打击感",
+        "角色扮演",
+        "Steam移植",
+        "内购解锁",
+        "催泪",
+        "支持手柄",
+        "冒险"
       ],
-      "count": 12160168,
+      "count": 12160182,
       "reserve": 1620808,
       "count_str": "1216.0万",
       "count_label": "热度",
@@ -186,9 +224,10 @@
       "tags": [
         "Roguelike",
         "自走棋",
-        "策略"
+        "策略",
+        "休闲"
       ],
-      "count": 13773,
+      "count": 13784,
       "reserve": 252,
       "count_str": "1.4万",
       "count_label": "热度",
@@ -203,32 +242,6 @@
     },
     {
       "rank": 9,
-      "id": 388796,
-      "title": "我有一个末日安全屋",
-      "icon": "https://img-tc.tapimg.com/market/images/8209420973b113ad7d91519988bc34e1.png/_tap_appicon.jpg",
-      "score": "7.0",
-      "tags": [
-        "单机",
-        "Roguelike",
-        "模拟经营"
-      ],
-      "count": 0,
-      "reserve": 264235,
-      "count_str": "0",
-      "count_label": "热度",
-      "hints": [
-        "测试下载已开启"
-      ],
-      "url": "https://www.taptap.cn/app/388796",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 0,
-      "developer": "初心游戏"
-    },
-    {
-      "rank": 10,
       "id": 772281,
       "title": "消消英雄2",
       "icon": "https://img-tc.tapimg.com/market/images/4ad7682f7adb926bee934e2fd822e3b8.png/_tap_appicon.jpg",
@@ -236,9 +249,13 @@
       "tags": [
         "卡牌",
         "休闲",
-        "竖屏"
+        "竖屏",
+        "消除",
+        "策略",
+        "Roguelike",
+        "放置"
       ],
-      "count": 287195,
+      "count": 287208,
       "reserve": 9157,
       "count_str": "28.7万",
       "count_label": "热度",
@@ -254,6 +271,36 @@
       "developer": "Alina游戏"
     },
     {
+      "rank": 10,
+      "id": 388796,
+      "title": "我有一个末日安全屋",
+      "icon": "https://img-tc.tapimg.com/market/images/8209420973b113ad7d91519988bc34e1.png/_tap_appicon.jpg",
+      "score": "7.0",
+      "tags": [
+        "单机",
+        "Roguelike",
+        "模拟经营",
+        "策略",
+        "生存",
+        "末日",
+        "文字"
+      ],
+      "count": 0,
+      "reserve": 264242,
+      "count_str": "0",
+      "count_label": "热度",
+      "hints": [
+        "测试下载已开启"
+      ],
+      "url": "https://www.taptap.cn/app/388796",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 0,
+      "developer": "初心游戏"
+    },
+    {
       "rank": 11,
       "id": 225735,
       "title": "了不起魔塔",
@@ -262,9 +309,16 @@
       "tags": [
         "策略",
         "养成",
-        "DBG"
+        "DBG",
+        "地牢",
+        "PVP",
+        "收集",
+        "独立游戏",
+        "卡牌",
+        "竖屏",
+        "冒险"
       ],
-      "count": 588164,
+      "count": 588176,
       "reserve": 128623,
       "count_str": "58.8万",
       "count_label": "热度",
@@ -286,9 +340,12 @@
       "tags": [
         "Steam移植",
         "角色扮演",
-        "冒险"
+        "冒险",
+        "Roguelike",
+        "动作",
+        "割草"
       ],
-      "count": 570457,
+      "count": 570467,
       "reserve": 77094,
       "count_str": "57.0万",
       "count_label": "热度",
@@ -312,9 +369,10 @@
       "tags": [
         "Roguelike",
         "DBG",
-        "二次元"
+        "二次元",
+        "卡牌"
       ],
-      "count": 377742,
+      "count": 377754,
       "reserve": 23623,
       "count_str": "37.8万",
       "count_label": "热度",
@@ -337,7 +395,7 @@
         "文字",
         "模拟"
       ],
-      "count": 2020974,
+      "count": 2020984,
       "reserve": 53814,
       "count_str": "202.1万",
       "count_label": "热度",
@@ -359,9 +417,11 @@
       "tags": [
         "生存",
         "多人联机",
-        "Roguelike"
+        "Roguelike",
+        "策略",
+        "搜打撤"
       ],
-      "count": 385729,
+      "count": 385753,
       "reserve": 1976,
       "count_str": "38.6万",
       "count_label": "热度",
@@ -385,9 +445,11 @@
       "tags": [
         "动作",
         "角色扮演",
-        "冒险"
+        "冒险",
+        "Steam移植",
+        "国风"
       ],
-      "count": 3682213,
+      "count": 3682226,
       "reserve": 360473,
       "count_str": "368.2万",
       "count_label": "热度",
@@ -413,9 +475,11 @@
       "tags": [
         "Roguelike",
         "策略",
-        "卡牌"
+        "卡牌",
+        "冒险",
+        "竖屏"
       ],
-      "count": 66718,
+      "count": 66730,
       "reserve": 31220,
       "count_str": "6.7万",
       "count_label": "热度",
@@ -437,9 +501,15 @@
       "tags": [
         "Steam移植",
         "射击",
-        "支持手柄"
+        "支持手柄",
+        "独立游戏",
+        "Roguelike",
+        "科幻",
+        "单机",
+        "机甲",
+        "动作"
       ],
-      "count": 363036,
+      "count": 363047,
       "reserve": 26306,
       "count_str": "36.3万",
       "count_label": "热度",
@@ -461,10 +531,17 @@
       "tags": [
         "独立游戏",
         "单机",
-        "生存"
+        "生存",
+        "模拟",
+        "Roguelike",
+        "策略",
+        "文字",
+        "剧情",
+        "多结局",
+        "冒险"
       ],
-      "count": 46912,
-      "reserve": 49517,
+      "count": 46920,
+      "reserve": 49518,
       "count_str": "4.7万",
       "count_label": "热度",
       "hints": [],
@@ -485,9 +562,18 @@
       "tags": [
         "Steam移植",
         "策略",
-        "背包管理"
+        "背包管理",
+        "剧情",
+        "冒险",
+        "建造",
+        "地牢",
+        "独立游戏",
+        "买断制",
+        "DBG",
+        "像素",
+        "复古"
       ],
-      "count": 364714,
+      "count": 364723,
       "reserve": 68610,
       "count_str": "36.5万",
       "count_label": "热度",
@@ -509,9 +595,10 @@
       "tags": [
         "横版",
         "2D",
-        "Roguelike"
+        "Roguelike",
+        "动作"
       ],
-      "count": 362368,
+      "count": 362380,
       "reserve": 33268,
       "count_str": "36.2万",
       "count_label": "热度",
@@ -533,9 +620,11 @@
       "tags": [
         "水墨",
         "射击",
-        "Roguelike"
+        "Roguelike",
+        "修仙",
+        "动作"
       ],
-      "count": 1398832,
+      "count": 1398838,
       "reserve": 0,
       "count_str": "139.9万",
       "count_label": "热度",
@@ -559,7 +648,7 @@
         "动作",
         "冒险"
       ],
-      "count": 291482,
+      "count": 291491,
       "reserve": 46371,
       "count_str": "29.1万",
       "count_label": "热度",
@@ -581,10 +670,13 @@
       "tags": [
         "策略",
         "Roguelike",
-        "塔防"
+        "塔防",
+        "魔性",
+        "解压",
+        "割草"
       ],
-      "count": 631754,
-      "reserve": 423216,
+      "count": 631762,
+      "reserve": 423214,
       "count_str": "63.2万",
       "count_label": "热度",
       "hints": [],
@@ -605,9 +697,16 @@
       "tags": [
         "Roguelike",
         "单机",
-        "角色扮演"
+        "角色扮演",
+        "解谜",
+        "独立游戏",
+        "修仙",
+        "剧情",
+        "冒险",
+        "策略",
+        "卡牌"
       ],
-      "count": 437751,
+      "count": 437758,
       "reserve": 70211,
       "count_str": "43.8万",
       "count_label": "热度",
@@ -629,9 +728,14 @@
       "tags": [
         "单机",
         "放置",
-        "修仙"
+        "修仙",
+        "剧情",
+        "独立游戏",
+        "策略",
+        "Roguelike",
+        "模拟"
       ],
-      "count": 639863,
+      "count": 639868,
       "reserve": 41000,
       "count_str": "64.0万",
       "count_label": "热度",
@@ -653,10 +757,12 @@
       "tags": [
         "角色扮演",
         "Roguelike",
-        "策略"
+        "策略",
+        "收集",
+        "模拟"
       ],
       "count": 0,
-      "reserve": 130066,
+      "reserve": 130069,
       "count_str": "0",
       "count_label": "热度",
       "hints": [],
@@ -677,9 +783,10 @@
       "tags": [
         "Roguelike",
         "生存",
-        "末日"
+        "末日",
+        "模拟"
       ],
-      "count": 1235316,
+      "count": 1235329,
       "reserve": 78223,
       "count_str": "123.5万",
       "count_label": "热度",
@@ -703,9 +810,9 @@
         "休闲",
         "策略"
       ],
-      "count": 3266,
+      "count": 3270,
       "reserve": 450,
-      "count_str": "3266",
+      "count_str": "3270",
       "count_label": "热度",
       "hints": [
         "2天前 首发"
@@ -727,9 +834,17 @@
       "tags": [
         "武侠",
         "单机",
-        "开放世界"
+        "开放世界",
+        "Roguelike",
+        "文字",
+        "角色扮演",
+        "剧情",
+        "放置",
+        "策略",
+        "模拟",
+        "独立游戏"
       ],
-      "count": 590087,
+      "count": 590091,
       "reserve": 46145,
       "count_str": "59.0万",
       "count_label": "热度",
@@ -751,7 +866,9 @@
       "tags": [
         "自走棋",
         "卡牌",
-        "Roguelike"
+        "Roguelike",
+        "养成",
+        "策略"
       ],
       "count": 0,
       "reserve": 0,
@@ -777,9 +894,13 @@
       "tags": [
         "Steam移植",
         "Roguelike",
-        "独立游戏"
+        "独立游戏",
+        "RTS",
+        "单机",
+        "塔防",
+        "策略"
       ],
-      "count": 265003,
+      "count": 265016,
       "reserve": 32638,
       "count_str": "26.5万",
       "count_label": "热度",
@@ -801,9 +922,13 @@
       "tags": [
         "地牢",
         "动作",
-        "冒险"
+        "冒险",
+        "独立游戏",
+        "合作",
+        "UP主推荐",
+        "内购解锁"
       ],
-      "count": 10971812,
+      "count": 10971826,
       "reserve": 606636,
       "count_str": "1097.2万",
       "count_label": "热度",
@@ -827,7 +952,7 @@
         "街机",
         "动作"
       ],
-      "count": 64252,
+      "count": 64257,
       "reserve": 76369,
       "count_str": "6.4万",
       "count_label": "热度",
@@ -849,11 +974,14 @@
       "tags": [
         "角色扮演",
         "剧情",
-        "Roguelike"
+        "Roguelike",
+        "竖屏",
+        "单机",
+        "休闲"
       ],
-      "count": 2585,
+      "count": 2590,
       "reserve": 856,
-      "count_str": "2585",
+      "count_str": "2590",
       "count_label": "热度",
       "hints": [
         "4天前 首发"
@@ -875,11 +1003,14 @@
       "tags": [
         "单机",
         "模拟经营",
-        "放置"
+        "放置",
+        "Roguelike",
+        "文字",
+        "模拟"
       ],
-      "count": 1694497,
+      "count": 1694503,
       "reserve": 100442,
-      "count_str": "169.4万",
+      "count_str": "169.5万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/387262",
@@ -899,9 +1030,10 @@
       "tags": [
         "像素",
         "自走棋",
-        "Roguelike"
+        "Roguelike",
+        "策略"
       ],
-      "count": 723745,
+      "count": 723750,
       "reserve": 8987,
       "count_str": "72.4万",
       "count_label": "热度",
@@ -923,9 +1055,17 @@
       "tags": [
         "修仙",
         "策略",
-        "移植"
+        "移植",
+        "模拟",
+        "养成",
+        "国风",
+        "沙盒",
+        "独立游戏",
+        "单机",
+        "Steam",
+        "生存"
       ],
-      "count": 1168113,
+      "count": 1168119,
       "reserve": 834636,
       "count_str": "116.8万",
       "count_label": "热度",
@@ -947,11 +1087,17 @@
       "tags": [
         "Roguelike",
         "搜打撤",
-        "单机"
+        "单机",
+        "策略",
+        "文字",
+        "生存",
+        "末日",
+        "TapTap制造",
+        "冒险"
       ],
-      "count": 3350,
+      "count": 3352,
       "reserve": 0,
-      "count_str": "3350",
+      "count_str": "3352",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/846815",
@@ -972,9 +1118,12 @@
       "tags": [
         "单机",
         "动作",
-        "像素"
+        "像素",
+        "打击感",
+        "本地联机",
+        "支持手柄"
       ],
-      "count": 3724252,
+      "count": 3724254,
       "reserve": 740573,
       "count_str": "372.4万",
       "count_label": "热度",
@@ -996,9 +1145,16 @@
       "tags": [
         "Steam移植",
         "买断制",
-        "Roguelike"
+        "Roguelike",
+        "战棋",
+        "桌游",
+        "策略",
+        "多人联机",
+        "独立游戏",
+        "回合制",
+        "角色扮演"
       ],
-      "count": 263598,
+      "count": 263600,
       "reserve": 86035,
       "count_str": "26.4万",
       "count_label": "热度",
@@ -1020,9 +1176,17 @@
       "tags": [
         "Steam移植",
         "买断制",
-        "Roguelike"
+        "Roguelike",
+        "多人联机",
+        "角色扮演",
+        "高自由度",
+        "策略",
+        "解谜",
+        "冒险",
+        "益智",
+        "动作"
       ],
-      "count": 332656,
+      "count": 332661,
       "reserve": 15145,
       "count_str": "33.3万",
       "count_label": "热度",
@@ -1037,55 +1201,6 @@
     },
     {
       "rank": 43,
-      "id": 231669,
-      "title": "冒险者的rogue之旅",
-      "icon": "https://img-tc.tapimg.com/market/images/ff83cbfb83a624dc3d3f6f41a62d6581.png/_tap_appicon.jpg",
-      "score": "8.4",
-      "tags": [
-        "像素",
-        "竖屏",
-        "角色扮演"
-      ],
-      "count": 817867,
-      "reserve": 16,
-      "count_str": "81.8万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/231669",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1646106747,
-      "developer": "未知"
-    },
-    {
-      "rank": 44,
-      "id": 176342,
-      "title": "见习猎魔团",
-      "icon": "https://img-tc.tapimg.com/market/images/12e62ff140c7a23434a0ba4ab0d75395.png/_tap_appicon.jpg",
-      "score": "8.8",
-      "tags": [
-        "像素",
-        "弹幕",
-        "冒险"
-      ],
-      "count": 1287874,
-      "reserve": 71748,
-      "count_str": "128.8万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/176342",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1569723648,
-      "developer": "未知"
-    },
-    {
-      "rank": 45,
       "id": 243749,
       "title": "另一个幸存者（TapTap测试版）",
       "icon": "https://img-tc.tapimg.com/market/images/808f1710c8e553f88bce94ce9f343c5d.png/_tap_appicon.jpg",
@@ -1095,7 +1210,7 @@
         "单机",
         "休闲"
       ],
-      "count": 477836,
+      "count": 477838,
       "reserve": 14315,
       "count_str": "47.8万",
       "count_label": "热度",
@@ -1109,7 +1224,31 @@
       "developer": "未知"
     },
     {
-      "rank": 46,
+      "rank": 44,
+      "id": 231669,
+      "title": "冒险者的rogue之旅",
+      "icon": "https://img-tc.tapimg.com/market/images/ff83cbfb83a624dc3d3f6f41a62d6581.png/_tap_appicon.jpg",
+      "score": "8.4",
+      "tags": [
+        "像素",
+        "竖屏",
+        "角色扮演"
+      ],
+      "count": 817870,
+      "reserve": 16,
+      "count_str": "81.8万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/231669",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1646106747,
+      "developer": "未知"
+    },
+    {
+      "rank": 45,
       "id": 831123,
       "title": "肉鸽2048",
       "icon": "https://img-tc.tapimg.com/market/images/938d0912f2f8396729550a1d1d7f1718.png/_tap_appicon.jpg",
@@ -1117,9 +1256,11 @@
       "tags": [
         "消除",
         "休闲",
-        "Roguelike"
+        "Roguelike",
+        "竖屏",
+        "TapTap制造"
       ],
-      "count": 30696,
+      "count": 30699,
       "reserve": 0,
       "count_str": "3.1万",
       "count_label": "热度",
@@ -1134,27 +1275,67 @@
       "developer": "未知"
     },
     {
-      "rank": 47,
-      "id": 310399,
-      "title": "魔堡：最后的仪式（TapTap测试版）",
-      "icon": "https://img-tc.tapimg.com/market/images/d6cd5fab7f5479e92a7fcca6a50d623b.jpg/_tap_appicon.jpg",
-      "score": "8.4",
+      "rank": 46,
+      "id": 707696,
+      "title": "祖星发展模拟",
+      "icon": "https://img-tc.tapimg.com/market/images/446c2affbb25255312c9840f47f0d2cd.jpg/_tap_appicon.jpg",
+      "score": "9.0",
       "tags": [
+        "模拟经营",
+        "放置",
+        "Roguelike",
+        "策略",
+        "修仙",
+        "养成",
+        "文字",
+        "模拟",
         "独立游戏",
-        "单机",
-        "卡牌"
+        "剧情"
       ],
-      "count": 124855,
-      "reserve": 10885,
-      "count_str": "12.5万",
+      "count": 237495,
+      "reserve": 20776,
+      "count_str": "23.7万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/310399",
+      "url": "https://www.taptap.cn/app/707696",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1749830403,
+      "released_time": 1723255200,
+      "developer": "未知"
+    },
+    {
+      "rank": 47,
+      "id": 176342,
+      "title": "见习猎魔团",
+      "icon": "https://img-tc.tapimg.com/market/images/12e62ff140c7a23434a0ba4ab0d75395.png/_tap_appicon.jpg",
+      "score": "8.8",
+      "tags": [
+        "像素",
+        "弹幕",
+        "冒险",
+        "割草",
+        "养成",
+        "收集",
+        "卡牌",
+        "多人联机",
+        "射击",
+        "独立游戏",
+        "动作"
+      ],
+      "count": 1287878,
+      "reserve": 71748,
+      "count_str": "128.8万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/176342",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1569723648,
       "developer": "未知"
     },
     {
@@ -1166,9 +1347,17 @@
       "tags": [
         "单机",
         "模拟经营",
-        "放置"
+        "放置",
+        "剧情",
+        "独立游戏",
+        "策略",
+        "文字",
+        "养成",
+        "修仙",
+        "Roguelike",
+        "模拟"
       ],
-      "count": 290745,
+      "count": 290747,
       "reserve": 23142,
       "count_str": "29.1万",
       "count_label": "热度",
@@ -1183,26 +1372,28 @@
     },
     {
       "rank": 49,
-      "id": 707696,
-      "title": "祖星发展模拟",
-      "icon": "https://img-tc.tapimg.com/market/images/446c2affbb25255312c9840f47f0d2cd.jpg/_tap_appicon.jpg",
-      "score": "9.0",
+      "id": 310399,
+      "title": "魔堡：最后的仪式（TapTap测试版）",
+      "icon": "https://img-tc.tapimg.com/market/images/d6cd5fab7f5479e92a7fcca6a50d623b.jpg/_tap_appicon.jpg",
+      "score": "8.4",
       "tags": [
-        "模拟经营",
-        "放置",
-        "Roguelike"
+        "独立游戏",
+        "单机",
+        "卡牌",
+        "Roguelike",
+        "策略"
       ],
-      "count": 237492,
-      "reserve": 20776,
-      "count_str": "23.7万",
+      "count": 124856,
+      "reserve": 10885,
+      "count_str": "12.5万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/707696",
+      "url": "https://www.taptap.cn/app/310399",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1723255200,
+      "released_time": 1749830403,
       "developer": "未知"
     },
     {
@@ -1214,9 +1405,11 @@
       "tags": [
         "Roguelike",
         "策略",
-        "像素"
+        "像素",
+        "单机",
+        "角色扮演"
       ],
-      "count": 35808,
+      "count": 35810,
       "reserve": 6888,
       "count_str": "3.6万",
       "count_label": "热度",
