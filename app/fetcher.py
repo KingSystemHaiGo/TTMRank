@@ -169,6 +169,7 @@ def extract_app(entry: dict, rank: int, detail_tags: list = None) -> dict:
         "tags": tags,
         "count": count_val,
         "reserve": reserve_val,
+        "review_count": None,  # 由 fetch_app_detail 补充
         "count_str": format_count(count_val),
         "count_label": "热度",
         "hints": app.get("hints", [])[:1],
@@ -188,13 +189,57 @@ def format_count(n: int) -> str:
 
 
 def fetch_app_detail(app_id: int) -> dict:
-    """获取游戏详情：只使用 v6 API，不再回退到 HTML 解析"""
-    # HTML 回退已彻底删除原因：
+    """获取游戏详情：v6 API + HTML 评论数抓取"""
+    # HTML 回退已彻底删除原因（标签）：
     # 1. GitHub Actions 服务器被 TapTap WAF 拦截，HTML 回退抓到的是导航栏/推荐区的通用标签
     # 2. 导致所有游戏标签变成 ['模拟经营', '像素', '放置', '单机', '模拟']
     # 3. 本地运行时 API 正常，标签各不相同
     # 结论：HTML 回退不可靠，只信任 API 返回的数据
-    return _fetch_app_detail_api(app_id)
+    # 
+    # 但评论数是固定格式 "评价 {数字}"，位置明确，可以单独从 HTML 抓取
+    api_result = _fetch_app_detail_api(app_id)
+    review_count = _fetch_review_count(app_id)
+    if review_count is not None:
+        api_result["review_count"] = review_count
+    return api_result
+
+
+def _fetch_review_count(app_id: int) -> int | None:
+    """从游戏详情页 HTML 抓取评论数
+    
+    页面文本中有固定格式 "评价 {数字}"，用正则 /评价\s*(\d[\d,]*)/ 抓取。
+    列表页或详情页导航栏都有这个数据，不需要进评价详情页。
+    
+    测试验证：
+    - 星绘友晴天 (app 756412): 评价 2768 条
+    - app 220156: 评价 9 条
+    """
+    url = f"https://www.taptap.cn/app/{app_id}"
+    req = Request(url, headers={
+        "User-Agent": HEADERS["User-Agent"],
+        "Referer": "https://www.taptap.cn/",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    })
+    for attempt in range(2):
+        try:
+            with urlopen(req, timeout=10) as resp:
+                html = resp.read().decode("utf-8")
+            # 正则匹配 "评价 2768" 格式（支持逗号分隔的数字）
+            match = re.search(r'评价\s*(\d[\d,]*)', html)
+            if match:
+                count_str = match.group(1).replace(',', '')
+                return int(count_str)
+            # 如果没匹配到，返回 None（可能页面结构不同或被拦截）
+            return None
+        except HTTPError as e:
+            if e.code in (429, 502, 503, 504) and attempt == 0:
+                time.sleep(0.5)
+                continue
+            # WAF 405 或其他错误，静默返回 None
+            return None
+        except Exception:
+            return None
+    return None
 
 
 def _fetch_app_detail_api(app_id: int) -> dict:
@@ -228,7 +273,7 @@ def _fetch_app_detail_api(app_id: int) -> dict:
         except Exception as e:
             if attempt == 0:
                 print(f"    Detail API error: {e}")
-    return {"developer": "未知", "tags": [], "ok": False}
+    return {"developer": "未知", "tags": [], "review_count": None, "ok": False}
 
 
 def patch_developers(rankings: dict, detail_results: dict):
@@ -382,6 +427,7 @@ def main():
                 "best_platform": best["platform"],
                 "url": game["url"],
                 "released_time": game["released_time"],
+                "review_count": detail.get("review_count"),
             })
 
     result["taptap_made"].sort(key=lambda x: x["best_rank"])
@@ -390,20 +436,27 @@ def main():
     # 4. 补充榜单前20名的开发者信息（复用已获取的详情结果）
     patch_developers(result["platforms"], detail_results)
 
-    # 5. 更新所有榜单游戏的标签为完整标签（从 detail_results 获取）
-    print("\n=== Patching full tags for all platform games ===")
+    # 5. 更新所有榜单游戏的标签和评论数（从 detail_results 获取）
+    print("\n=== Patching full tags and review counts for all platform games ===")
     tag_update_count = 0
+    review_update_count = 0
     for platform, charts in result["platforms"].items():
         for chart_key, chart_data in charts.items():
             for item in chart_data.get("items", []):
                 gid = item.get("id")
                 if gid and gid in detail_results:
-                    detail_tags = detail_results[gid].get("tags")
-                    # 使用 detail API 返回的完整标签（哪怕是空列表也覆盖，因为空列表表示API确认无标签）
+                    detail = detail_results[gid]
+                    # 更新标签
+                    detail_tags = detail.get("tags")
                     if detail_tags is not None:
                         item["tags"] = detail_tags
                         tag_update_count += 1
+                    # 更新评论数
+                    if detail.get("review_count") is not None:
+                        item["review_count"] = detail["review_count"]
+                        review_update_count += 1
     print(f"  -> Updated tags for {tag_update_count} games")
+    print(f"  -> Updated review_count for {review_update_count} games")
 
     # 保存完整数据（供 taptapmaker.html 等需要全量数据的页面使用）
     out_path = os.path.join(DATA_DIR, "rankings.json")
