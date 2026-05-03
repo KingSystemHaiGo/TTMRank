@@ -497,7 +497,10 @@ def main():
         for fut in as_completed(futs):
             gid = futs[fut]
             try:
-                detail_results[gid] = fut.result()
+                detail = fut.result()
+                detail_results[gid] = detail
+                # DEBUG: 打印每个游戏的详情API结果
+                print(f"  [DEBUG] app_id={gid}: ok={detail.get('ok')}, tags_count={len(detail.get('tags', []))}, tags={detail.get('tags', [])[:5]}")
             except Exception as e:
                 print(f"  [{gid}] detail error: {e}")
                 detail_results[gid] = {"developer": "未知", "tags": [], "ok": False}
