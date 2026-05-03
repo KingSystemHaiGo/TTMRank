@@ -190,6 +190,8 @@ def fetch_app_detail(app_id: int) -> dict:
     """获取游戏详情：先尝试API，失败则回退到HTML解析"""
     # 1. 尝试 v6 API（结构化数据，快）
     api_result = _fetch_app_detail_api(app_id)
+    # 只要 API 成功返回了标签（哪怕只有1个），就优先信任 API
+    # HTML 解析容易抓到导航栏/推荐区的通用标签
     if api_result.get("ok") and api_result.get("tags"):
         return api_result
     
