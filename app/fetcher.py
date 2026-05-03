@@ -2,6 +2,7 @@
 """TapTap 排行榜数据抓取脚本 - 双平台 + TapTap制造 + 并发优化 + 缓存 + 历史"""
 
 import json
+import re
 import os
 import shutil
 import sys
@@ -253,8 +254,7 @@ def _fetch_app_detail_html(app_id: int) -> dict:
         with urlopen(req, timeout=10) as resp:
             html = resp.read().decode("utf-8")
         
-        # 尝试从 window.__NUXT__ 提取结构化数据（最准）
-        import re
+        # === 1. 优先从 window.__NUXT__ 提取（最准确）===
         nuxt_match = re.search(
             r'window\.__NUXT__\s*=\s*(\{.*?\});?\s*</script>',
             html, re.DOTALL
@@ -262,50 +262,118 @@ def _fetch_app_detail_html(app_id: int) -> dict:
         if nuxt_match:
             try:
                 nuxt = json.loads(nuxt_match.group(1))
-                # 常见路径：__NUXT__.data[0].app.tags
                 app_data = None
+                
+                # 尝试多种可能的数据路径
                 if isinstance(nuxt, dict):
-                    # 尝试多种可能的路径
+                    # 路径A: __NUXT__.data[0].app
                     data_arr = nuxt.get("data", [])
                     if data_arr and isinstance(data_arr, list):
-                        app_data = data_arr[0].get("app") if isinstance(data_arr[0], dict) else None
-                    # 或者 __NUXT__.state.app.detail
+                        for d in data_arr:
+                            if isinstance(d, dict) and d.get("app"):
+                                app_data = d.get("app")
+                                break
+                    
+                    # 路径B: __NUXT__.state.app.detail
                     if not app_data:
                         state = nuxt.get("state", {})
-                        app_data = state.get("app", {}).get("detail") if isinstance(state, dict) else None
+                        if isinstance(state, dict):
+                            app_data = state.get("app", {}).get("detail")
+                    
+                    # 路径C: 深度搜索
+                    if not app_data:
+                        def find_app(obj):
+                            if isinstance(obj, dict):
+                                if "app" in obj and isinstance(obj["app"], dict):
+                                    app = obj["app"]
+                                    if "tags" in app:
+                                        return app
+                                for v in obj.values():
+                                    result = find_app(v)
+                                    if result:
+                                        return result
+                            elif isinstance(obj, list):
+                                for item in obj:
+                                    result = find_app(item)
+                                    if result:
+                                        return result
+                            return None
+                        app_data = find_app(nuxt)
                 
                 if app_data and isinstance(app_data, dict):
-                    tags = [t.get("value", t) if isinstance(t, dict) else str(t) 
-                            for t in app_data.get("tags", [])]
-                    devs = app_data.get("developers", [])
-                    dev = devs[0].get("name", "未知") if devs and isinstance(devs, list) else "未知"
-                    if not dev or dev == "未知":
-                        dev = app_data.get("developer", {}).get("name", "未知") if isinstance(app_data.get("developer"), dict) else "未知"
-                    if tags:
-                        return {"developer": dev, "tags": tags, "ok": True}
+                    raw_tags = app_data.get("tags", [])
+                    if raw_tags:
+                        tags = []
+                        for t in raw_tags:
+                            if isinstance(t, dict):
+                                val = t.get("value", "")
+                            elif isinstance(t, str):
+                                val = t
+                            else:
+                                val = str(t)
+                            if val and val not in tags:
+                                tags.append(val)
+                        
+                        if tags:
+                            # 提取开发者
+                            dev = "未知"
+                            devs = app_data.get("developers", [])
+                            if devs and isinstance(devs, list):
+                                dev = devs[0].get("name", "未知") if isinstance(devs[0], dict) else str(devs[0])
+                            if dev == "未知":
+                                dev_info = app_data.get("developer")
+                                if isinstance(dev_info, dict):
+                                    dev = dev_info.get("name", "未知")
+                            return {"developer": dev, "tags": tags, "ok": True}
             except Exception:
                 pass  # NUXT解析失败，继续走正则回退
         
-        # 回退：从页面标签链接正则提取
-        # 详情页的标签通常是 <a href="/tag/xxx">标签名</a>
-        # 为避免取到相关推荐标签，限制只取主内容区附近的
+        # === 2. 回退：从页面标签链接正则提取（严格限定主内容区）===
+        # 尝试定位主内容区，避免抓到导航栏/推荐区的通用标签
+        main_area = html
+        
+        # 策略：先尝试找 <div class="app-page"> 或 <main> 标签内的内容
+        page_match = re.search(
+            r'<(div|main)[^>]*class="[^"]*(?:app-page|main-content)[^"]*"[^>]*>',
+            html, re.IGNORECASE
+        )
+        if page_match:
+            # 从该位置开始截取到对应的闭合标签（简化处理：取4KB内容）
+            start = page_match.end()
+            main_area = html[start:start+4096]
+        else:
+            # 备用策略：找 app-header 或 app-info 附近区域
+            header_match = re.search(
+                r'<div[^>]*class="[^"]*(?:app-header|app-info|game-header)[^"]*"',
+                html, re.IGNORECASE
+            )
+            if header_match:
+                start = max(0, header_match.start() - 500)
+                main_area = html[start:start+3000]
+        
+        # 在限定区域内匹配标签链接
         tags = []
         seen = set()
-        # 取 href="/tag/xxx" 且链接文本非空的
         for m in re.finditer(
             r'<a[^>]+href="/tag/([^"]+)"[^>]*>([^<]+)</a>',
-            html
+            main_area
         ):
             tag_val = m.group(2).strip()
-            if tag_val and tag_val not in seen:
+            if tag_val and tag_val not in seen and len(tag_val) < 20:
                 seen.add(tag_val)
                 tags.append(tag_val)
         
-        # 如果标签太多（可能包含了相关推荐），取前N个
-        # 详情页通常展示游戏的主标签在前，相关推荐在后
-        # 末日危城有5个主标签，留一些余量取前15个
-        if len(tags) > 15:
-            tags = tags[:15]
+        # 过滤：如果前几个标签全是通用导航标签，说明可能抓错了区域
+        common_nav = {"模拟经营", "像素", "放置", "单机", "模拟", "策略", "角色扮演", "休闲"}
+        if len(tags) >= 4:
+            overlap = sum(1 for t in tags[:4] if t in common_nav)
+            if overlap >= 3:
+                # 可能是导航区，只取前2个（游戏主标签通常更靠前）
+                tags = tags[:2]
+        
+        # 限制最大数量
+        if len(tags) > 10:
+            tags = tags[:10]
         
         if tags:
             return {"developer": "未知", "tags": tags, "ok": True}
