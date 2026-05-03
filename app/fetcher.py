@@ -508,7 +508,8 @@ def main():
     for gid, game in all_games.items():
         detail = detail_results.get(gid, {"developer": "未知", "tags": [], "ok": False})
         # 优先使用详情API返回的完整标签，否则使用列表API的截断标签
-        full_tags = detail.get("tags") if detail.get("tags") else game.get("tags", [])
+        detail_tags = detail.get("tags")
+        full_tags = detail_tags if detail_tags is not None else game.get("tags", [])
         if any("TapTap制造" in t for t in full_tags):
             # 更新游戏的标签为完整标签
             taptap_candidates[gid] = {**game, "tags": full_tags}
