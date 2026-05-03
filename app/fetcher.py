@@ -165,7 +165,7 @@ def extract_app(entry: dict, rank: int) -> dict:
         "title": app.get("title", "未知"),
         "icon": app.get("icon", {}).get("url", ""),
         "score": rating.get("score", "-"),
-        "tags": tags[:2],
+        "tags": tags,
         "count": count_val,
         "reserve": reserve_val,
         "count_str": format_count(count_val),
