@@ -188,24 +188,13 @@ def format_count(n: int) -> str:
 
 
 def fetch_app_detail(app_id: int) -> dict:
-    """获取游戏详情：先尝试API，失败则回退到HTML解析"""
-    # 1. 尝试 v6 API（结构化数据，快）
-    api_result = _fetch_app_detail_api(app_id)
-    # 只要 API 成功返回了标签（哪怕只有1个），就优先信任 API
-    # HTML 解析容易抓到导航栏/推荐区的通用标签
-    if api_result.get("ok") and api_result.get("tags"):
-        return api_result
-    
-    # 2. API没拿到完整tags，回退到HTML解析
-    html_result = _fetch_app_detail_html(app_id)
-    if html_result.get("ok"):
-        # 合并结果：API拿到的developer + HTML拿到的tags
-        if api_result.get("ok") and api_result.get("developer") != "未知":
-            html_result["developer"] = api_result["developer"]
-        return html_result
-    
-    # 3. 都失败，返回API结果（至少有developer可能拿到了）
-    return api_result
+    """获取游戏详情：只使用 v6 API，不再回退到 HTML 解析"""
+    # HTML 回退已彻底删除原因：
+    # 1. GitHub Actions 服务器被 TapTap WAF 拦截，HTML 回退抓到的是导航栏/推荐区的通用标签
+    # 2. 导致所有游戏标签变成 ['模拟经营', '像素', '放置', '单机', '模拟']
+    # 3. 本地运行时 API 正常，标签各不相同
+    # 结论：HTML 回退不可靠，只信任 API 返回的数据
+    return _fetch_app_detail_api(app_id)
 
 
 def _fetch_app_detail_api(app_id: int) -> dict:
@@ -240,151 +229,6 @@ def _fetch_app_detail_api(app_id: int) -> dict:
             if attempt == 0:
                 print(f"    Detail API error: {e}")
     return {"developer": "未知", "tags": [], "ok": False}
-
-
-def _fetch_app_detail_html(app_id: int) -> dict:
-    """从详情页HTML解析完整标签（API失败时的fallback）"""
-    url = f"https://www.taptap.cn/app/{app_id}"
-    req = Request(url, headers={
-        "User-Agent": HEADERS["User-Agent"],
-        "Referer": "https://www.taptap.cn/top",
-        "Accept": "text/html",
-    })
-    try:
-        with urlopen(req, timeout=10) as resp:
-            html = resp.read().decode("utf-8")
-        
-        # === 1. 优先从 window.__NUXT__ 提取（最准确）===
-        nuxt_match = re.search(
-            r'window\.__NUXT__\s*=\s*(\{.*?\});?\s*</script>',
-            html, re.DOTALL
-        )
-        if nuxt_match:
-            try:
-                nuxt = json.loads(nuxt_match.group(1))
-                app_data = None
-                
-                # 尝试多种可能的数据路径
-                if isinstance(nuxt, dict):
-                    # 路径A: __NUXT__.data[0].app
-                    data_arr = nuxt.get("data", [])
-                    if data_arr and isinstance(data_arr, list):
-                        for d in data_arr:
-                            if isinstance(d, dict) and d.get("app"):
-                                app_data = d.get("app")
-                                break
-                    
-                    # 路径B: __NUXT__.state.app.detail
-                    if not app_data:
-                        state = nuxt.get("state", {})
-                        if isinstance(state, dict):
-                            app_data = state.get("app", {}).get("detail")
-                    
-                    # 路径C: 深度搜索
-                    if not app_data:
-                        def find_app(obj):
-                            if isinstance(obj, dict):
-                                if "app" in obj and isinstance(obj["app"], dict):
-                                    app = obj["app"]
-                                    if "tags" in app:
-                                        return app
-                                for v in obj.values():
-                                    result = find_app(v)
-                                    if result:
-                                        return result
-                            elif isinstance(obj, list):
-                                for item in obj:
-                                    result = find_app(item)
-                                    if result:
-                                        return result
-                            return None
-                        app_data = find_app(nuxt)
-                
-                if app_data and isinstance(app_data, dict):
-                    raw_tags = app_data.get("tags", [])
-                    if raw_tags:
-                        tags = []
-                        for t in raw_tags:
-                            if isinstance(t, dict):
-                                val = t.get("value", "")
-                            elif isinstance(t, str):
-                                val = t
-                            else:
-                                val = str(t)
-                            if val and val not in tags:
-                                tags.append(val)
-                        
-                        if tags:
-                            # 提取开发者
-                            dev = "未知"
-                            devs = app_data.get("developers", [])
-                            if devs and isinstance(devs, list):
-                                dev = devs[0].get("name", "未知") if isinstance(devs[0], dict) else str(devs[0])
-                            if dev == "未知":
-                                dev_info = app_data.get("developer")
-                                if isinstance(dev_info, dict):
-                                    dev = dev_info.get("name", "未知")
-                            return {"developer": dev, "tags": tags, "ok": True}
-            except Exception:
-                pass  # NUXT解析失败，继续走正则回退
-        
-        # === 2. 回退：从页面标签链接正则提取（严格限定主内容区）===
-        # 尝试定位主内容区，避免抓到导航栏/推荐区的通用标签
-        main_area = html
-        
-        # 策略：先尝试找 <div class="app-page"> 或 <main> 标签内的内容
-        page_match = re.search(
-            r'<(div|main)[^>]*class="[^"]*(?:app-page|main-content)[^"]*"[^>]*>',
-            html, re.IGNORECASE
-        )
-        if page_match:
-            # 从该位置开始截取到对应的闭合标签（简化处理：取4KB内容）
-            start = page_match.end()
-            main_area = html[start:start+4096]
-        else:
-            # 备用策略：找 app-header 或 app-info 附近区域
-            header_match = re.search(
-                r'<div[^>]*class="[^"]*(?:app-header|app-info|game-header)[^"]*"',
-                html, re.IGNORECASE
-            )
-            if header_match:
-                start = max(0, header_match.start() - 500)
-                main_area = html[start:start+3000]
-        
-        # 在限定区域内匹配标签链接
-        tags = []
-        seen = set()
-        for m in re.finditer(
-            r'<a[^>]+href="/tag/([^"]+)"[^>]*>([^<]+)</a>',
-            main_area
-        ):
-            tag_val = m.group(2).strip()
-            if tag_val and tag_val not in seen and len(tag_val) < 20:
-                seen.add(tag_val)
-                tags.append(tag_val)
-        
-        # 过滤：如果前几个标签全是通用导航标签，说明可能抓错了区域
-        common_nav = {"模拟经营", "像素", "放置", "单机", "模拟", "策略", "角色扮演", "休闲"}
-        if len(tags) >= 4:
-            overlap = sum(1 for t in tags[:4] if t in common_nav)
-            if overlap >= 3:
-                # 可能是导航区，只取前2个（游戏主标签通常更靠前）
-                tags = tags[:2]
-        
-        # 限制最大数量
-        if len(tags) > 10:
-            tags = tags[:10]
-        
-        if tags:
-            return {"developer": "未知", "tags": tags, "ok": True}
-        
-        return {"developer": "未知", "tags": [], "ok": False}
-    except HTTPError as e:
-        print(f"    Detail HTML HTTP {e.code}: {e.reason}")
-        return {"developer": "未知", "tags": [], "ok": False}
-    except Exception as e:
-        print(f"    Detail HTML error: {e}")
-        return {"developer": "未知", "tags": [], "ok": False}
 
 
 def patch_developers(rankings: dict, detail_results: dict):
@@ -510,9 +354,10 @@ def main():
     taptap_candidates = {}
     for gid, game in all_games.items():
         detail = detail_results.get(gid, {"developer": "未知", "tags": [], "ok": False})
-        # 优先使用详情API返回的完整标签，否则使用列表API的截断标签
+        # 优先使用详情API返回的完整标签
+        # 注意：空列表 [] 不是 None，但表示 API 没拿到标签，应回退到列表API标签
         detail_tags = detail.get("tags")
-        full_tags = detail_tags if detail_tags is not None else game.get("tags", [])
+        full_tags = detail_tags if detail_tags else game.get("tags", [])
         if any("TapTap制造" in t for t in full_tags):
             # 更新游戏的标签为完整标签
             taptap_candidates[gid] = {**game, "tags": full_tags}
