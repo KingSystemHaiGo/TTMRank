@@ -201,8 +201,11 @@ def fetch_app_detail(app_id: int) -> dict:
             if data.get("success"):
                 app = data.get("data", {}).get("app", {})
                 devs = app.get("developers", [])
+                tags = [t.get("value", "") for t in app.get("tags", [])]
+                result = {"tags": tags, "ok": True}
                 if devs:
-                    return {"developer": devs[0].get("name", "未知"), "ok": True}
+                    result["developer"] = devs[0].get("name", "未知")
+                return result
             break
         except HTTPError as e:
             if e.code in (429, 502, 503, 504) and attempt == 0:
