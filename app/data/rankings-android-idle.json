@@ -15,7 +15,7 @@
         "放置",
         "休闲"
       ],
-      "count": 34114,
+      "count": 34276,
       "reserve": 2,
       "count_str": "3.4万",
       "count_label": "热度",
@@ -46,7 +46,7 @@
         "可爱",
         "策略"
       ],
-      "count": 3048302,
+      "count": 3048333,
       "reserve": 315865,
       "count_str": "304.8万",
       "count_label": "热度",
@@ -78,7 +78,7 @@
         "收集",
         "剧情"
       ],
-      "count": 2450943,
+      "count": 2450978,
       "reserve": 581534,
       "count_str": "245.1万",
       "count_label": "热度",
@@ -106,7 +106,7 @@
         "放置",
         "刷宝"
       ],
-      "count": 276746,
+      "count": 276757,
       "reserve": 109836,
       "count_str": "27.7万",
       "count_label": "热度",
@@ -134,7 +134,7 @@
         "角色扮演",
         "策略"
       ],
-      "count": 2511725,
+      "count": 2511752,
       "reserve": 10262,
       "count_str": "251.2万",
       "count_label": "热度",
@@ -160,7 +160,7 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 127244,
+      "count": 127277,
       "reserve": 0,
       "count_str": "12.7万",
       "count_label": "热度",
@@ -190,7 +190,7 @@
         "恋爱",
         "模拟"
       ],
-      "count": 2091000,
+      "count": 2091011,
       "reserve": 56651,
       "count_str": "209.1万",
       "count_label": "热度",
@@ -219,7 +219,7 @@
         "独立游戏",
         "剧情"
       ],
-      "count": 2319801,
+      "count": 2319814,
       "reserve": 94010,
       "count_str": "232.0万",
       "count_label": "热度",
@@ -245,7 +245,7 @@
         "策略"
       ],
       "count": 0,
-      "reserve": 58152,
+      "reserve": 58157,
       "count_str": "0",
       "count_label": "热度",
       "hints": [],
@@ -271,7 +271,7 @@
         "治愈",
         "装扮"
       ],
-      "count": 268015,
+      "count": 268027,
       "reserve": 93335,
       "count_str": "26.8万",
       "count_label": "热度",
@@ -299,7 +299,7 @@
         "文字",
         "策略"
       ],
-      "count": 2233365,
+      "count": 2233377,
       "reserve": 45218,
       "count_str": "223.3万",
       "count_label": "热度",
@@ -328,7 +328,7 @@
         "放置",
         "多人联机"
       ],
-      "count": 8697729,
+      "count": 8697746,
       "reserve": 302632,
       "count_str": "869.8万",
       "count_label": "热度",
@@ -344,36 +344,6 @@
     },
     {
       "rank": 13,
-      "id": 337766,
-      "title": "天道：创造",
-      "icon": "https://img-tc.tapimg.com/market/images/3b3a10ebd89b1bd96513b89f503ffb18.jpg/_tap_appicon.jpg",
-      "score": "9.1",
-      "tags": [
-        "沙盒",
-        "放置",
-        "模拟经营",
-        "单机",
-        "养成",
-        "修仙",
-        "模拟",
-        "独立游戏",
-        "剧情"
-      ],
-      "count": 3240390,
-      "reserve": 107603,
-      "count_str": "324.0万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/337766",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1689386400,
-      "developer": "SKY工作室"
-    },
-    {
-      "rank": 14,
       "id": 772281,
       "title": "消消英雄2",
       "icon": "https://img-tc.tapimg.com/market/images/4ad7682f7adb926bee934e2fd822e3b8.png/_tap_appicon.jpg",
@@ -387,7 +357,7 @@
         "Roguelike",
         "放置"
       ],
-      "count": 287365,
+      "count": 287379,
       "reserve": 9157,
       "count_str": "28.7万",
       "count_label": "热度",
@@ -403,6 +373,36 @@
       "developer": "Alina游戏"
     },
     {
+      "rank": 14,
+      "id": 337766,
+      "title": "天道：创造",
+      "icon": "https://img-tc.tapimg.com/market/images/3b3a10ebd89b1bd96513b89f503ffb18.jpg/_tap_appicon.jpg",
+      "score": "9.1",
+      "tags": [
+        "沙盒",
+        "放置",
+        "模拟经营",
+        "单机",
+        "养成",
+        "修仙",
+        "模拟",
+        "独立游戏",
+        "剧情"
+      ],
+      "count": 3240398,
+      "reserve": 107603,
+      "count_str": "324.0万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/337766",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1689386400,
+      "developer": "SKY工作室"
+    },
+    {
       "rank": 15,
       "id": 749668,
       "title": "元启世界",
@@ -414,7 +414,7 @@
         "刷宝",
         "建造"
       ],
-      "count": 250980,
+      "count": 251001,
       "reserve": 25884,
       "count_str": "25.1万",
       "count_label": "热度",
@@ -444,8 +444,8 @@
         "二次元",
         "角色扮演"
       ],
-      "count": 488879,
-      "reserve": 310249,
+      "count": 488884,
+      "reserve": 310248,
       "count_str": "48.9万",
       "count_label": "热度",
       "hints": [],
@@ -472,7 +472,7 @@
         "收集",
         "美少女"
       ],
-      "count": 1087613,
+      "count": 1087618,
       "reserve": 447302,
       "count_str": "108.8万",
       "count_label": "热度",
@@ -501,7 +501,7 @@
         "多人联机",
         "角色扮演"
       ],
-      "count": 1557541,
+      "count": 1557550,
       "reserve": 178519,
       "count_str": "155.8万",
       "count_label": "热度",
@@ -530,7 +530,7 @@
         "策略",
         "放置"
       ],
-      "count": 937538,
+      "count": 937541,
       "reserve": 31000,
       "count_str": "93.8万",
       "count_label": "热度",
@@ -560,7 +560,7 @@
         "收集",
         "养成"
       ],
-      "count": 2109105,
+      "count": 2109120,
       "reserve": 676504,
       "count_str": "210.9万",
       "count_label": "热度",
@@ -590,7 +590,7 @@
         "科幻",
         "VR"
       ],
-      "count": 1540426,
+      "count": 1540435,
       "reserve": 10515,
       "count_str": "154.0万",
       "count_label": "热度",
@@ -617,7 +617,7 @@
         "模拟经营",
         "TapTap制造"
       ],
-      "count": 16427,
+      "count": 16433,
       "reserve": 0,
       "count_str": "1.6万",
       "count_label": "热度",
@@ -646,7 +646,7 @@
         "单机",
         "休闲"
       ],
-      "count": 56623,
+      "count": 56629,
       "reserve": 1704,
       "count_str": "5.7万",
       "count_label": "热度",
@@ -673,7 +673,7 @@
         "独立游戏",
         "剧情"
       ],
-      "count": 3997782,
+      "count": 3997785,
       "reserve": 64281,
       "count_str": "399.8万",
       "count_label": "热度",
@@ -702,7 +702,7 @@
         "割草",
         "养成"
       ],
-      "count": 326004,
+      "count": 326008,
       "reserve": 2993,
       "count_str": "32.6万",
       "count_label": "热度",
@@ -730,7 +730,7 @@
         "卡牌",
         "策略"
       ],
-      "count": 1939645,
+      "count": 1939654,
       "reserve": 446194,
       "count_str": "194.0万",
       "count_label": "热度",
@@ -763,7 +763,7 @@
         "模拟经营",
         "模拟"
       ],
-      "count": 2735155,
+      "count": 2735168,
       "reserve": 855901,
       "count_str": "273.5万",
       "count_label": "热度",
@@ -791,7 +791,7 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 11923,
+      "count": 11928,
       "reserve": 0,
       "count_str": "1.2万",
       "count_label": "热度",
@@ -825,7 +825,7 @@
         "竖屏",
         "收集"
       ],
-      "count": 2769481,
+      "count": 2769483,
       "reserve": 33723,
       "count_str": "276.9万",
       "count_label": "热度",
@@ -840,6 +840,35 @@
     },
     {
       "rank": 30,
+      "id": 842675,
+      "title": "末日危城：我能合成万物",
+      "icon": "https://img-tc.tapimg.com/market/images/Fsf3hgi2VkeaqNqaNSm0U9hq0vsw.png/_tap_appicon.jpg",
+      "score": "8.4",
+      "tags": [
+        "养成",
+        "放置",
+        "文字",
+        "TapTap制造",
+        "角色扮演"
+      ],
+      "count": 2540,
+      "reserve": 0,
+      "count_str": "2540",
+      "count_label": "热度",
+      "hints": [
+        "4天前 首发"
+      ],
+      "url": "https://www.taptap.cn/app/842675",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1777475844,
+      "developer": "未知"
+    },
+    {
+      "rank": 31,
       "id": 647013,
       "title": "江南第一主播公司",
       "icon": "https://img-tc.tapimg.com/market/images/be60da1c026418dff57b27dce6a686a1.jpg/_tap_appicon.jpg",
@@ -852,7 +881,7 @@
         "放置",
         "模拟"
       ],
-      "count": 880937,
+      "count": 880942,
       "reserve": 153560,
       "count_str": "88.1万",
       "count_label": "热度",
@@ -863,35 +892,6 @@
         "ios"
       ],
       "released_time": 1737623185,
-      "developer": "未知"
-    },
-    {
-      "rank": 31,
-      "id": 842675,
-      "title": "末日危城：我能合成万物",
-      "icon": "https://img-tc.tapimg.com/market/images/Fsf3hgi2VkeaqNqaNSm0U9hq0vsw.png/_tap_appicon.jpg",
-      "score": "8.4",
-      "tags": [
-        "养成",
-        "放置",
-        "文字",
-        "TapTap制造",
-        "角色扮演"
-      ],
-      "count": 2538,
-      "reserve": 0,
-      "count_str": "2538",
-      "count_label": "热度",
-      "hints": [
-        "4天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/842675",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1777475844,
       "developer": "未知"
     },
     {
@@ -908,7 +908,7 @@
         "经营",
         "模拟"
       ],
-      "count": 348130,
+      "count": 348135,
       "reserve": 49440,
       "count_str": "34.8万",
       "count_label": "热度",
@@ -932,7 +932,7 @@
         "放置",
         "休闲"
       ],
-      "count": 1366032,
+      "count": 1366036,
       "reserve": 299250,
       "count_str": "136.6万",
       "count_label": "热度",
@@ -956,7 +956,7 @@
         "养成",
         "卡牌"
       ],
-      "count": 393238,
+      "count": 393242,
       "reserve": 3368,
       "count_str": "39.3万",
       "count_label": "热度",
@@ -981,9 +981,9 @@
         "怀旧",
         "模拟"
       ],
-      "count": 4462,
+      "count": 4467,
       "reserve": 2602,
-      "count_str": "4462",
+      "count_str": "4467",
       "count_label": "热度",
       "hints": [
         "3天前 首发"
@@ -1012,7 +1012,7 @@
         "像素",
         "种田"
       ],
-      "count": 500408,
+      "count": 500415,
       "reserve": 121625,
       "count_str": "50.0万",
       "count_label": "热度",
@@ -1045,7 +1045,7 @@
         "冒险",
         "收集"
       ],
-      "count": 1882840,
+      "count": 1882851,
       "reserve": 425624,
       "count_str": "188.3万",
       "count_label": "热度",
@@ -1072,7 +1072,7 @@
         "模拟",
         "经营"
       ],
-      "count": 699491,
+      "count": 699497,
       "reserve": 517,
       "count_str": "69.9万",
       "count_label": "热度",
@@ -1101,7 +1101,7 @@
         "Roguelike",
         "模拟"
       ],
-      "count": 639921,
+      "count": 639926,
       "reserve": 41000,
       "count_str": "64.0万",
       "count_label": "热度",
@@ -1133,7 +1133,7 @@
         "模拟",
         "独立游戏"
       ],
-      "count": 590142,
+      "count": 590143,
       "reserve": 46145,
       "count_str": "59.0万",
       "count_label": "热度",
@@ -1148,59 +1148,6 @@
     },
     {
       "rank": 41,
-      "id": 787361,
-      "title": "叫我大酋长",
-      "icon": "https://img-tc.tapimg.com/market/images/0ccf789fa56e42fe70185b16030c88f3.jpg/_tap_appicon.jpg",
-      "score": "6.8",
-      "tags": [
-        "角色扮演",
-        "卡牌",
-        "养成",
-        "美少女",
-        "冒险",
-        "放置"
-      ],
-      "count": 5922,
-      "reserve": 7600,
-      "count_str": "5922",
-      "count_label": "热度",
-      "hints": [
-        "4天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/787361",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1777280433,
-      "developer": "未知"
-    },
-    {
-      "rank": 42,
-      "id": 241449,
-      "title": "无限升级",
-      "icon": "https://img-tc.tapimg.com/market/images/bd8121d957c5c8029470521d995adaf9.png/_tap_appicon.jpg",
-      "score": "7.9",
-      "tags": [
-        "养成",
-        "放置",
-        "角色扮演"
-      ],
-      "count": 890965,
-      "reserve": 8102,
-      "count_str": "89.1万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/241449",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1666491927,
-      "developer": "未知"
-    },
-    {
-      "rank": 43,
       "id": 742551,
       "title": "龙魂旅人",
       "icon": "https://img-tc.tapimg.com/market/images/6759084609f7bbbc4abdaa8d0861a4d9.png/_tap_appicon.jpg",
@@ -1216,7 +1163,7 @@
         "剧情",
         "多人联机"
       ],
-      "count": 903784,
+      "count": 903789,
       "reserve": 316878,
       "count_str": "90.4万",
       "count_label": "热度",
@@ -1230,6 +1177,59 @@
       "developer": "未知"
     },
     {
+      "rank": 42,
+      "id": 241449,
+      "title": "无限升级",
+      "icon": "https://img-tc.tapimg.com/market/images/bd8121d957c5c8029470521d995adaf9.png/_tap_appicon.jpg",
+      "score": "7.9",
+      "tags": [
+        "养成",
+        "放置",
+        "角色扮演"
+      ],
+      "count": 890971,
+      "reserve": 8102,
+      "count_str": "89.1万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/241449",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1666491927,
+      "developer": "未知"
+    },
+    {
+      "rank": 43,
+      "id": 787361,
+      "title": "叫我大酋长",
+      "icon": "https://img-tc.tapimg.com/market/images/0ccf789fa56e42fe70185b16030c88f3.jpg/_tap_appicon.jpg",
+      "score": "6.8",
+      "tags": [
+        "角色扮演",
+        "卡牌",
+        "养成",
+        "美少女",
+        "冒险",
+        "放置"
+      ],
+      "count": 5926,
+      "reserve": 7600,
+      "count_str": "5926",
+      "count_label": "热度",
+      "hints": [
+        "4天前 首发"
+      ],
+      "url": "https://www.taptap.cn/app/787361",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1777280433,
+      "developer": "未知"
+    },
+    {
       "rank": 44,
       "id": 226877,
       "title": "觉醒大陆",
@@ -1240,7 +1240,7 @@
         "放置",
         "角色扮演"
       ],
-      "count": 1137674,
+      "count": 1137679,
       "reserve": 0,
       "count_str": "113.8万",
       "count_label": "热度",
@@ -1266,7 +1266,7 @@
         "经营",
         "放置"
       ],
-      "count": 1085657,
+      "count": 1085662,
       "reserve": 239016,
       "count_str": "108.6万",
       "count_label": "热度",
@@ -1297,7 +1297,7 @@
         "建造",
         "佛系"
       ],
-      "count": 18977240,
+      "count": 18977251,
       "reserve": 473066,
       "count_str": "1897.7万",
       "count_label": "热度",
@@ -1320,7 +1320,7 @@
         "放置",
         "角色扮演"
       ],
-      "count": 29440,
+      "count": 29441,
       "reserve": 0,
       "count_str": "2.9万",
       "count_label": "热度",
@@ -1344,7 +1344,7 @@
         "文字",
         "模拟经营"
       ],
-      "count": 347245,
+      "count": 347247,
       "reserve": 44,
       "count_str": "34.7万",
       "count_label": "热度",
@@ -1369,7 +1369,7 @@
         "养成",
         "刷宝"
       ],
-      "count": 1266486,
+      "count": 1266491,
       "reserve": 2625,
       "count_str": "126.6万",
       "count_label": "热度",
@@ -1393,7 +1393,7 @@
         "修仙",
         "养成"
       ],
-      "count": 3555956,
+      "count": 3555957,
       "reserve": 3261,
       "count_str": "355.6万",
       "count_label": "热度",
