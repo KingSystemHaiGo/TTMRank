@@ -187,7 +187,26 @@ def format_count(n: int) -> str:
 
 
 def fetch_app_detail(app_id: int) -> dict:
-    """从游戏详情页 API 获取准确开发者信息（带重试）"""
+    """获取游戏详情：先尝试API，失败则回退到HTML解析"""
+    # 1. 尝试 v6 API（结构化数据，快）
+    api_result = _fetch_app_detail_api(app_id)
+    if api_result.get("ok") and api_result.get("tags"):
+        return api_result
+    
+    # 2. API没拿到完整tags，回退到HTML解析
+    html_result = _fetch_app_detail_html(app_id)
+    if html_result.get("ok"):
+        # 合并结果：API拿到的developer + HTML拿到的tags
+        if api_result.get("ok") and api_result.get("developer") != "未知":
+            html_result["developer"] = api_result["developer"]
+        return html_result
+    
+    # 3. 都失败，返回API结果（至少有developer可能拿到了）
+    return api_result
+
+
+def _fetch_app_detail_api(app_id: int) -> dict:
+    """从 v6 detail API 获取开发者和标签"""
     url = f"https://www.taptap.cn/webapiv2/app/v6/detail?X-UA={quote(X_UA, safe='')}&id={app_id}"
     req = Request(url, headers={
         "User-Agent": HEADERS["User-Agent"],
@@ -202,25 +221,104 @@ def fetch_app_detail(app_id: int) -> dict:
                 app = data.get("data", {}).get("app", {})
                 devs = app.get("developers", [])
                 tags = [t.get("value", "") for t in app.get("tags", [])]
-                result = {"tags": tags, "ok": True}
-                if devs:
-                    result["developer"] = devs[0].get("name", "未知")
-                return result
+                return {
+                    "developer": devs[0].get("name", "未知") if devs else "未知",
+                    "tags": tags,
+                    "ok": True
+                }
             break
         except HTTPError as e:
             if e.code in (429, 502, 503, 504) and attempt == 0:
                 time.sleep(0.5)
                 continue
             if attempt == 0:
-                print(f"    Detail HTTP {e.code}: {e.reason}")
+                print(f"    Detail API HTTP {e.code}: {e.reason}")
         except Exception as e:
             if attempt == 0:
-                print(f"    Detail error: {e}")
+                print(f"    Detail API error: {e}")
     return {"developer": "未知", "tags": [], "ok": False}
 
 
-def patch_developers(rankings: dict, max_workers: int = 8):
-    """为每个榜单前 20 名中 developer == '未知' 的游戏并发获取详情补充开发者"""
+def _fetch_app_detail_html(app_id: int) -> dict:
+    """从详情页HTML解析完整标签（API失败时的fallback）"""
+    url = f"https://www.taptap.cn/app/{app_id}"
+    req = Request(url, headers={
+        "User-Agent": HEADERS["User-Agent"],
+        "Referer": "https://www.taptap.cn/top",
+        "Accept": "text/html",
+    })
+    try:
+        with urlopen(req, timeout=10) as resp:
+            html = resp.read().decode("utf-8")
+        
+        # 尝试从 window.__NUXT__ 提取结构化数据（最准）
+        import re
+        nuxt_match = re.search(
+            r'window\.__NUXT__\s*=\s*(\{.*?\});?\s*</script>',
+            html, re.DOTALL
+        )
+        if nuxt_match:
+            try:
+                nuxt = json.loads(nuxt_match.group(1))
+                # 常见路径：__NUXT__.data[0].app.tags
+                app_data = None
+                if isinstance(nuxt, dict):
+                    # 尝试多种可能的路径
+                    data_arr = nuxt.get("data", [])
+                    if data_arr and isinstance(data_arr, list):
+                        app_data = data_arr[0].get("app") if isinstance(data_arr[0], dict) else None
+                    # 或者 __NUXT__.state.app.detail
+                    if not app_data:
+                        state = nuxt.get("state", {})
+                        app_data = state.get("app", {}).get("detail") if isinstance(state, dict) else None
+                
+                if app_data and isinstance(app_data, dict):
+                    tags = [t.get("value", t) if isinstance(t, dict) else str(t) 
+                            for t in app_data.get("tags", [])]
+                    devs = app_data.get("developers", [])
+                    dev = devs[0].get("name", "未知") if devs and isinstance(devs, list) else "未知"
+                    if not dev or dev == "未知":
+                        dev = app_data.get("developer", {}).get("name", "未知") if isinstance(app_data.get("developer"), dict) else "未知"
+                    if tags:
+                        return {"developer": dev, "tags": tags, "ok": True}
+            except Exception:
+                pass  # NUXT解析失败，继续走正则回退
+        
+        # 回退：从页面标签链接正则提取
+        # 详情页的标签通常是 <a href="/tag/xxx">标签名</a>
+        # 为避免取到相关推荐标签，限制只取主内容区附近的
+        tags = []
+        seen = set()
+        # 取 href="/tag/xxx" 且链接文本非空的
+        for m in re.finditer(
+            r'<a[^>]+href="/tag/([^"]+)"[^>]*>([^<]+)</a>',
+            html
+        ):
+            tag_val = m.group(2).strip()
+            if tag_val and tag_val not in seen:
+                seen.add(tag_val)
+                tags.append(tag_val)
+        
+        # 如果标签太多（可能包含了相关推荐），取前N个
+        # 详情页通常展示游戏的主标签在前，相关推荐在后
+        # 末日危城有5个主标签，留一些余量取前15个
+        if len(tags) > 15:
+            tags = tags[:15]
+        
+        if tags:
+            return {"developer": "未知", "tags": tags, "ok": True}
+        
+        return {"developer": "未知", "tags": [], "ok": False}
+    except HTTPError as e:
+        print(f"    Detail HTML HTTP {e.code}: {e.reason}")
+        return {"developer": "未知", "tags": [], "ok": False}
+    except Exception as e:
+        print(f"    Detail HTML error: {e}")
+        return {"developer": "未知", "tags": [], "ok": False}
+
+
+def patch_developers(rankings: dict, detail_results: dict):
+    """使用已获取的详情结果补充榜单前20名中的未知开发者"""
     id_to_items = {}
     for platform, charts in rankings.items():
         for chart_key, chart_data in charts.items():
@@ -234,18 +332,12 @@ def patch_developers(rankings: dict, max_workers: int = 8):
         return
     print(f"\n=== Patching {len(id_to_items)} unique developers (top 20 each chart) ===")
     patched = 0
-    with ThreadPoolExecutor(max_workers=max_workers) as exe:
-        futs = {exe.submit(fetch_app_detail, gid): gid for gid in id_to_items}
-        for fut in as_completed(futs):
-            gid = futs[fut]
-            try:
-                detail = fut.result()
-                if detail.get("ok") and detail.get("developer") != "未知":
-                    for item in id_to_items[gid]:
-                        item["developer"] = detail["developer"]
-                    patched += 1
-            except Exception:
-                pass
+    for gid, items in id_to_items.items():
+        detail = detail_results.get(gid, {})
+        if detail.get("ok") and detail.get("developer") != "未知":
+            for item in items:
+                item["developer"] = detail["developer"]
+            patched += 1
     print(f"  -> patched {patched} developers")
 
 
@@ -314,31 +406,43 @@ def main():
                     result["platforms"][platform][type_name] = cache["platforms"][platform][type_name]
                     print(f"    -> fallback to cache")
 
-    # 2. 从所有榜单中筛选带有 "TapTap制造" 标签的游戏
-    print("\n=== Finding TapTap-made games ===")
-    taptap_candidates = {}
+    # 2. 收集所有唯一游戏（用于详情补全和标签筛选）
+    print("\n=== Collecting all unique games ===")
+    all_games = {}
     for platform, charts in result["platforms"].items():
         for chart_key, chart_data in charts.items():
             for item in chart_data.get("items", []):
-                tags = item.get("tags", [])
-                if any("TapTap" in t for t in tags):
-                    gid = item["id"]
-                    if gid not in taptap_candidates:
-                        taptap_candidates[gid] = item
-    print(f"  -> {len(taptap_candidates)} candidates")
+                gid = item.get("id")
+                if gid and gid not in all_games:
+                    all_games[gid] = item
+    print(f"  -> {len(all_games)} unique games")
 
-    # 3. 并发抓取每个候选游戏的详情页获取准确开发者
-    print("\n=== Fetching details (concurrent) ===")
+    # 3. 并发抓取每个游戏的详情页获取完整标签和开发者
+    print("\n=== Fetching details for all games (full tags) ===")
     detail_results = {}
-    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as exe:
-        futs = {exe.submit(fetch_app_detail, gid): gid for gid in taptap_candidates}
+    # 降低并发以避免触发速率限制
+    DETAIL_WORKERS = min(MAX_WORKERS, 4)
+    with ThreadPoolExecutor(max_workers=DETAIL_WORKERS) as exe:
+        futs = {exe.submit(fetch_app_detail, gid): gid for gid in all_games}
         for fut in as_completed(futs):
             gid = futs[fut]
             try:
                 detail_results[gid] = fut.result()
             except Exception as e:
                 print(f"  [{gid}] detail error: {e}")
-                detail_results[gid] = {"developer": "未知", "ok": False}
+                detail_results[gid] = {"developer": "未知", "tags": [], "ok": False}
+
+    # 4. 使用完整标签筛选 TapTap制造 游戏
+    print("\n=== Finding TapTap-made games (with full tags) ===")
+    taptap_candidates = {}
+    for gid, game in all_games.items():
+        detail = detail_results.get(gid, {"developer": "未知", "tags": [], "ok": False})
+        # 优先使用详情API返回的完整标签，否则使用列表API的截断标签
+        full_tags = detail.get("tags") if detail.get("tags") else game.get("tags", [])
+        if any("TapTap制造" in t for t in full_tags):
+            # 更新游戏的标签为完整标签
+            taptap_candidates[gid] = {**game, "tags": full_tags}
+    print(f"  -> {len(taptap_candidates)} TapTap-made games found")
 
     # 计算最高排名并组装 taptap_made
     print("\n=== Computing best ranks ===")
@@ -346,8 +450,6 @@ def main():
         detail = detail_results.get(gid, {"developer": "未知", "tags": [], "ok": False})
         best = find_best_rank(gid, result["platforms"])
         if best:
-            # 优先使用详情页获取的完整标签
-            full_tags = detail.get("tags") if detail.get("tags") else game["tags"]
             result["taptap_made"].append({
                 "id": game["id"],
                 "title": game["title"],
@@ -366,8 +468,8 @@ def main():
     result["taptap_made"].sort(key=lambda x: x["best_rank"])
     print(f"  -> {len(result['taptap_made'])} games with rank data")
 
-    # 4. 补充榜单前20名的开发者信息
-    patch_developers(result["platforms"], max_workers=MAX_WORKERS)
+    # 4. 补充榜单前20名的开发者信息（复用已获取的详情结果）
+    patch_developers(result["platforms"], detail_results)
 
     # 保存完整数据（供 taptapmaker.html 等需要全量数据的页面使用）
     out_path = os.path.join(DATA_DIR, "rankings.json")
