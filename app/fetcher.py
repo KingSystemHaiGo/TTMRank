@@ -213,7 +213,7 @@ def fetch_app_detail(app_id: int) -> dict:
         except Exception as e:
             if attempt == 0:
                 print(f"    Detail error: {e}")
-    return {"developer": "未知", "ok": False}
+    return {"developer": "未知", "tags": [], "ok": False}
 
 
 def patch_developers(rankings: dict, max_workers: int = 8):
