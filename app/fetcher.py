@@ -390,6 +390,21 @@ def main():
     # 4. 补充榜单前20名的开发者信息（复用已获取的详情结果）
     patch_developers(result["platforms"], detail_results)
 
+    # 5. 更新所有榜单游戏的标签为完整标签（从 detail_results 获取）
+    print("\n=== Patching full tags for all platform games ===")
+    tag_update_count = 0
+    for platform, charts in result["platforms"].items():
+        for chart_key, chart_data in charts.items():
+            for item in chart_data.get("items", []):
+                gid = item.get("id")
+                if gid and gid in detail_results:
+                    detail_tags = detail_results[gid].get("tags")
+                    # 使用 detail API 返回的完整标签（哪怕是空列表也覆盖，因为空列表表示API确认无标签）
+                    if detail_tags is not None:
+                        item["tags"] = detail_tags
+                        tag_update_count += 1
+    print(f"  -> Updated tags for {tag_update_count} games")
+
     # 保存完整数据（供 taptapmaker.html 等需要全量数据的页面使用）
     out_path = os.path.join(DATA_DIR, "rankings.json")
     with open(out_path, "w", encoding="utf-8") as f:
