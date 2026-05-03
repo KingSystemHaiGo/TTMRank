@@ -136,12 +136,12 @@ def fetch_ranking(platform: str, type_name: str, limit: int = 100) -> dict:
     }
 
 
-def extract_app(entry: dict, rank: int) -> dict:
+def extract_app(entry: dict, rank: int, detail_tags: list = None) -> dict:
     """提取游戏数据"""
     app = entry.get("app", {})
     stat = app.get("stat", {})
     rating = stat.get("rating", {})
-    tags = [t.get("value", "") for t in app.get("tags", [])]
+    tags = detail_tags if detail_tags else [t.get("value", "") for t in app.get("tags", [])]
     count_val = stat.get("hits_total", 0)
     reserve_val = stat.get("reserve_count", 0)
 
@@ -340,15 +340,17 @@ def main():
     # 计算最高排名并组装 taptap_made
     print("\n=== Computing best ranks ===")
     for gid, game in taptap_candidates.items():
-        detail = detail_results.get(gid, {"developer": "未知", "ok": False})
+        detail = detail_results.get(gid, {"developer": "未知", "tags": [], "ok": False})
         best = find_best_rank(gid, result["platforms"])
         if best:
+            # 优先使用详情页获取的完整标签
+            full_tags = detail.get("tags") if detail.get("tags") else game["tags"]
             result["taptap_made"].append({
                 "id": game["id"],
                 "title": game["title"],
                 "icon": game["icon"],
                 "score": game["score"],
-                "tags": game["tags"],
+                "tags": full_tags,
                 "developer": detail["developer"],
                 "platforms": game["platforms"],
                 "best_rank": best["rank"],
