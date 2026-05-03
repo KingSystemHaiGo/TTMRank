@@ -14,8 +14,9 @@
         "放置",
         "休闲"
       ],
-      "count": 281668,
+      "count": 281676,
       "reserve": 188,
+      "review_count": null,
       "count_str": "28.2万",
       "count_label": "热度",
       "hints": [],
@@ -40,7 +41,8 @@
         "刷宝"
       ],
       "count": 0,
-      "reserve": 24831,
+      "reserve": 24832,
+      "review_count": null,
       "count_str": "0",
       "count_label": "热度",
       "hints": [],
@@ -54,34 +56,6 @@
     },
     {
       "rank": 3,
-      "id": 67245,
-      "title": "邂逅在迷宫",
-      "icon": "https://img-tc.tapimg.com/market/images/f35da3af9c642c9fc2e02c5cc655e3a0.png/_tap_appicon.jpg",
-      "score": "8.6",
-      "tags": [
-        "竖屏",
-        "美少女",
-        "二次元",
-        "放置",
-        "养成",
-        "角色扮演",
-        "策略"
-      ],
-      "count": 2511885,
-      "reserve": 10262,
-      "count_str": "251.2万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/67245",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1632880800,
-      "developer": "奥熠游戏"
-    },
-    {
-      "rank": 4,
       "id": 789381,
       "title": "勇敢幻想",
       "icon": "https://img-tc.tapimg.com/market/images/0f3a4629ab0505214634d0ede8061dee.png/_tap_appicon.jpg",
@@ -96,6 +70,7 @@
       ],
       "count": 0,
       "reserve": 5704,
+      "review_count": null,
       "count_str": "0",
       "count_label": "热度",
       "hints": [],
@@ -106,6 +81,35 @@
       ],
       "released_time": 0,
       "developer": "素素的工作室"
+    },
+    {
+      "rank": 4,
+      "id": 67245,
+      "title": "邂逅在迷宫",
+      "icon": "https://img-tc.tapimg.com/market/images/f35da3af9c642c9fc2e02c5cc655e3a0.png/_tap_appicon.jpg",
+      "score": "8.6",
+      "tags": [
+        "竖屏",
+        "美少女",
+        "二次元",
+        "放置",
+        "养成",
+        "角色扮演",
+        "策略"
+      ],
+      "count": 2511925,
+      "reserve": 10262,
+      "review_count": null,
+      "count_str": "251.2万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/67245",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1632880800,
+      "developer": "奥熠游戏"
     },
     {
       "rank": 5,
@@ -119,9 +123,10 @@
         "TapTap制造",
         "策略"
       ],
-      "count": 9928,
+      "count": 9939,
       "reserve": 0,
-      "count_str": "9928",
+      "review_count": null,
+      "count_str": "9939",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/838227",
@@ -149,8 +154,9 @@
         "可爱",
         "策略"
       ],
-      "count": 3048531,
+      "count": 3048610,
       "reserve": 315865,
+      "review_count": null,
       "count_str": "304.9万",
       "count_label": "热度",
       "hints": [
@@ -179,6 +185,7 @@
       ],
       "count": 0,
       "reserve": 54388,
+      "review_count": null,
       "count_str": "0",
       "count_label": "热度",
       "hints": [],
@@ -206,8 +213,9 @@
         "单机",
         "像素"
       ],
-      "count": 604815,
+      "count": 604817,
       "reserve": 4892,
+      "review_count": null,
       "count_str": "60.5万",
       "count_label": "热度",
       "hints": [],
@@ -235,8 +243,9 @@
         "割草",
         "养成"
       ],
-      "count": 326053,
+      "count": 326071,
       "reserve": 2993,
+      "review_count": null,
       "count_str": "32.6万",
       "count_label": "热度",
       "hints": [
@@ -252,30 +261,6 @@
     },
     {
       "rank": 10,
-      "id": 382414,
-      "title": "女巫来了",
-      "icon": "https://img-tc.tapimg.com/market/images/2391d417d17cf5573bb394f46149c477.png/_tap_appicon.jpg",
-      "score": "9.5",
-      "tags": [
-        "点击",
-        "放置",
-        "休闲"
-      ],
-      "count": 145556,
-      "reserve": 150,
-      "count_str": "14.6万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/382414",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1692800807,
-      "developer": "快乐工作室"
-    },
-    {
-      "rank": 11,
       "id": 280674,
       "title": "胡桃日记",
       "icon": "https://img-tc.tapimg.com/market/images/0d86c708651db336636895edf6b12186.png/_tap_appicon.jpg",
@@ -285,8 +270,9 @@
         "放置",
         "休闲"
       ],
-      "count": 1366126,
+      "count": 1366146,
       "reserve": 299250,
+      "review_count": null,
       "count_str": "136.6万",
       "count_label": "热度",
       "hints": [],
@@ -297,6 +283,31 @@
       ],
       "released_time": 1724292000,
       "developer": "那朵花"
+    },
+    {
+      "rank": 11,
+      "id": 382414,
+      "title": "女巫来了",
+      "icon": "https://img-tc.tapimg.com/market/images/2391d417d17cf5573bb394f46149c477.png/_tap_appicon.jpg",
+      "score": "9.5",
+      "tags": [
+        "点击",
+        "放置",
+        "休闲"
+      ],
+      "count": 145557,
+      "reserve": 150,
+      "review_count": null,
+      "count_str": "14.6万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/382414",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1692800807,
+      "developer": "快乐工作室"
     },
     {
       "rank": 12,
@@ -314,8 +325,9 @@
         "策略",
         "竖屏"
       ],
-      "count": 284121,
+      "count": 284122,
       "reserve": 168,
+      "review_count": null,
       "count_str": "28.4万",
       "count_label": "热度",
       "hints": [],
@@ -340,8 +352,9 @@
         "单机",
         "模拟"
       ],
-      "count": 80417,
+      "count": 80422,
       "reserve": 12340,
+      "review_count": null,
       "count_str": "8.0万",
       "count_label": "热度",
       "hints": [],
@@ -365,8 +378,9 @@
         "刷宝",
         "建造"
       ],
-      "count": 251132,
+      "count": 251175,
       "reserve": 25884,
+      "review_count": null,
       "count_str": "25.1万",
       "count_label": "热度",
       "hints": [
