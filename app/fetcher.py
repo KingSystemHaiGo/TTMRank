@@ -374,7 +374,7 @@ def main():
                 "title": game["title"],
                 "icon": game["icon"],
                 "score": game["score"],
-                "tags": full_tags,
+                "tags": game.get("tags", []),
                 "developer": detail["developer"],
                 "platforms": game["platforms"],
                 "best_rank": best["rank"],
