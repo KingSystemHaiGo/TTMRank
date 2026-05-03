@@ -13,9 +13,9 @@
         "都市",
         "角色扮演"
       ],
-      "count": 4836663,
-      "reserve": 6320870,
-      "count_str": "483.7万",
+      "count": 4845924,
+      "reserve": 6320793,
+      "count_str": "484.6万",
       "count_label": "热度",
       "hints": [
         "公测已正式开启"
@@ -40,9 +40,9 @@
         "涂色",
         "二次元"
       ],
-      "count": 644752,
-      "reserve": 501250,
-      "count_str": "64.5万",
+      "count": 648160,
+      "reserve": 501236,
+      "count_str": "64.8万",
       "count_label": "热度",
       "hints": [
         "5天前 首发"
@@ -66,7 +66,7 @@
         "二次元",
         "跑酷"
       ],
-      "count": 16095562,
+      "count": 16095955,
       "reserve": 129752,
       "count_str": "1609.6万",
       "count_label": "热度",
@@ -81,6 +81,31 @@
     },
     {
       "rank": 4,
+      "id": 224267,
+      "title": "崩坏：星穹铁道",
+      "icon": "https://img-tc.tapimg.com/market/images/05dfc5290bd52ab150b68f0b57d7d9a3.png/_tap_appicon.jpg",
+      "score": "7.5",
+      "tags": [
+        "角色扮演",
+        "冒险",
+        "策略"
+      ],
+      "count": 30631968,
+      "reserve": 4296514,
+      "count_str": "3063.2万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/224267",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1682218801,
+      "developer": "miHoYo"
+    },
+    {
+      "rank": 5,
       "id": 186316,
       "title": "光与夜之恋",
       "icon": "https://img-tc.tapimg.com/market/images/1be1549e1522b97391f2c14e26342687.png/_tap_appicon.jpg",
@@ -90,7 +115,7 @@
         "养成",
         "恋爱"
       ],
-      "count": 4364237,
+      "count": 4364368,
       "reserve": 271089,
       "count_str": "436.4万",
       "count_label": "热度",
@@ -104,56 +129,7 @@
       "developer": "腾讯"
     },
     {
-      "rank": 5,
-      "id": 224267,
-      "title": "崩坏：星穹铁道",
-      "icon": "https://img-tc.tapimg.com/market/images/05dfc5290bd52ab150b68f0b57d7d9a3.png/_tap_appicon.jpg",
-      "score": "7.5",
-      "tags": [
-        "角色扮演",
-        "冒险",
-        "策略"
-      ],
-      "count": 30630254,
-      "reserve": 4296515,
-      "count_str": "3063.0万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/224267",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1682218801,
-      "developer": "miHoYo"
-    },
-    {
       "rank": 6,
-      "id": 221062,
-      "title": "重返未来：1999",
-      "icon": "https://img-tc.tapimg.com/market/images/238b2af4f568a9e3c336b940d9cffbd8.png/_tap_appicon.jpg",
-      "score": "7.2",
-      "tags": [
-        "二次元",
-        "剧情",
-        "卡牌"
-      ],
-      "count": 10290194,
-      "reserve": 1625281,
-      "count_str": "1029.0万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/221062",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1685412009,
-      "developer": "深蓝互动"
-    },
-    {
-      "rank": 7,
       "id": 223265,
       "title": "初音未来：缤纷舞台",
       "icon": "https://img-tc.tapimg.com/market/images/215062b278b517f78352ebf64316f885.png/_tap_appicon.jpg",
@@ -163,9 +139,9 @@
         "初音未来",
         "二次元"
       ],
-      "count": 4480603,
-      "reserve": 1324733,
-      "count_str": "448.1万",
+      "count": 4481939,
+      "reserve": 1324731,
+      "count_str": "448.2万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/223265",
@@ -175,6 +151,30 @@
       ],
       "released_time": 1742950800,
       "developer": "朝夕光年"
+    },
+    {
+      "rank": 7,
+      "id": 221062,
+      "title": "重返未来：1999",
+      "icon": "https://img-tc.tapimg.com/market/images/238b2af4f568a9e3c336b940d9cffbd8.png/_tap_appicon.jpg",
+      "score": "7.2",
+      "tags": [
+        "二次元",
+        "剧情",
+        "卡牌"
+      ],
+      "count": 10290771,
+      "reserve": 1625280,
+      "count_str": "1029.1万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/221062",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1685412009,
+      "developer": "深蓝互动"
     },
     {
       "rank": 8,
@@ -187,9 +187,9 @@
         "动作",
         "ARPG"
       ],
-      "count": 21334836,
-      "reserve": 4400296,
-      "count_str": "2133.5万",
+      "count": 21337292,
+      "reserve": 4400291,
+      "count_str": "2133.7万",
       "count_label": "热度",
       "hints": [
         "3天前 新版本更新"
@@ -214,9 +214,9 @@
         "二次元",
         "角色扮演"
       ],
-      "count": 88875370,
+      "count": 88877162,
       "reserve": 3115340,
-      "count_str": "8887.5万",
+      "count_str": "8887.7万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/168332",
@@ -239,9 +239,9 @@
         "角色扮演",
         "冒险"
       ],
-      "count": 3047402,
+      "count": 3047712,
       "reserve": 315865,
-      "count_str": "304.7万",
+      "count_str": "304.8万",
       "count_label": "热度",
       "hints": [
         "3天前 新版本更新"
@@ -265,7 +265,7 @@
         "换装",
         "二次元"
       ],
-      "count": 4632985,
+      "count": 4633389,
       "reserve": 152912,
       "count_str": "463.3万",
       "count_label": "热度",
@@ -289,7 +289,7 @@
         "美少女",
         "二次元"
       ],
-      "count": 2511265,
+      "count": 2511477,
       "reserve": 10262,
       "count_str": "251.1万",
       "count_label": "热度",
@@ -304,6 +304,30 @@
     },
     {
       "rank": 13,
+      "id": 226341,
+      "title": "碧优蒂的世界",
+      "icon": "https://img-tc.tapimg.com/market/images/a2ca66a52891d21b50322ea42945e29d.png/_tap_appicon.jpg",
+      "score": "7.3",
+      "tags": [
+        "DIY",
+        "换装",
+        "二次元"
+      ],
+      "count": 1947123,
+      "reserve": 102150,
+      "count_str": "194.7万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/226341",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1722223137,
+      "developer": "BUD互娱"
+    },
+    {
+      "rank": 14,
       "id": 70253,
       "title": "明日方舟",
       "icon": "https://img-tc.tapimg.com/market/images/2ea1a63c45fe294d36e29e348d441ea3.png/_tap_appicon.jpg",
@@ -313,9 +337,9 @@
         "二次元",
         "养成"
       ],
-      "count": 32949739,
+      "count": 32951120,
       "reserve": 576133,
-      "count_str": "3295.0万",
+      "count_str": "3295.1万",
       "count_label": "热度",
       "hints": [
         "2天前 新版本更新"
@@ -330,30 +354,6 @@
       "developer": "鹰角网络"
     },
     {
-      "rank": 14,
-      "id": 226341,
-      "title": "碧优蒂的世界",
-      "icon": "https://img-tc.tapimg.com/market/images/a2ca66a52891d21b50322ea42945e29d.png/_tap_appicon.jpg",
-      "score": "7.3",
-      "tags": [
-        "DIY",
-        "换装",
-        "二次元"
-      ],
-      "count": 1946788,
-      "reserve": 102150,
-      "count_str": "194.7万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/226341",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1722223137,
-      "developer": "BUD互娱"
-    },
-    {
       "rank": 15,
       "id": 153415,
       "title": "音乐世界赛特斯2",
@@ -364,7 +364,7 @@
         "节奏",
         "音游"
       ],
-      "count": 12002160,
+      "count": 12002363,
       "reserve": 73922,
       "count_str": "1200.2万",
       "count_label": "热度",
@@ -379,31 +379,6 @@
     },
     {
       "rank": 16,
-      "id": 222089,
-      "title": "尘白禁区",
-      "icon": "https://img-tc.tapimg.com/market/images/dbea10e8d04bd90dcf933d6d52c40911.png/_tap_appicon.jpg",
-      "score": "7.9",
-      "tags": [
-        "二次元",
-        "美少女",
-        "射击"
-      ],
-      "count": 12503623,
-      "reserve": 1825995,
-      "count_str": "1250.4万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/222089",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1689732003,
-      "developer": "西山居互动娱乐"
-    },
-    {
-      "rank": 17,
       "id": 172095,
       "title": "未定事件簿",
       "icon": "https://img-tc.tapimg.com/market/images/7fe28fa14b325be572e5c3cb2b35ec60.png/_tap_appicon.jpg",
@@ -413,7 +388,7 @@
         "收集",
         "乙女"
       ],
-      "count": 4256128,
+      "count": 4256279,
       "reserve": 259867,
       "count_str": "425.6万",
       "count_label": "热度",
@@ -429,6 +404,31 @@
       "developer": "miHoYo"
     },
     {
+      "rank": 17,
+      "id": 222089,
+      "title": "尘白禁区",
+      "icon": "https://img-tc.tapimg.com/market/images/dbea10e8d04bd90dcf933d6d52c40911.png/_tap_appicon.jpg",
+      "score": "7.9",
+      "tags": [
+        "二次元",
+        "美少女",
+        "射击"
+      ],
+      "count": 12503823,
+      "reserve": 1825995,
+      "count_str": "1250.4万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/222089",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1689732003,
+      "developer": "西山居互动娱乐"
+    },
+    {
       "rank": 18,
       "id": 382099,
       "title": "龙族：卡塞尔之门",
@@ -439,9 +439,9 @@
         "养成",
         "角色扮演"
       ],
-      "count": 2450271,
+      "count": 2450587,
       "reserve": 581536,
-      "count_str": "245.0万",
+      "count_str": "245.1万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/382099",
@@ -463,7 +463,7 @@
         "音游",
         "节奏"
       ],
-      "count": 1809830,
+      "count": 1809981,
       "reserve": 125725,
       "count_str": "181.0万",
       "count_label": "热度",
@@ -487,8 +487,8 @@
         "卡牌",
         "美少女"
       ],
-      "count": 903651,
-      "reserve": 316879,
+      "count": 903703,
+      "reserve": 316878,
       "count_str": "90.4万",
       "count_label": "热度",
       "hints": [],
@@ -511,9 +511,9 @@
         "美少女",
         "二次元"
       ],
-      "count": 1716,
+      "count": 1730,
       "reserve": 0,
-      "count_str": "1716",
+      "count_str": "1730",
       "count_label": "热度",
       "hints": [
         "5天前 首发"
@@ -538,9 +538,9 @@
         "ARPG",
         "高画质"
       ],
-      "count": 15992302,
-      "reserve": 7228796,
-      "count_str": "1599.2万",
+      "count": 15993189,
+      "reserve": 7228791,
+      "count_str": "1599.3万",
       "count_label": "热度",
       "hints": [
         "05月06日 新版本更新"
@@ -565,7 +565,7 @@
         "卡牌",
         "末日"
       ],
-      "count": 2108784,
+      "count": 2108893,
       "reserve": 676508,
       "count_str": "210.9万",
       "count_label": "热度",
@@ -590,9 +590,9 @@
         "角色扮演",
         "模拟经营"
       ],
-      "count": 5136771,
-      "reserve": 4448713,
-      "count_str": "513.7万",
+      "count": 5137533,
+      "reserve": 4448708,
+      "count_str": "513.8万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/232326",
@@ -615,7 +615,7 @@
         "美少女",
         "3D"
       ],
-      "count": 2921006,
+      "count": 2921167,
       "reserve": 1600719,
       "count_str": "292.1万",
       "count_label": "热度",
@@ -640,7 +640,7 @@
         "养成",
         "放置"
       ],
-      "count": 488625,
+      "count": 488723,
       "reserve": 310252,
       "count_str": "48.9万",
       "count_label": "热度",
@@ -655,30 +655,6 @@
     },
     {
       "rank": 27,
-      "id": 201685,
-      "title": "卡拉彼丘",
-      "icon": "https://img-tc.tapimg.com/market/images/0e80894007e7efdfbcf4feda72e41e10.png/_tap_appicon.jpg",
-      "score": "8.5",
-      "tags": [
-        "竞技",
-        "射击",
-        "二次元"
-      ],
-      "count": 1456252,
-      "reserve": 1419684,
-      "count_str": "145.6万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/201685",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1761062401,
-      "developer": "未知"
-    },
-    {
-      "rank": 28,
       "id": 305435,
       "title": "女神异闻录：夜幕魅影",
       "icon": "https://img-tc.tapimg.com/market/images/e9e892778ef67768fd9cd75e0a520a57.png/_tap_appicon.jpg",
@@ -688,7 +664,7 @@
         "二次元",
         "策略"
       ],
-      "count": 2901828,
+      "count": 2901877,
       "reserve": 1562999,
       "count_str": "290.2万",
       "count_label": "热度",
@@ -701,6 +677,30 @@
         "steam"
       ],
       "released_time": 1712714400,
+      "developer": "未知"
+    },
+    {
+      "rank": 28,
+      "id": 201685,
+      "title": "卡拉彼丘",
+      "icon": "https://img-tc.tapimg.com/market/images/0e80894007e7efdfbcf4feda72e41e10.png/_tap_appicon.jpg",
+      "score": "8.5",
+      "tags": [
+        "竞技",
+        "射击",
+        "二次元"
+      ],
+      "count": 1456430,
+      "reserve": 1419683,
+      "count_str": "145.6万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/201685",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1761062401,
       "developer": "未知"
     }
   ]
