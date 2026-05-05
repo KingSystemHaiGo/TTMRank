@@ -276,20 +276,29 @@ def _fetch_app_detail_api(app_id: int) -> dict:
     return {"developer": "未知", "tags": [], "review_count": None, "ok": False}
 
 
-def patch_developers(rankings: dict, detail_results: dict):
-    """使用已获取的详情结果补充榜单前20名中的未知开发者"""
+def patch_developers(rankings: dict, detail_results: dict, taptap_made: list = None):
+    """使用已获取的详情结果补充榜单中所有未知开发者，以及 taptap_made 列表"""
     id_to_items = {}
+    # 遍历所有榜单的所有条目（不限前20）
     for platform, charts in rankings.items():
         for chart_key, chart_data in charts.items():
-            for item in chart_data.get("items", [])[:20]:
+            for item in chart_data.get("items", []):
                 if item.get("developer") == "未知" and item.get("id"):
                     gid = item["id"]
                     if gid not in id_to_items:
                         id_to_items[gid] = []
                     id_to_items[gid].append(item)
+    # 也补 taptap_made 列表
+    if taptap_made:
+        for tm in taptap_made:
+            if tm.get("developer") == "未知" and tm.get("id"):
+                gid = tm["id"]
+                if gid not in id_to_items:
+                    id_to_items[gid] = []
+                id_to_items[gid].append(tm)
     if not id_to_items:
         return
-    print(f"\n=== Patching {len(id_to_items)} unique developers (top 20 each chart) ===")
+    print(f"\n=== Patching {len(id_to_items)} unique developers (all charts + taptap_made) ===")
     patched = 0
     for gid, items in id_to_items.items():
         detail = detail_results.get(gid, {})
@@ -433,8 +442,8 @@ def main():
     result["taptap_made"].sort(key=lambda x: x["best_rank"])
     print(f"  -> {len(result['taptap_made'])} games with rank data")
 
-    # 4. 补充榜单前20名的开发者信息（复用已获取的详情结果）
-    patch_developers(result["platforms"], detail_results)
+    # 4. 补充所有榜单的开发者信息（不限前20），同时补 taptap_made
+    patch_developers(result["platforms"], detail_results, result.get("taptap_made", []))
 
     # 5. 更新所有榜单游戏的标签和评论数（从 detail_results 获取）
     print("\n=== Patching full tags and review counts for all platform games ===")
