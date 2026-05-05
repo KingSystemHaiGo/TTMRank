@@ -83,18 +83,20 @@ def fetch_with_retry(req: Request, timeout: int = 30, retries: int = 3) -> dict:
     raise last_err
 
 
-def fetch_ranking(platform: str, type_name: str, limit: int = 100) -> dict:
+def fetch_ranking(platform: str, type_name: str, limit: int = None) -> dict:
     """抓取单个排行榜数据"""
     items_all = []
     seen_ids = set()
     meta = {}
     offset = 0
-    max_pages = (limit + 14) // 15 + 1
+    # 安全上限：100页 × 15 = 1500个，足够覆盖所有榜单
+    max_pages = 100 if limit is None else (limit + 14) // 15 + 1
 
     for _ in range(max_pages):
-        if len(items_all) >= limit:
+        if limit and len(items_all) >= limit:
             break
-        page_limit = min(15, limit - len(items_all))
+        # 当 limit 为 None 时，每页取15个，不限制总数
+        page_limit = min(15, (limit - len(items_all)) if limit else 15)
         url = f"{BASE_URL}?X-UA={quote(X_UA, safe='')}&platform={platform}&type_name={type_name}&from={offset}&limit={page_limit}"
         req = Request(url, headers=HEADERS)
 
@@ -359,7 +361,8 @@ def main():
         for platform in PLATFORMS:
             result["platforms"][platform] = {}
             for type_name in RANK_TYPES:
-                tasks.append((platform, type_name, exe.submit(fetch_ranking, platform, type_name, 100)))
+                # 不限制数量，自动翻页获取全部数据
+                tasks.append((platform, type_name, exe.submit(fetch_ranking, platform, type_name)))
 
         for platform, type_name, fut in tasks:
             try:
