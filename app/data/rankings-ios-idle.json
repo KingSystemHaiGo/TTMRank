@@ -15,7 +15,7 @@
         "冒险",
         "休闲"
       ],
-      "count": 12868,
+      "count": 12905,
       "reserve": 2206,
       "review_count": null,
       "count_str": "1.3万",
@@ -71,7 +71,7 @@
         "放置",
         "休闲"
       ],
-      "count": 285608,
+      "count": 285616,
       "reserve": 188,
       "review_count": null,
       "count_str": "28.6万",
@@ -128,7 +128,7 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 137057,
+      "count": 137086,
       "reserve": 0,
       "review_count": null,
       "count_str": "13.7万",
@@ -157,7 +157,7 @@
         "竖屏",
         "角色扮演"
       ],
-      "count": 173586,
+      "count": 173596,
       "reserve": 9747,
       "review_count": null,
       "count_str": "17.4万",
@@ -214,8 +214,8 @@
         "可爱",
         "策略"
       ],
-      "count": 3066774,
-      "reserve": 315819,
+      "count": 3066796,
+      "reserve": 315818,
       "review_count": null,
       "count_str": "306.7万",
       "count_label": "热度",
@@ -271,7 +271,7 @@
         "割草",
         "养成"
       ],
-      "count": 330799,
+      "count": 330838,
       "reserve": 2993,
       "review_count": null,
       "count_str": "33.1万",
@@ -287,6 +287,35 @@
     },
     {
       "rank": 11,
+      "id": 67245,
+      "title": "邂逅在迷宫",
+      "icon": "https://img-tc.tapimg.com/market/images/f35da3af9c642c9fc2e02c5cc655e3a0.png/_tap_appicon.jpg",
+      "score": "8.5",
+      "tags": [
+        "竖屏",
+        "美少女",
+        "二次元",
+        "放置",
+        "养成",
+        "角色扮演",
+        "策略"
+      ],
+      "count": 2519064,
+      "reserve": 10262,
+      "review_count": null,
+      "count_str": "251.9万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/67245",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1632880800,
+      "developer": "奥熠游戏"
+    },
+    {
+      "rank": 12,
       "id": 202416,
       "title": "桃源深处有人家",
       "icon": "https://img-tc.tapimg.com/market/images/e92094057675687321cad2ad82b63c23.png/_tap_appicon.jpg",
@@ -304,8 +333,8 @@
         "模拟经营",
         "模拟"
       ],
-      "count": 2741959,
-      "reserve": 855883,
+      "count": 2741974,
+      "reserve": 855882,
       "review_count": null,
       "count_str": "274.2万",
       "count_label": "热度",
@@ -320,36 +349,34 @@
       "developer": "极光计划"
     },
     {
-      "rank": 12,
-      "id": 67245,
-      "title": "邂逅在迷宫",
-      "icon": "https://img-tc.tapimg.com/market/images/f35da3af9c642c9fc2e02c5cc655e3a0.png/_tap_appicon.jpg",
-      "score": "8.5",
+      "rank": 13,
+      "id": 797993,
+      "title": "商旅马车",
+      "icon": "https://img-tc.tapimg.com/market/images/83dfde1d66579b3ca3345d55f1b70234.png/_tap_appicon.jpg",
+      "score": "8.8",
       "tags": [
-        "竖屏",
-        "美少女",
-        "二次元",
+        "模拟经营",
+        "像素",
         "放置",
-        "养成",
-        "角色扮演",
-        "策略"
+        "单机",
+        "模拟"
       ],
-      "count": 2519051,
-      "reserve": 10262,
+      "count": 81785,
+      "reserve": 12337,
       "review_count": null,
-      "count_str": "251.9万",
+      "count_str": "8.2万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/67245",
+      "url": "https://www.taptap.cn/app/797993",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1632880800,
-      "developer": "奥熠游戏"
+      "released_time": 1768787032,
+      "developer": "没钳工作室"
     },
     {
-      "rank": 13,
+      "rank": 14,
       "id": 547975,
       "title": "超维进化",
       "icon": "https://img-tc.tapimg.com/market/images/adc729bd44db193db99b27b21559d0d6.png/_tap_appicon.jpg",
@@ -373,33 +400,6 @@
       ],
       "released_time": 0,
       "developer": "聚光工坊"
-    },
-    {
-      "rank": 14,
-      "id": 797993,
-      "title": "商旅马车",
-      "icon": "https://img-tc.tapimg.com/market/images/83dfde1d66579b3ca3345d55f1b70234.png/_tap_appicon.jpg",
-      "score": "8.8",
-      "tags": [
-        "模拟经营",
-        "像素",
-        "放置",
-        "单机",
-        "模拟"
-      ],
-      "count": 81782,
-      "reserve": 12337,
-      "review_count": null,
-      "count_str": "8.2万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/797993",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1768787032,
-      "developer": "没钳工作室"
     }
   ]
 }
