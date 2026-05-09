@@ -15,7 +15,7 @@
         "冒险",
         "休闲"
       ],
-      "count": 14965,
+      "count": 15013,
       "reserve": 2198,
       "review_count": null,
       "count_str": "1.5万",
@@ -43,7 +43,7 @@
         "放置",
         "休闲"
       ],
-      "count": 286564,
+      "count": 286577,
       "reserve": 188,
       "review_count": null,
       "count_str": "28.7万",
@@ -101,7 +101,7 @@
         "单机",
         "像素"
       ],
-      "count": 606558,
+      "count": 606562,
       "reserve": 4892,
       "review_count": null,
       "count_str": "60.7万",
@@ -128,7 +128,7 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 138010,
+      "count": 138031,
       "reserve": 0,
       "review_count": null,
       "count_str": "13.8万",
@@ -154,7 +154,7 @@
         "放置",
         "休闲"
       ],
-      "count": 146852,
+      "count": 146854,
       "reserve": 150,
       "review_count": null,
       "count_str": "14.7万",
@@ -184,7 +184,7 @@
         "可爱",
         "策略"
       ],
-      "count": 3068382,
+      "count": 3068455,
       "reserve": 315817,
       "review_count": null,
       "count_str": "306.8万",
@@ -212,7 +212,7 @@
         "竖屏",
         "角色扮演"
       ],
-      "count": 173836,
+      "count": 173845,
       "reserve": 9747,
       "review_count": null,
       "count_str": "17.4万",
@@ -244,7 +244,7 @@
         "割草",
         "养成"
       ],
-      "count": 331800,
+      "count": 331834,
       "reserve": 2993,
       "review_count": null,
       "count_str": "33.2万",
@@ -272,7 +272,7 @@
         "休闲"
       ],
       "count": 0,
-      "reserve": 54761,
+      "reserve": 54763,
       "review_count": null,
       "count_str": "0",
       "count_label": "热度",
@@ -304,7 +304,7 @@
         "模拟经营",
         "模拟"
       ],
-      "count": 2742788,
+      "count": 2742813,
       "reserve": 855879,
       "review_count": null,
       "count_str": "274.3万",
@@ -330,7 +330,7 @@
         "TapTap制造",
         "模拟"
       ],
-      "count": 19227,
+      "count": 19231,
       "reserve": 0,
       "review_count": null,
       "count_str": "1.9万",
@@ -347,6 +347,33 @@
     },
     {
       "rank": 13,
+      "id": 225499,
+      "title": "你的江湖",
+      "icon": "https://img-tc.tapimg.com/market/images/bcefe068975337a72de5587d0064b974.jpg/_tap_appicon.jpg",
+      "score": "7.3",
+      "tags": [
+        "武侠",
+        "放置",
+        "策略",
+        "MUD",
+        "文字"
+      ],
+      "count": 776175,
+      "reserve": 16763,
+      "review_count": null,
+      "count_str": "77.6万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/225499",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1641348003,
+      "developer": "鲸禧游戏"
+    },
+    {
+      "rank": 14,
       "id": 67245,
       "title": "邂逅在迷宫",
       "icon": "https://img-tc.tapimg.com/market/images/f35da3af9c642c9fc2e02c5cc655e3a0.png/_tap_appicon.jpg",
@@ -360,7 +387,7 @@
         "角色扮演",
         "策略"
       ],
-      "count": 2519662,
+      "count": 2519694,
       "reserve": 10262,
       "review_count": null,
       "count_str": "252.0万",
@@ -373,33 +400,6 @@
       ],
       "released_time": 1632880800,
       "developer": "奥熠游戏"
-    },
-    {
-      "rank": 14,
-      "id": 225499,
-      "title": "你的江湖",
-      "icon": "https://img-tc.tapimg.com/market/images/bcefe068975337a72de5587d0064b974.jpg/_tap_appicon.jpg",
-      "score": "7.3",
-      "tags": [
-        "武侠",
-        "放置",
-        "策略",
-        "MUD",
-        "文字"
-      ],
-      "count": 776166,
-      "reserve": 16763,
-      "review_count": null,
-      "count_str": "77.6万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/225499",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1641348003,
-      "developer": "鲸禧游戏"
     }
   ]
 }
