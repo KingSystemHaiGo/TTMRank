@@ -15,7 +15,7 @@
         "弹幕射击",
         "卡牌"
       ],
-      "count": 845716,
+      "count": 845792,
       "reserve": 500347,
       "review_count": null,
       "count_str": "84.6万",
@@ -40,7 +40,7 @@
         "射击",
         "单机"
       ],
-      "count": 3377123,
+      "count": 3377154,
       "reserve": 64,
       "review_count": null,
       "count_str": "337.7万",
@@ -73,7 +73,7 @@
         "TPS",
         "大型多人在线"
       ],
-      "count": 271859332,
+      "count": 271859379,
       "reserve": 850362,
       "review_count": null,
       "count_str": "2.7亿",
@@ -100,8 +100,8 @@
         "射击",
         "动作"
       ],
-      "count": 18596540,
-      "reserve": 3626085,
+      "count": 18596615,
+      "reserve": 3626084,
       "review_count": null,
       "count_str": "1859.7万",
       "count_label": "热度",
@@ -128,7 +128,7 @@
         "TPS",
         "动作"
       ],
-      "count": 12632274,
+      "count": 12632337,
       "reserve": 1825897,
       "review_count": null,
       "count_str": "1263.2万",
@@ -154,7 +154,7 @@
         "射击",
         "动作"
       ],
-      "count": 6968799,
+      "count": 6968828,
       "reserve": 3846799,
       "review_count": null,
       "count_str": "696.9万",
@@ -181,7 +181,7 @@
         "单机",
         "模拟"
       ],
-      "count": 487728,
+      "count": 487733,
       "reserve": 15,
       "review_count": null,
       "count_str": "48.8万",
@@ -207,7 +207,7 @@
         "FPS",
         "模拟"
       ],
-      "count": 22912,
+      "count": 22921,
       "reserve": 0,
       "review_count": null,
       "count_str": "2.3万",
@@ -239,7 +239,7 @@
         "团队合作",
         "合作"
       ],
-      "count": 54459321,
+      "count": 54459342,
       "reserve": 2231689,
       "review_count": null,
       "count_str": "5445.9万",
@@ -266,7 +266,7 @@
         "射击",
         "模拟"
       ],
-      "count": 289243,
+      "count": 289248,
       "reserve": 35731,
       "review_count": null,
       "count_str": "28.9万",
@@ -291,10 +291,10 @@
         "射击",
         "动作"
       ],
-      "count": 3280485,
+      "count": 3280501,
       "reserve": 90559,
       "review_count": null,
-      "count_str": "328.0万",
+      "count_str": "328.1万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/235001",
@@ -317,7 +317,7 @@
         "弹幕射击",
         "解压"
       ],
-      "count": 35092,
+      "count": 35102,
       "reserve": 1048,
       "review_count": null,
       "count_str": "3.5万",
@@ -346,7 +346,7 @@
         "生存",
         "角色扮演"
       ],
-      "count": 7855221,
+      "count": 7855228,
       "reserve": 825780,
       "review_count": null,
       "count_str": "785.5万",
@@ -363,37 +363,6 @@
     },
     {
       "rank": 14,
-      "id": 381991,
-      "title": "贪婪大地",
-      "icon": "https://img-tc.tapimg.com/market/images/60336bdb05d0977366dafe3e9d3be19a.png/_tap_appicon.jpg",
-      "score": "7.4",
-      "tags": [
-        "Steam移植",
-        "射击",
-        "支持手柄",
-        "独立游戏",
-        "Roguelike",
-        "科幻",
-        "单机",
-        "机甲",
-        "动作"
-      ],
-      "count": 373558,
-      "reserve": 26295,
-      "review_count": null,
-      "count_str": "37.4万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/381991",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1757991600,
-      "developer": "Gamersky Games"
-    },
-    {
-      "rank": 15,
       "id": 713683,
       "title": "永远的蔚蓝星球",
       "icon": "https://img-tc.tapimg.com/market/images/f0e5f3467199764f39eb54ca8c6e9a9c.png/_tap_appicon.jpg",
@@ -411,7 +380,7 @@
         "轻度Roguelike",
         "多人联机"
       ],
-      "count": 537450,
+      "count": 537465,
       "reserve": 28853,
       "review_count": null,
       "count_str": "53.7万",
@@ -424,6 +393,37 @@
       ],
       "released_time": 1748394002,
       "developer": "创悦游戏"
+    },
+    {
+      "rank": 15,
+      "id": 381991,
+      "title": "贪婪大地",
+      "icon": "https://img-tc.tapimg.com/market/images/60336bdb05d0977366dafe3e9d3be19a.png/_tap_appicon.jpg",
+      "score": "7.4",
+      "tags": [
+        "Steam移植",
+        "射击",
+        "支持手柄",
+        "独立游戏",
+        "Roguelike",
+        "科幻",
+        "单机",
+        "机甲",
+        "动作"
+      ],
+      "count": 373568,
+      "reserve": 26295,
+      "review_count": null,
+      "count_str": "37.4万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/381991",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1757991600,
+      "developer": "Gamersky Games"
     },
     {
       "rank": 16,
@@ -439,8 +439,8 @@
         "独立游戏",
         "角色扮演"
       ],
-      "count": 3667534,
-      "reserve": 113175,
+      "count": 3667536,
+      "reserve": 113176,
       "review_count": null,
       "count_str": "366.8万",
       "count_label": "热度",
@@ -469,7 +469,7 @@
         "多人联机",
         "动作"
       ],
-      "count": 9231110,
+      "count": 9231115,
       "reserve": 1168567,
       "review_count": null,
       "count_str": "923.1万",
@@ -495,7 +495,7 @@
         "射击",
         "TapTap制造"
       ],
-      "count": 142421,
+      "count": 142426,
       "reserve": 0,
       "review_count": null,
       "count_str": "14.2万",
@@ -526,7 +526,7 @@
         "竞技",
         "团队合作"
       ],
-      "count": 12788193,
+      "count": 12788198,
       "reserve": 3725191,
       "review_count": null,
       "count_str": "1278.8万",
@@ -551,7 +551,7 @@
         "射击",
         "动作"
       ],
-      "count": 673299,
+      "count": 673300,
       "reserve": 732,
       "review_count": null,
       "count_str": "67.3万",
@@ -581,7 +581,7 @@
         "二次元",
         "角色扮演"
       ],
-      "count": 2931786,
+      "count": 2931791,
       "reserve": 1600635,
       "review_count": null,
       "count_str": "293.2万",
@@ -610,7 +610,7 @@
         "FPS",
         "科幻"
       ],
-      "count": 1548157,
+      "count": 1548163,
       "reserve": 2157538,
       "review_count": null,
       "count_str": "154.8万",
@@ -642,7 +642,7 @@
         "弹幕射击",
         "轻度Roguelike"
       ],
-      "count": 8560388,
+      "count": 8560396,
       "reserve": 218485,
       "review_count": null,
       "count_str": "856.0万",
@@ -668,7 +668,7 @@
         "二次元",
         "动作"
       ],
-      "count": 1465679,
+      "count": 1465681,
       "reserve": 1419518,
       "review_count": null,
       "count_str": "146.6万",
@@ -724,7 +724,7 @@
         "射击",
         "角色扮演"
       ],
-      "count": 4486120,
+      "count": 4486124,
       "reserve": 364,
       "review_count": null,
       "count_str": "448.6万",
@@ -759,7 +759,7 @@
         "末日",
         "角色扮演"
       ],
-      "count": 1414779,
+      "count": 1414780,
       "reserve": 68171,
       "review_count": null,
       "count_str": "141.5万",
@@ -791,7 +791,7 @@
         "冒险"
       ],
       "count": 0,
-      "reserve": 724591,
+      "reserve": 724590,
       "review_count": null,
       "count_str": "0",
       "count_label": "热度",
@@ -821,7 +821,7 @@
         "割草",
         "养成"
       ],
-      "count": 333459,
+      "count": 333465,
       "reserve": 2993,
       "review_count": null,
       "count_str": "33.3万",
@@ -848,7 +848,7 @@
         "竞技",
         "动作"
       ],
-      "count": 1274269,
+      "count": 1274276,
       "reserve": 586967,
       "review_count": null,
       "count_str": "127.4万",
@@ -874,7 +874,7 @@
         "射击",
         "动作"
       ],
-      "count": 2271669,
+      "count": 2271670,
       "reserve": 10,
       "review_count": null,
       "count_str": "227.2万",
@@ -901,7 +901,7 @@
         "策略",
         "射击"
       ],
-      "count": 941511,
+      "count": 941520,
       "reserve": 101104,
       "review_count": null,
       "count_str": "94.2万",
@@ -933,7 +933,7 @@
         "街机",
         "本地联机"
       ],
-      "count": 9466443,
+      "count": 9466444,
       "reserve": 15263,
       "review_count": null,
       "count_str": "946.6万",
@@ -990,7 +990,7 @@
         "动作",
         "射击"
       ],
-      "count": 1055213,
+      "count": 1055215,
       "reserve": 0,
       "review_count": null,
       "count_str": "105.5万",
@@ -1022,7 +1022,7 @@
         "TPS",
         "竞技"
       ],
-      "count": 13090993,
+      "count": 13090994,
       "reserve": 20,
       "review_count": null,
       "count_str": "1309.1万",
@@ -1055,7 +1055,7 @@
         "冒险",
         "末日"
       ],
-      "count": 2373973,
+      "count": 2373977,
       "reserve": 1007240,
       "review_count": null,
       "count_str": "237.4万",
@@ -1090,7 +1090,7 @@
         "射击",
         "独立游戏"
       ],
-      "count": 10432540,
+      "count": 10432543,
       "reserve": 2260505,
       "review_count": null,
       "count_str": "1043.3万",
@@ -1119,7 +1119,7 @@
         "3D",
         "射击"
       ],
-      "count": 1866088,
+      "count": 1866096,
       "reserve": 1485626,
       "review_count": null,
       "count_str": "186.6万",
@@ -1147,7 +1147,7 @@
         "修仙",
         "动作"
       ],
-      "count": 1402756,
+      "count": 1402759,
       "reserve": 0,
       "review_count": null,
       "count_str": "140.3万",
@@ -1172,7 +1172,7 @@
         "竞技",
         "多人联机"
       ],
-      "count": 3855472,
+      "count": 3855476,
       "reserve": 641414,
       "review_count": null,
       "count_str": "385.5万",
@@ -1199,10 +1199,10 @@
         "养成",
         "角色扮演"
       ],
-      "count": 1831,
+      "count": 1832,
       "reserve": 0,
       "review_count": null,
-      "count_str": "1831",
+      "count_str": "1832",
       "count_label": "热度",
       "hints": [
         "2天前 首发"
@@ -1231,7 +1231,7 @@
         "竞技",
         "多人联机"
       ],
-      "count": 2527860,
+      "count": 2527863,
       "reserve": 539796,
       "review_count": null,
       "count_str": "252.8万",
@@ -1256,7 +1256,7 @@
         "射击",
         "动作"
       ],
-      "count": 372895,
+      "count": 372896,
       "reserve": 8510,
       "review_count": null,
       "count_str": "37.3万",
@@ -1286,7 +1286,7 @@
         "放置",
         "养成"
       ],
-      "count": 316192,
+      "count": 316193,
       "reserve": 120747,
       "review_count": null,
       "count_str": "31.6万",
@@ -1302,6 +1302,32 @@
     },
     {
       "rank": 46,
+      "id": 224120,
+      "title": "逃离克里夫",
+      "icon": "https://img-tc.tapimg.com/market/images/ab8e4d4ecb6c9643f73d61d3136379cf.png/_tap_appicon.jpg",
+      "score": "4.4",
+      "tags": [
+        "多人联机",
+        "硬核",
+        "射击",
+        "动作"
+      ],
+      "count": 3103157,
+      "reserve": 109498,
+      "review_count": null,
+      "count_str": "310.3万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/224120",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1635746174,
+      "developer": "上帝压狗工作室"
+    },
+    {
+      "rank": 47,
       "id": 23452,
       "title": "比特小队",
       "icon": "https://img-tc.tapimg.com/market/images/a0dbb45fa0b29bdcc848fe15eb33ed6b.png/_tap_appicon.jpg",
@@ -1317,7 +1343,7 @@
         "独立游戏",
         "支持手柄"
       ],
-      "count": 5505925,
+      "count": 5505926,
       "reserve": 114710,
       "review_count": null,
       "count_str": "550.6万",
@@ -1330,32 +1356,6 @@
       ],
       "released_time": 1529027538,
       "developer": "Kunpo"
-    },
-    {
-      "rank": 47,
-      "id": 224120,
-      "title": "逃离克里夫",
-      "icon": "https://img-tc.tapimg.com/market/images/ab8e4d4ecb6c9643f73d61d3136379cf.png/_tap_appicon.jpg",
-      "score": "4.4",
-      "tags": [
-        "多人联机",
-        "硬核",
-        "射击",
-        "动作"
-      ],
-      "count": 3103155,
-      "reserve": 109498,
-      "review_count": null,
-      "count_str": "310.3万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/224120",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1635746174,
-      "developer": "上帝压狗工作室"
     },
     {
       "rank": 48,
@@ -1371,7 +1371,7 @@
         "射击",
         "动作"
       ],
-      "count": 1089823,
+      "count": 1089826,
       "reserve": 3256,
       "review_count": null,
       "count_str": "109.0万",
