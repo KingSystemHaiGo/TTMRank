@@ -15,8 +15,8 @@
         "弹幕射击",
         "卡牌"
       ],
-      "count": 948134,
-      "reserve": 499475,
+      "count": 948470,
+      "reserve": 499474,
       "review_count": null,
       "count_str": "94.8万",
       "count_label": "热度",
@@ -48,7 +48,7 @@
         "TPS",
         "大型多人在线"
       ],
-      "count": 271981116,
+      "count": 271981501,
       "reserve": 850360,
       "review_count": null,
       "count_str": "2.7亿",
@@ -74,7 +74,7 @@
         "射击",
         "单机"
       ],
-      "count": 3436855,
+      "count": 3437107,
       "reserve": 64,
       "review_count": null,
       "count_str": "343.7万",
@@ -100,8 +100,8 @@
         "射击",
         "动作"
       ],
-      "count": 18741973,
-      "reserve": 3625946,
+      "count": 18742442,
+      "reserve": 3625944,
       "review_count": null,
       "count_str": "1874.2万",
       "count_label": "热度",
@@ -126,7 +126,7 @@
         "射击",
         "动作"
       ],
-      "count": 7037584,
+      "count": 7037813,
       "reserve": 3846580,
       "review_count": null,
       "count_str": "703.8万",
@@ -153,7 +153,7 @@
         "单机",
         "模拟"
       ],
-      "count": 506961,
+      "count": 507027,
       "reserve": 15,
       "review_count": null,
       "count_str": "50.7万",
@@ -179,7 +179,7 @@
         "FPS",
         "模拟"
       ],
-      "count": 45256,
+      "count": 45344,
       "reserve": 0,
       "review_count": null,
       "count_str": "4.5万",
@@ -205,7 +205,7 @@
         "弹幕射击",
         "解压"
       ],
-      "count": 53554,
+      "count": 53605,
       "reserve": 1046,
       "review_count": null,
       "count_str": "5.4万",
@@ -238,10 +238,10 @@
         "团队合作",
         "合作"
       ],
-      "count": 54499483,
+      "count": 54499602,
       "reserve": 2231686,
       "review_count": null,
-      "count_str": "5449.9万",
+      "count_str": "5450.0万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/70056",
@@ -266,7 +266,7 @@
         "TPS",
         "动作"
       ],
-      "count": 12663842,
+      "count": 12663897,
       "reserve": 1825804,
       "review_count": null,
       "count_str": "1266.4万",
@@ -293,7 +293,7 @@
         "射击",
         "模拟"
       ],
-      "count": 301793,
+      "count": 301844,
       "reserve": 35784,
       "review_count": null,
       "count_str": "30.2万",
@@ -321,8 +321,8 @@
         "独立游戏",
         "角色扮演"
       ],
-      "count": 3678638,
-      "reserve": 113506,
+      "count": 3678685,
+      "reserve": 113509,
       "review_count": null,
       "count_str": "367.9万",
       "count_label": "热度",
@@ -349,7 +349,7 @@
         "生存",
         "角色扮演"
       ],
-      "count": 7873837,
+      "count": 7873894,
       "reserve": 825757,
       "review_count": null,
       "count_str": "787.4万",
@@ -383,7 +383,7 @@
         "轻度Roguelike",
         "多人联机"
       ],
-      "count": 555830,
+      "count": 555907,
       "reserve": 28848,
       "review_count": null,
       "count_str": "55.6万",
@@ -399,30 +399,6 @@
     },
     {
       "rank": 15,
-      "id": 280882,
-      "title": "降维打击（TapTap测试版）",
-      "icon": "https://img-tc.tapimg.com/market/images/1f52a351325e307b333adc3daf6058fa.png/_tap_appicon.jpg",
-      "score": "8.8",
-      "tags": [
-        "射击",
-        "动作"
-      ],
-      "count": 680899,
-      "reserve": 732,
-      "review_count": null,
-      "count_str": "68.1万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/280882",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1675755690,
-      "developer": "烟火"
-    },
-    {
-      "rank": 16,
       "id": 235001,
       "title": "黎明前20分钟",
       "icon": "https://img-tc.tapimg.com/market/images/53bc61c919dad36a475fd5131bb751a7.jpg/_tap_appicon.jpg",
@@ -432,7 +408,7 @@
         "射击",
         "动作"
       ],
-      "count": 3293895,
+      "count": 3293917,
       "reserve": 90558,
       "review_count": null,
       "count_str": "329.4万",
@@ -445,6 +421,30 @@
       ],
       "released_time": 1658455203,
       "developer": "Erabit CN"
+    },
+    {
+      "rank": 16,
+      "id": 280882,
+      "title": "降维打击（TapTap测试版）",
+      "icon": "https://img-tc.tapimg.com/market/images/1f52a351325e307b333adc3daf6058fa.png/_tap_appicon.jpg",
+      "score": "8.8",
+      "tags": [
+        "射击",
+        "动作"
+      ],
+      "count": 680929,
+      "reserve": 732,
+      "review_count": null,
+      "count_str": "68.1万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/280882",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1675755690,
+      "developer": "烟火"
     },
     {
       "rank": 17,
@@ -462,7 +462,7 @@
         "多人联机",
         "动作"
       ],
-      "count": 9248849,
+      "count": 9248907,
       "reserve": 1168542,
       "review_count": null,
       "count_str": "924.9万",
@@ -492,7 +492,7 @@
         "竞技",
         "团队合作"
       ],
-      "count": 12801539,
+      "count": 12801590,
       "reserve": 3725161,
       "review_count": null,
       "count_str": "1280.2万",
@@ -519,7 +519,7 @@
         "二次元",
         "动作"
       ],
-      "count": 1474419,
+      "count": 1474446,
       "reserve": 1419389,
       "review_count": null,
       "count_str": "147.4万",
@@ -547,7 +547,7 @@
         "策略",
         "动作"
       ],
-      "count": 1299455,
+      "count": 1299466,
       "reserve": 881,
       "review_count": null,
       "count_str": "129.9万",
@@ -582,7 +582,7 @@
         "末日",
         "角色扮演"
       ],
-      "count": 1420137,
+      "count": 1420155,
       "reserve": 68228,
       "review_count": null,
       "count_str": "142.0万",
@@ -612,7 +612,7 @@
         "二次元",
         "角色扮演"
       ],
-      "count": 2939661,
+      "count": 2939694,
       "reserve": 1600556,
       "review_count": null,
       "count_str": "294.0万",
@@ -638,7 +638,7 @@
         "射击",
         "动作"
       ],
-      "count": 2275324,
+      "count": 2275340,
       "reserve": 10,
       "review_count": null,
       "count_str": "227.5万",
@@ -669,7 +669,7 @@
         "弹幕射击",
         "轻度Roguelike"
       ],
-      "count": 8568232,
+      "count": 8568260,
       "reserve": 218484,
       "review_count": null,
       "count_str": "856.8万",
@@ -685,33 +685,6 @@
     },
     {
       "rank": 25,
-      "id": 838108,
-      "title": "FPS练枪房",
-      "icon": "https://img-tc.tapimg.com/market/images/FjuCouG-Uno2Zpte6nFsJXTFl87Z.jpg/_tap_appicon.jpg",
-      "score": "7.3",
-      "tags": [
-        "FPS",
-        "单机",
-        "射击",
-        "TapTap制造"
-      ],
-      "count": 150909,
-      "reserve": 0,
-      "review_count": null,
-      "count_str": "15.1万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/838108",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1775318640,
-      "developer": "三颗柚工作室"
-    },
-    {
-      "rank": 26,
       "id": 203729,
       "title": "远光84",
       "icon": "https://img-tc.tapimg.com/market/images/3d37188ec5bb5ec98e942e56d707e0b6.png/_tap_appicon.jpg",
@@ -723,7 +696,7 @@
         "竞技",
         "动作"
       ],
-      "count": 1280264,
+      "count": 1280290,
       "reserve": 586894,
       "review_count": null,
       "count_str": "128.0万",
@@ -739,6 +712,33 @@
       "developer": "莉莉丝游戏"
     },
     {
+      "rank": 26,
+      "id": 838108,
+      "title": "FPS练枪房",
+      "icon": "https://img-tc.tapimg.com/market/images/FjuCouG-Uno2Zpte6nFsJXTFl87Z.jpg/_tap_appicon.jpg",
+      "score": "7.3",
+      "tags": [
+        "FPS",
+        "单机",
+        "射击",
+        "TapTap制造"
+      ],
+      "count": 150956,
+      "reserve": 0,
+      "review_count": null,
+      "count_str": "15.1万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/838108",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1775318640,
+      "developer": "三颗柚工作室"
+    },
+    {
       "rank": 27,
       "id": 84463,
       "title": "逆战：未来",
@@ -752,8 +752,8 @@
         "FPS",
         "科幻"
       ],
-      "count": 1556238,
-      "reserve": 2157202,
+      "count": 1556261,
+      "reserve": 2157201,
       "review_count": null,
       "count_str": "155.6万",
       "count_label": "热度",
@@ -783,7 +783,7 @@
         "割草",
         "养成"
       ],
-      "count": 340679,
+      "count": 340714,
       "reserve": 2993,
       "review_count": null,
       "count_str": "34.1万",
@@ -815,7 +815,7 @@
         "街机",
         "本地联机"
       ],
-      "count": 9472609,
+      "count": 9472623,
       "reserve": 15263,
       "review_count": null,
       "count_str": "947.3万",
@@ -848,7 +848,7 @@
         "射击",
         "独立游戏"
       ],
-      "count": 10439441,
+      "count": 10439469,
       "reserve": 2260451,
       "review_count": null,
       "count_str": "1043.9万",
@@ -881,8 +881,8 @@
         "冒险",
         "末日"
       ],
-      "count": 2381846,
-      "reserve": 1007133,
+      "count": 2381868,
+      "reserve": 1007131,
       "review_count": null,
       "count_str": "238.2万",
       "count_label": "热度",
@@ -915,7 +915,7 @@
         "冒险"
       ],
       "count": 0,
-      "reserve": 727365,
+      "reserve": 727378,
       "review_count": null,
       "count_str": "0",
       "count_label": "热度",
@@ -943,7 +943,7 @@
         "射击",
         "角色扮演"
       ],
-      "count": 4492105,
+      "count": 4492130,
       "reserve": 364,
       "review_count": null,
       "count_str": "449.2万",
@@ -975,7 +975,7 @@
         "TPS",
         "竞技"
       ],
-      "count": 13100110,
+      "count": 13100138,
       "reserve": 20,
       "review_count": null,
       "count_str": "1310.0万",
@@ -1004,7 +1004,7 @@
         "战舰",
         "策略"
       ],
-      "count": 503546,
+      "count": 503561,
       "reserve": 258519,
       "review_count": null,
       "count_str": "50.4万",
@@ -1023,31 +1023,6 @@
     },
     {
       "rank": 36,
-      "id": 163762,
-      "title": "射击训练营",
-      "icon": "https://img-tc.tapimg.com/market/images/0c5b28c615d4fce4f1900f9399ba3294.png/_tap_appicon.jpg",
-      "score": "7.6",
-      "tags": [
-        "模拟",
-        "动作",
-        "射击"
-      ],
-      "count": 1058921,
-      "reserve": 0,
-      "review_count": null,
-      "count_str": "105.9万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/163762",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1554866379,
-      "developer": "五间房工作室"
-    },
-    {
-      "rank": 37,
       "id": 381991,
       "title": "贪婪大地",
       "icon": "https://img-tc.tapimg.com/market/images/60336bdb05d0977366dafe3e9d3be19a.png/_tap_appicon.jpg",
@@ -1063,7 +1038,7 @@
         "机甲",
         "动作"
       ],
-      "count": 382247,
+      "count": 382277,
       "reserve": 26283,
       "review_count": null,
       "count_str": "38.2万",
@@ -1078,6 +1053,31 @@
       "developer": "Gamersky Games"
     },
     {
+      "rank": 37,
+      "id": 163762,
+      "title": "射击训练营",
+      "icon": "https://img-tc.tapimg.com/market/images/0c5b28c615d4fce4f1900f9399ba3294.png/_tap_appicon.jpg",
+      "score": "7.6",
+      "tags": [
+        "模拟",
+        "动作",
+        "射击"
+      ],
+      "count": 1058941,
+      "reserve": 0,
+      "review_count": null,
+      "count_str": "105.9万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/163762",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1554866379,
+      "developer": "五间房工作室"
+    },
+    {
       "rank": 38,
       "id": 6987,
       "title": "雷霆战机：集结",
@@ -1090,8 +1090,8 @@
         "策略",
         "射击"
       ],
-      "count": 947221,
-      "reserve": 101088,
+      "count": 947250,
+      "reserve": 101087,
       "review_count": null,
       "count_str": "94.7万",
       "count_label": "热度",
@@ -1115,7 +1115,7 @@
         "竞技",
         "多人联机"
       ],
-      "count": 3859648,
+      "count": 3859660,
       "reserve": 641391,
       "review_count": null,
       "count_str": "386.0万",
@@ -1144,8 +1144,8 @@
         "3D",
         "射击"
       ],
-      "count": 1870329,
-      "reserve": 1485233,
+      "count": 1870340,
+      "reserve": 1485231,
       "review_count": null,
       "count_str": "187.0万",
       "count_label": "热度",
@@ -1161,36 +1161,6 @@
     },
     {
       "rank": 41,
-      "id": 315689,
-      "title": "高能英雄",
-      "icon": "https://img-tc.tapimg.com/market/images/3a388648eea16e237f7dc34f16a5de97.png/_tap_appicon.jpg",
-      "score": "7.1",
-      "tags": [
-        "射击",
-        "动作",
-        "FPS",
-        "TPS",
-        "吃鸡",
-        "高画质",
-        "竞技",
-        "多人联机"
-      ],
-      "count": 2532541,
-      "reserve": 539772,
-      "review_count": null,
-      "count_str": "253.3万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/315689",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1695251482,
-      "developer": "腾讯"
-    },
-    {
-      "rank": 42,
       "id": 751434,
       "title": "战地2032",
       "icon": "https://img-tc.tapimg.com/market/images/294214c487285cb82932556bc53e6eb7.png/_tap_appicon.jpg",
@@ -1200,7 +1170,7 @@
         "射击",
         "动作"
       ],
-      "count": 375351,
+      "count": 375361,
       "reserve": 8510,
       "review_count": null,
       "count_str": "37.5万",
@@ -1215,6 +1185,36 @@
       "developer": "极界娱乐工作室"
     },
     {
+      "rank": 42,
+      "id": 315689,
+      "title": "高能英雄",
+      "icon": "https://img-tc.tapimg.com/market/images/3a388648eea16e237f7dc34f16a5de97.png/_tap_appicon.jpg",
+      "score": "7.1",
+      "tags": [
+        "射击",
+        "动作",
+        "FPS",
+        "TPS",
+        "吃鸡",
+        "高画质",
+        "竞技",
+        "多人联机"
+      ],
+      "count": 2532552,
+      "reserve": 539772,
+      "review_count": null,
+      "count_str": "253.3万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/315689",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1695251482,
+      "developer": "腾讯"
+    },
+    {
       "rank": 43,
       "id": 224120,
       "title": "逃离克里夫",
@@ -1226,7 +1226,7 @@
         "射击",
         "动作"
       ],
-      "count": 3105352,
+      "count": 3105362,
       "reserve": 109496,
       "review_count": null,
       "count_str": "310.5万",
@@ -1242,31 +1242,6 @@
     },
     {
       "rank": 44,
-      "id": 328449,
-      "title": "僵尸猎人:像素生存",
-      "icon": "https://img-tc.tapimg.com/market/images/22fe8778669dd193508de651b8942c03.png/_tap_appicon.jpg",
-      "score": "7.3",
-      "tags": [
-        "高自由度",
-        "射击",
-        "生存"
-      ],
-      "count": 527815,
-      "reserve": 0,
-      "review_count": null,
-      "count_str": "52.8万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/328449",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1689219063,
-      "developer": "欧克鱼工作室"
-    },
-    {
-      "rank": 45,
       "id": 66654,
       "title": "荒野行动",
       "icon": "https://img-tc.tapimg.com/market/images/7476e5596d5ac6a875ec0bf4da6b0c8e.png/_tap_appicon.jpg",
@@ -1282,7 +1257,7 @@
         "PVP",
         "TPS"
       ],
-      "count": 17378049,
+      "count": 17378068,
       "reserve": 1356051,
       "review_count": null,
       "count_str": "1737.8万",
@@ -1298,7 +1273,59 @@
       "developer": "网易游戏"
     },
     {
+      "rank": 45,
+      "id": 328449,
+      "title": "僵尸猎人:像素生存",
+      "icon": "https://img-tc.tapimg.com/market/images/22fe8778669dd193508de651b8942c03.png/_tap_appicon.jpg",
+      "score": "7.3",
+      "tags": [
+        "高自由度",
+        "射击",
+        "生存"
+      ],
+      "count": 527824,
+      "reserve": 0,
+      "review_count": null,
+      "count_str": "52.8万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/328449",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1689219063,
+      "developer": "欧克鱼工作室"
+    },
+    {
       "rank": 46,
+      "id": 242573,
+      "title": "伏魔诀",
+      "icon": "https://img-tc.tapimg.com/market/images/07a0b63241b8373259bfa45991a59045.png/_tap_appicon.jpg",
+      "score": "8.7",
+      "tags": [
+        "水墨",
+        "射击",
+        "Roguelike",
+        "修仙",
+        "动作"
+      ],
+      "count": 1405705,
+      "reserve": 0,
+      "review_count": null,
+      "count_str": "140.6万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/242573",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1667296613,
+      "developer": "青律互娱"
+    },
+    {
+      "rank": 47,
       "id": 233490,
       "title": "战地1991",
       "icon": "https://img-tc.tapimg.com/market/images/96a2365a8881f201a4bae6e66da57a55.png/_tap_appicon.jpg",
@@ -1311,7 +1338,7 @@
         "射击",
         "动作"
       ],
-      "count": 1091574,
+      "count": 1091586,
       "reserve": 3256,
       "review_count": null,
       "count_str": "109.2万",
@@ -1326,7 +1353,7 @@
       "developer": "神戳戳的游戏"
     },
     {
-      "rank": 47,
+      "rank": 48,
       "id": 217393,
       "title": "七日求生：新世界",
       "icon": "https://img-tc.tapimg.com/market/images/3f0256037582edc15c7d3b9e1644bfea.png/_tap_appicon.jpg",
@@ -1339,7 +1366,7 @@
         "末日",
         "动作"
       ],
-      "count": 1976939,
+      "count": 1976947,
       "reserve": 64352,
       "review_count": null,
       "count_str": "197.7万",
@@ -1356,33 +1383,6 @@
       "developer": "上帝压狗工作室"
     },
     {
-      "rank": 48,
-      "id": 242573,
-      "title": "伏魔诀",
-      "icon": "https://img-tc.tapimg.com/market/images/07a0b63241b8373259bfa45991a59045.png/_tap_appicon.jpg",
-      "score": "8.7",
-      "tags": [
-        "水墨",
-        "射击",
-        "Roguelike",
-        "修仙",
-        "动作"
-      ],
-      "count": 1405698,
-      "reserve": 0,
-      "review_count": null,
-      "count_str": "140.6万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/242573",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1667296613,
-      "developer": "青律互娱"
-    },
-    {
       "rank": 49,
       "id": 729420,
       "title": "引力线流星",
@@ -1393,7 +1393,7 @@
         "弹幕射击",
         "模拟"
       ],
-      "count": 115740,
+      "count": 115744,
       "reserve": 123,
       "review_count": null,
       "count_str": "11.6万",
@@ -1418,7 +1418,7 @@
         "射击",
         "休闲"
       ],
-      "count": 190131,
+      "count": 190132,
       "reserve": 22,
       "review_count": null,
       "count_str": "19.0万",
