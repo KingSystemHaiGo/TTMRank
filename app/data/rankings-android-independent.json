@@ -20,7 +20,7 @@
         "3D",
         "多人联机"
       ],
-      "count": 42422320,
+      "count": 42422380,
       "reserve": 1082230,
       "review_count": null,
       "count_str": "4242.2万",
@@ -48,7 +48,7 @@
         "UP主推荐",
         "独立游戏"
       ],
-      "count": 47713811,
+      "count": 47713871,
       "reserve": 49401,
       "review_count": null,
       "count_str": "4771.4万",
@@ -79,7 +79,7 @@
         "单机",
         "横版"
       ],
-      "count": 981739,
+      "count": 981752,
       "reserve": 1472448,
       "review_count": null,
       "count_str": "98.2万",
@@ -112,7 +112,7 @@
         "上帝视角",
         "ARPG"
       ],
-      "count": 37381558,
+      "count": 37381573,
       "reserve": 28385,
       "review_count": null,
       "count_str": "3738.2万",
@@ -142,7 +142,7 @@
         "独立游戏",
         "剧情"
       ],
-      "count": 2341657,
+      "count": 2341673,
       "reserve": 94000,
       "review_count": null,
       "count_str": "234.2万",
@@ -171,7 +171,7 @@
         "单机",
         "独立游戏"
       ],
-      "count": 4782008,
+      "count": 4782021,
       "reserve": 562407,
       "review_count": null,
       "count_str": "478.2万",
@@ -199,7 +199,7 @@
         "独立游戏",
         "角色扮演"
       ],
-      "count": 3679000,
+      "count": 3679002,
       "reserve": 113526,
       "review_count": null,
       "count_str": "367.9万",
@@ -233,7 +233,7 @@
         "手绘",
         "Roguelike"
       ],
-      "count": 14730148,
+      "count": 14730160,
       "reserve": 35387,
       "review_count": null,
       "count_str": "1473.0万",
@@ -262,7 +262,7 @@
         "独立游戏",
         "剧情"
       ],
-      "count": 4012817,
+      "count": 4012821,
       "reserve": 64279,
       "review_count": null,
       "count_str": "401.3万",
@@ -328,7 +328,7 @@
         "恋爱",
         "文字"
       ],
-      "count": 341340,
+      "count": 341345,
       "reserve": 18374,
       "review_count": null,
       "count_str": "34.1万",
@@ -361,7 +361,7 @@
         "独立游戏",
         "剧情"
       ],
-      "count": 3258381,
+      "count": 3258384,
       "reserve": 107588,
       "review_count": null,
       "count_str": "325.8万",
@@ -394,7 +394,7 @@
         "经营",
         "角色扮演"
       ],
-      "count": 1807466,
+      "count": 1807486,
       "reserve": 1537838,
       "review_count": null,
       "count_str": "180.7万",
@@ -434,7 +434,7 @@
         "支持手柄",
         "冒险"
       ],
-      "count": 12185646,
+      "count": 12185652,
       "reserve": 1620764,
       "review_count": null,
       "count_str": "1218.6万",
@@ -450,40 +450,6 @@
     },
     {
       "rank": 15,
-      "id": 781790,
-      "title": "Atana",
-      "icon": "https://img-tc.tapimg.com/market/images/f191bc18cf4536a43c0632951401bb45.png/_tap_appicon.jpg",
-      "score": "8.9",
-      "tags": [
-        "角色扮演",
-        "独立游戏",
-        "文字",
-        "单机",
-        "恋爱",
-        "女性向",
-        "乙女",
-        "AVG",
-        "聚光灯GameJam",
-        "休闲"
-      ],
-      "count": 426169,
-      "reserve": 6709,
-      "review_count": null,
-      "count_str": "42.6万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/781790",
-      "platforms": [
-        "android",
-        "ios",
-        "pc",
-        "steam"
-      ],
-      "released_time": 1761739992,
-      "developer": "欲望俱乐部"
-    },
-    {
-      "rank": 16,
       "id": 239419,
       "title": "大侠立志传",
       "icon": "https://img-tc.tapimg.com/market/images/8393227a885a4877f1835d72502ab42f.png/_tap_appicon.jpg",
@@ -500,7 +466,7 @@
         "像素",
         "冒险"
       ],
-      "count": 1841894,
+      "count": 1841902,
       "reserve": 494620,
       "review_count": null,
       "count_str": "184.2万",
@@ -513,6 +479,40 @@
       ],
       "released_time": 1726801201,
       "developer": "心动"
+    },
+    {
+      "rank": 16,
+      "id": 781790,
+      "title": "Atana",
+      "icon": "https://img-tc.tapimg.com/market/images/f191bc18cf4536a43c0632951401bb45.png/_tap_appicon.jpg",
+      "score": "8.9",
+      "tags": [
+        "角色扮演",
+        "独立游戏",
+        "文字",
+        "单机",
+        "恋爱",
+        "女性向",
+        "乙女",
+        "AVG",
+        "聚光灯GameJam",
+        "休闲"
+      ],
+      "count": 426170,
+      "reserve": 6709,
+      "review_count": null,
+      "count_str": "42.6万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/781790",
+      "platforms": [
+        "android",
+        "ios",
+        "pc",
+        "steam"
+      ],
+      "released_time": 1761739992,
+      "developer": "欲望俱乐部"
     },
     {
       "rank": 17,
@@ -535,7 +535,7 @@
         "末日",
         "角色扮演"
       ],
-      "count": 1420384,
+      "count": 1420386,
       "reserve": 68229,
       "review_count": null,
       "count_str": "142.0万",
@@ -561,7 +561,7 @@
         "独立游戏",
         "战争"
       ],
-      "count": 1152237,
+      "count": 1152239,
       "reserve": 354566,
       "review_count": null,
       "count_str": "115.2万",
@@ -595,7 +595,7 @@
         "射击",
         "独立游戏"
       ],
-      "count": 10439861,
+      "count": 10439865,
       "reserve": 2260447,
       "review_count": null,
       "count_str": "1044.0万",
@@ -625,7 +625,7 @@
         "节奏",
         "音乐"
       ],
-      "count": 1008253,
+      "count": 1008256,
       "reserve": 78993,
       "review_count": null,
       "count_str": "100.8万",
@@ -656,7 +656,7 @@
         "机甲",
         "动作"
       ],
-      "count": 382716,
+      "count": 382718,
       "reserve": 26283,
       "review_count": null,
       "count_str": "38.3万",
@@ -684,7 +684,7 @@
         "射击",
         "角色扮演"
       ],
-      "count": 4492389,
+      "count": 4492392,
       "reserve": 364,
       "review_count": null,
       "count_str": "449.2万",
@@ -714,7 +714,7 @@
         "策略",
         "卡牌"
       ],
-      "count": 1293490,
+      "count": 1293497,
       "reserve": 212555,
       "review_count": null,
       "count_str": "129.3万",
@@ -749,7 +749,7 @@
         "像素",
         "复古"
       ],
-      "count": 385830,
+      "count": 385837,
       "reserve": 68590,
       "review_count": null,
       "count_str": "38.6万",
@@ -781,7 +781,7 @@
         "多结局",
         "冒险"
       ],
-      "count": 56278,
+      "count": 56284,
       "reserve": 49732,
       "review_count": null,
       "count_str": "5.6万",
@@ -813,7 +813,7 @@
         "策略",
         "卡牌"
       ],
-      "count": 448690,
+      "count": 448695,
       "reserve": 70200,
       "review_count": null,
       "count_str": "44.9万",
@@ -845,7 +845,7 @@
         "竖屏",
         "冒险"
       ],
-      "count": 600182,
+      "count": 600186,
       "reserve": 128711,
       "review_count": null,
       "count_str": "60.0万",
@@ -874,7 +874,7 @@
         "UP主推荐",
         "内购解锁"
       ],
-      "count": 10981593,
+      "count": 10981597,
       "reserve": 606616,
       "review_count": null,
       "count_str": "1098.2万",
@@ -902,7 +902,7 @@
         "战棋",
         "独立游戏"
       ],
-      "count": 513940,
+      "count": 513943,
       "reserve": 137262,
       "review_count": null,
       "count_str": "51.4万",
@@ -928,7 +928,7 @@
         "移植",
         "单机"
       ],
-      "count": 1120138,
+      "count": 1120140,
       "reserve": 12933,
       "review_count": null,
       "count_str": "112.0万",
@@ -955,7 +955,7 @@
         "节奏",
         "音乐"
       ],
-      "count": 191749,
+      "count": 191750,
       "reserve": 123082,
       "review_count": null,
       "count_str": "19.2万",
@@ -1018,7 +1018,7 @@
         "独立游戏",
         "历史"
       ],
-      "count": 2596536,
+      "count": 2596538,
       "reserve": 80776,
       "review_count": null,
       "count_str": "259.7万",
@@ -1079,7 +1079,7 @@
         "模拟",
         "文字"
       ],
-      "count": 952676,
+      "count": 952678,
       "reserve": 154850,
       "review_count": null,
       "count_str": "95.3万",
@@ -1137,7 +1137,7 @@
         "射击",
         "动作"
       ],
-      "count": 1091630,
+      "count": 1091631,
       "reserve": 3256,
       "review_count": null,
       "count_str": "109.2万",
@@ -1171,7 +1171,7 @@
         "烧脑",
         "地牢"
       ],
-      "count": 3203243,
+      "count": 3203245,
       "reserve": 102662,
       "review_count": null,
       "count_str": "320.3万",
@@ -1204,8 +1204,8 @@
         "模拟",
         "独立游戏"
       ],
-      "count": 595361,
-      "reserve": 46195,
+      "count": 595362,
+      "reserve": 46196,
       "review_count": null,
       "count_str": "59.5万",
       "count_label": "热度",
@@ -1237,7 +1237,7 @@
         "剧情",
         "放置"
       ],
-      "count": 786013,
+      "count": 786014,
       "reserve": 67766,
       "review_count": null,
       "count_str": "78.6万",
@@ -1265,7 +1265,7 @@
         "策略",
         "模拟经营"
       ],
-      "count": 57030,
+      "count": 57036,
       "reserve": 53636,
       "review_count": null,
       "count_str": "5.7万",
@@ -1293,7 +1293,7 @@
         "国风",
         "模拟"
       ],
-      "count": 448227,
+      "count": 448229,
       "reserve": 182878,
       "review_count": null,
       "count_str": "44.8万",
@@ -1323,7 +1323,7 @@
         "UP主推荐",
         "闯关"
       ],
-      "count": 5675913,
+      "count": 5675914,
       "reserve": 0,
       "review_count": null,
       "count_str": "567.6万",
@@ -1352,7 +1352,7 @@
         "塔防",
         "策略"
       ],
-      "count": 277380,
+      "count": 277389,
       "reserve": 32616,
       "review_count": null,
       "count_str": "27.7万",
@@ -1382,7 +1382,7 @@
         "单机",
         "生存"
       ],
-      "count": 67977,
+      "count": 67978,
       "reserve": 12135,
       "review_count": null,
       "count_str": "6.8万",
@@ -1398,37 +1398,6 @@
     },
     {
       "rank": 46,
-      "id": 23452,
-      "title": "比特小队",
-      "icon": "https://img-tc.tapimg.com/market/images/a0dbb45fa0b29bdcc848fe15eb33ed6b.png/_tap_appicon.jpg",
-      "score": "9.2",
-      "tags": [
-        "地牢",
-        "射击",
-        "动作",
-        "冒险",
-        "UP主推荐",
-        "TPS",
-        "闯关",
-        "独立游戏",
-        "支持手柄"
-      ],
-      "count": 5507815,
-      "reserve": 114708,
-      "review_count": null,
-      "count_str": "550.8万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/23452",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1529027538,
-      "developer": "Kunpo"
-    },
-    {
-      "rank": 47,
       "id": 205531,
       "title": "我的大学",
       "icon": "https://img-tc.tapimg.com/market/images/9f336ff386487000445217483d224f8a.png/_tap_appicon.jpg",
@@ -1439,7 +1408,7 @@
         "独立游戏",
         "经营"
       ],
-      "count": 1095090,
+      "count": 1095091,
       "reserve": 96620,
       "review_count": null,
       "count_str": "109.5万",
@@ -1454,7 +1423,7 @@
       "developer": "光子畅游"
     },
     {
-      "rank": 48,
+      "rank": 47,
       "id": 732091,
       "title": "火山的女儿：再度重逢",
       "icon": "https://img-tc.tapimg.com/market/images/714f0a12384484d499b170fd1b8ccdca.png/_tap_appicon.jpg",
@@ -1472,7 +1441,7 @@
         "角色扮演",
         "可爱"
       ],
-      "count": 671783,
+      "count": 671785,
       "reserve": 711820,
       "review_count": null,
       "count_str": "67.2万",
@@ -1486,6 +1455,37 @@
       ],
       "released_time": 1763517602,
       "developer": "心动"
+    },
+    {
+      "rank": 48,
+      "id": 23452,
+      "title": "比特小队",
+      "icon": "https://img-tc.tapimg.com/market/images/a0dbb45fa0b29bdcc848fe15eb33ed6b.png/_tap_appicon.jpg",
+      "score": "9.2",
+      "tags": [
+        "地牢",
+        "射击",
+        "动作",
+        "冒险",
+        "UP主推荐",
+        "TPS",
+        "闯关",
+        "独立游戏",
+        "支持手柄"
+      ],
+      "count": 5507816,
+      "reserve": 114708,
+      "review_count": null,
+      "count_str": "550.8万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/23452",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1529027538,
+      "developer": "Kunpo"
     },
     {
       "rank": 49,
@@ -1507,7 +1507,7 @@
         "付费下载",
         "多结局"
       ],
-      "count": 6462668,
+      "count": 6462670,
       "reserve": 384523,
       "review_count": null,
       "count_str": "646.3万",
