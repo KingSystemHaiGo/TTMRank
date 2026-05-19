@@ -17,7 +17,7 @@
         "塔防",
         "策略"
       ],
-      "count": 278588,
+      "count": 278601,
       "reserve": 32613,
       "review_count": null,
       "count_str": "27.9万",
@@ -42,7 +42,7 @@
       "tags": [
         "策略"
       ],
-      "count": 296382,
+      "count": 296410,
       "reserve": 0,
       "review_count": null,
       "count_str": "29.6万",
@@ -75,7 +75,7 @@
         "角色扮演",
         "可爱"
       ],
-      "count": 672613,
+      "count": 672625,
       "reserve": 711816,
       "review_count": null,
       "count_str": "67.3万",
@@ -108,8 +108,8 @@
         "像素",
         "冒险"
       ],
-      "count": 1843769,
-      "reserve": 494611,
+      "count": 1843789,
+      "reserve": 494610,
       "review_count": null,
       "count_str": "184.4万",
       "count_label": "热度",
@@ -135,7 +135,7 @@
         "单机",
         "战争"
       ],
-      "count": 2147786,
+      "count": 2147795,
       "reserve": 1313412,
       "review_count": null,
       "count_str": "214.8万",
@@ -169,7 +169,7 @@
         "像素",
         "复古"
       ],
-      "count": 387361,
+      "count": 387382,
       "reserve": 68588,
       "review_count": null,
       "count_str": "38.7万",
@@ -198,7 +198,7 @@
         "TapTap制造",
         "模拟"
       ],
-      "count": 31705,
+      "count": 31714,
       "reserve": 0,
       "review_count": null,
       "count_str": "3.2万",
@@ -215,6 +215,61 @@
     },
     {
       "rank": 8,
+      "id": 6985,
+      "title": "英雄杀",
+      "icon": "https://img-tc.tapimg.com/market/images/2f0537cdcb8be44ada93962c5c62adbb.png/_tap_appicon.jpg",
+      "score": "3.7",
+      "tags": [
+        "桌面和棋类",
+        "策略"
+      ],
+      "count": 353923,
+      "reserve": 0,
+      "review_count": null,
+      "count_str": "35.4万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/6985",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1464200150,
+      "developer": "腾讯"
+    },
+    {
+      "rank": 9,
+      "id": 498636,
+      "title": "镭明闪击",
+      "icon": "https://img-tc.tapimg.com/market/images/cdce34845aba940e84c251a187c3454f.png/_tap_appicon.jpg",
+      "score": "7.0",
+      "tags": [
+        "3D",
+        "策略",
+        "科幻",
+        "高画质",
+        "剧情",
+        "卡牌"
+      ],
+      "count": 114550,
+      "reserve": 253536,
+      "review_count": null,
+      "count_str": "11.5万",
+      "count_label": "热度",
+      "hints": [
+        "4天前 首发"
+      ],
+      "url": "https://www.taptap.cn/app/498636",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1778724003,
+      "developer": "朝夕光年"
+    },
+    {
+      "rank": 10,
       "id": 709805,
       "title": "抽卡求生：荒岛",
       "icon": "https://img-tc.tapimg.com/market/images/f0dffc817c83de223e03a3188e3dbb4f.jpg/_tap_appicon.jpg",
@@ -231,7 +286,7 @@
         "多结局",
         "冒险"
       ],
-      "count": 57248,
+      "count": 57256,
       "reserve": 49726,
       "review_count": null,
       "count_str": "5.7万",
@@ -246,61 +301,6 @@
       "developer": "SKY工作室"
     },
     {
-      "rank": 9,
-      "id": 6985,
-      "title": "英雄杀",
-      "icon": "https://img-tc.tapimg.com/market/images/2f0537cdcb8be44ada93962c5c62adbb.png/_tap_appicon.jpg",
-      "score": "3.7",
-      "tags": [
-        "桌面和棋类",
-        "策略"
-      ],
-      "count": 353917,
-      "reserve": 0,
-      "review_count": null,
-      "count_str": "35.4万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/6985",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1464200150,
-      "developer": "腾讯"
-    },
-    {
-      "rank": 10,
-      "id": 498636,
-      "title": "镭明闪击",
-      "icon": "https://img-tc.tapimg.com/market/images/cdce34845aba940e84c251a187c3454f.png/_tap_appicon.jpg",
-      "score": "7.0",
-      "tags": [
-        "3D",
-        "策略",
-        "科幻",
-        "高画质",
-        "剧情",
-        "卡牌"
-      ],
-      "count": 114474,
-      "reserve": 253538,
-      "review_count": null,
-      "count_str": "11.4万",
-      "count_label": "热度",
-      "hints": [
-        "4天前 首发"
-      ],
-      "url": "https://www.taptap.cn/app/498636",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1778724003,
-      "developer": "朝夕光年"
-    },
-    {
       "rank": 11,
       "id": 851948,
       "title": "末世之主",
@@ -310,10 +310,10 @@
         "TapTap制造",
         "策略"
       ],
-      "count": 3874,
+      "count": 3878,
       "reserve": 0,
       "review_count": null,
-      "count_str": "3874",
+      "count_str": "3878",
       "count_label": "热度",
       "hints": [
         "4天前 首发"
@@ -339,7 +339,7 @@
         "高自由度",
         "策略"
       ],
-      "count": 63956,
+      "count": 63961,
       "reserve": 12158,
       "review_count": null,
       "count_str": "6.4万",
@@ -367,7 +367,7 @@
         "冒险",
         "动作"
       ],
-      "count": 595824,
+      "count": 595839,
       "reserve": 191720,
       "review_count": null,
       "count_str": "59.6万",
@@ -395,7 +395,7 @@
         "收集",
         "模拟"
       ],
-      "count": 484954,
+      "count": 484966,
       "reserve": 137533,
       "review_count": null,
       "count_str": "48.5万",
@@ -425,7 +425,7 @@
         "收集",
         "养成"
       ],
-      "count": 10354548,
+      "count": 10354578,
       "reserve": 1625137,
       "review_count": null,
       "count_str": "1035.5万",
@@ -449,10 +449,10 @@
         "TapTap制造",
         "策略"
       ],
-      "count": 3082,
+      "count": 3094,
       "reserve": 0,
       "review_count": null,
-      "count_str": "3082",
+      "count_str": "3094",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/856984",
@@ -477,7 +477,7 @@
         "冒险",
         "休闲"
       ],
-      "count": 29249,
+      "count": 29260,
       "reserve": 2180,
       "review_count": null,
       "count_str": "2.9万",
@@ -509,7 +509,7 @@
         "SLG",
         "策略"
       ],
-      "count": 40412,
+      "count": 40421,
       "reserve": 50201,
       "review_count": null,
       "count_str": "4.0万",
@@ -540,7 +540,7 @@
         "角色扮演",
         "策略"
       ],
-      "count": 2532811,
+      "count": 2532818,
       "reserve": 10262,
       "review_count": null,
       "count_str": "253.3万",
@@ -573,7 +573,7 @@
         "轻度Roguelike",
         "多人联机"
       ],
-      "count": 559870,
+      "count": 559905,
       "reserve": 28845,
       "review_count": null,
       "count_str": "56.0万",
@@ -605,7 +605,7 @@
         "策略",
         "角色扮演"
       ],
-      "count": 144181,
+      "count": 144185,
       "reserve": 26535,
       "review_count": null,
       "count_str": "14.4万",
@@ -639,7 +639,7 @@
         "多人联机",
         "生存"
       ],
-      "count": 15956275,
+      "count": 15956328,
       "reserve": 2819,
       "review_count": null,
       "count_str": "1595.6万",
@@ -670,7 +670,7 @@
         "割草",
         "养成"
       ],
-      "count": 342202,
+      "count": 342210,
       "reserve": 2993,
       "review_count": null,
       "count_str": "34.2万",
@@ -693,7 +693,7 @@
       "tags": [
         "策略"
       ],
-      "count": 14223,
+      "count": 14235,
       "reserve": 0,
       "review_count": null,
       "count_str": "1.4万",
@@ -723,7 +723,7 @@
         "养成",
         "二次元"
       ],
-      "count": 30846220,
+      "count": 30846307,
       "reserve": 4296175,
       "review_count": null,
       "count_str": "3084.6万",
@@ -756,7 +756,7 @@
         "回合制",
         "角色扮演"
       ],
-      "count": 268764,
+      "count": 268768,
       "reserve": 85998,
       "review_count": null,
       "count_str": "26.9万",
@@ -785,7 +785,7 @@
         "养成",
         "卡牌"
       ],
-      "count": 14679829,
+      "count": 14679889,
       "reserve": 0,
       "review_count": null,
       "count_str": "1468.0万",
@@ -815,7 +815,7 @@
         "可爱",
         "策略"
       ],
-      "count": 3100190,
+      "count": 3100233,
       "reserve": 315744,
       "review_count": null,
       "count_str": "310.0万",
@@ -843,7 +843,7 @@
         "国风",
         "回合制"
       ],
-      "count": 4809208,
+      "count": 4809211,
       "reserve": 4,
       "review_count": null,
       "count_str": "480.9万",
