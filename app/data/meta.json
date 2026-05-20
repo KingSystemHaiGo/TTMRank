@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-20 18:40:13",
+  "updated_at": "2026-05-20 19:00:13",
   "platforms": {
     "android": {
       "hot": {
@@ -16,7 +16,7 @@
       },
       "new": {
         "title": "新品榜",
-        "count": 87
+        "count": 89
       },
       "action": {
         "title": "动作榜",
@@ -52,7 +52,7 @@
       },
       "music": {
         "title": "音乐榜",
-        "count": 41
+        "count": 39
       },
       "idle": {
         "title": "放置榜",
@@ -62,7 +62,7 @@
     "ios": {
       "hot": {
         "title": "热门榜",
-        "count": 104
+        "count": 89
       },
       "sell": {
         "title": "热卖榜",
@@ -118,5 +118,5 @@
       }
     }
   },
-  "taptap_made_count": 108
+  "taptap_made_count": 107
 }
