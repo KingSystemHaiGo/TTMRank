@@ -21,8 +21,8 @@
         "经营",
         "角色扮演"
       ],
-      "count": 1819789,
-      "reserve": 1537752,
+      "count": 1819882,
+      "reserve": 1537751,
       "review_count": null,
       "count_str": "182.0万",
       "count_label": "热度",
@@ -53,7 +53,7 @@
         "单机",
         "横版"
       ],
-      "count": 993720,
+      "count": 993821,
       "reserve": 1472384,
       "review_count": null,
       "count_str": "99.4万",
@@ -82,7 +82,7 @@
         "塔防",
         "策略"
       ],
-      "count": 280366,
+      "count": 280391,
       "reserve": 32610,
       "review_count": null,
       "count_str": "28.0万",
@@ -114,7 +114,7 @@
         "物理",
         "闯关"
       ],
-      "count": 425390,
+      "count": 425408,
       "reserve": 301298,
       "review_count": null,
       "count_str": "42.5万",
@@ -143,7 +143,7 @@
         "单机",
         "独立游戏"
       ],
-      "count": 4789739,
+      "count": 4789794,
       "reserve": 562383,
       "review_count": null,
       "count_str": "479.0万",
@@ -177,7 +177,7 @@
         "像素",
         "复古"
       ],
-      "count": 390034,
+      "count": 390058,
       "reserve": 68587,
       "review_count": null,
       "count_str": "39.0万",
@@ -210,7 +210,7 @@
         "角色扮演",
         "可爱"
       ],
-      "count": 673818,
+      "count": 673831,
       "reserve": 711798,
       "review_count": null,
       "count_str": "67.4万",
@@ -243,7 +243,7 @@
         "像素",
         "冒险"
       ],
-      "count": 1846199,
+      "count": 1846224,
       "reserve": 494592,
       "review_count": null,
       "count_str": "184.6万",
@@ -275,10 +275,10 @@
         "3D",
         "多人联机"
       ],
-      "count": 42467383,
+      "count": 42467846,
       "reserve": 1082226,
       "review_count": null,
-      "count_str": "4246.7万",
+      "count_str": "4246.8万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/62448",
@@ -314,7 +314,7 @@
         "支持手柄",
         "冒险"
       ],
-      "count": 12189946,
+      "count": 12189987,
       "reserve": 1620756,
       "review_count": null,
       "count_str": "1219.0万",
@@ -345,7 +345,7 @@
         "机甲",
         "动作"
       ],
-      "count": 385592,
+      "count": 385607,
       "reserve": 26277,
       "review_count": null,
       "count_str": "38.6万",
@@ -377,7 +377,7 @@
         "SLG",
         "策略"
       ],
-      "count": 41038,
+      "count": 41051,
       "reserve": 50196,
       "review_count": null,
       "count_str": "4.1万",
@@ -407,7 +407,7 @@
         "射击",
         "角色扮演"
       ],
-      "count": 4493877,
+      "count": 4493889,
       "reserve": 364,
       "review_count": null,
       "count_str": "449.4万",
@@ -423,36 +423,6 @@
     },
     {
       "rank": 14,
-      "id": 156860,
-      "title": "光明记忆：无限",
-      "icon": "https://img-tc.tapimg.com/market/images/9a63f90651a9595cc5640a005261a664.png/_tap_appicon.jpg",
-      "score": "7.7",
-      "tags": [
-        "买断制",
-        "支持手柄",
-        "FPS",
-        "射击",
-        "单机",
-        "独立游戏",
-        "付费下载",
-        "动作"
-      ],
-      "count": 302048,
-      "reserve": 989902,
-      "review_count": null,
-      "count_str": "30.2万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/156860",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1737165601,
-      "developer": "飞燕群岛个人工作室"
-    },
-    {
-      "rank": 15,
       "id": 709805,
       "title": "抽卡求生：荒岛",
       "icon": "https://img-tc.tapimg.com/market/images/f0dffc817c83de223e03a3188e3dbb4f.jpg/_tap_appicon.jpg",
@@ -469,7 +439,7 @@
         "多结局",
         "冒险"
       ],
-      "count": 58426,
+      "count": 58434,
       "reserve": 49712,
       "review_count": null,
       "count_str": "5.8万",
@@ -482,6 +452,36 @@
       ],
       "released_time": 1775872800,
       "developer": "SKY工作室"
+    },
+    {
+      "rank": 15,
+      "id": 156860,
+      "title": "光明记忆：无限",
+      "icon": "https://img-tc.tapimg.com/market/images/9a63f90651a9595cc5640a005261a664.png/_tap_appicon.jpg",
+      "score": "7.7",
+      "tags": [
+        "买断制",
+        "支持手柄",
+        "FPS",
+        "射击",
+        "单机",
+        "独立游戏",
+        "付费下载",
+        "动作"
+      ],
+      "count": 302049,
+      "reserve": 989902,
+      "review_count": null,
+      "count_str": "30.2万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/156860",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1737165601,
+      "developer": "飞燕群岛个人工作室"
     },
     {
       "rank": 16,
@@ -504,7 +504,7 @@
         "独立游戏",
         "历史"
       ],
-      "count": 2598930,
+      "count": 2598983,
       "reserve": 80774,
       "review_count": null,
       "count_str": "259.9万",
@@ -522,36 +522,6 @@
     },
     {
       "rank": 17,
-      "id": 384185,
-      "title": "祖宗模拟器：传承",
-      "icon": "https://img-tc.tapimg.com/market/images/6731576288a2ba86f715b2ffd181dbf4.jpg/_tap_appicon.jpg",
-      "score": "9.2",
-      "tags": [
-        "单机",
-        "模拟经营",
-        "放置",
-        "养成",
-        "文字",
-        "模拟",
-        "独立游戏",
-        "剧情"
-      ],
-      "count": 2348468,
-      "reserve": 93998,
-      "review_count": null,
-      "count_str": "234.8万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/384185",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1700272800,
-      "developer": "SKY工作室"
-    },
-    {
-      "rank": 18,
       "id": 34751,
       "title": "元气骑士",
       "icon": "https://img-tc.tapimg.com/market/images/84edb325c62a3ae4414cdca9ff7333bc.jpg/_tap_appicon.jpg",
@@ -569,7 +539,7 @@
         "上帝视角",
         "ARPG"
       ],
-      "count": 37396646,
+      "count": 37396790,
       "reserve": 28384,
       "review_count": null,
       "count_str": "3739.7万",
@@ -584,39 +554,37 @@
       "developer": "凉屋游戏"
     },
     {
-      "rank": 19,
-      "id": 735250,
-      "title": "为了吾王",
-      "icon": "https://img-tc.tapimg.com/market/images/ba21202cbed3d46f5ce50339679f02a6.png/_tap_appicon.jpg",
-      "score": "7.8",
+      "rank": 18,
+      "id": 384185,
+      "title": "祖宗模拟器：传承",
+      "icon": "https://img-tc.tapimg.com/market/images/6731576288a2ba86f715b2ffd181dbf4.jpg/_tap_appicon.jpg",
+      "score": "9.2",
       "tags": [
-        "Steam移植",
-        "买断制",
-        "Roguelike",
-        "战棋",
-        "桌游",
-        "策略",
-        "多人联机",
+        "单机",
+        "模拟经营",
+        "放置",
+        "养成",
+        "文字",
+        "模拟",
         "独立游戏",
-        "回合制",
-        "角色扮演"
+        "剧情"
       ],
-      "count": 269199,
-      "reserve": 85994,
+      "count": 2348504,
+      "reserve": 93998,
       "review_count": null,
-      "count_str": "26.9万",
+      "count_str": "234.9万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/735250",
+      "url": "https://www.taptap.cn/app/384185",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1759111205,
-      "developer": "良心工作室"
+      "released_time": 1700272800,
+      "developer": "SKY工作室"
     },
     {
-      "rank": 20,
+      "rank": 19,
       "id": 734470,
       "title": "怪物乐土",
       "icon": "https://img-tc.tapimg.com/market/images/ff597448a5adf12deb70234c8122f51e.jpg/_tap_appicon.jpg",
@@ -636,7 +604,7 @@
         "收集",
         "单机"
       ],
-      "count": 418437,
+      "count": 418441,
       "reserve": 69206,
       "review_count": null,
       "count_str": "41.8万",
@@ -648,6 +616,38 @@
         "ios"
       ],
       "released_time": 1749780005,
+      "developer": "良心工作室"
+    },
+    {
+      "rank": 20,
+      "id": 735250,
+      "title": "为了吾王",
+      "icon": "https://img-tc.tapimg.com/market/images/ba21202cbed3d46f5ce50339679f02a6.png/_tap_appicon.jpg",
+      "score": "7.8",
+      "tags": [
+        "Steam移植",
+        "买断制",
+        "Roguelike",
+        "战棋",
+        "桌游",
+        "策略",
+        "多人联机",
+        "独立游戏",
+        "回合制",
+        "角色扮演"
+      ],
+      "count": 269212,
+      "reserve": 85994,
+      "review_count": null,
+      "count_str": "26.9万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/735250",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1759111205,
       "developer": "良心工作室"
     },
     {
@@ -666,7 +666,7 @@
         "单机",
         "角色扮演"
       ],
-      "count": 709461,
+      "count": 709464,
       "reserve": 40970,
       "review_count": null,
       "count_str": "70.9万",
@@ -694,7 +694,7 @@
         "手绘",
         "冒险"
       ],
-      "count": 42317,
+      "count": 42318,
       "reserve": 70804,
       "review_count": null,
       "count_str": "4.2万",
@@ -728,7 +728,7 @@
         "经营",
         "模拟"
       ],
-      "count": 483238,
+      "count": 483246,
       "reserve": 105323,
       "review_count": null,
       "count_str": "48.3万",
@@ -758,7 +758,7 @@
         "冒险",
         "独立游戏"
       ],
-      "count": 537296,
+      "count": 537301,
       "reserve": 82335,
       "review_count": null,
       "count_str": "53.7万",
@@ -791,7 +791,7 @@
         "Steam",
         "生存"
       ],
-      "count": 1176900,
+      "count": 1176912,
       "reserve": 834523,
       "review_count": null,
       "count_str": "117.7万",
@@ -847,7 +847,7 @@
         "独立游戏",
         "战争"
       ],
-      "count": 1154020,
+      "count": 1154031,
       "reserve": 354561,
       "review_count": null,
       "count_str": "115.4万",
@@ -882,7 +882,7 @@
         "付费下载",
         "多结局"
       ],
-      "count": 6463646,
+      "count": 6463652,
       "reserve": 384522,
       "review_count": null,
       "count_str": "646.4万",
@@ -916,7 +916,7 @@
         "教育",
         "可爱"
       ],
-      "count": 460170,
+      "count": 460172,
       "reserve": 132462,
       "review_count": null,
       "count_str": "46.0万",
@@ -949,7 +949,7 @@
         "射击",
         "独立游戏"
       ],
-      "count": 10442267,
+      "count": 10442285,
       "reserve": 2260424,
       "review_count": null,
       "count_str": "1044.2万",
@@ -983,7 +983,7 @@
         "冒险",
         "益智"
       ],
-      "count": 768879,
+      "count": 768881,
       "reserve": 210587,
       "review_count": null,
       "count_str": "76.9万",
@@ -1016,7 +1016,7 @@
         "UP主推荐",
         "可爱"
       ],
-      "count": 940784,
+      "count": 940786,
       "reserve": 276330,
       "review_count": null,
       "count_str": "94.1万",
@@ -1032,35 +1032,6 @@
     },
     {
       "rank": 33,
-      "id": 141954,
-      "title": "怪奇小店",
-      "icon": "https://img-tc.tapimg.com/market/images/f1f8187c3894194b131812924ceacd6c.png/_tap_appicon.jpg",
-      "score": "8.9",
-      "tags": [
-        "像素",
-        "经营",
-        "模拟",
-        "付费下载",
-        "竖屏",
-        "独立游戏",
-        "单机"
-      ],
-      "count": 166272,
-      "reserve": 69958,
-      "review_count": null,
-      "count_str": "16.6万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/141954",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1608429600,
-      "developer": "Neverland"
-    },
-    {
-      "rank": 34,
       "id": 58885,
       "title": "月圆之夜",
       "icon": "https://img-tc.tapimg.com/market/images/b122de374a66c120efc1d4d1f4e9ea94.png/_tap_appicon.jpg",
@@ -1079,7 +1050,7 @@
         "手绘",
         "Roguelike"
       ],
-      "count": 14735098,
+      "count": 14735143,
       "reserve": 35387,
       "review_count": null,
       "count_str": "1473.5万",
@@ -1095,6 +1066,35 @@
       "developer": "巨人网络"
     },
     {
+      "rank": 34,
+      "id": 141954,
+      "title": "怪奇小店",
+      "icon": "https://img-tc.tapimg.com/market/images/f1f8187c3894194b131812924ceacd6c.png/_tap_appicon.jpg",
+      "score": "8.9",
+      "tags": [
+        "像素",
+        "经营",
+        "模拟",
+        "付费下载",
+        "竖屏",
+        "独立游戏",
+        "单机"
+      ],
+      "count": 166273,
+      "reserve": 69958,
+      "review_count": null,
+      "count_str": "16.6万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/141954",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1608429600,
+      "developer": "Neverland"
+    },
+    {
       "rank": 35,
       "id": 228044,
       "title": "逐鹿",
@@ -1108,7 +1108,7 @@
         "战棋",
         "独立游戏"
       ],
-      "count": 515199,
+      "count": 515218,
       "reserve": 137256,
       "review_count": null,
       "count_str": "51.5万",
@@ -1124,34 +1124,6 @@
     },
     {
       "rank": 36,
-      "id": 763202,
-      "title": "墙世界",
-      "icon": "https://img-tc.tapimg.com/market/images/f7d6a8540271a6c42112e4ba7b7a0908.jpg/_tap_appicon.jpg",
-      "score": "7.9",
-      "tags": [
-        "Steam移植",
-        "策略",
-        "独立游戏",
-        "像素",
-        "生存",
-        "冒险"
-      ],
-      "count": 138059,
-      "reserve": 22286,
-      "review_count": null,
-      "count_str": "13.8万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/763202",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1764727205,
-      "developer": "良心工作室"
-    },
-    {
-      "rank": 37,
       "id": 709801,
       "title": "共鸣之心",
       "icon": "https://img-tc.tapimg.com/market/images/3a99476358f0ce6e76523faae0570fb7.png/_tap_appicon.jpg",
@@ -1164,7 +1136,7 @@
         "音乐",
         "策略"
       ],
-      "count": 175368,
+      "count": 175369,
       "reserve": 50679,
       "review_count": null,
       "count_str": "17.5万",
@@ -1178,6 +1150,34 @@
       ],
       "released_time": 1756483200,
       "developer": "便当游戏"
+    },
+    {
+      "rank": 37,
+      "id": 763202,
+      "title": "墙世界",
+      "icon": "https://img-tc.tapimg.com/market/images/f7d6a8540271a6c42112e4ba7b7a0908.jpg/_tap_appicon.jpg",
+      "score": "7.9",
+      "tags": [
+        "Steam移植",
+        "策略",
+        "独立游戏",
+        "像素",
+        "生存",
+        "冒险"
+      ],
+      "count": 138064,
+      "reserve": 22286,
+      "review_count": null,
+      "count_str": "13.8万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/763202",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1764727205,
+      "developer": "良心工作室"
     },
     {
       "rank": 38,
@@ -1194,7 +1194,7 @@
         "独立游戏",
         "养成"
       ],
-      "count": 184858,
+      "count": 184860,
       "reserve": 21890,
       "review_count": null,
       "count_str": "18.5万",
@@ -1254,7 +1254,7 @@
         "文字",
         "模拟"
       ],
-      "count": 2497671,
+      "count": 2497676,
       "reserve": 52507,
       "review_count": null,
       "count_str": "249.8万",
@@ -1288,7 +1288,7 @@
         "冒险",
         "独立游戏"
       ],
-      "count": 436225,
+      "count": 436229,
       "reserve": 190628,
       "review_count": null,
       "count_str": "43.6万",
@@ -1316,7 +1316,7 @@
         "治愈",
         "小清新"
       ],
-      "count": 3033161,
+      "count": 3033164,
       "reserve": 4034,
       "review_count": null,
       "count_str": "303.3万",
@@ -1348,7 +1348,7 @@
         "收集",
         "合成"
       ],
-      "count": 3766363,
+      "count": 3766366,
       "reserve": 5671,
       "review_count": null,
       "count_str": "376.6万",
@@ -1376,7 +1376,7 @@
         "独立游戏",
         "剧情"
       ],
-      "count": 4017233,
+      "count": 4017254,
       "reserve": 64277,
       "review_count": null,
       "count_str": "401.7万",
@@ -1403,7 +1403,7 @@
         "国风",
         "模拟"
       ],
-      "count": 449300,
+      "count": 449305,
       "reserve": 182871,
       "review_count": null,
       "count_str": "44.9万",
@@ -1432,7 +1432,7 @@
         "独立游戏",
         "回合制"
       ],
-      "count": 2244040,
+      "count": 2244046,
       "reserve": 90432,
       "review_count": null,
       "count_str": "224.4万",
@@ -1466,7 +1466,7 @@
         "国产",
         "打击感"
       ],
-      "count": 2521627,
+      "count": 2521634,
       "reserve": 702629,
       "review_count": null,
       "count_str": "252.2万",
@@ -1498,7 +1498,7 @@
         "横版",
         "动作"
       ],
-      "count": 476587,
+      "count": 476592,
       "reserve": 55436,
       "review_count": null,
       "count_str": "47.7万",
@@ -1535,7 +1535,7 @@
         "独立游戏",
         "感人"
       ],
-      "count": 304178,
+      "count": 304181,
       "reserve": 205824,
       "review_count": null,
       "count_str": "30.4万",
@@ -1551,35 +1551,35 @@
     },
     {
       "rank": 50,
-      "id": 195469,
-      "title": "无处遁形",
-      "icon": "https://img-tc.tapimg.com/market/images/a1012ab946fa0337e0b0495201aedd7a.jpg/_tap_appicon.jpg",
-      "score": "9.6",
+      "id": 717825,
+      "title": "阿彻威尔奇妙冒险",
+      "icon": "https://img-tc.tapimg.com/market/images/6fc0c2935fd9b7a9ec4fe9165c1c0bfb.png/_tap_appicon.jpg",
+      "score": "7.3",
       "tags": [
-        "买断制",
-        "移植",
-        "文字",
-        "解谜",
         "单机",
-        "独立游戏",
-        "剧情",
-        "模拟"
+        "角色扮演",
+        "射击",
+        "地牢",
+        "买断制",
+        "Steam移植",
+        "弹幕",
+        "像素",
+        "动作",
+        "独立游戏"
       ],
-      "count": 418331,
-      "reserve": 261977,
+      "count": 97594,
+      "reserve": 5109,
       "review_count": null,
-      "count_str": "41.8万",
+      "count_str": "9.8万",
       "count_label": "热度",
-      "hints": [
-        "限时折扣已开启"
-      ],
-      "url": "https://www.taptap.cn/app/195469",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/717825",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1673569800,
-      "developer": "Aluba Studio"
+      "released_time": 1747965300,
+      "developer": "良心工作室"
     }
   ]
 }
