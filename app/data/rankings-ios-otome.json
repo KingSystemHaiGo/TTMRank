@@ -15,7 +15,7 @@
         "女性向",
         "模拟"
       ],
-      "count": 990354,
+      "count": 990368,
       "reserve": 14165,
       "review_count": null,
       "count_str": "99.0万",
@@ -44,7 +44,7 @@
         "养成",
         "角色扮演"
       ],
-      "count": 9127797,
+      "count": 9127844,
       "reserve": 745485,
       "review_count": null,
       "count_str": "912.8万",
@@ -60,6 +60,33 @@
     },
     {
       "rank": 3,
+      "id": 281478,
+      "title": "锦绣商铺",
+      "icon": "https://img-tc.tapimg.com/market/images/a851acd4c0e855aff897f416a1414d56.png/_tap_appicon.jpg",
+      "score": "9.7",
+      "tags": [
+        "模拟经营",
+        "换装",
+        "古风",
+        "女性向",
+        "模拟"
+      ],
+      "count": 94095,
+      "reserve": 2327,
+      "review_count": null,
+      "count_str": "9.4万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/281478",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1679364000,
+      "developer": "广州光之游网络科技有限公司"
+    },
+    {
+      "rank": 4,
       "id": 213627,
       "title": "月影别墅",
       "icon": "https://img-tc.tapimg.com/market/images/38e6d74161544bb76f226e1a0a0730d9.png/_tap_appicon.jpg",
@@ -73,7 +100,7 @@
         "乙女",
         "恋爱"
       ],
-      "count": 3020264,
+      "count": 3020277,
       "reserve": 87606,
       "review_count": null,
       "count_str": "302.0万",
@@ -86,33 +113,6 @@
       ],
       "released_time": 1626314402,
       "developer": "拉萌游戏工作室"
-    },
-    {
-      "rank": 4,
-      "id": 281478,
-      "title": "锦绣商铺",
-      "icon": "https://img-tc.tapimg.com/market/images/a851acd4c0e855aff897f416a1414d56.png/_tap_appicon.jpg",
-      "score": "9.7",
-      "tags": [
-        "模拟经营",
-        "换装",
-        "古风",
-        "女性向",
-        "模拟"
-      ],
-      "count": 94090,
-      "reserve": 2327,
-      "review_count": null,
-      "count_str": "9.4万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/281478",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1679364000,
-      "developer": "广州光之游网络科技有限公司"
     },
     {
       "rank": 5,
@@ -130,7 +130,7 @@
         "换装",
         "剧情"
       ],
-      "count": 4383195,
+      "count": 4383215,
       "reserve": 271075,
       "review_count": null,
       "count_str": "438.3万",
@@ -146,35 +146,6 @@
     },
     {
       "rank": 6,
-      "id": 787611,
-      "title": "小花仙：拉贝尔之约",
-      "icon": "https://img-tc.tapimg.com/market/images/011ec91c0e60d886b060005e78f10408.jpg/_tap_appicon.jpg",
-      "score": "8.3",
-      "tags": [
-        "女性向",
-        "治愈",
-        "养成",
-        "模拟经营",
-        "角色扮演"
-      ],
-      "count": 382743,
-      "reserve": 188437,
-      "review_count": null,
-      "count_str": "38.3万",
-      "count_label": "热度",
-      "hints": [
-        "7天前 新版本更新"
-      ],
-      "url": "https://www.taptap.cn/app/787611",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1775095208,
-      "developer": "上海淘米网络科技有限公司"
-    },
-    {
-      "rank": 7,
       "id": 218210,
       "title": "以闪亮之名",
       "icon": "https://img-tc.tapimg.com/market/images/57f4f01e35547ec9d6bb66b606f84e56.png/_tap_appicon.jpg",
@@ -193,7 +164,7 @@
         "3D",
         "模拟"
       ],
-      "count": 6995695,
+      "count": 6995724,
       "reserve": 2234453,
       "review_count": null,
       "count_str": "699.6万",
@@ -209,6 +180,35 @@
       "developer": "祖龙游戏"
     },
     {
+      "rank": 7,
+      "id": 787611,
+      "title": "小花仙：拉贝尔之约",
+      "icon": "https://img-tc.tapimg.com/market/images/011ec91c0e60d886b060005e78f10408.jpg/_tap_appicon.jpg",
+      "score": "8.3",
+      "tags": [
+        "女性向",
+        "治愈",
+        "养成",
+        "模拟经营",
+        "角色扮演"
+      ],
+      "count": 382754,
+      "reserve": 188437,
+      "review_count": null,
+      "count_str": "38.3万",
+      "count_label": "热度",
+      "hints": [
+        "7天前 新版本更新"
+      ],
+      "url": "https://www.taptap.cn/app/787611",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1775095208,
+      "developer": "上海淘米网络科技有限公司"
+    },
+    {
       "rank": 8,
       "id": 712212,
       "title": "瞬搭",
@@ -222,7 +222,7 @@
         "收集",
         "角色扮演"
       ],
-      "count": 684391,
+      "count": 684398,
       "reserve": 178919,
       "review_count": null,
       "count_str": "68.4万",
@@ -280,7 +280,7 @@
         "乙女",
         "角色扮演"
       ],
-      "count": 4617458,
+      "count": 4617497,
       "reserve": 432478,
       "review_count": null,
       "count_str": "461.7万",
@@ -341,7 +341,7 @@
         "养成",
         "模拟"
       ],
-      "count": 760934,
+      "count": 760936,
       "reserve": 1044618,
       "review_count": null,
       "count_str": "76.1万",
@@ -372,7 +372,7 @@
         "闯关",
         "二次元"
       ],
-      "count": 2956472,
+      "count": 2956492,
       "reserve": 1,
       "review_count": null,
       "count_str": "295.6万",
@@ -403,7 +403,7 @@
         "乙女",
         "角色扮演"
       ],
-      "count": 150813,
+      "count": 150817,
       "reserve": 74122,
       "review_count": null,
       "count_str": "15.1万",
@@ -435,7 +435,7 @@
         "剧情",
         "角色扮演"
       ],
-      "count": 4274801,
+      "count": 4274809,
       "reserve": 259860,
       "review_count": null,
       "count_str": "427.5万",
@@ -462,7 +462,7 @@
         "女性向",
         "模拟"
       ],
-      "count": 32849,
+      "count": 32850,
       "reserve": 4317,
       "review_count": null,
       "count_str": "3.3万",
@@ -491,7 +491,7 @@
         "单机",
         "休闲"
       ],
-      "count": 665458,
+      "count": 665459,
       "reserve": 9227,
       "review_count": null,
       "count_str": "66.5万",
@@ -507,6 +507,33 @@
     },
     {
       "rank": 18,
+      "id": 183321,
+      "title": "偶像梦幻祭2",
+      "icon": "https://img-tc.tapimg.com/market/images/d34ad4c3c040d2eea806626457212b7b.png/_tap_appicon.jpg",
+      "score": "7.7",
+      "tags": [
+        "音游",
+        "女性向",
+        "二次元",
+        "养成",
+        "偶像"
+      ],
+      "count": 3138526,
+      "reserve": 154691,
+      "review_count": null,
+      "count_str": "313.9万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/183321",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1606355926,
+      "developer": "乐元素科技(北京)股份有限公司"
+    },
+    {
+      "rank": 19,
       "id": 725833,
       "title": "落樱2：千乐之章",
       "icon": "https://img-tc.tapimg.com/market/images/e83927c4068446ccacfdd7557e265e77.png/_tap_appicon.jpg",
@@ -536,33 +563,6 @@
       "developer": "良心工作室"
     },
     {
-      "rank": 19,
-      "id": 183321,
-      "title": "偶像梦幻祭2",
-      "icon": "https://img-tc.tapimg.com/market/images/d34ad4c3c040d2eea806626457212b7b.png/_tap_appicon.jpg",
-      "score": "7.7",
-      "tags": [
-        "音游",
-        "女性向",
-        "二次元",
-        "养成",
-        "偶像"
-      ],
-      "count": 3138515,
-      "reserve": 154691,
-      "review_count": null,
-      "count_str": "313.9万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/183321",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1606355926,
-      "developer": "乐元素科技(北京)股份有限公司"
-    },
-    {
       "rank": 20,
       "id": 729887,
       "title": "地狱之吻",
@@ -579,7 +579,7 @@
         "角色扮演",
         "文字"
       ],
-      "count": 657075,
+      "count": 657081,
       "reserve": 274173,
       "review_count": null,
       "count_str": "65.7万",
@@ -607,7 +607,7 @@
         "经营",
         "冒险"
       ],
-      "count": 1069988,
+      "count": 1070000,
       "reserve": 376943,
       "review_count": null,
       "count_str": "107.0万",
@@ -640,7 +640,7 @@
         "休闲",
         "竖屏"
       ],
-      "count": 1387370,
+      "count": 1387372,
       "reserve": 0,
       "review_count": null,
       "count_str": "138.7万",
@@ -670,7 +670,7 @@
         "可爱",
         "收集"
       ],
-      "count": 5201397,
+      "count": 5201419,
       "reserve": 433087,
       "review_count": null,
       "count_str": "520.1万",
@@ -698,7 +698,7 @@
         "治愈",
         "模拟"
       ],
-      "count": 631916,
+      "count": 631920,
       "reserve": 149364,
       "review_count": null,
       "count_str": "63.2万",
@@ -728,7 +728,7 @@
         "养成",
         "二次元"
       ],
-      "count": 4085061,
+      "count": 4085069,
       "reserve": 247081,
       "review_count": null,
       "count_str": "408.5万",
@@ -756,7 +756,7 @@
         "弹幕",
         "换装"
       ],
-      "count": 440606,
+      "count": 440614,
       "reserve": 30389,
       "review_count": null,
       "count_str": "44.1万",
@@ -782,8 +782,8 @@
         "女性向",
         "合成"
       ],
-      "count": 229345,
-      "reserve": 21361,
+      "count": 229349,
+      "reserve": 21360,
       "review_count": null,
       "count_str": "22.9万",
       "count_label": "热度",
@@ -811,7 +811,7 @@
         "解谜",
         "悬疑"
       ],
-      "count": 200997,
+      "count": 200999,
       "reserve": 54121,
       "review_count": null,
       "count_str": "20.1万",
@@ -827,28 +827,30 @@
     },
     {
       "rank": 29,
-      "id": 270015,
-      "title": "维斯塔的餐桌",
-      "icon": "https://img-tc.tapimg.com/market/images/1c04ee0805e5306d173c51345e48417d.jpg/_tap_appicon.jpg",
-      "score": "6.6",
+      "id": 55307,
+      "title": "恋与制作人",
+      "icon": "https://img-tc.tapimg.com/market/images/82ab73c02bfd3ae1602e8c3b82076e7f.png/_tap_appicon.jpg",
+      "score": "7.0",
       "tags": [
-        "女性向",
-        "二次元",
-        "卡牌"
+        "恋爱",
+        "养成",
+        "乙女",
+        "剧情",
+        "文字"
       ],
-      "count": 102796,
-      "reserve": 146681,
+      "count": 3756613,
+      "reserve": 114341,
       "review_count": null,
-      "count_str": "10.3万",
+      "count_str": "375.7万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/270015",
+      "url": "https://www.taptap.cn/app/55307",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1730887200,
-      "developer": "心柒文化"
+      "released_time": 1512999263,
+      "developer": "叠纸游戏"
     }
   ]
 }
