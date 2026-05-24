@@ -15,10 +15,10 @@
         "国风",
         "角色扮演"
       ],
-      "count": 288216,
+      "count": 288767,
       "reserve": 182078,
       "review_count": null,
-      "count_str": "28.8万",
+      "count_str": "28.9万",
       "count_label": "热度",
       "hints": [
         "4天前 首发"
@@ -44,7 +44,7 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 33439,
+      "count": 33457,
       "reserve": 0,
       "review_count": null,
       "count_str": "3.3万",
@@ -70,7 +70,7 @@
         "放置",
         "休闲"
       ],
-      "count": 1382303,
+      "count": 1382318,
       "reserve": 299188,
       "review_count": null,
       "count_str": "138.2万",
@@ -99,7 +99,7 @@
         "角色扮演",
         "策略"
       ],
-      "count": 2538177,
+      "count": 2538213,
       "reserve": 10262,
       "review_count": null,
       "count_str": "253.8万",
@@ -129,7 +129,7 @@
         "可爱",
         "策略"
       ],
-      "count": 3118735,
+      "count": 3118815,
       "reserve": 315699,
       "review_count": null,
       "count_str": "311.9万",
@@ -155,7 +155,7 @@
         "放置",
         "休闲"
       ],
-      "count": 304645,
+      "count": 304684,
       "reserve": 188,
       "review_count": null,
       "count_str": "30.5万",
@@ -210,7 +210,7 @@
         "冒险",
         "休闲"
       ],
-      "count": 33141,
+      "count": 33150,
       "reserve": 2171,
       "review_count": null,
       "count_str": "3.3万",
@@ -240,7 +240,7 @@
         "单机",
         "像素"
       ],
-      "count": 612230,
+      "count": 612257,
       "reserve": 4891,
       "review_count": null,
       "count_str": "61.2万",
@@ -256,57 +256,6 @@
     },
     {
       "rank": 10,
-      "id": 382414,
-      "title": "女巫来了",
-      "icon": "https://img-tc.tapimg.com/market/images/2391d417d17cf5573bb394f46149c477.png/_tap_appicon.jpg",
-      "score": "9.5",
-      "tags": [
-        "点击",
-        "放置",
-        "休闲"
-      ],
-      "count": 150057,
-      "reserve": 150,
-      "review_count": null,
-      "count_str": "15.0万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/382414",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1692800807,
-      "developer": "快乐工作室"
-    },
-    {
-      "rank": 11,
-      "id": 849511,
-      "title": "暗黑拍卖行",
-      "icon": "https://img-tc.tapimg.com/market/images/Fjm0VrKd8pdB9oxsvYwsAhVR7caf.png/_tap_appicon.jpg",
-      "score": "9.7",
-      "tags": [
-        "放置",
-        "TapTap制造",
-        "角色扮演"
-      ],
-      "count": 8821,
-      "reserve": 0,
-      "review_count": null,
-      "count_str": "8821",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/849511",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1778345982,
-      "developer": "小皮的工作室"
-    },
-    {
-      "rank": 12,
       "id": 816605,
       "title": "修仙前传",
       "icon": "https://img-tc.tapimg.com/market/images/FvODOfQNFo8AVFWy4daKWt1hPEk0.png/_tap_appicon.jpg",
@@ -318,7 +267,7 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 152773,
+      "count": 152796,
       "reserve": 0,
       "review_count": null,
       "count_str": "15.3万",
@@ -332,6 +281,57 @@
       ],
       "released_time": 1770598806,
       "developer": "业余划水做游戏"
+    },
+    {
+      "rank": 11,
+      "id": 849511,
+      "title": "暗黑拍卖行",
+      "icon": "https://img-tc.tapimg.com/market/images/Fjm0VrKd8pdB9oxsvYwsAhVR7caf.png/_tap_appicon.jpg",
+      "score": "9.7",
+      "tags": [
+        "放置",
+        "TapTap制造",
+        "角色扮演"
+      ],
+      "count": 8827,
+      "reserve": 0,
+      "review_count": null,
+      "count_str": "8827",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/849511",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1778345982,
+      "developer": "小皮的工作室"
+    },
+    {
+      "rank": 12,
+      "id": 382414,
+      "title": "女巫来了",
+      "icon": "https://img-tc.tapimg.com/market/images/2391d417d17cf5573bb394f46149c477.png/_tap_appicon.jpg",
+      "score": "9.5",
+      "tags": [
+        "点击",
+        "放置",
+        "休闲"
+      ],
+      "count": 150081,
+      "reserve": 150,
+      "review_count": null,
+      "count_str": "15.0万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/382414",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1692800807,
+      "developer": "快乐工作室"
     },
     {
       "rank": 13,
@@ -349,7 +349,7 @@
         "像素",
         "种田"
       ],
-      "count": 509629,
+      "count": 509635,
       "reserve": 121600,
       "review_count": null,
       "count_str": "51.0万",
@@ -378,7 +378,7 @@
         "放置",
         "刷宝"
       ],
-      "count": 305749,
+      "count": 305770,
       "reserve": 109562,
       "review_count": null,
       "count_str": "30.6万",
@@ -409,7 +409,7 @@
         "收集",
         "养成"
       ],
-      "count": 2156347,
+      "count": 2156417,
       "reserve": 676202,
       "review_count": null,
       "count_str": "215.6万",
@@ -440,7 +440,7 @@
         "割草",
         "养成"
       ],
-      "count": 346146,
+      "count": 346160,
       "reserve": 2992,
       "review_count": null,
       "count_str": "34.6万",
@@ -465,7 +465,7 @@
         "TapTap制造",
         "角色扮演"
       ],
-      "count": 21621,
+      "count": 21624,
       "reserve": 0,
       "review_count": null,
       "count_str": "2.2万",
@@ -495,7 +495,7 @@
         "放置",
         "策略"
       ],
-      "count": 1592835,
+      "count": 1592838,
       "reserve": 5,
       "review_count": null,
       "count_str": "159.3万",
@@ -526,7 +526,7 @@
         "收集",
         "剧情"
       ],
-      "count": 2495142,
+      "count": 2495200,
       "reserve": 581382,
       "review_count": null,
       "count_str": "249.5万",
@@ -552,7 +552,7 @@
         "刷宝",
         "建造"
       ],
-      "count": 267810,
+      "count": 267816,
       "reserve": 25858,
       "review_count": null,
       "count_str": "26.8万",
@@ -585,7 +585,7 @@
         "模拟经营",
         "模拟"
       ],
-      "count": 2762143,
+      "count": 2762169,
       "reserve": 855807,
       "review_count": null,
       "count_str": "276.2万",
@@ -616,7 +616,7 @@
         "独立游戏",
         "剧情"
       ],
-      "count": 2354893,
+      "count": 2354917,
       "reserve": 93995,
       "review_count": null,
       "count_str": "235.5万",
@@ -642,7 +642,7 @@
         "养成",
         "刷宝"
       ],
-      "count": 1280853,
+      "count": 1280870,
       "reserve": 2625,
       "review_count": null,
       "count_str": "128.1万",
@@ -669,7 +669,7 @@
         "单机",
         "模拟"
       ],
-      "count": 85678,
+      "count": 85682,
       "reserve": 12329,
       "review_count": null,
       "count_str": "8.6万",
@@ -715,33 +715,6 @@
     },
     {
       "rank": 26,
-      "id": 225499,
-      "title": "你的江湖",
-      "icon": "https://img-tc.tapimg.com/market/images/bcefe068975337a72de5587d0064b974.jpg/_tap_appicon.jpg",
-      "score": "7.3",
-      "tags": [
-        "武侠",
-        "放置",
-        "策略",
-        "MUD",
-        "文字"
-      ],
-      "count": 785600,
-      "reserve": 16763,
-      "review_count": null,
-      "count_str": "78.6万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/225499",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1641348003,
-      "developer": "鲸禧游戏"
-    },
-    {
-      "rank": 27,
       "id": 199670,
       "title": "某某宗女修修炼手札",
       "icon": "https://img-tc.tapimg.com/market/images/59a55c615cfe64b1919e99d20f685313.png/_tap_appicon.jpg",
@@ -755,7 +728,7 @@
         "文字"
       ],
       "count": 0,
-      "reserve": 140901,
+      "reserve": 140902,
       "review_count": null,
       "count_str": "0",
       "count_label": "热度",
@@ -769,7 +742,7 @@
       "developer": "HydrozoaWorks"
     },
     {
-      "rank": 28,
+      "rank": 27,
       "id": 308659,
       "title": "凡人传说",
       "icon": "https://img-tc.tapimg.com/market/images/64029ed32986c8ac09494126f36e4042.png/_tap_appicon.jpg",
@@ -779,7 +752,7 @@
         "修仙",
         "文字"
       ],
-      "count": 596677,
+      "count": 596678,
       "reserve": 7555,
       "review_count": null,
       "count_str": "59.7万",
@@ -794,7 +767,7 @@
       "developer": "鬼市管理员"
     },
     {
-      "rank": 29,
+      "rank": 28,
       "id": 228035,
       "title": "无尽寒冬",
       "icon": "https://img-tc.tapimg.com/market/images/a73f9ebf1c6619642facf26d8ae0dbd3.png/_tap_appicon.jpg",
@@ -806,7 +779,7 @@
         "刷宝",
         "地牢"
       ],
-      "count": 461998,
+      "count": 462001,
       "reserve": 10858,
       "review_count": null,
       "count_str": "46.2万",
@@ -819,6 +792,33 @@
       ],
       "released_time": 1656746137,
       "developer": "Mud Studio"
+    },
+    {
+      "rank": 29,
+      "id": 225499,
+      "title": "你的江湖",
+      "icon": "https://img-tc.tapimg.com/market/images/bcefe068975337a72de5587d0064b974.jpg/_tap_appicon.jpg",
+      "score": "7.3",
+      "tags": [
+        "武侠",
+        "放置",
+        "策略",
+        "MUD",
+        "文字"
+      ],
+      "count": 785627,
+      "reserve": 16763,
+      "review_count": null,
+      "count_str": "78.6万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/225499",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1641348003,
+      "developer": "鲸禧游戏"
     }
   ]
 }
