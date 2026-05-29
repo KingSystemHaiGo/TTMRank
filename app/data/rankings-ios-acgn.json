@@ -13,10 +13,10 @@
         "轻度Roguelike",
         "卡牌"
       ],
-      "count": 555177,
-      "reserve": 906513,
+      "count": 557347,
+      "reserve": 906495,
       "review_count": null,
-      "count_str": "55.5万",
+      "count_str": "55.7万",
       "count_label": "热度",
       "hints": [
         "5月28日 正式上线"
@@ -46,10 +46,10 @@
         "动作",
         "新怪谈"
       ],
-      "count": 5996954,
-      "reserve": 6304902,
+      "count": 5998092,
+      "reserve": 6304896,
       "review_count": null,
-      "count_str": "599.7万",
+      "count_str": "599.8万",
       "count_label": "热度",
       "hints": [
         "昨天 新版本更新"
@@ -82,7 +82,7 @@
         "收集",
         "横版"
       ],
-      "count": 16169532,
+      "count": 16169611,
       "reserve": 129746,
       "review_count": null,
       "count_str": "1617.0万",
@@ -111,10 +111,10 @@
         "收集",
         "养成"
       ],
-      "count": 10405375,
+      "count": 10406081,
       "reserve": 1625048,
       "review_count": null,
-      "count_str": "1040.5万",
+      "count_str": "1040.6万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/221062",
@@ -145,10 +145,10 @@
         "多人联机",
         "剧情"
       ],
-      "count": 89337120,
+      "count": 89337607,
       "reserve": 3115188,
       "review_count": null,
-      "count_str": "8933.7万",
+      "count_str": "8933.8万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/168332",
@@ -176,7 +176,7 @@
         "可爱",
         "策略"
       ],
-      "count": 3139841,
+      "count": 3139909,
       "reserve": 315646,
       "review_count": null,
       "count_str": "314.0万",
@@ -204,7 +204,7 @@
         "日系",
         "节奏"
       ],
-      "count": 4682818,
+      "count": 4683136,
       "reserve": 1324507,
       "review_count": null,
       "count_str": "468.3万",
@@ -234,8 +234,8 @@
         "养成",
         "二次元"
       ],
-      "count": 30994933,
-      "reserve": 4295940,
+      "count": 30995239,
+      "reserve": 4295939,
       "review_count": null,
       "count_str": "3099.5万",
       "count_label": "热度",
@@ -262,7 +262,7 @@
         "弹幕射击",
         "卡牌"
       ],
-      "count": 1052577,
+      "count": 1052676,
       "reserve": 498003,
       "review_count": null,
       "count_str": "105.3万",
@@ -290,10 +290,10 @@
         "冒险",
         "二次元"
       ],
-      "count": 21828278,
-      "reserve": 4399192,
+      "count": 21828686,
+      "reserve": 4399191,
       "review_count": null,
-      "count_str": "2182.8万",
+      "count_str": "2182.9万",
       "count_label": "热度",
       "hints": [
         "06月08日 新版本更新"
@@ -309,6 +309,35 @@
     },
     {
       "rank": 11,
+      "id": 67245,
+      "title": "邂逅在迷宫",
+      "icon": "https://img-tc.tapimg.com/market/images/f35da3af9c642c9fc2e02c5cc655e3a0.png/_tap_appicon.jpg",
+      "score": "8.6",
+      "tags": [
+        "竖屏",
+        "美少女",
+        "二次元",
+        "放置",
+        "养成",
+        "角色扮演",
+        "策略"
+      ],
+      "count": 2543460,
+      "reserve": 10262,
+      "review_count": null,
+      "count_str": "254.3万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/67245",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1632880800,
+      "developer": "奥熠游戏"
+    },
+    {
+      "rank": 12,
       "id": 186316,
       "title": "光与夜之恋",
       "icon": "https://img-tc.tapimg.com/market/images/1be1549e1522b97391f2c14e26342687.png/_tap_appicon.jpg",
@@ -323,7 +352,7 @@
         "换装",
         "剧情"
       ],
-      "count": 4391457,
+      "count": 4391482,
       "reserve": 271064,
       "review_count": null,
       "count_str": "439.1万",
@@ -336,35 +365,6 @@
       ],
       "released_time": 1624489987,
       "developer": "腾讯"
-    },
-    {
-      "rank": 12,
-      "id": 67245,
-      "title": "邂逅在迷宫",
-      "icon": "https://img-tc.tapimg.com/market/images/f35da3af9c642c9fc2e02c5cc655e3a0.png/_tap_appicon.jpg",
-      "score": "8.6",
-      "tags": [
-        "竖屏",
-        "美少女",
-        "二次元",
-        "放置",
-        "养成",
-        "角色扮演",
-        "策略"
-      ],
-      "count": 2543429,
-      "reserve": 10262,
-      "review_count": null,
-      "count_str": "254.3万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/67245",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1632880800,
-      "developer": "奥熠游戏"
     },
     {
       "rank": 13,
@@ -385,14 +385,12 @@
         "横版格斗",
         "日漫"
       ],
-      "count": 14600821,
+      "count": 14600933,
       "reserve": 3,
       "review_count": null,
       "count_str": "1460.1万",
       "count_label": "热度",
-      "hints": [
-        "06月01日 新版本更新"
-      ],
+      "hints": [],
       "url": "https://www.taptap.cn/app/2247",
       "platforms": [
         "android",
@@ -417,7 +415,7 @@
         "买断制",
         "有内购"
       ],
-      "count": 12050571,
+      "count": 12050629,
       "reserve": 73918,
       "review_count": null,
       "count_str": "1205.1万",
