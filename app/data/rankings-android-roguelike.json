@@ -21,7 +21,7 @@
         "上帝视角",
         "ARPG"
       ],
-      "count": 37499048,
+      "count": 37499267,
       "reserve": 28384,
       "review_count": null,
       "count_str": "3749.9万",
@@ -51,7 +51,7 @@
         "2d横版",
         "动作"
       ],
-      "count": 2978500,
+      "count": 2978538,
       "reserve": 18321,
       "review_count": null,
       "count_str": "297.9万",
@@ -79,7 +79,7 @@
         "冒险",
         "闯关"
       ],
-      "count": 4903161,
+      "count": 4903218,
       "reserve": 540307,
       "review_count": null,
       "count_str": "490.3万",
@@ -107,8 +107,8 @@
         "模拟",
         "策略"
       ],
-      "count": 432034,
-      "reserve": 47673,
+      "count": 432043,
+      "reserve": 47674,
       "review_count": null,
       "count_str": "43.2万",
       "count_label": "热度",
@@ -133,10 +133,10 @@
         "策略",
         "休闲"
       ],
-      "count": 2442,
+      "count": 2516,
       "reserve": 0,
       "review_count": null,
-      "count_str": "2442",
+      "count_str": "2516",
       "count_label": "热度",
       "hints": [
         "2天前 首发"
@@ -160,7 +160,7 @@
         "射击",
         "动作"
       ],
-      "count": 3322865,
+      "count": 3322928,
       "reserve": 90557,
       "review_count": null,
       "count_str": "332.3万",
@@ -196,7 +196,7 @@
         "手绘",
         "Roguelike"
       ],
-      "count": 14765062,
+      "count": 14765091,
       "reserve": 35387,
       "review_count": null,
       "count_str": "1476.5万",
@@ -224,7 +224,7 @@
         "Steam移植",
         "国风"
       ],
-      "count": 3720205,
+      "count": 3720245,
       "reserve": 360393,
       "review_count": null,
       "count_str": "372.0万",
@@ -265,7 +265,7 @@
         "支持手柄",
         "冒险"
       ],
-      "count": 12220756,
+      "count": 12220794,
       "reserve": 1620719,
       "review_count": null,
       "count_str": "1222.1万",
@@ -294,7 +294,7 @@
         "Roguelike",
         "放置"
       ],
-      "count": 318980,
+      "count": 319000,
       "reserve": 9144,
       "review_count": null,
       "count_str": "31.9万",
@@ -321,10 +321,10 @@
         "Roguelike",
         "TapTap制造"
       ],
-      "count": 8634,
+      "count": 8657,
       "reserve": 0,
       "review_count": null,
-      "count_str": "8634",
+      "count_str": "8657",
       "count_label": "热度",
       "hints": [
         "7天前 首发"
@@ -355,7 +355,7 @@
         "机甲",
         "动作"
       ],
-      "count": 399622,
+      "count": 399636,
       "reserve": 26260,
       "review_count": null,
       "count_str": "40.0万",
@@ -383,7 +383,7 @@
         "动作",
         "割草"
       ],
-      "count": 607629,
+      "count": 607646,
       "reserve": 77227,
       "review_count": null,
       "count_str": "60.8万",
@@ -401,32 +401,6 @@
     },
     {
       "rank": 14,
-      "id": 718452,
-      "title": "我在末日当房东",
-      "icon": "https://img-tc.tapimg.com/market/images/5f8afe597a308df19dd4e17c39f129ce.png/_tap_appicon.jpg",
-      "score": "8.5",
-      "tags": [
-        "Roguelike",
-        "生存",
-        "末日",
-        "模拟"
-      ],
-      "count": 1258676,
-      "reserve": 78179,
-      "review_count": null,
-      "count_str": "125.9万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/718452",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1737594008,
-      "developer": "超神网络"
-    },
-    {
-      "rank": 15,
       "id": 709805,
       "title": "抽卡求生：荒岛",
       "icon": "https://img-tc.tapimg.com/market/images/f0dffc817c83de223e03a3188e3dbb4f.jpg/_tap_appicon.jpg",
@@ -443,7 +417,7 @@
         "多结局",
         "冒险"
       ],
-      "count": 68190,
+      "count": 68196,
       "reserve": 49599,
       "review_count": null,
       "count_str": "6.8万",
@@ -458,6 +432,32 @@
       "developer": "SKY工作室"
     },
     {
+      "rank": 15,
+      "id": 718452,
+      "title": "我在末日当房东",
+      "icon": "https://img-tc.tapimg.com/market/images/5f8afe597a308df19dd4e17c39f129ce.png/_tap_appicon.jpg",
+      "score": "8.5",
+      "tags": [
+        "Roguelike",
+        "生存",
+        "末日",
+        "模拟"
+      ],
+      "count": 1258688,
+      "reserve": 78179,
+      "review_count": null,
+      "count_str": "125.9万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/718452",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1737594008,
+      "developer": "超神网络"
+    },
+    {
       "rank": 16,
       "id": 743961,
       "title": "我在地府打麻将",
@@ -469,7 +469,7 @@
         "二次元",
         "卡牌"
       ],
-      "count": 409632,
+      "count": 409644,
       "reserve": 23554,
       "review_count": null,
       "count_str": "41.0万",
@@ -500,7 +500,7 @@
         "独立游戏",
         "支持手柄"
       ],
-      "count": 5514766,
+      "count": 5514776,
       "reserve": 114707,
       "review_count": null,
       "count_str": "551.5万",
@@ -524,7 +524,7 @@
         "文字",
         "模拟"
       ],
-      "count": 2046935,
+      "count": 2046942,
       "reserve": 53808,
       "review_count": null,
       "count_str": "204.7万",
@@ -556,7 +556,7 @@
         "策略",
         "卡牌"
       ],
-      "count": 459940,
+      "count": 459945,
       "reserve": 70182,
       "review_count": null,
       "count_str": "46.0万",
@@ -587,7 +587,7 @@
         "UP主推荐",
         "内购解锁"
       ],
-      "count": 10997021,
+      "count": 10997030,
       "reserve": 606604,
       "review_count": null,
       "count_str": "1099.7万",
@@ -613,7 +613,7 @@
         "Roguelike",
         "动作"
       ],
-      "count": 401713,
+      "count": 401728,
       "reserve": 33212,
       "review_count": null,
       "count_str": "40.2万",
@@ -640,7 +640,7 @@
         "策略",
         "搜打撤"
       ],
-      "count": 412501,
+      "count": 412507,
       "reserve": 1970,
       "review_count": null,
       "count_str": "41.3万",
@@ -669,7 +669,7 @@
         "塔防",
         "策略"
       ],
-      "count": 301246,
+      "count": 301269,
       "reserve": 32584,
       "review_count": null,
       "count_str": "30.1万",
@@ -697,7 +697,7 @@
         "Roguelike",
         "策略"
       ],
-      "count": 740940,
+      "count": 740943,
       "reserve": 9096,
       "review_count": null,
       "count_str": "74.1万",
@@ -727,7 +727,7 @@
         "竖屏",
         "桌面和棋类"
       ],
-      "count": 965478,
+      "count": 965485,
       "reserve": 66032,
       "review_count": null,
       "count_str": "96.5万",
@@ -761,7 +761,7 @@
         "像素",
         "复古"
       ],
-      "count": 407807,
+      "count": 407828,
       "reserve": 68562,
       "review_count": null,
       "count_str": "40.8万",
@@ -790,7 +790,7 @@
         "移植",
         "dbg"
       ],
-      "count": 1385282,
+      "count": 1385287,
       "reserve": 45130,
       "review_count": null,
       "count_str": "138.5万",
@@ -818,10 +818,10 @@
         "TapTap制造",
         "街机"
       ],
-      "count": 8881,
+      "count": 8887,
       "reserve": 0,
       "review_count": null,
-      "count_str": "8881",
+      "count_str": "8887",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/859703",
@@ -851,7 +851,7 @@
         "竖屏",
         "冒险"
       ],
-      "count": 606471,
+      "count": 606472,
       "reserve": 128802,
       "review_count": null,
       "count_str": "60.6万",
@@ -879,7 +879,7 @@
         "本地联机",
         "支持手柄"
       ],
-      "count": 3739823,
+      "count": 3739827,
       "reserve": 740529,
       "review_count": null,
       "count_str": "374.0万",
@@ -912,7 +912,7 @@
         "模拟",
         "独立游戏"
       ],
-      "count": 601184,
+      "count": 601187,
       "reserve": 46233,
       "review_count": null,
       "count_str": "60.1万",
@@ -942,7 +942,7 @@
         "Roguelike",
         "模拟"
       ],
-      "count": 652874,
+      "count": 652883,
       "reserve": 41011,
       "review_count": null,
       "count_str": "65.3万",
@@ -967,7 +967,7 @@
         "动作",
         "冒险"
       ],
-      "count": 1644364,
+      "count": 1644367,
       "reserve": 136707,
       "review_count": null,
       "count_str": "164.4万",
@@ -994,7 +994,7 @@
         "冒险",
         "竖屏"
       ],
-      "count": 79486,
+      "count": 79490,
       "reserve": 31151,
       "review_count": null,
       "count_str": "7.9万",
@@ -1022,7 +1022,7 @@
         "模拟"
       ],
       "count": 0,
-      "reserve": 133662,
+      "reserve": 133666,
       "review_count": null,
       "count_str": "0",
       "count_label": "热度",
@@ -1049,7 +1049,7 @@
         "文字",
         "模拟"
       ],
-      "count": 1704899,
+      "count": 1704902,
       "reserve": 100480,
       "review_count": null,
       "count_str": "170.5万",
@@ -1082,7 +1082,7 @@
         "独立游戏",
         "动作"
       ],
-      "count": 1296104,
+      "count": 1296109,
       "reserve": 71756,
       "review_count": null,
       "count_str": "129.6万",
@@ -1110,7 +1110,7 @@
         "动作",
         "冒险"
       ],
-      "count": 305819,
+      "count": 305824,
       "reserve": 46255,
       "review_count": null,
       "count_str": "30.6万",
@@ -1135,7 +1135,7 @@
         "解压",
         "动作"
       ],
-      "count": 2184683,
+      "count": 2184684,
       "reserve": 34665,
       "review_count": null,
       "count_str": "218.5万",
@@ -1160,7 +1160,7 @@
         "竖屏",
         "角色扮演"
       ],
-      "count": 829576,
+      "count": 829580,
       "reserve": 16,
       "review_count": null,
       "count_str": "83.0万",
@@ -1188,7 +1188,7 @@
         "单机",
         "休闲"
       ],
-      "count": 17169,
+      "count": 17170,
       "reserve": 843,
       "review_count": null,
       "count_str": "1.7万",
@@ -1204,33 +1204,6 @@
     },
     {
       "rank": 42,
-      "id": 15386,
-      "title": "魔窟-无尽的地下城",
-      "icon": "https://img-tc.tapimg.com/market/images/6dbaaf5abd536ef9335dd1dba385108e.png/_tap_appicon.jpg",
-      "score": "8.2",
-      "tags": [
-        "单机",
-        "地牢",
-        "冒险",
-        "策略",
-        "生存"
-      ],
-      "count": 909843,
-      "reserve": 5838,
-      "review_count": null,
-      "count_str": "91.0万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/15386",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1509431816,
-      "developer": "杭州凌烟阁科技有限公司"
-    },
-    {
-      "rank": 43,
       "id": 51786,
       "title": "贪婪洞窟",
       "icon": "https://img-tc.tapimg.com/market/images/2c01bd1134a2dd8ce8d056c8e3332dba.png/_tap_appicon.jpg",
@@ -1244,7 +1217,7 @@
         "经营",
         "生存"
       ],
-      "count": 2754007,
+      "count": 2754011,
       "reserve": 11608,
       "review_count": null,
       "count_str": "275.4万",
@@ -1259,6 +1232,33 @@
       "developer": "Avalon Games"
     },
     {
+      "rank": 43,
+      "id": 15386,
+      "title": "魔窟-无尽的地下城",
+      "icon": "https://img-tc.tapimg.com/market/images/6dbaaf5abd536ef9335dd1dba385108e.png/_tap_appicon.jpg",
+      "score": "8.2",
+      "tags": [
+        "单机",
+        "地牢",
+        "冒险",
+        "策略",
+        "生存"
+      ],
+      "count": 909844,
+      "reserve": 5838,
+      "review_count": null,
+      "count_str": "91.0万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/15386",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1509431816,
+      "developer": "杭州凌烟阁科技有限公司"
+    },
+    {
       "rank": 44,
       "id": 829756,
       "title": "口袋乱斗",
@@ -1270,7 +1270,7 @@
         "策略",
         "休闲"
       ],
-      "count": 23144,
+      "count": 23146,
       "reserve": 249,
       "review_count": null,
       "count_str": "2.3万",
@@ -1299,7 +1299,7 @@
         "回合制",
         "UP主推荐"
       ],
-      "count": 2637555,
+      "count": 2637558,
       "reserve": 114780,
       "review_count": null,
       "count_str": "263.8万",
@@ -1329,7 +1329,7 @@
         "剧情",
         "多结局"
       ],
-      "count": 2503857,
+      "count": 2503864,
       "reserve": 19272,
       "review_count": null,
       "count_str": "250.4万",
@@ -1362,7 +1362,7 @@
         "Steam",
         "生存"
       ],
-      "count": 1184376,
+      "count": 1184380,
       "reserve": 834421,
       "review_count": null,
       "count_str": "118.4万",
@@ -1388,7 +1388,7 @@
         "TapTap制造",
         "策略"
       ],
-      "count": 15611,
+      "count": 15615,
       "reserve": 0,
       "review_count": null,
       "count_str": "1.6万",
@@ -1405,33 +1405,6 @@
     },
     {
       "rank": 49,
-      "id": 236005,
-      "title": "打工人生",
-      "icon": "https://img-tc.tapimg.com/market/images/639163d2d465d50a647d6d012966fd11.png/_tap_appicon.jpg",
-      "score": "8.9",
-      "tags": [
-        "Roguelike",
-        "休闲",
-        "竖屏",
-        "单机",
-        "策略"
-      ],
-      "count": 154511,
-      "reserve": 1,
-      "review_count": null,
-      "count_str": "15.5万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/236005",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1658797355,
-      "developer": "铁书工作室"
-    },
-    {
-      "rank": 50,
       "id": 210142,
       "title": "因狄斯的谎言",
       "icon": "https://img-tc.tapimg.com/market/images/76190ff985e7d781edf19115ce0164e9.png/_tap_appicon.jpg",
@@ -1456,6 +1429,33 @@
       ],
       "released_time": 1691373601,
       "developer": "Erabit CN"
+    },
+    {
+      "rank": 50,
+      "id": 236005,
+      "title": "打工人生",
+      "icon": "https://img-tc.tapimg.com/market/images/639163d2d465d50a647d6d012966fd11.png/_tap_appicon.jpg",
+      "score": "8.9",
+      "tags": [
+        "Roguelike",
+        "休闲",
+        "竖屏",
+        "单机",
+        "策略"
+      ],
+      "count": 154512,
+      "reserve": 1,
+      "review_count": null,
+      "count_str": "15.5万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/236005",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1658797355,
+      "developer": "铁书工作室"
     }
   ]
 }
