@@ -1,5 +1,5 @@
 {
-  "title": "音乐榜",
+  "title": "音乐",
   "description": "按最近下载热度计算 · 每 20 分钟更新",
   "items": [
     {
@@ -16,10 +16,10 @@
         "UP主推荐",
         "独立游戏"
       ],
-      "count": 48338223,
+      "count": 48339003,
       "reserve": 49400,
       "review_count": null,
-      "count_str": "4833.8万",
+      "count_str": "4833.9万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/165287",
@@ -49,10 +49,10 @@
         "收集",
         "横版"
       ],
-      "count": 16193473,
+      "count": 16193549,
       "reserve": 129745,
       "review_count": null,
-      "count_str": "1619.3万",
+      "count_str": "1619.4万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/60809",
@@ -77,8 +77,8 @@
         "日系",
         "节奏"
       ],
-      "count": 4746052,
-      "reserve": 1324424,
+      "count": 4746250,
+      "reserve": 1324423,
       "review_count": null,
       "count_str": "474.6万",
       "count_label": "热度",
@@ -107,7 +107,7 @@
         "买断制",
         "有内购"
       ],
-      "count": 12066762,
+      "count": 12066827,
       "reserve": 73915,
       "review_count": null,
       "count_str": "1206.7万",
@@ -132,8 +132,8 @@
         "重力感应",
         "节奏"
       ],
-      "count": 2350920,
-      "reserve": 496897,
+      "count": 2350984,
+      "reserve": 496896,
       "review_count": null,
       "count_str": "235.1万",
       "count_label": "热度",
@@ -159,7 +159,7 @@
         "休闲",
         "催泪"
       ],
-      "count": 4468678,
+      "count": 4468704,
       "reserve": 166602,
       "review_count": null,
       "count_str": "446.9万",
@@ -185,8 +185,8 @@
         "节奏",
         "音乐"
       ],
-      "count": 1839630,
-      "reserve": 125695,
+      "count": 1839661,
+      "reserve": 125694,
       "review_count": null,
       "count_str": "184.0万",
       "count_label": "热度",
@@ -216,7 +216,7 @@
         "单机",
         "节奏"
       ],
-      "count": 210039,
+      "count": 210042,
       "reserve": 189007,
       "review_count": null,
       "count_str": "21.0万",
@@ -243,7 +243,7 @@
         "养成",
         "偶像"
       ],
-      "count": 3155951,
+      "count": 3155984,
       "reserve": 154688,
       "review_count": null,
       "count_str": "315.6万",
@@ -271,7 +271,7 @@
         "多人联机",
         "UP主推荐"
       ],
-      "count": 2440870,
+      "count": 2440895,
       "reserve": 88666,
       "review_count": null,
       "count_str": "244.1万",
@@ -287,32 +287,6 @@
     },
     {
       "rank": 11,
-      "id": 366662,
-      "title": "闪音跃动",
-      "icon": "https://img-tc.tapimg.com/market/images/776c453c45ba6a2b335edbc8ef674b11.png/_tap_appicon.jpg",
-      "score": "8.5",
-      "tags": [
-        "跑酷",
-        "音游",
-        "节奏",
-        "音乐"
-      ],
-      "count": 74349,
-      "reserve": 52566,
-      "review_count": null,
-      "count_str": "7.4万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/366662",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1770375843,
-      "developer": "布李谱工作室"
-    },
-    {
-      "rank": 12,
       "id": 6908,
       "title": "同步音律",
       "icon": "https://img-tc.tapimg.com/market/images/60512bedd5cd2e0c8b1ecc58add5fab8.png/_tap_appicon.jpg",
@@ -327,7 +301,7 @@
         "下落式",
         "电音"
       ],
-      "count": 6297884,
+      "count": 6297897,
       "reserve": 7014,
       "review_count": null,
       "count_str": "629.8万",
@@ -342,7 +316,61 @@
       "developer": "同步音律工作室"
     },
     {
+      "rank": 12,
+      "id": 366662,
+      "title": "闪音跃动",
+      "icon": "https://img-tc.tapimg.com/market/images/776c453c45ba6a2b335edbc8ef674b11.png/_tap_appicon.jpg",
+      "score": "8.5",
+      "tags": [
+        "跑酷",
+        "音游",
+        "节奏",
+        "音乐"
+      ],
+      "count": 74355,
+      "reserve": 52566,
+      "review_count": null,
+      "count_str": "7.4万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/366662",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1770375843,
+      "developer": "布李谱工作室"
+    },
+    {
       "rank": 13,
+      "id": 201173,
+      "title": "律动轨迹",
+      "icon": "https://img-tc.tapimg.com/market/images/e9c8cbb4a2eee162722b47e36bd4a8ef.png/_tap_appicon.jpg",
+      "score": "9.1",
+      "tags": [
+        "音乐",
+        "手速",
+        "竖屏",
+        "下落式",
+        "音游",
+        "节奏"
+      ],
+      "count": 1491035,
+      "reserve": 485076,
+      "review_count": null,
+      "count_str": "149.1万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/201173",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1714269602,
+      "developer": "鸽游"
+    },
+    {
+      "rank": 14,
       "id": 180183,
       "title": "花雨旋律",
       "icon": "https://img-tc.tapimg.com/market/images/7e6ce6cb7e5b2ccbed41e8f840afe069.png/_tap_appicon.jpg",
@@ -368,314 +396,6 @@
       ],
       "released_time": 1726279200,
       "developer": "hasuhasu"
-    },
-    {
-      "rank": 14,
-      "id": 201173,
-      "title": "律动轨迹",
-      "icon": "https://img-tc.tapimg.com/market/images/e9c8cbb4a2eee162722b47e36bd4a8ef.png/_tap_appicon.jpg",
-      "score": "9.1",
-      "tags": [
-        "音乐",
-        "手速",
-        "竖屏",
-        "下落式",
-        "音游",
-        "节奏"
-      ],
-      "count": 1491017,
-      "reserve": 485076,
-      "review_count": null,
-      "count_str": "149.1万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/201173",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1714269602,
-      "developer": "鸽游"
-    },
-    {
-      "rank": 15,
-      "id": 162419,
-      "title": "唱舞全明星",
-      "icon": "https://img-tc.tapimg.com/market/images/fa0f3771a9ef5464f264eaeef7d23d79.png/_tap_appicon.jpg",
-      "score": "7.1",
-      "tags": [
-        "养成",
-        "舞蹈",
-        "女性向",
-        "音游",
-        "弹幕",
-        "换装"
-      ],
-      "count": 452224,
-      "reserve": 30388,
-      "review_count": null,
-      "count_str": "45.2万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/162419",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1660810946,
-      "developer": "上海晋展网络科技有限公司"
-    },
-    {
-      "rank": 16,
-      "id": 6759,
-      "title": "古树旋律",
-      "icon": "https://img-tc.tapimg.com/market/images/93f0d24eb954a1acdf2a312ac6995e68.png/_tap_appicon.jpg",
-      "score": "9.2",
-      "tags": [
-        "音游",
-        "治愈",
-        "唯美",
-        "催泪",
-        "节奏"
-      ],
-      "count": 3375447,
-      "reserve": 4,
-      "review_count": null,
-      "count_str": "337.5万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/6759",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1463473400,
-      "developer": "龙渊网络"
-    },
-    {
-      "rank": 17,
-      "id": 237034,
-      "title": "RYCEAM（TapTap测试版）",
-      "icon": "https://img-tc.tapimg.com/market/images/945d747734097b6d7172b55468f8c017.png/_tap_appicon.jpg",
-      "score": "8.3",
-      "tags": [
-        "二次元",
-        "单机",
-        "手速",
-        "独立游戏",
-        "3D",
-        "音游",
-        "节奏",
-        "音乐"
-      ],
-      "count": 1024587,
-      "reserve": 78983,
-      "review_count": null,
-      "count_str": "102.5万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/237034",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1691452800,
-      "developer": "音栖工作室"
-    },
-    {
-      "rank": 18,
-      "id": 710651,
-      "title": "唱舞星计划",
-      "icon": "https://img-tc.tapimg.com/market/images/af2f9f10e83cea4f770bcf9f55f0cacb.png/_tap_appicon.jpg",
-      "score": "7.4",
-      "tags": [
-        "音游",
-        "社交",
-        "换装",
-        "恋爱",
-        "多人联机",
-        "节奏",
-        "收集",
-        "竞技",
-        "养成",
-        "女性向",
-        "舞蹈",
-        "音乐"
-      ],
-      "count": 536023,
-      "reserve": 83219,
-      "review_count": null,
-      "count_str": "53.6万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/710651",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1744812000,
-      "developer": "上海晋展网络科技有限公司"
-    },
-    {
-      "rank": 19,
-      "id": 6758,
-      "title": "音乐世界",
-      "icon": "https://img-tc.tapimg.com/market/images/bf031f86fac3906d903eceecb980a22f.jpg/_tap_appicon.jpg",
-      "score": "8.7",
-      "tags": [
-        "音游",
-        "节奏",
-        "唯美",
-        "催泪"
-      ],
-      "count": 1997679,
-      "reserve": 2,
-      "review_count": null,
-      "count_str": "199.8万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/6758",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1463471221,
-      "developer": "龙渊网络"
-    },
-    {
-      "rank": 20,
-      "id": 70912,
-      "title": "QQ炫舞",
-      "icon": "https://img-tc.tapimg.com/market/images/07b5d608f96783df0e287930bdc09ff0.png/_tap_appicon.jpg",
-      "score": "6.4",
-      "tags": [
-        "换装",
-        "舞蹈",
-        "音游",
-        "3D"
-      ],
-      "count": 805677,
-      "reserve": 78565,
-      "review_count": null,
-      "count_str": "80.6万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/70912",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1520998924,
-      "developer": "腾讯"
-    },
-    {
-      "rank": 21,
-      "id": 72332,
-      "title": "阳春艺曲",
-      "icon": "https://img-tc.tapimg.com/market/images/24c6bde713f1483e21798b4f6310dcb2.png/_tap_appicon.jpg",
-      "score": "7.5",
-      "tags": [
-        "音游",
-        "国风",
-        "剧情",
-        "诗词"
-      ],
-      "count": 404314,
-      "reserve": 116870,
-      "review_count": null,
-      "count_str": "40.4万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/72332",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1620352801,
-      "developer": "维克斯游戏"
-    },
-    {
-      "rank": 22,
-      "id": 207566,
-      "title": "不休的音符",
-      "icon": "https://img-tc.tapimg.com/market/images/69d50519c8952f25ceba09fb834bbc57.png/_tap_appicon.jpg",
-      "score": "5.6",
-      "tags": [
-        "节奏",
-        "音游",
-        "休闲"
-      ],
-      "count": 577048,
-      "reserve": 22532,
-      "review_count": null,
-      "count_str": "57.7万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/207566",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1612317322,
-      "developer": "上海犀牛互动网络科技有限公司"
-    },
-    {
-      "rank": 23,
-      "id": 78026,
-      "title": "心舞",
-      "icon": "https://img-tc.tapimg.com/market/images/ef6f2925c5493f285789a596a5d6e582.png/_tap_appicon.jpg",
-      "score": "7.2",
-      "tags": [
-        "美少女",
-        "舞蹈",
-        "二次元",
-        "音游",
-        "恋爱"
-      ],
-      "count": 169564,
-      "reserve": 6044,
-      "review_count": null,
-      "count_str": "17.0万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/78026",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1516881752,
-      "developer": "上海游牛"
-    },
-    {
-      "rank": 24,
-      "id": 14459,
-      "title": "缪斯计划",
-      "icon": "https://img-tc.tapimg.com/market/images/298cd9f6d58ca5d046e6de122a971047.jpg/_tap_appicon.jpg",
-      "score": "7.8",
-      "tags": [
-        "音游",
-        "电音",
-        "单机",
-        "催泪",
-        "手速",
-        "独立游戏",
-        "街机",
-        "竖屏",
-        "反应"
-      ],
-      "count": 1205167,
-      "reserve": 180,
-      "review_count": null,
-      "count_str": "120.5万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/14459",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1481793013,
-      "developer": "Rinzz Co. Ltd."
     }
   ]
 }
