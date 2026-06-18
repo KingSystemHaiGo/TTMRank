@@ -21,7 +21,7 @@
         "收集",
         "横版"
       ],
-      "count": 16247091,
+      "count": 16247123,
       "reserve": 129743,
       "review_count": null,
       "count_str": "1624.7万",
@@ -51,7 +51,7 @@
         "换装",
         "剧情"
       ],
-      "count": 4437538,
+      "count": 4437559,
       "reserve": 271042,
       "review_count": null,
       "count_str": "443.8万",
@@ -83,8 +83,8 @@
         "动作",
         "新怪谈"
       ],
-      "count": 6702160,
-      "reserve": 6299820,
+      "count": 6702424,
+      "reserve": 6299817,
       "review_count": null,
       "count_str": "670.2万",
       "count_label": "热度",
@@ -112,8 +112,8 @@
         "剧情",
         "二次元"
       ],
-      "count": 63851,
-      "reserve": 204096,
+      "count": 63970,
+      "reserve": 204094,
       "review_count": null,
       "count_str": "6.4万",
       "count_label": "热度",
@@ -148,7 +148,7 @@
         "多人联机",
         "剧情"
       ],
-      "count": 89740616,
+      "count": 89740785,
       "reserve": 3115103,
       "review_count": null,
       "count_str": "8974.1万",
@@ -176,8 +176,8 @@
         "女性向",
         "二次元"
       ],
-      "count": 1431017,
-      "reserve": 1723070,
+      "count": 1431123,
+      "reserve": 1723068,
       "review_count": null,
       "count_str": "143.1万",
       "count_label": "热度",
@@ -207,7 +207,7 @@
         "日系",
         "节奏"
       ],
-      "count": 4869236,
+      "count": 4869285,
       "reserve": 1324286,
       "review_count": null,
       "count_str": "486.9万",
@@ -234,8 +234,8 @@
         "动作",
         "即时制"
       ],
-      "count": 16521728,
-      "reserve": 7226130,
+      "count": 16521932,
+      "reserve": 7226127,
       "review_count": null,
       "count_str": "1652.2万",
       "count_label": "热度",
@@ -262,7 +262,7 @@
         "轻度Roguelike",
         "卡牌"
       ],
-      "count": 1030166,
+      "count": 1030248,
       "reserve": 900615,
       "review_count": null,
       "count_str": "103.0万",
@@ -292,10 +292,10 @@
         "TapTap制造",
         "卡牌"
       ],
-      "count": 7641,
+      "count": 7668,
       "reserve": 0,
       "review_count": null,
-      "count_str": "7641",
+      "count_str": "7668",
       "count_label": "热度",
       "hints": [
         "4天前 首发"
@@ -326,7 +326,7 @@
         "闯关",
         "二次元"
       ],
-      "count": 2983119,
+      "count": 2983137,
       "reserve": 1,
       "review_count": null,
       "count_str": "298.3万",
@@ -354,8 +354,8 @@
         "冒险",
         "二次元"
       ],
-      "count": 22267696,
-      "reserve": 4398501,
+      "count": 22267840,
+      "reserve": 4398499,
       "review_count": null,
       "count_str": "2226.8万",
       "count_label": "热度",
@@ -371,35 +371,6 @@
     },
     {
       "rank": 13,
-      "id": 221062,
-      "title": "重返未来：1999",
-      "icon": "https://img-tc.tapimg.com/market/images/2873e888f025bf735574fe3d75252904.png/_tap_appicon.jpg",
-      "score": "7.2",
-      "tags": [
-        "二次元",
-        "剧情",
-        "卡牌",
-        "角色扮演",
-        "策略",
-        "收集",
-        "养成"
-      ],
-      "count": 10578650,
-      "reserve": 1624853,
-      "review_count": null,
-      "count_str": "1057.9万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/221062",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1685412009,
-      "developer": "深蓝互动"
-    },
-    {
-      "rank": 14,
       "id": 224267,
       "title": "崩坏：星穹铁道",
       "icon": "https://img-tc.tapimg.com/market/images/1b7385da5dbf6d5342a832e6685e2066.png/_tap_appicon.jpg",
@@ -414,10 +385,10 @@
         "养成",
         "二次元"
       ],
-      "count": 31332495,
-      "reserve": 4295550,
+      "count": 31332580,
+      "reserve": 4295549,
       "review_count": null,
-      "count_str": "3133.2万",
+      "count_str": "3133.3万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/224267",
@@ -428,6 +399,35 @@
       ],
       "released_time": 1682218801,
       "developer": "miHoYo"
+    },
+    {
+      "rank": 14,
+      "id": 221062,
+      "title": "重返未来：1999",
+      "icon": "https://img-tc.tapimg.com/market/images/2873e888f025bf735574fe3d75252904.png/_tap_appicon.jpg",
+      "score": "7.2",
+      "tags": [
+        "二次元",
+        "剧情",
+        "卡牌",
+        "角色扮演",
+        "策略",
+        "收集",
+        "养成"
+      ],
+      "count": 10578684,
+      "reserve": 1624853,
+      "review_count": null,
+      "count_str": "1057.9万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/221062",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1685412009,
+      "developer": "深蓝互动"
     },
     {
       "rank": 15,
@@ -445,7 +445,7 @@
         "买断制",
         "有内购"
       ],
-      "count": 12097836,
+      "count": 12097854,
       "reserve": 73913,
       "review_count": null,
       "count_str": "1209.8万",
@@ -475,7 +475,7 @@
         "可爱",
         "策略"
       ],
-      "count": 3215647,
+      "count": 3215670,
       "reserve": 315492,
       "review_count": null,
       "count_str": "321.6万",
@@ -506,8 +506,8 @@
         "剧情",
         "多人联机"
       ],
-      "count": 957452,
-      "reserve": 316496,
+      "count": 957470,
+      "reserve": 316495,
       "review_count": null,
       "count_str": "95.7万",
       "count_label": "热度",
@@ -539,7 +539,7 @@
         "横版格斗",
         "日漫"
       ],
-      "count": 14699288,
+      "count": 14699341,
       "reserve": 3,
       "review_count": null,
       "count_str": "1469.9万",
@@ -570,7 +570,7 @@
         "收集",
         "剧情"
       ],
-      "count": 2560257,
+      "count": 2560279,
       "reserve": 581191,
       "review_count": null,
       "count_str": "256.0万",
@@ -603,7 +603,7 @@
         "废土",
         "拟人"
       ],
-      "count": 33374398,
+      "count": 33374454,
       "reserve": 576110,
       "review_count": null,
       "count_str": "3337.4万",
@@ -634,7 +634,7 @@
         "捏脸",
         "休闲"
       ],
-      "count": 2018906,
+      "count": 2018921,
       "reserve": 102119,
       "review_count": null,
       "count_str": "201.9万",
@@ -662,7 +662,7 @@
         "二次元",
         "DIY"
       ],
-      "count": 4740874,
+      "count": 4740898,
       "reserve": 152885,
       "review_count": null,
       "count_str": "474.1万",
@@ -688,7 +688,7 @@
         "节奏",
         "音乐"
       ],
-      "count": 1855761,
+      "count": 1855767,
       "reserve": 125678,
       "review_count": null,
       "count_str": "185.6万",
@@ -715,7 +715,7 @@
         "弹幕射击",
         "卡牌"
       ],
-      "count": 1162582,
+      "count": 1162622,
       "reserve": 496912,
       "review_count": null,
       "count_str": "116.3万",
@@ -744,7 +744,7 @@
         "角色扮演",
         "策略"
       ],
-      "count": 2566380,
+      "count": 2566390,
       "reserve": 10261,
       "review_count": null,
       "count_str": "256.6万",
@@ -772,7 +772,7 @@
         "二次元",
         "动作"
       ],
-      "count": 1524820,
+      "count": 1524829,
       "reserve": 1418939,
       "review_count": null,
       "count_str": "152.5万",
@@ -802,7 +802,7 @@
         "乙女",
         "角色扮演"
       ],
-      "count": 4688892,
+      "count": 4688913,
       "reserve": 432304,
       "review_count": null,
       "count_str": "468.9万",
@@ -829,7 +829,7 @@
         "TPS",
         "动作"
       ],
-      "count": 12724314,
+      "count": 12724323,
       "reserve": 1825425,
       "review_count": null,
       "count_str": "1272.4万",
@@ -846,39 +846,35 @@
     },
     {
       "rank": 29,
-      "id": 130651,
-      "title": "战双帕弥什",
-      "icon": "https://img-tc.tapimg.com/market/images/d9abf855cf0226cebcaf6080c1a91ce8.png/_tap_appicon.jpg",
-      "score": "8.1",
+      "id": 737341,
+      "title": "胜利女神：新的希望",
+      "icon": "https://img-tc.tapimg.com/market/images/5c4bf3327931802752334e830a0ba54f.png/_tap_appicon.jpg",
+      "score": "7.3",
       "tags": [
-        "高画质",
-        "动作",
         "二次元",
-        "美少女",
-        "ARPG",
-        "3D",
-        "养成",
-        "高难度",
+        "卡牌",
         "末日",
-        "科幻",
-        "UP主推荐",
-        "支持手柄",
-        "多人联机"
+        "美少女",
+        "放置",
+        "策略",
+        "竖屏",
+        "收集",
+        "养成"
       ],
-      "count": 18024194,
-      "reserve": 1091254,
+      "count": 2209985,
+      "reserve": 675857,
       "review_count": null,
-      "count_str": "1802.4万",
+      "count_str": "221.0万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/130651",
+      "url": "https://www.taptap.cn/app/737341",
       "platforms": [
         "android",
         "ios",
         "pc"
       ],
-      "released_time": 1575475204,
-      "developer": "库洛游戏"
+      "released_time": 1747868434,
+      "developer": "腾讯"
     }
   ]
 }
