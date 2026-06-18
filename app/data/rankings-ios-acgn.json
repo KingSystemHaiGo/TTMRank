@@ -21,7 +21,7 @@
         "收集",
         "横版"
       ],
-      "count": 16245544,
+      "count": 16245653,
       "reserve": 129743,
       "review_count": null,
       "count_str": "1624.6万",
@@ -51,10 +51,10 @@
         "换装",
         "剧情"
       ],
-      "count": 4436489,
+      "count": 4436570,
       "reserve": 271042,
       "review_count": null,
-      "count_str": "443.6万",
+      "count_str": "443.7万",
       "count_label": "热度",
       "hints": [
         "2天前 新版本更新"
@@ -83,10 +83,10 @@
         "动作",
         "新怪谈"
       ],
-      "count": 6692220,
-      "reserve": 6299903,
+      "count": 6693099,
+      "reserve": 6299896,
       "review_count": null,
-      "count_str": "669.2万",
+      "count_str": "669.3万",
       "count_label": "热度",
       "hints": [
         "今天 新版本更新"
@@ -112,8 +112,8 @@
         "剧情",
         "二次元"
       ],
-      "count": 58944,
-      "reserve": 204224,
+      "count": 59361,
+      "reserve": 204210,
       "review_count": null,
       "count_str": "5.9万",
       "count_label": "热度",
@@ -139,10 +139,10 @@
         "女性向",
         "二次元"
       ],
-      "count": 1425380,
-      "reserve": 1723197,
+      "count": 1425914,
+      "reserve": 1723187,
       "review_count": null,
-      "count_str": "142.5万",
+      "count_str": "142.6万",
       "count_label": "热度",
       "hints": [
         "今天 新版本更新"
@@ -158,64 +158,6 @@
     },
     {
       "rank": 6,
-      "id": 759688,
-      "title": "卡厄思梦境",
-      "icon": "https://img-tc.tapimg.com/market/images/970c5c07f6095a0f3987c0c3ea410329.png/_tap_appicon.jpg",
-      "score": "7.7",
-      "tags": [
-        "二次元",
-        "轻度Roguelike",
-        "卡牌"
-      ],
-      "count": 1026381,
-      "reserve": 900679,
-      "review_count": null,
-      "count_str": "102.6万",
-      "count_label": "热度",
-      "hints": [
-        "6月17日 海德玛丽登场"
-      ],
-      "url": "https://www.taptap.cn/app/759688",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1779922805,
-      "developer": "腾讯"
-    },
-    {
-      "rank": 7,
-      "id": 234493,
-      "title": "绝区零",
-      "icon": "https://img-tc.tapimg.com/market/images/b85d6bed54ea3aa29f4ea853000d4ee8.png/_tap_appicon.jpg",
-      "score": "6.7",
-      "tags": [
-        "二次元",
-        "ARPG",
-        "高画质",
-        "动作",
-        "即时制"
-      ],
-      "count": 16511044,
-      "reserve": 7226143,
-      "review_count": null,
-      "count_str": "1651.1万",
-      "count_label": "热度",
-      "hints": [
-        "昨天 新版本更新"
-      ],
-      "url": "https://www.taptap.cn/app/234493",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1719882005,
-      "developer": "miHoYo"
-    },
-    {
-      "rank": 8,
       "id": 168332,
       "title": "原神",
       "icon": "https://img-tc.tapimg.com/market/images/4c441769b5fb3b670c8b59a6124d9ff2.png/_tap_appicon.jpg",
@@ -234,12 +176,14 @@
         "多人联机",
         "剧情"
       ],
-      "count": 89731574,
+      "count": 89732437,
       "reserve": 3115103,
       "review_count": null,
       "count_str": "8973.2万",
       "count_label": "热度",
-      "hints": [],
+      "hints": [
+        "07月01日 新版本更新"
+      ],
       "url": "https://www.taptap.cn/app/168332",
       "platforms": [
         "android",
@@ -247,6 +191,64 @@
         "pc"
       ],
       "released_time": 1601020800,
+      "developer": "miHoYo"
+    },
+    {
+      "rank": 7,
+      "id": 759688,
+      "title": "卡厄思梦境",
+      "icon": "https://img-tc.tapimg.com/market/images/970c5c07f6095a0f3987c0c3ea410329.png/_tap_appicon.jpg",
+      "score": "7.7",
+      "tags": [
+        "二次元",
+        "轻度Roguelike",
+        "卡牌"
+      ],
+      "count": 1026683,
+      "reserve": 900677,
+      "review_count": null,
+      "count_str": "102.7万",
+      "count_label": "热度",
+      "hints": [
+        "6月17日 海德玛丽登场"
+      ],
+      "url": "https://www.taptap.cn/app/759688",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1779922805,
+      "developer": "腾讯"
+    },
+    {
+      "rank": 8,
+      "id": 234493,
+      "title": "绝区零",
+      "icon": "https://img-tc.tapimg.com/market/images/b85d6bed54ea3aa29f4ea853000d4ee8.png/_tap_appicon.jpg",
+      "score": "6.7",
+      "tags": [
+        "二次元",
+        "ARPG",
+        "高画质",
+        "动作",
+        "即时制"
+      ],
+      "count": 16511955,
+      "reserve": 7226143,
+      "review_count": null,
+      "count_str": "1651.2万",
+      "count_label": "热度",
+      "hints": [
+        "昨天 新版本更新"
+      ],
+      "url": "https://www.taptap.cn/app/234493",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1719882005,
       "developer": "miHoYo"
     },
     {
@@ -262,10 +264,10 @@
         "TapTap制造",
         "卡牌"
       ],
-      "count": 7224,
+      "count": 7248,
       "reserve": 0,
       "review_count": null,
-      "count_str": "7224",
+      "count_str": "7248",
       "count_label": "热度",
       "hints": [
         "3天前 首发"
@@ -293,7 +295,7 @@
         "日系",
         "节奏"
       ],
-      "count": 4865651,
+      "count": 4866103,
       "reserve": 1324293,
       "review_count": null,
       "count_str": "486.6万",
@@ -324,7 +326,7 @@
         "闯关",
         "二次元"
       ],
-      "count": 2982427,
+      "count": 2982497,
       "reserve": 1,
       "review_count": null,
       "count_str": "298.2万",
@@ -352,7 +354,7 @@
         "冒险",
         "二次元"
       ],
-      "count": 22260809,
+      "count": 22261412,
       "reserve": 4398509,
       "review_count": null,
       "count_str": "2226.1万",
@@ -369,37 +371,6 @@
     },
     {
       "rank": 13,
-      "id": 224267,
-      "title": "崩坏：星穹铁道",
-      "icon": "https://img-tc.tapimg.com/market/images/1b7385da5dbf6d5342a832e6685e2066.png/_tap_appicon.jpg",
-      "score": "7.5",
-      "tags": [
-        "角色扮演",
-        "冒险",
-        "策略",
-        "回合制",
-        "高画质",
-        "美少女",
-        "养成",
-        "二次元"
-      ],
-      "count": 31327770,
-      "reserve": 4295553,
-      "review_count": null,
-      "count_str": "3132.8万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/224267",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1682218801,
-      "developer": "miHoYo"
-    },
-    {
-      "rank": 14,
       "id": 221062,
       "title": "重返未来：1999",
       "icon": "https://img-tc.tapimg.com/market/images/2873e888f025bf735574fe3d75252904.png/_tap_appicon.jpg",
@@ -413,7 +384,7 @@
         "收集",
         "养成"
       ],
-      "count": 10576892,
+      "count": 10577034,
       "reserve": 1624855,
       "review_count": null,
       "count_str": "1057.7万",
@@ -428,6 +399,37 @@
       ],
       "released_time": 1685412009,
       "developer": "深蓝互动"
+    },
+    {
+      "rank": 14,
+      "id": 224267,
+      "title": "崩坏：星穹铁道",
+      "icon": "https://img-tc.tapimg.com/market/images/1b7385da5dbf6d5342a832e6685e2066.png/_tap_appicon.jpg",
+      "score": "7.5",
+      "tags": [
+        "角色扮演",
+        "冒险",
+        "策略",
+        "回合制",
+        "高画质",
+        "美少女",
+        "养成",
+        "二次元"
+      ],
+      "count": 31328230,
+      "reserve": 4295553,
+      "review_count": null,
+      "count_str": "3132.8万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/224267",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1682218801,
+      "developer": "miHoYo"
     },
     {
       "rank": 15,
@@ -445,7 +447,7 @@
         "可爱",
         "策略"
       ],
-      "count": 3214765,
+      "count": 3214831,
       "reserve": 315493,
       "review_count": null,
       "count_str": "321.5万",
@@ -475,7 +477,7 @@
         "买断制",
         "有内购"
       ],
-      "count": 12096961,
+      "count": 12097034,
       "reserve": 73913,
       "review_count": null,
       "count_str": "1209.7万",
@@ -506,7 +508,7 @@
         "剧情",
         "多人联机"
       ],
-      "count": 957014,
+      "count": 957054,
       "reserve": 316496,
       "review_count": null,
       "count_str": "95.7万",
@@ -539,7 +541,7 @@
         "横版格斗",
         "日漫"
       ],
-      "count": 14696885,
+      "count": 14697142,
       "reserve": 3,
       "review_count": null,
       "count_str": "1469.7万",
@@ -570,7 +572,7 @@
         "收集",
         "剧情"
       ],
-      "count": 2558924,
+      "count": 2559004,
       "reserve": 581192,
       "review_count": null,
       "count_str": "255.9万",
@@ -600,7 +602,7 @@
         "捏脸",
         "休闲"
       ],
-      "count": 2018433,
+      "count": 2018480,
       "reserve": 102119,
       "review_count": null,
       "count_str": "201.8万",
@@ -635,7 +637,7 @@
         "废土",
         "拟人"
       ],
-      "count": 33372040,
+      "count": 33372242,
       "reserve": 576110,
       "review_count": null,
       "count_str": "3337.2万",
@@ -663,8 +665,8 @@
         "弹幕射击",
         "卡牌"
       ],
-      "count": 1161190,
-      "reserve": 496933,
+      "count": 1161277,
+      "reserve": 496932,
       "review_count": null,
       "count_str": "116.1万",
       "count_label": "热度",
@@ -689,7 +691,7 @@
         "二次元",
         "DIY"
       ],
-      "count": 4739872,
+      "count": 4739966,
       "reserve": 152885,
       "review_count": null,
       "count_str": "474.0万",
@@ -705,6 +707,60 @@
     },
     {
       "rank": 24,
+      "id": 301888,
+      "title": "Milthm（TapTap测试版）",
+      "icon": "https://img-tc.tapimg.com/market/images/cc1c4008497a11526aaf70aebfb83ca3.png/_tap_appicon.jpg",
+      "score": "9.5",
+      "tags": [
+        "二次元",
+        "音游",
+        "节奏",
+        "音乐"
+      ],
+      "count": 1855280,
+      "reserve": 125679,
+      "review_count": null,
+      "count_str": "185.5万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/301888",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1700179200,
+      "developer": "森零制作组"
+    },
+    {
+      "rank": 25,
+      "id": 222089,
+      "title": "尘白禁区",
+      "icon": "https://img-tc.tapimg.com/market/images/dbea10e8d04bd90dcf933d6d52c40911.png/_tap_appicon.jpg",
+      "score": "7.8",
+      "tags": [
+        "二次元",
+        "美少女",
+        "射击",
+        "TPS",
+        "动作"
+      ],
+      "count": 12723779,
+      "reserve": 1825426,
+      "review_count": null,
+      "count_str": "1272.4万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/222089",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1689732003,
+      "developer": "西山居互动娱乐"
+    },
+    {
+      "rank": 26,
       "id": 219421,
       "title": "史莱姆与地下城",
       "icon": "https://img-tc.tapimg.com/market/images/eb48cad4f657a0c4bf69d04070faa3c9.png/_tap_appicon.jpg",
@@ -720,7 +776,7 @@
         "动作",
         "美少女"
       ],
-      "count": 1012610,
+      "count": 1012618,
       "reserve": 150369,
       "review_count": null,
       "count_str": "101.3万",
@@ -733,60 +789,6 @@
       ],
       "released_time": 1689127218,
       "developer": "广州游龙互娱网络科技有限公司"
-    },
-    {
-      "rank": 25,
-      "id": 301888,
-      "title": "Milthm（TapTap测试版）",
-      "icon": "https://img-tc.tapimg.com/market/images/cc1c4008497a11526aaf70aebfb83ca3.png/_tap_appicon.jpg",
-      "score": "9.5",
-      "tags": [
-        "二次元",
-        "音游",
-        "节奏",
-        "音乐"
-      ],
-      "count": 1855222,
-      "reserve": 125679,
-      "review_count": null,
-      "count_str": "185.5万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/301888",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1700179200,
-      "developer": "森零制作组"
-    },
-    {
-      "rank": 26,
-      "id": 222089,
-      "title": "尘白禁区",
-      "icon": "https://img-tc.tapimg.com/market/images/dbea10e8d04bd90dcf933d6d52c40911.png/_tap_appicon.jpg",
-      "score": "7.8",
-      "tags": [
-        "二次元",
-        "美少女",
-        "射击",
-        "TPS",
-        "动作"
-      ],
-      "count": 12723726,
-      "reserve": 1825426,
-      "review_count": null,
-      "count_str": "1272.4万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/222089",
-      "platforms": [
-        "android",
-        "ios",
-        "pc"
-      ],
-      "released_time": 1689732003,
-      "developer": "西山居互动娱乐"
     },
     {
       "rank": 27,
@@ -803,7 +805,7 @@
         "角色扮演",
         "策略"
       ],
-      "count": 2566032,
+      "count": 2566060,
       "reserve": 10261,
       "review_count": null,
       "count_str": "256.6万",
@@ -821,32 +823,6 @@
     },
     {
       "rank": 28,
-      "id": 201685,
-      "title": "卡拉彼丘",
-      "icon": "https://img-tc.tapimg.com/market/images/0e80894007e7efdfbcf4feda72e41e10.png/_tap_appicon.jpg",
-      "score": "8.5",
-      "tags": [
-        "竞技",
-        "射击",
-        "二次元",
-        "动作"
-      ],
-      "count": 1524228,
-      "reserve": 1418943,
-      "review_count": null,
-      "count_str": "152.4万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/201685",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1761062401,
-      "developer": "深圳市创梦天地科技有限公司"
-    },
-    {
-      "rank": 29,
       "id": 130651,
       "title": "战双帕弥什",
       "icon": "https://img-tc.tapimg.com/market/images/d9abf855cf0226cebcaf6080c1a91ce8.png/_tap_appicon.jpg",
@@ -866,7 +842,7 @@
         "支持手柄",
         "多人联机"
       ],
-      "count": 18022133,
+      "count": 18022287,
       "reserve": 1091254,
       "review_count": null,
       "count_str": "1802.2万",
@@ -880,6 +856,38 @@
       ],
       "released_time": 1575475204,
       "developer": "库洛游戏"
+    },
+    {
+      "rank": 29,
+      "id": 737341,
+      "title": "胜利女神：新的希望",
+      "icon": "https://img-tc.tapimg.com/market/images/5c4bf3327931802752334e830a0ba54f.png/_tap_appicon.jpg",
+      "score": "7.3",
+      "tags": [
+        "二次元",
+        "卡牌",
+        "末日",
+        "美少女",
+        "放置",
+        "策略",
+        "竖屏",
+        "收集",
+        "养成"
+      ],
+      "count": 2209491,
+      "reserve": 675858,
+      "review_count": null,
+      "count_str": "220.9万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/737341",
+      "platforms": [
+        "android",
+        "ios",
+        "pc"
+      ],
+      "released_time": 1747868434,
+      "developer": "腾讯"
     }
   ]
 }
