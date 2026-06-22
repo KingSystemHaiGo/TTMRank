@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-22 21:07:17",
+  "updated_at": "2026-06-23 01:54:10",
   "platforms": {
     "android": {
       "hot": {
@@ -62,7 +62,7 @@
     "ios": {
       "hot": {
         "title": "热门榜",
-        "count": 104
+        "count": 118
       },
       "sell": {
         "title": "热卖榜",
@@ -82,7 +82,7 @@
       },
       "strategy": {
         "title": "策略榜",
-        "count": 44
+        "count": 50
       },
       "shooter": {
         "title": "射击榜",
@@ -101,16 +101,16 @@
         "count": 50
       },
       "acgn": {
-        "title": "二次元",
-        "count": 14
+        "title": "二次元榜",
+        "count": 28
       },
       "otome": {
-        "title": "乙女榜",
-        "count": 29
+        "title": "女性向",
+        "count": 14
       },
       "music": {
         "title": "音乐榜",
-        "count": 24
+        "count": 25
       },
       "idle": {
         "title": "放置榜",
@@ -118,5 +118,5 @@
       }
     }
   },
-  "taptap_made_count": 80
+  "taptap_made_count": 84
 }
