@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-23 14:45:43",
+  "updated_at": "2026-06-23 18:33:30",
   "platforms": {
     "android": {
       "hot": {
@@ -12,7 +12,7 @@
       },
       "reserve": {
         "title": "预约榜",
-        "count": 149
+        "count": 150
       },
       "new": {
         "title": "新品榜",
@@ -62,7 +62,7 @@
     "ios": {
       "hot": {
         "title": "热门榜",
-        "count": 118
+        "count": 132
       },
       "sell": {
         "title": "热卖榜",
@@ -94,7 +94,7 @@
       },
       "casual": {
         "title": "休闲榜",
-        "count": 50
+        "count": 49
       },
       "independent": {
         "title": "独立榜",
@@ -110,7 +110,7 @@
       },
       "music": {
         "title": "音乐榜",
-        "count": 25
+        "count": 24
       },
       "idle": {
         "title": "放置榜",
@@ -118,5 +118,5 @@
       }
     }
   },
-  "taptap_made_count": 82
+  "taptap_made_count": 83
 }
