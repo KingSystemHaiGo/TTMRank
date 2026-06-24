@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-24 19:48:24",
+  "updated_at": "2026-06-24 22:19:25",
   "platforms": {
     "android": {
       "hot": {
@@ -62,7 +62,7 @@
     "ios": {
       "hot": {
         "title": "热门榜",
-        "count": 133
+        "count": 134
       },
       "sell": {
         "title": "热卖榜",
@@ -86,7 +86,7 @@
       },
       "shooter": {
         "title": "射击榜",
-        "count": 44
+        "count": 49
       },
       "roguelike": {
         "title": "Roguelike",
@@ -94,15 +94,15 @@
       },
       "casual": {
         "title": "休闲榜",
-        "count": 49
+        "count": 50
       },
       "independent": {
         "title": "独立榜",
         "count": 50
       },
       "acgn": {
-        "title": "二次元榜",
-        "count": 28
+        "title": "二次元",
+        "count": 14
       },
       "otome": {
         "title": "女性向",
@@ -110,7 +110,7 @@
       },
       "music": {
         "title": "音乐榜",
-        "count": 24
+        "count": 23
       },
       "idle": {
         "title": "放置榜",
@@ -118,5 +118,5 @@
       }
     }
   },
-  "taptap_made_count": 87
+  "taptap_made_count": 88
 }
