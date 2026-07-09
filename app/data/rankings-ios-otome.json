@@ -20,10 +20,10 @@
         "剧情",
         "角色扮演"
       ],
-      "count": 4352366,
+      "count": 4353205,
       "reserve": 259829,
       "review_count": null,
-      "count_str": "435.2万",
+      "count_str": "435.3万",
       "count_label": "热度",
       "hints": [
         "今天 新版本更新"
@@ -49,10 +49,10 @@
         "女性向",
         "模拟"
       ],
-      "count": 1101167,
-      "reserve": 14092,
+      "count": 1101820,
+      "reserve": 14091,
       "review_count": null,
-      "count_str": "110.1万",
+      "count_str": "110.2万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/783475",
@@ -78,10 +78,10 @@
         "养成",
         "角色扮演"
       ],
-      "count": 9430979,
-      "reserve": 745024,
+      "count": 9433568,
+      "reserve": 745023,
       "review_count": null,
-      "count_str": "943.1万",
+      "count_str": "943.4万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/201633",
@@ -112,10 +112,10 @@
         "3D",
         "模拟"
       ],
-      "count": 7196211,
-      "reserve": 2233931,
+      "count": 7197145,
+      "reserve": 2233929,
       "review_count": null,
-      "count_str": "719.6万",
+      "count_str": "719.7万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/218210",
@@ -138,10 +138,10 @@
         "女性向",
         "二次元"
       ],
-      "count": 1643511,
-      "reserve": 1717858,
+      "count": 1645689,
+      "reserve": 1717838,
       "review_count": null,
-      "count_str": "164.4万",
+      "count_str": "164.6万",
       "count_label": "热度",
       "hints": [
         "今天 新版本更新"
@@ -171,10 +171,10 @@
         "换装",
         "剧情"
       ],
-      "count": 4499382,
+      "count": 4499748,
       "reserve": 271021,
       "review_count": null,
-      "count_str": "449.9万",
+      "count_str": "450.0万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/186316",
@@ -200,7 +200,7 @@
         "乙女",
         "恋爱"
       ],
-      "count": 3083552,
+      "count": 3083771,
       "reserve": 87594,
       "review_count": null,
       "count_str": "308.4万",
@@ -228,8 +228,8 @@
         "收集",
         "角色扮演"
       ],
-      "count": 708110,
-      "reserve": 178733,
+      "count": 708312,
+      "reserve": 178731,
       "review_count": null,
       "count_str": "70.8万",
       "count_label": "热度",
@@ -244,34 +244,6 @@
     },
     {
       "rank": 9,
-      "id": 751613,
-      "title": "小岛日记",
-      "icon": "https://img-tc.tapimg.com/market/images/9d6b2a75df36c9f551b9eaec2ebe936f.png/_tap_appicon.jpg",
-      "score": "7.3",
-      "tags": [
-        "女性向",
-        "休闲",
-        "收集",
-        "换装",
-        "治愈",
-        "模拟"
-      ],
-      "count": 241776,
-      "reserve": 176712,
-      "review_count": null,
-      "count_str": "24.2万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/751613",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1780279210,
-      "developer": "小岛工作室"
-    },
-    {
-      "rank": 10,
       "id": 364144,
       "title": "世界之外",
       "icon": "https://img-tc.tapimg.com/market/images/cc6920b0f3a0735f7a2a0c2b92f55872.jpg/_tap_appicon.jpg",
@@ -286,10 +258,10 @@
         "乙女",
         "角色扮演"
       ],
-      "count": 4776255,
+      "count": 4777108,
       "reserve": 432169,
       "review_count": null,
-      "count_str": "477.6万",
+      "count_str": "477.7万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/364144",
@@ -299,6 +271,34 @@
       ],
       "released_time": 1705414140,
       "developer": "网易游戏"
+    },
+    {
+      "rank": 10,
+      "id": 751613,
+      "title": "小岛日记",
+      "icon": "https://img-tc.tapimg.com/market/images/9d6b2a75df36c9f551b9eaec2ebe936f.png/_tap_appicon.jpg",
+      "score": "7.3",
+      "tags": [
+        "女性向",
+        "休闲",
+        "收集",
+        "换装",
+        "治愈",
+        "模拟"
+      ],
+      "count": 242091,
+      "reserve": 176711,
+      "review_count": null,
+      "count_str": "24.2万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/751613",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1780279210,
+      "developer": "小岛工作室"
     },
     {
       "rank": 11,
@@ -317,7 +317,7 @@
         "乙女",
         "角色扮演"
       ],
-      "count": 179334,
+      "count": 179445,
       "reserve": 73917,
       "review_count": null,
       "count_str": "17.9万",
@@ -333,37 +333,6 @@
     },
     {
       "rank": 12,
-      "id": 729887,
-      "title": "地狱之吻",
-      "icon": "https://img-tc.tapimg.com/market/images/48a8f12e31f4ee646bf108c034d7cc91.png/_tap_appicon.jpg",
-      "score": "8.2",
-      "tags": [
-        "乙女",
-        "剧情",
-        "恋爱",
-        "养成",
-        "女性向",
-        "模拟",
-        "收集",
-        "角色扮演",
-        "文字"
-      ],
-      "count": 698860,
-      "reserve": 273771,
-      "review_count": null,
-      "count_str": "69.9万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/729887",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1750298400,
-      "developer": "游一游工作室"
-    },
-    {
-      "rank": 13,
       "id": 786394,
       "title": "心跳陷落",
       "icon": "https://img-tc.tapimg.com/market/images/1cfcbfbcb9076864df8892415f52ffed.png/_tap_appicon.jpg",
@@ -375,10 +344,10 @@
         "剧情",
         "角色扮演"
       ],
-      "count": 392041,
-      "reserve": 363372,
+      "count": 392973,
+      "reserve": 363370,
       "review_count": null,
-      "count_str": "39.2万",
+      "count_str": "39.3万",
       "count_label": "热度",
       "hints": [
         "6天前 新版本更新"
@@ -392,7 +361,7 @@
       "developer": "苏州沁游网络科技有限公司"
     },
     {
-      "rank": 14,
+      "rank": 13,
       "id": 55307,
       "title": "恋与制作人",
       "icon": "https://img-tc.tapimg.com/market/images/82ab73c02bfd3ae1602e8c3b82076e7f.png/_tap_appicon.jpg",
@@ -404,7 +373,7 @@
         "剧情",
         "文字"
       ],
-      "count": 3793319,
+      "count": 3793478,
       "reserve": 114337,
       "review_count": null,
       "count_str": "379.3万",
@@ -419,6 +388,33 @@
       "developer": "叠纸游戏"
     },
     {
+      "rank": 14,
+      "id": 183321,
+      "title": "偶像梦幻祭2",
+      "icon": "https://img-tc.tapimg.com/market/images/5c1b0ff5f50b0697b02094be385bc043.png/_tap_appicon.jpg",
+      "score": "7.7",
+      "tags": [
+        "音游",
+        "女性向",
+        "二次元",
+        "养成",
+        "偶像"
+      ],
+      "count": 3212897,
+      "reserve": 154682,
+      "review_count": null,
+      "count_str": "321.3万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/183321",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1606355926,
+      "developer": "乐元素科技(北京)股份有限公司"
+    },
+    {
       "rank": 15,
       "id": 281478,
       "title": "锦绣商铺",
@@ -431,7 +427,7 @@
         "女性向",
         "模拟"
       ],
-      "count": 119672,
+      "count": 119762,
       "reserve": 2325,
       "review_count": null,
       "count_str": "12.0万",
@@ -447,30 +443,34 @@
     },
     {
       "rank": 16,
-      "id": 183321,
-      "title": "偶像梦幻祭2",
-      "icon": "https://img-tc.tapimg.com/market/images/5c1b0ff5f50b0697b02094be385bc043.png/_tap_appicon.jpg",
-      "score": "7.7",
+      "id": 729887,
+      "title": "地狱之吻",
+      "icon": "https://img-tc.tapimg.com/market/images/48a8f12e31f4ee646bf108c034d7cc91.png/_tap_appicon.jpg",
+      "score": "8.2",
       "tags": [
-        "音游",
-        "女性向",
-        "二次元",
+        "乙女",
+        "剧情",
+        "恋爱",
         "养成",
-        "偶像"
+        "女性向",
+        "模拟",
+        "收集",
+        "角色扮演",
+        "文字"
       ],
-      "count": 3212490,
-      "reserve": 154682,
+      "count": 699005,
+      "reserve": 273768,
       "review_count": null,
-      "count_str": "321.2万",
+      "count_str": "69.9万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/183321",
+      "url": "https://www.taptap.cn/app/729887",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1606355926,
-      "developer": "乐元素科技(北京)股份有限公司"
+      "released_time": 1750298400,
+      "developer": "游一游工作室"
     },
     {
       "rank": 17,
@@ -486,7 +486,7 @@
         "经营",
         "冒险"
       ],
-      "count": 1137854,
+      "count": 1138329,
       "reserve": 376777,
       "review_count": null,
       "count_str": "113.8万",
@@ -515,7 +515,7 @@
         "文字"
       ],
       "count": 0,
-      "reserve": 141349,
+      "reserve": 141355,
       "review_count": null,
       "count_str": "0",
       "count_label": "热度",
@@ -530,32 +530,32 @@
     },
     {
       "rank": 19,
-      "id": 178518,
-      "title": "像素男友",
-      "icon": "https://img-tc.tapimg.com/market/images/65b9a2abc4115f2558ac717debedbca0.png/_tap_appicon.jpg",
-      "score": "9.5",
+      "id": 752397,
+      "title": "绘梦日记",
+      "icon": "https://img-tc.tapimg.com/market/images/6d08d1f8cd4236d09ac71a68bbd92d07.jpg/_tap_appicon.jpg",
+      "score": "7.2",
       "tags": [
-        "恋爱",
+        "经营",
+        "合成",
         "女性向",
-        "像素",
-        "文字",
-        "乙女",
-        "单机",
-        "休闲"
+        "治愈",
+        "休闲",
+        "养成",
+        "模拟"
       ],
-      "count": 681037,
-      "reserve": 9226,
+      "count": 773215,
+      "reserve": 1042839,
       "review_count": null,
-      "count_str": "68.1万",
+      "count_str": "77.3万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/178518",
+      "url": "https://www.taptap.cn/app/752397",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1577155983,
-      "developer": "扑家工作室"
+      "released_time": 1764201601,
+      "developer": "咕噜魔法工坊"
     },
     {
       "rank": 20,
@@ -573,7 +573,7 @@
         "可爱",
         "收集"
       ],
-      "count": 5283770,
+      "count": 5284069,
       "reserve": 433060,
       "review_count": null,
       "count_str": "528.4万",
@@ -603,7 +603,7 @@
         "AVG",
         "单机"
       ],
-      "count": 138206,
+      "count": 138249,
       "reserve": 16526,
       "review_count": null,
       "count_str": "13.8万",
@@ -619,32 +619,32 @@
     },
     {
       "rank": 22,
-      "id": 752397,
-      "title": "绘梦日记",
-      "icon": "https://img-tc.tapimg.com/market/images/6d08d1f8cd4236d09ac71a68bbd92d07.jpg/_tap_appicon.jpg",
-      "score": "7.2",
+      "id": 178518,
+      "title": "像素男友",
+      "icon": "https://img-tc.tapimg.com/market/images/65b9a2abc4115f2558ac717debedbca0.png/_tap_appicon.jpg",
+      "score": "9.5",
       "tags": [
-        "经营",
-        "合成",
+        "恋爱",
         "女性向",
-        "治愈",
-        "休闲",
-        "养成",
-        "模拟"
+        "像素",
+        "文字",
+        "乙女",
+        "单机",
+        "休闲"
       ],
-      "count": 773170,
-      "reserve": 1042847,
+      "count": 681098,
+      "reserve": 9226,
       "review_count": null,
-      "count_str": "77.3万",
+      "count_str": "68.1万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/752397",
+      "url": "https://www.taptap.cn/app/178518",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1764201601,
-      "developer": "咕噜魔法工坊"
+      "released_time": 1577155983,
+      "developer": "扑家工作室"
     },
     {
       "rank": 23,
@@ -662,10 +662,10 @@
         "养成",
         "二次元"
       ],
-      "count": 4154273,
+      "count": 4154580,
       "reserve": 247046,
       "review_count": null,
-      "count_str": "415.4万",
+      "count_str": "415.5万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/173797",
@@ -690,7 +690,7 @@
         "治愈",
         "模拟"
       ],
-      "count": 635855,
+      "count": 635873,
       "reserve": 149310,
       "review_count": null,
       "count_str": "63.6万",
@@ -706,6 +706,33 @@
     },
     {
       "rank": 25,
+      "id": 755739,
+      "title": "爷爷的早餐店",
+      "icon": "https://img-tc.tapimg.com/market/images/e1536dbf46a2e70fbafc23d8779dadc7.png/_tap_appicon.jpg",
+      "score": "4.2",
+      "tags": [
+        "模拟经营",
+        "经营",
+        "种田",
+        "女性向",
+        "模拟"
+      ],
+      "count": 39562,
+      "reserve": 4298,
+      "review_count": null,
+      "count_str": "4.0万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/755739",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1766023223,
+      "developer": "魂动"
+    },
+    {
+      "rank": 26,
       "id": 163980,
       "title": "遇见逆水寒",
       "icon": "https://img-tc.tapimg.com/market/images/52ece2125939f9294fc941d54fe8ec1b.png/_tap_appicon.jpg",
@@ -724,10 +751,10 @@
         "换装",
         "剧情"
       ],
-      "count": 1348318,
+      "count": 1348530,
       "reserve": 200884,
       "review_count": null,
-      "count_str": "134.8万",
+      "count_str": "134.9万",
       "count_label": "热度",
       "hints": [],
       "url": "https://www.taptap.cn/app/163980",
@@ -739,67 +766,7 @@
       "developer": "网易游戏"
     },
     {
-      "rank": 26,
-      "id": 163156,
-      "title": "落樱小屋",
-      "icon": "https://img-tc.tapimg.com/market/images/8cae10299d4c6aa6277f1d06a0c1c93d.png/_tap_appicon.jpg",
-      "score": "8.8",
-      "tags": [
-        "恋爱",
-        "模拟",
-        "女性向",
-        "剧情",
-        "手绘",
-        "治愈",
-        "箱庭",
-        "换装",
-        "单机",
-        "休闲",
-        "竖屏"
-      ],
-      "count": 1400990,
-      "reserve": 0,
-      "review_count": null,
-      "count_str": "140.1万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/163156",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1554260084,
-      "developer": "优路互娱"
-    },
-    {
       "rank": 27,
-      "id": 755739,
-      "title": "爷爷的早餐店",
-      "icon": "https://img-tc.tapimg.com/market/images/e1536dbf46a2e70fbafc23d8779dadc7.png/_tap_appicon.jpg",
-      "score": "4.2",
-      "tags": [
-        "模拟经营",
-        "经营",
-        "种田",
-        "女性向",
-        "模拟"
-      ],
-      "count": 39527,
-      "reserve": 4298,
-      "review_count": null,
-      "count_str": "4.0万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/755739",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1766023223,
-      "developer": "魂动"
-    },
-    {
-      "rank": 28,
       "id": 6965,
       "title": "奇迹暖暖",
       "icon": "https://img-tc.tapimg.com/market/images/ffee9b735850edea9d4164a9e80c2905.png/_tap_appicon.jpg",
@@ -815,7 +782,7 @@
         "闯关",
         "二次元"
       ],
-      "count": 3005664,
+      "count": 3005818,
       "reserve": 1,
       "review_count": null,
       "count_str": "300.6万",
@@ -830,7 +797,7 @@
       "developer": "腾讯"
     },
     {
-      "rank": 29,
+      "rank": 28,
       "id": 787611,
       "title": "小花仙：拉贝尔之约",
       "icon": "https://img-tc.tapimg.com/market/images/011ec91c0e60d886b060005e78f10408.jpg/_tap_appicon.jpg",
@@ -842,10 +809,10 @@
         "模拟经营",
         "角色扮演"
       ],
-      "count": 408478,
-      "reserve": 187617,
+      "count": 408575,
+      "reserve": 187614,
       "review_count": null,
-      "count_str": "40.8万",
+      "count_str": "40.9万",
       "count_label": "热度",
       "hints": [
         "7月3日 6000天版本更新"
@@ -859,7 +826,7 @@
       "developer": "上海淘米网络科技有限公司"
     },
     {
-      "rank": 30,
+      "rank": 29,
       "id": 232679,
       "title": "往事",
       "icon": "https://img-tc.tapimg.com/market/images/f044997aedf28802514027eaa7a405c2.png/_tap_appicon.jpg",
@@ -878,7 +845,7 @@
         "女性向",
         "治愈"
       ],
-      "count": 20545,
+      "count": 20548,
       "reserve": 216,
       "review_count": null,
       "count_str": "2.1万",
@@ -891,6 +858,39 @@
       ],
       "released_time": 1716170400,
       "developer": "良心工作室"
+    },
+    {
+      "rank": 30,
+      "id": 163156,
+      "title": "落樱小屋",
+      "icon": "https://img-tc.tapimg.com/market/images/8cae10299d4c6aa6277f1d06a0c1c93d.png/_tap_appicon.jpg",
+      "score": "8.8",
+      "tags": [
+        "恋爱",
+        "模拟",
+        "女性向",
+        "剧情",
+        "手绘",
+        "治愈",
+        "箱庭",
+        "换装",
+        "单机",
+        "休闲",
+        "竖屏"
+      ],
+      "count": 1401058,
+      "reserve": 0,
+      "review_count": null,
+      "count_str": "140.1万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/163156",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1554260084,
+      "developer": "优路互娱"
     },
     {
       "rank": 31,
@@ -906,7 +906,7 @@
         "弹幕",
         "换装"
       ],
-      "count": 488891,
+      "count": 489139,
       "reserve": 30385,
       "review_count": null,
       "count_str": "48.9万",
@@ -936,7 +936,7 @@
         "角色扮演",
         "捏脸"
       ],
-      "count": 1955814,
+      "count": 1955953,
       "reserve": 491605,
       "review_count": null,
       "count_str": "195.6万",
@@ -970,7 +970,7 @@
         "舞蹈",
         "音乐"
       ],
-      "count": 542535,
+      "count": 542578,
       "reserve": 83171,
       "review_count": null,
       "count_str": "54.3万",
@@ -986,6 +986,63 @@
     },
     {
       "rank": 34,
+      "id": 810170,
+      "title": "织梦森林",
+      "icon": "https://img-tc.tapimg.com/market/images/a27c7cea35be01022a0bd129104b82d5.png/_tap_appicon.jpg",
+      "score": "7.4",
+      "tags": [
+        "模拟经营",
+        "女性向",
+        "换装",
+        "养成"
+      ],
+      "count": 310784,
+      "reserve": 21414,
+      "review_count": null,
+      "count_str": "31.1万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/810170",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1770948014,
+      "developer": "织梦工作坊"
+    },
+    {
+      "rank": 35,
+      "id": 206236,
+      "title": "青鸾繁华录",
+      "icon": "https://img-tc.tapimg.com/market/images/800e07ca8b93a8d71f8821e335fd2821.png/_tap_appicon.jpg",
+      "score": "8.0",
+      "tags": [
+        "女性向",
+        "剧情",
+        "模拟",
+        "模拟经营",
+        "古风",
+        "养成",
+        "恋爱",
+        "换装",
+        "角色扮演"
+      ],
+      "count": 397807,
+      "reserve": 24855,
+      "review_count": null,
+      "count_str": "39.8万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/206236",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1629994082,
+      "developer": "仙地互动"
+    },
+    {
+      "rank": 36,
       "id": 828686,
       "title": "守护花之窗",
       "icon": "https://img-tc.tapimg.com/market/images/ad8b2ca20ac0c5b6398a6d811b470242.png/_tap_appicon.jpg",
@@ -996,7 +1053,7 @@
         "剧情",
         "休闲"
       ],
-      "count": 21346,
+      "count": 21360,
       "reserve": 8706,
       "review_count": null,
       "count_str": "2.1万",
@@ -1011,7 +1068,38 @@
       "developer": "深圳市拾光筑梦文化传媒有限公司"
     },
     {
-      "rank": 35,
+      "rank": 37,
+      "id": 622563,
+      "title": "开间服装店",
+      "icon": "https://img-tc.tapimg.com/market/images/ea484797bd125d4a1b1d2a5fabb9ba6f.png/_tap_appicon.jpg",
+      "score": "6.4",
+      "tags": [
+        "换装",
+        "女性向",
+        "模拟经营",
+        "可爱",
+        "竖屏",
+        "Q版",
+        "经营",
+        "养成",
+        "模拟"
+      ],
+      "count": 118169,
+      "reserve": 48224,
+      "review_count": null,
+      "count_str": "11.8万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/622563",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1735264800,
+      "developer": "浩玩信息"
+    },
+    {
+      "rank": 38,
       "id": 24439,
       "title": "刀剑乱舞-ONLINE-",
       "icon": "https://img-tc.tapimg.com/market/images/7dc11bb4ab513c3482386150a8faa557.png/_tap_appicon.jpg",
@@ -1029,7 +1117,7 @@
         "多人联机",
         "和风"
       ],
-      "count": 1149992,
+      "count": 1150057,
       "reserve": 28583,
       "review_count": null,
       "count_str": "115.0万",
@@ -1044,94 +1132,98 @@
       "developer": "游族网络"
     },
     {
-      "rank": 36,
-      "id": 810170,
-      "title": "织梦森林",
-      "icon": "https://img-tc.tapimg.com/market/images/a27c7cea35be01022a0bd129104b82d5.png/_tap_appicon.jpg",
-      "score": "7.4",
+      "rank": 39,
+      "id": 239483,
+      "title": "水乡芳华录",
+      "icon": "https://img-tc.tapimg.com/market/images/728104669a6b417b629804150b421fe5.jpg/_tap_appicon.jpg",
+      "score": "8.7",
       "tags": [
+        "放置",
+        "女性向",
+        "竖屏",
         "模拟经营",
-        "女性向",
-        "换装",
-        "养成"
-      ],
-      "count": 309932,
-      "reserve": 21414,
-      "review_count": null,
-      "count_str": "31.0万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/810170",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1770948014,
-      "developer": "织梦工作坊"
-    },
-    {
-      "rank": 37,
-      "id": 6563,
-      "title": "梦回南朝",
-      "icon": "https://img-tc.tapimg.com/market/images/788fe63082ebbce013d27ad74a069b8e.png/_tap_appicon.jpg",
-      "score": "8.2",
-      "tags": [
-        "恋爱",
-        "乙女",
-        "女性向",
         "古风",
-        "模拟",
-        "国风",
-        "养成",
-        "剧情"
+        "经营"
       ],
-      "count": 132530,
-      "reserve": 0,
+      "count": 520939,
+      "reserve": 36011,
       "review_count": null,
-      "count_str": "13.3万",
+      "count_str": "52.1万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/6563",
+      "url": "https://www.taptap.cn/app/239483",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1463075704,
-      "developer": "海南瀚宸网络科技有限公司"
+      "released_time": 1667008800,
+      "developer": "SKY工作室"
     },
     {
-      "rank": 38,
-      "id": 206236,
-      "title": "青鸾繁华录",
-      "icon": "https://img-tc.tapimg.com/market/images/800e07ca8b93a8d71f8821e335fd2821.png/_tap_appicon.jpg",
-      "score": "8.0",
+      "rank": 40,
+      "id": 747820,
+      "title": "梦幻消除战",
+      "icon": "https://img-tc.tapimg.com/market/images/1067bea25f902051bae57f6a232ad01c.jpg/_tap_appicon.jpg",
+      "score": "7.1",
       "tags": [
+        "单机",
+        "模拟经营",
+        "合成",
         "女性向",
+        "养成",
         "剧情",
-        "模拟",
-        "模拟经营",
-        "古风",
-        "养成",
-        "恋爱",
+        "解谜",
+        "悬疑"
+      ],
+      "count": 221478,
+      "reserve": 53973,
+      "review_count": null,
+      "count_str": "22.1万",
+      "count_label": "热度",
+      "hints": [],
+      "url": "https://www.taptap.cn/app/747820",
+      "platforms": [
+        "android",
+        "ios"
+      ],
+      "released_time": 1760320800,
+      "developer": "广州喜势网络科技有限公司"
+    },
+    {
+      "rank": 41,
+      "id": 205540,
+      "title": "盛唐烟雨",
+      "icon": "https://img-tc.tapimg.com/market/images/dc6ab75360c68e439a5f059f1505674c.png/_tap_appicon.jpg",
+      "score": "6.1",
+      "tags": [
         "换装",
+        "养成",
+        "模拟经营",
+        "卡牌",
+        "经营",
+        "捏脸",
+        "古风",
+        "剧情",
+        "恋爱",
+        "女性向",
         "角色扮演"
       ],
-      "count": 397759,
-      "reserve": 24855,
+      "count": 96072,
+      "reserve": 68211,
       "review_count": null,
-      "count_str": "39.8万",
+      "count_str": "9.6万",
       "count_label": "热度",
       "hints": [],
-      "url": "https://www.taptap.cn/app/206236",
+      "url": "https://www.taptap.cn/app/205540",
       "platforms": [
         "android",
         "ios"
       ],
-      "released_time": 1629994082,
-      "developer": "仙地互动"
+      "released_time": 1686794427,
+      "developer": "广州乐玩"
     },
     {
-      "rank": 39,
+      "rank": 42,
       "id": 205149,
       "title": "时光公主",
       "icon": "https://img-tc.tapimg.com/market/images/1a3fd2be01b9df0d85920b60ad466f16.png/_tap_appicon.jpg",
@@ -1148,7 +1240,7 @@
         "养成",
         "女性向"
       ],
-      "count": 785750,
+      "count": 785764,
       "reserve": 187847,
       "review_count": null,
       "count_str": "78.6万",
@@ -1163,66 +1255,7 @@
       "developer": "天盟数码"
     },
     {
-      "rank": 40,
-      "id": 622563,
-      "title": "开间服装店",
-      "icon": "https://img-tc.tapimg.com/market/images/ea484797bd125d4a1b1d2a5fabb9ba6f.png/_tap_appicon.jpg",
-      "score": "6.4",
-      "tags": [
-        "换装",
-        "女性向",
-        "模拟经营",
-        "可爱",
-        "竖屏",
-        "Q版",
-        "经营",
-        "养成",
-        "模拟"
-      ],
-      "count": 118163,
-      "reserve": 48224,
-      "review_count": null,
-      "count_str": "11.8万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/622563",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1735264800,
-      "developer": "浩玩信息"
-    },
-    {
-      "rank": 41,
-      "id": 239483,
-      "title": "水乡芳华录",
-      "icon": "https://img-tc.tapimg.com/market/images/728104669a6b417b629804150b421fe5.jpg/_tap_appicon.jpg",
-      "score": "8.7",
-      "tags": [
-        "放置",
-        "女性向",
-        "竖屏",
-        "模拟经营",
-        "古风",
-        "经营"
-      ],
-      "count": 520924,
-      "reserve": 36011,
-      "review_count": null,
-      "count_str": "52.1万",
-      "count_label": "热度",
-      "hints": [],
-      "url": "https://www.taptap.cn/app/239483",
-      "platforms": [
-        "android",
-        "ios"
-      ],
-      "released_time": 1667008800,
-      "developer": "SKY工作室"
-    },
-    {
-      "rank": 42,
+      "rank": 43,
       "id": 71617,
       "title": "螺旋圆舞曲",
       "icon": "https://img-tc.tapimg.com/market/images/67eff6034f03e4fd2b9dd08102055874.png/_tap_appicon.jpg",
@@ -1238,7 +1271,7 @@
         "美少女",
         "休闲"
       ],
-      "count": 923402,
+      "count": 923424,
       "reserve": 122446,
       "review_count": null,
       "count_str": "92.3万",
