@@ -67,7 +67,8 @@
 .appearance-list { margin-top:20px; }
 .appearance-item { display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--line); }
 .footer { margin-top:60px; padding:28px 0 40px; border-top:1px solid var(--line); color:var(--text-3); font-size:11px; display:flex; justify-content:space-between; gap:20px; }
-body.report-mode .filter-shell, body.report-mode .header-actions, body.report-mode .drawer-bg { display:none; }
+body.report-mode .filter-shell, body.report-mode .drawer-bg { display:none; }
+body.report-mode .header-actions > :not(#reportBtn) { display:none; }
 body.report-mode .boards { grid-template-columns:1fr; }
 body.report-mode .board { break-inside:avoid; }
 @media (max-width: 1150px) { .metrics-grid { grid-template-columns:repeat(4,1fr); } .filter-panel { grid-template-columns:repeat(3,1fr); } }

@@ -1,5 +1,10 @@
 export async function waitForAssets(root=document){
-  const images=[...root.images]; await Promise.all(images.map(image=>image.complete?Promise.resolve():new Promise(resolve=>{image.addEventListener('load',resolve,{once:true});image.addEventListener('error',resolve,{once:true});})));
+  const images=[...(root.images || root.querySelectorAll?.('img') || [])];
+  images.forEach(image=>{image.loading='eager';});
+  await Promise.all(images.map(image=>image.complete?Promise.resolve():Promise.race([
+    new Promise(resolve=>{image.addEventListener('load',resolve,{once:true});image.addEventListener('error',resolve,{once:true});}),
+    new Promise(resolve=>setTimeout(resolve,3000)),
+  ])));
   await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
 }
 export async function exportLongImage(){
