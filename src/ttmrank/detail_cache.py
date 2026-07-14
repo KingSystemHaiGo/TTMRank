@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import threading
 import time
 from pathlib import Path
 from typing import Callable
@@ -22,6 +23,7 @@ class DetailCache:
         self.path = path
         self.ttl_seconds = ttl_seconds
         self.clock = clock
+        self._lock = threading.Lock()
         self.entries = self._load()
 
     def _load(self) -> dict[str, dict]:
@@ -39,7 +41,8 @@ class DetailCache:
     def get_or_fetch(self, game_id: int, fetcher: Callable[[int], dict]) -> dict:
         key = str(game_id)
         now = int(self.clock())
-        entry = self.entries.get(key)
+        with self._lock:
+            entry = self.entries.get(key)
         if entry:
             if entry.get("ok") and now - entry.get("fetched_at", 0) < self.ttl_seconds:
                 return entry["data"]
@@ -47,18 +50,19 @@ class DetailCache:
                 return entry.get("data", {"ok": False, "developer": "未知", "tags": []})
 
         result = fetcher(game_id)
-        if result.get("ok"):
-            self.entries[key] = {"ok": True, "fetched_at": now, "failures": 0, "data": result}
-        else:
-            failures = min((entry or {}).get("failures", 0) + 1, len(self.BACKOFF_SECONDS))
-            backoff = self.BACKOFF_SECONDS[failures - 1]
-            self.entries[key] = {
-                "ok": False,
-                "fetched_at": now,
-                "failures": failures,
-                "retry_after": now + backoff,
-                "data": result,
-            }
-        self._save()
+        with self._lock:
+            if result.get("ok"):
+                self.entries[key] = {"ok": True, "fetched_at": now, "failures": 0, "data": result}
+            else:
+                failures = min((entry or {}).get("failures", 0) + 1, len(self.BACKOFF_SECONDS))
+                backoff = self.BACKOFF_SECONDS[failures - 1]
+                self.entries[key] = {
+                    "ok": False,
+                    "fetched_at": now,
+                    "failures": failures,
+                    "retry_after": now + backoff,
+                    "data": result,
+                }
+            self._save()
         return result
 
