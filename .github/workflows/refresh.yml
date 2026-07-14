@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
@@ -23,12 +27,34 @@ jobs:
         run: python app/fetcher.py
         env:
           PYTHONIOENCODING: utf-8
+          TTMRANK_HISTORY_URL: ${{ secrets.TTMRANK_HISTORY_URL }}
+          TTMRANK_HISTORY_TOKEN: ${{ secrets.TTMRANK_HISTORY_TOKEN }}
+
+      - name: Validate generated data
+        run: |
+          PYTHONPATH=src python -m unittest discover -s tests -v
+          python -m json.tool app/data/v2/manifest.json >/dev/null
+
+      - name: Write refresh summary
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path('app/data/v2/manifest.json').read_text(encoding='utf-8'))
+          quality = json.loads(Path('app/data/v2/quality.json').read_text(encoding='utf-8'))
+          print('## TTMRank refresh')
+          print(f"- Games: {manifest['game_count']}")
+          print(f"- Appearances: {manifest['appearance_count']}")
+          print(f"- Quality warnings: {len(quality.get('issues', []))}")
+          print(f"- Analysis JSON: {manifest['analysis_bytes']:,} bytes ({manifest['analysis_gzip_bytes']:,} gzip)")
+          print(f"- Hourly history: {'available' if manifest.get('history_available') else 'unavailable / graceful fallback'}")
+          PY
 
       - name: Commit and push if changed
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add app/data/
+          git add app/data/meta.json app/data/rankings*.json app/data/v2/
           if git diff --cached --quiet; then
             echo 'No data changes'
           else

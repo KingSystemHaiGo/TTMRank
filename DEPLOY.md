@@ -1,90 +1,64 @@
-# TTMRank 上线部署指南（GitHub Pages + GitHub Actions）
+# TTMRank 部署指南
 
-完全免费方案，无需服务器，无需信用卡。
+TTMRank 的主站仍是 GitHub Pages 静态站点。当前排行榜与 v2 分析文件提交到仓库；小时快照可选地写入 Cloudflare D1。即使历史服务不可用，当前数据、生命周期日均热度和静态分析仍可使用。
 
-## 部署前准备
+## 1. GitHub Pages
 
-1. 注册 [GitHub](https://github.com) 账号
+1. 在仓库 `Settings → Pages` 中选择 `GitHub Actions`。
+2. 在 `Settings → Actions → General` 中给工作流 `Read and write permissions`。
+3. 推送到 `main` 或 `master` 后，`Deploy to GitHub Pages` 会先运行 Python 和 JS 单元测试，再上传 `app/`。
+4. 分支和 Pull Request 会运行完整测试工作流，包括 Chromium 端到端测试。
 
-## 步骤 1：创建 GitHub 仓库
+`Refresh Data` 每 20 分钟执行一次。采集失败不会用空榜覆盖正式数据；业务数据没有变化时不会生成提交。工作流摘要会显示游戏数、榜单记录数、质量告警、文件体积和小时历史状态。
 
-1. 登录 GitHub，点击右上角 **+** → **New repository**
-2. 仓库名填 `TTMRank`，选 **Public**
-3. 不要勾选 README，直接点 **Create repository**
+## 2. 小时历史与图标代理（可选）
 
-## 步骤 2：上传代码
-
-在项目根目录（有 app/ 文件夹的目录）打开 Git Bash：
+安装 Wrangler 后，在 `cloudflare/` 目录创建 D1 数据库并应用 schema：
 
 ```bash
-git init
-git add .
-git commit -m "init"
-git branch -M main
-git remote add origin https://github.com/你的用户名/TTMRank.git
-git push -u origin main
+npx wrangler d1 create ttmrank-history
+npx wrangler d1 execute ttmrank-history --file schema.sql --remote
 ```
 
-## 步骤 3：开启 GitHub Pages
+复制 `cloudflare/wrangler.toml.example` 为本地 `wrangler.toml`，填写 D1 `database_id`。不要提交真实 token。为分析 Worker 配置：
 
-1. 打开仓库页面，点击 **Settings**
-2. 左侧菜单选择 **Pages**
-3. **Build and deployment** → **Source** 选择 **GitHub Actions**
-4. 保存
+- `ALLOWED_ORIGINS`：例如 `https://kingsystemhaigo.github.io`。
+- `INGEST_TOKEN`：高强度随机密钥。
 
-## 步骤 4：配置 Actions 权限
+将 Worker URL 和同一写入密钥分别保存为 GitHub Actions secrets：
 
-1. 仓库 Settings → **Actions** → **General**
-2. 找到 **Workflow permissions**
-3. 选择 **Read and write permissions**
-4. 勾选 **Allow GitHub Actions to create and approve pull requests**
-5. 点击 **Save**
+- `TTMRANK_HISTORY_URL`
+- `TTMRANK_HISTORY_TOKEN`
 
-> 这步是给数据自动刷新用的，让 Actions 能提交更新后的数据文件。
+两项均未设置时，采集自动降级，不影响 Pages 发布。网站若要使用图标代理，可把同一 Worker URL 配置给前端的可选图标代理地址。
 
-## 步骤 5：首次部署
+## 3. LLM Worker（可选）
 
-Push 代码后会自动触发 **Deploy to GitHub Pages** workflow。
+根目录 `cloudflare-worker.js` 是独立的 LLM 代理。必须配置：
 
-1. 进入仓库的 **Actions** 标签页
-2. 等待 Deploy workflow 变绿（约 1-2 分钟）
-3. 回到 **Settings → Pages**，上方会显示你的网址，如：
-   `https://你的用户名.github.io/TTMRank/`
+- `LLM_URL`、`LLM_KEY`
+- `ALLOWED_ORIGINS`
+- `LLM_MODELS`
 
-## 步骤 6：数据自动刷新
+可选限制：`MAX_BODY_BYTES`、`MAX_TOKENS`。Worker 不再把前端的 `key: worker` 当成认证；访问边界由来源白名单和服务端密钥控制。用户自己填写的 API Key 仅存于当前浏览器标签页的 `sessionStorage`，关闭标签页后清除。
 
-仓库已包含 `.github/workflows/refresh.yml`，**每小时自动运行一次** `fetcher.py` 爬取最新数据。
+## 4. 本地服务
 
-- 数据更新后自动 push 到仓库
-- push 触发 Pages 重新部署
-- 无需任何额外配置
+```bash
+python app/server.py
+```
 
-如果需要立刻更新，可以：
-1. 进入仓库 **Actions** 标签页
-2. 选择 **Refresh Data**
-3. 点击 **Run workflow** 手动触发
+默认只监听 `127.0.0.1`。本地 `/refresh` 和受白名单限制的 `/llm` 可用。若设置 `TTMRANK_PUBLIC=1`，服务会监听 `0.0.0.0`，并强制关闭这两个可变更/代理端点。
 
-## 步骤 7：LLM 配置
+可配置项：
 
-网站是纯静态部署，AI 总结功能**直接从前端调用 LLM API**。
+- `TTMRANK_ALLOWED_ORIGINS`
+- `TTMRANK_LLM_URLS`
+- `TTMRANK_LLM_MODELS`
+- `TTMRANK_MAX_REQUEST_BYTES`
 
-用户在网页上点击设置按钮，自行填写：
-- **API URL**：如 `https://api.deepseek.com/chat/completions`
-- **API Key**：自己的 Key
-- **模型**：如 `deepseek-chat`
+不要把本地服务直接暴露到公网，也不要把 API Key、D1 token 或 `wrangler.toml` 提交到仓库。
 
-配置保存在用户浏览器本地（localStorage），**不会上传到你的服务器**。
+## 5. 数据保留
 
-> 这意味着每个使用网站的人需要自备 LLM API Key。如果你希望免配置使用，需要额外搭建一个带代理的服务器（如 Render / Vercel / Cloudflare Workers）。
-
-## 费用
-
-- GitHub Pages：免费
-- GitHub Actions：免费（公共仓库无限制）
-- 总成本：**0元**
-
-## 注意事项
-
-1. GitHub Pages 有流量限制（每月 100GB 带宽），小群分享完全够用
-2. 首次部署后等待 2-3 分钟再访问，GitHub Pages 需要一点时间来分发
-3. 如果图片加载慢，是 TapTap CDN 的问题，与部署无关
+仓库不再保存 `app/data/history/` 的全量快照。当前数据保存在 `app/data/rankings*.json` 与 `app/data/v2/`；小时历史由 D1 按 `(game_id, captured_hour)` 幂等存储。若仅为本地调试需要旧格式快照，可临时设置 `TTMRANK_LEGACY_HISTORY=1`，生成目录仍会被 Git 忽略。
