@@ -3,9 +3,32 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from collections import defaultdict
+from datetime import datetime
+from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+from zoneinfo import ZoneInfo
+
+
+def _payload_points(payload: dict) -> list[dict]:
+    value = payload.get("updated_at")
+    if not value:
+        return []
+    try:
+        captured_at = int(datetime.strptime(value, "%Y-%m-%d %H:%M:%S").replace(tzinfo=ZoneInfo("Asia/Shanghai")).timestamp())
+    except (TypeError, ValueError):
+        return []
+    games: dict[int, dict] = {}
+    for charts in payload.get("platforms", {}).values():
+        for chart in charts.values():
+            for item in chart.get("items", []):
+                game_id = item.get("id")
+                heat = item.get("count")
+                if isinstance(game_id, int) and isinstance(heat, (int, float)):
+                    games[game_id] = {"game_id": game_id, "captured_hour": captured_at, "heat": heat, "score": item.get("score")}
+    return list(games.values())
 
 
 class HistoryClient:
@@ -79,3 +102,53 @@ class HistoryClient:
             if isinstance(rows, list):
                 points.extend(rows)
         return self.metrics_from_points(games, at, points)
+
+
+class GitHistoryClient:
+    """Read compact baselines from existing Git ranking commits without new snapshots."""
+
+    TARGETS = ((3600, 40 * 60), (24 * 3600, 3 * 3600), (7 * 86400, 12 * 3600))
+
+    def __init__(self, repository: Path, data_path: str = "app/data/rankings.json") -> None:
+        self.repository = repository
+        self.data_path = data_path
+
+    def _run(self, *args: str) -> str:
+        result = subprocess.run(["git", *args], cwd=self.repository, check=True, capture_output=True, text=True, encoding="utf-8")
+        return result.stdout
+
+    def _baseline_payload(self, target: int, tolerance: int) -> dict | None:
+        before = datetime.fromtimestamp(target + tolerance, ZoneInfo("UTC")).isoformat()
+        try:
+            commits = self._run("log", "--format=%H", f"--before={before}", "--", self.data_path).splitlines()
+        except (OSError, subprocess.CalledProcessError):
+            return None
+        best: tuple[int, dict] | None = None
+        for commit in commits[:30]:
+            try:
+                payload = json.loads(self._run("show", f"{commit}:{self.data_path}"))
+                points = _payload_points(payload)
+            except (subprocess.CalledProcessError, json.JSONDecodeError):
+                continue
+            if not points:
+                continue
+            captured_at = points[0]["captured_hour"]
+            if target - tolerance <= captured_at <= target:
+                if best is None or captured_at > best[0]:
+                    best = captured_at, payload
+            if captured_at < target - tolerance:
+                break
+        return best[1] if best else None
+
+    def metrics(self, games: list[dict], at: int) -> dict[int, dict]:
+        if not (self.repository / ".git").exists():
+            return {}
+        points: list[dict] = []
+        for age, tolerance in self.TARGETS:
+            payload = self._baseline_payload(at - age, tolerance)
+            if payload:
+                points.extend(_payload_points(payload))
+        return HistoryClient.metrics_from_points(games, at, points)
+
+    def ingest(self, games: list[dict], captured_at: int) -> bool:
+        return False

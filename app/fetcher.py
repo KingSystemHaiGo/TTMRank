@@ -21,7 +21,7 @@ if str(SOURCE_ROOT) not in sys.path:
 
 from ttmrank.detail_cache import DetailCache
 from ttmrank.exporters import AtomicPublisher
-from ttmrank.history_client import HistoryClient
+from ttmrank.history_client import GitHistoryClient, HistoryClient
 from ttmrank.tap_client import TapTapClient
 from ttmrank.validators import validate_chart_sizes
 
@@ -444,30 +444,31 @@ def main():
     # Timestamps alone must not create a repository commit or deployment.
     comparable_result = {key: value for key, value in result.items() if key != "updated_at"}
     comparable_cache = {key: value for key, value in cache.items() if key != "updated_at"}
-    if cache and comparable_result == comparable_cache:
-        print("No business data changes; keeping existing artifacts")
-        return
+    business_changed = not cache or comparable_result != comparable_cache
+    if not business_changed:
+        print("No ranking changes; refreshing derived history metrics from the existing snapshot")
+        result = cache
 
-    publisher = AtomicPublisher(Path(DATA_DIR))
     out_path = os.path.join(DATA_DIR, "rankings.json")
-    publisher.publish_json("rankings.json", result, pretty=True)
+    if business_changed:
+        publisher = AtomicPublisher(Path(DATA_DIR))
+        publisher.publish_json("rankings.json", result, pretty=True)
 
     # 保存分榜单文件（供首页懒加载）
-    meta = {"updated_at": result["updated_at"], "platforms": {}}
-    for platform, charts in result["platforms"].items():
-        meta["platforms"][platform] = {}
-        for chart_key, chart_data in charts.items():
-            chart_file = os.path.join(DATA_DIR, f"rankings-{platform}-{chart_key}.json")
-            publisher.publish_json(os.path.basename(chart_file), chart_data, pretty=True)
-            meta["platforms"][platform][chart_key] = {
-                "title": chart_data.get("title", ""),
-                "count": len(chart_data.get("items", [])),
-            }
-    meta["taptap_made_count"] = len(result.get("taptap_made", []))
-    meta_path = os.path.join(DATA_DIR, "meta.json")
-    publisher.publish_json(os.path.basename(meta_path), meta, pretty=True)
-
-    save_history(result)
+        meta = {"updated_at": result["updated_at"], "platforms": {}}
+        for platform, charts in result["platforms"].items():
+            meta["platforms"][platform] = {}
+            for chart_key, chart_data in charts.items():
+                chart_file = os.path.join(DATA_DIR, f"rankings-{platform}-{chart_key}.json")
+                publisher.publish_json(os.path.basename(chart_file), chart_data, pretty=True)
+                meta["platforms"][platform][chart_key] = {
+                    "title": chart_data.get("title", ""),
+                    "count": len(chart_data.get("items", [])),
+                }
+        meta["taptap_made_count"] = len(result.get("taptap_made", []))
+        meta_path = os.path.join(DATA_DIR, "meta.json")
+        publisher.publish_json(os.path.basename(meta_path), meta, pretty=True)
+        save_history(result)
 
     # Generate the normalized v2 analysis dataset for the interactive dashboard.
     # Keep this compatibility hook local so the legacy ranking files remain usable
@@ -475,10 +476,8 @@ def main():
     try:
         from ttmrank.pipeline import build_analysis_artifacts
 
-        history_client = HistoryClient(
-            os.environ.get("TTMRANK_HISTORY_URL", ""),
-            os.environ.get("TTMRANK_HISTORY_TOKEN", ""),
-        )
+        history_url = os.environ.get("TTMRANK_HISTORY_URL", "")
+        history_client = HistoryClient(history_url, os.environ.get("TTMRANK_HISTORY_TOKEN", "")) if history_url else GitHistoryClient(PROJECT_ROOT)
         build_analysis_artifacts(result, Path(DATA_DIR) / "v2", history_client=history_client)
         print("Generated v2 analysis artifacts")
     except Exception as exc:
