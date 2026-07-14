@@ -3,6 +3,7 @@ import { createGameIcon } from '../core/game-icon.js';
 import { clear, element } from '../core/safe-dom.js';
 
 const BOARD_DEFS = [
+  ['recentRelease','近两周上新 TOP15','发布 14 天内，按当前热度降序',''],
   ['potential','潜力股','高口碑、低累计热度、高日均热度、上线 ≤15 天','violet'],
   ['realized','潜力兑现','口碑、总热度和日均热度均超过中位数',''],
   ['dailyHeat','日均热度 TOP15','当前热度 ÷ 精确上线小时 × 24','orange'],
@@ -13,6 +14,8 @@ const BOARD_DEFS = [
   ['reputationOutperformance','口碑超额 TOP15','评分百分位高于热度百分位','blue'],
   ['rating','评分 TOP15','有效评分降序，同时展示热度',''],
   ['reputationWarning','口碑预警榜','热度高于中位数，按评分升序','red'],
+  ['iosExclusive','iOS 独占发现','仅出现在已采集 iOS 榜单的游戏','violet'],
+  ['androidExclusive','Android 独占发现','仅出现在已采集 Android 榜单的游戏','blue'],
 ];
 
 export function renderMetrics(container, metrics) {

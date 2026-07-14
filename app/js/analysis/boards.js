@@ -11,14 +11,17 @@ export function nonHotNewIds(appearances, platform = 'all') {
   return result;
 }
 
-export function buildBoards({ games, metrics, appearances }, { platform = 'all' } = {}) {
+export function buildBoards({ games, metrics, appearances }, { platform = 'all', baselineMetrics = null } = {}) {
   const metricMap = new Map(metrics.map(metric => [metric.game_id, metric]));
-  const heatMedian = median(games.map(game => game.heat));
-  const scoreMedian = median(games.map(game => game.score));
-  const dailyMedian = median(metrics.map(metric => metric.heat_per_day_lifetime));
+  const heatMedian = baselineMetrics?.heatMedian ?? median(games.map(game => game.heat));
+  const scoreMedian = baselineMetrics?.scoreMedian ?? median(games.map(game => game.score));
+  const dailyMedian = baselineMetrics?.dailyMedian ?? median(metrics.map(metric => metric.heat_per_day_lifetime));
   const byHeat = list => [...list].sort((a, b) => (b.heat || 0) - (a.heat || 0));
   const idsForChart = chart => new Set(appearances.filter(row => row.chart === chart).map(row => row.game_id));
   const nonHot = nonHotNewIds(appearances, platform);
+  const androidIds = new Set(appearances.filter(row => row.platform === 'android').map(row => row.game_id));
+  const iosIds = new Set(appearances.filter(row => row.platform === 'ios').map(row => row.game_id));
+  const observedAt = Math.max(...games.map(game => game.observed_at || 0), 0);
   const potential = games.filter(game => {
     const metric = metricMap.get(game.id);
     return metric && game.score > scoreMedian && game.heat < heatMedian && metric.heat_per_day_lifetime > dailyMedian && metric.age_hours > 0 && metric.age_hours <= 360;
@@ -32,6 +35,7 @@ export function buildBoards({ games, metrics, appearances }, { platform = 'all' 
   const dailyHeat = games.filter(game => metricMap.get(game.id)?.heat_per_day_lifetime !== null && metricMap.get(game.id)?.heat_per_day_lifetime !== undefined)
     .sort((a, b) => metricMap.get(b.id).heat_per_day_lifetime - metricMap.get(a.id).heat_per_day_lifetime);
   return {
+    recentRelease: byHeat(games.filter(game => game.released_at && observedAt - game.released_at >= 0 && observedAt - game.released_at <= 14 * 86400)).slice(0, 15),
     potential: byHeat(potential).slice(0, 15),
     realized: byHeat(realized).slice(0, 15),
     dailyHeat: dailyHeat.slice(0, 15),
@@ -40,8 +44,9 @@ export function buildBoards({ games, metrics, appearances }, { platform = 'all' 
     nonHotNew: byHeat(games.filter(game => nonHot.has(game.id))).slice(0, 15),
     rating: [...games].filter(game => game.score !== null).sort((a, b) => b.score - a.score || (b.heat || 0) - (a.heat || 0)).slice(0, 15),
     reputationWarning: [...games].filter(game => game.score !== null && game.heat >= heatMedian).sort((a, b) => a.score - b.score).slice(0, 15),
+    iosExclusive: byHeat(games.filter(game => iosIds.has(game.id) && !androidIds.has(game.id))).slice(0, 15),
+    androidExclusive: byHeat(games.filter(game => androidIds.has(game.id) && !iosIds.has(game.id))).slice(0, 15),
     trafficOutperformance: [...games].filter(game => game.score !== null).map(game => ({ ...game, divergence: percentileRank(heatValues, game.heat) - percentileRank(scoreValues, game.score) })).sort((a, b) => b.divergence - a.divergence).slice(0, 15),
     reputationOutperformance: [...games].filter(game => game.score !== null).map(game => ({ ...game, divergence: percentileRank(scoreValues, game.score) - percentileRank(heatValues, game.heat) })).sort((a, b) => b.divergence - a.divergence).slice(0, 15),
   };
 }
-

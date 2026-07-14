@@ -19,4 +19,5 @@ test('buildBoards returns transparent analysis sections', () => {
   const boards = buildBoards({ games, metrics, appearances });
   assert.equal(boards.dailyHeat[0].id, 1);
   assert.equal(boards.nonHotNew[0].id, 1);
+  assert.equal(boards.iosExclusive[0].id, 1);
 });

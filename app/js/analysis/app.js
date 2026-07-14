@@ -4,6 +4,7 @@ import { loadAnalysis, loadQuality } from './data-client.js';
 import { DEFAULT_FILTERS, applyFilters } from './filters.js';
 import { coreMetrics, typeSummary } from './metrics.js';
 import { printReport, setReportMode } from './report.js';
+import { exportLongImage } from './export.js';
 import { renderBoards, renderDrawer, renderMetrics, renderTypeList } from './table.js';
 import { parseState, serializeState } from '../core/state-url.js';
 
@@ -18,10 +19,12 @@ function syncControls(){
   ['released','baseline'].forEach(id=>byId(id).value=filters[id]); ['query'].forEach(id=>byId(id).value=filters[id]||'');
   ['heatMin','heatMax','dailyHeatMin','dailyHeatMax','scoreMin','scoreMax','rankMin','rankMax','highScore'].forEach(id=>byId(id).value=filters[id]??'');
   ['releasedFrom','releasedTo'].forEach(id=>byId(id).value=filters[id]?new Date(filters[id]*1000).toISOString().slice(0,16):'');
+  [...byId('charts').options].forEach(option=>option.selected=filters.charts.includes(option.value));
+  byId('tags').value=filters.tags.join(', '); byId('tagMode').value=filters.tagMode;
 }
 
 function readControls(){
-  filters={...filters,released:byId('released').value,query:byId('query').value.trim(),heatMin:numberValue('heatMin'),heatMax:numberValue('heatMax'),dailyHeatMin:numberValue('dailyHeatMin'),dailyHeatMax:numberValue('dailyHeatMax'),scoreMin:numberValue('scoreMin'),scoreMax:numberValue('scoreMax'),rankMin:numberValue('rankMin'),rankMax:numberValue('rankMax'),baseline:byId('baseline').value,highScore:numberValue('highScore')??8.5,releasedFrom:timeValue('releasedFrom'),releasedTo:timeValue('releasedTo')};
+  filters={...filters,released:byId('released').value,query:byId('query').value.trim(),heatMin:numberValue('heatMin'),heatMax:numberValue('heatMax'),dailyHeatMin:numberValue('dailyHeatMin'),dailyHeatMax:numberValue('dailyHeatMax'),scoreMin:numberValue('scoreMin'),scoreMax:numberValue('scoreMax'),rankMin:numberValue('rankMin'),rankMax:numberValue('rankMax'),baseline:byId('baseline').value,highScore:numberValue('highScore')??8.5,releasedFrom:timeValue('releasedFrom'),releasedTo:timeValue('releasedTo'),charts:[...byId('charts').selectedOptions].map(option=>option.value),tags:byId('tags').value.split(',').map(value=>value.trim()).filter(Boolean),tagMode:byId('tagMode').value};
 }
 
 function openDetail(gameId){
@@ -31,7 +34,7 @@ function openDetail(gameId){
 function closeDetail(){byId('drawerBg').classList.remove('show');byId('drawerBg').setAttribute('aria-hidden','true');document.body.style.overflow='';}
 
 function render(){
-  filtered=applyFilters(original,filters); const metrics=coreMetrics(filtered,filters.highScore); const boards=buildBoards(filtered,{platform:filters.platform});
+  filtered=applyFilters(original,filters); const metrics=coreMetrics(filtered,filters.highScore); const baselineData=filters.baseline==='fixed'?original:filtered; const baselineMetrics=coreMetrics(baselineData,filters.highScore); const boards=buildBoards(filtered,{platform:filters.platform,baselineMetrics});
   renderMetrics(byId('metrics'),metrics); renderCharts(filtered,metrics); renderTypeList(byId('typeList'),typeSummary(filtered)); renderBoards(byId('boards'),boards,filtered,openDetail);
   byId('heatSamples').textContent=`${metrics.heatSamples} 个有效样本`; byId('resultCount').textContent=`当前收录 ${filtered.games.length} 款`; byId('scopeNote').textContent=`${filters.scope==='made'?'TapTap制造':'全榜单'} · ${filters.platform==='all'?'全部平台':filters.platform}`;
   byId('reportMeta').textContent=`筛选样本 ${filtered.games.length} · schema ${manifest.schema_version} · ${filters.baseline==='dynamic'?'动态基准':'固定基准'}`;
@@ -42,10 +45,11 @@ function scheduleRender(){clearTimeout(debounceTimer);debounceTimer=setTimeout((
 function bind(){
   document.querySelectorAll('[data-scope]').forEach(button=>button.addEventListener('click',()=>{filters.scope=button.dataset.scope;render();}));
   document.querySelectorAll('[data-platform]').forEach(button=>button.addEventListener('click',()=>{filters.platform=button.dataset.platform;render();}));
-  ['released','query','heatMin','heatMax','dailyHeatMin','dailyHeatMax','scoreMin','scoreMax','rankMin','rankMax','baseline','highScore','releasedFrom','releasedTo'].forEach(id=>byId(id).addEventListener(id==='query'?'input':'change',scheduleRender));
+  ['released','query','heatMin','heatMax','dailyHeatMin','dailyHeatMax','scoreMin','scoreMax','rankMin','rankMax','baseline','highScore','releasedFrom','releasedTo','charts','tags','tagMode'].forEach(id=>byId(id).addEventListener(id==='query'||id==='tags'?'input':'change',scheduleRender));
   byId('advancedBtn').addEventListener('click',()=>{const hidden=byId('advancedPanel').classList.toggle('hidden');byId('advancedBtn').setAttribute('aria-expanded',String(!hidden));});
   byId('resetBtn').addEventListener('click',()=>{filters={...DEFAULT_FILTERS};render();});
   byId('reportBtn').addEventListener('click',()=>{reportMode=setReportMode(!reportMode);setTimeout(resizeCharts,50);}); byId('printBtn').addEventListener('click',printReport);
+  byId('imageBtn').addEventListener('click',()=>exportLongImage(document.querySelector('main')));
   byId('themeBtn').addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=next;localStorage.setItem('ttm_theme',next);setTimeout(()=>{render();},50);});
   byId('drawerClose').addEventListener('click',closeDetail);byId('drawerBg').addEventListener('click',event=>{if(event.target===byId('drawerBg'))closeDetail();});window.addEventListener('keydown',event=>{if(event.key==='Escape')closeDetail();});window.addEventListener('resize',resizeCharts);
 }

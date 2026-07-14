@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/analysis.css">
   <link rel="stylesheet" href="css/print.css">
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
   <script type="module" src="js/analysis/app.js"></script>
 </head>
 <body>
@@ -25,6 +26,7 @@
       </div>
       <div class="header-actions">
         <button id="reportBtn" class="btn btn-outline">报告模式</button>
+        <button id="imageBtn" class="btn btn-outline">导出长图</button>
         <button id="printBtn" class="btn btn-primary">导出 PDF</button>
         <button id="themeBtn" class="icon-btn" aria-label="切换主题">◐</button>
       </div>
@@ -50,6 +52,8 @@
           <div class="field wide"><label>日均热度区间</label><div class="range"><input id="dailyHeatMin" class="input" type="number" min="0" placeholder="最低"><span>—</span><input id="dailyHeatMax" class="input" type="number" min="0" placeholder="最高"></div></div>
           <div class="field wide"><label>评分区间</label><div class="range"><input id="scoreMin" class="input" type="number" min="0" max="10" step=".1" placeholder="最低"><span>—</span><input id="scoreMax" class="input" type="number" min="0" max="10" step=".1" placeholder="最高"></div></div>
           <div class="field wide"><label>榜单排名区间</label><div class="range"><input id="rankMin" class="input" type="number" min="1" placeholder="最低"><span>—</span><input id="rankMax" class="input" type="number" min="1" placeholder="最高"></div></div>
+          <div class="field wide"><label>榜单（可多选）</label><select id="charts" class="select" multiple size="4"><option value="hot">热门榜</option><option value="new">新品榜</option><option value="sell">热卖榜</option><option value="reserve">预约榜</option><option value="action">动作榜</option><option value="strategy">策略榜</option><option value="shooter">射击榜</option><option value="roguelike">Roguelike</option><option value="casual">休闲榜</option><option value="independent">独立榜</option><option value="acgn">二次元榜</option><option value="otome">乙女榜</option><option value="music">音乐榜</option><option value="idle">放置榜</option></select></div>
+          <div class="field wide"><label>标签（逗号分隔）</label><input id="tags" class="input" placeholder="模拟, 放置"><select id="tagMode" class="select"><option value="or">任一标签 OR</option><option value="and">全部标签 AND</option></select></div>
           <div class="field"><label>基准模式</label><select id="baseline" class="select"><option value="dynamic">当前筛选动态基准</option><option value="fixed">全榜单固定基准</option></select></div>
           <div class="field"><label>高分阈值</label><input id="highScore" class="input" type="number" min="0" max="10" step=".1" value="8.5"></div>
           <div class="field wide"><label>自定义发布时间</label><div class="range"><input id="releasedFrom" class="input" type="datetime-local"><span>—</span><input id="releasedTo" class="input" type="datetime-local"></div></div>
