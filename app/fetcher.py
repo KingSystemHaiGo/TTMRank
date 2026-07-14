@@ -14,6 +14,16 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+SOURCE_ROOT = PROJECT_ROOT / "src"
+if str(SOURCE_ROOT) not in sys.path:
+    sys.path.insert(0, str(SOURCE_ROOT))
+
+from ttmrank.detail_cache import DetailCache
+from ttmrank.exporters import AtomicPublisher
+from ttmrank.tap_client import TapTapClient
+from ttmrank.validators import validate_chart_sizes
+
 if sys.platform == "win32":
     import io
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
@@ -48,6 +58,8 @@ PLATFORMS = ["android", "ios"]
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 HISTORY_DIR = os.path.join(DATA_DIR, "history")
 MAX_WORKERS = 8
+CLIENT = TapTapClient()
+DETAIL_CACHE = DetailCache(Path(DATA_DIR) / ".cache" / "game-details.json")
 
 
 def load_cache() -> dict:
@@ -86,57 +98,15 @@ def fetch_with_retry(req: Request, timeout: int = 30, retries: int = 3) -> dict:
 
 def fetch_ranking(platform: str, type_name: str, limit: int = None) -> dict:
     """抓取单个排行榜数据"""
-    items_all = []
-    seen_ids = set()
-    meta = {}
-    offset = 0
-    # 安全上限：100页 × 15 = 1500个，足够覆盖所有榜单
-    max_pages = 100 if limit is None else (limit + 14) // 15 + 1
-
-    for _ in range(max_pages):
-        if limit and len(items_all) >= limit:
-            break
-        # 当 limit 为 None 时，每页取15个，不限制总数
-        page_limit = min(15, (limit - len(items_all)) if limit else 15)
-        url = f"{BASE_URL}?X-UA={quote(X_UA, safe='')}&platform={platform}&type_name={type_name}&from={offset}&limit={page_limit}"
-        req = Request(url, headers=HEADERS)
-
-        try:
-            data = fetch_with_retry(req, timeout=30, retries=3)
-        except HTTPError as e:
-            print(f"    [{platform}/{type_name}] HTTP {e.code}: {e.reason}")
-            break
-        except Exception as e:
-            print(f"    [{platform}/{type_name}] Error: {e}")
-            break
-
-        if not data.get("success"):
-            msg = data.get("data", {}).get("msg", "unknown")
-            print(f"    [{platform}/{type_name}] API error: {msg}")
-            break
-
-        page_list = data.get("data", {}).get("list", [])
-        if not page_list:
-            break
-
-        meta = data.get("data", {})
-        added = 0
-        for entry in page_list:
-            app_id = entry.get("app", {}).get("id")
-            if app_id and app_id not in seen_ids:
-                seen_ids.add(app_id)
-                items_all.append(entry)
-                added += 1
-
-        offset += len(page_list)
-        if len(page_list) < page_limit or added == 0:
-            break
-        time.sleep(0.08)
-
+    collected = CLIENT.fetch_ranking(platform, type_name, limit)
+    if not collected.ok:
+        raise RuntimeError(collected.error)
+    raw = collected.data or {}
     return {
-        "title": meta.get("title", RANK_TYPES[type_name]["name"]),
-        "description": meta.get("description", ""),
-        "items": [extract_app(entry, idx) for idx, entry in enumerate(items_all[:limit], start=1)],
+        "title": raw.get("title", RANK_TYPES[type_name]["name"]),
+        "description": raw.get("description", ""),
+        "source": "live",
+        "items": [extract_app(entry, idx) for idx, entry in enumerate(raw.get("items", []), start=1)],
     }
 
 
@@ -192,19 +162,9 @@ def format_count(n: int) -> str:
 
 
 def fetch_app_detail(app_id: int) -> dict:
-    """获取游戏详情：v6 API + HTML 评论数抓取"""
-    # HTML 回退已彻底删除原因（标签）：
-    # 1. GitHub Actions 服务器被 TapTap WAF 拦截，HTML 回退抓到的是导航栏/推荐区的通用标签
-    # 2. 导致所有游戏标签变成 ['模拟经营', '像素', '放置', '单机', '模拟']
-    # 3. 本地运行时 API 正常，标签各不相同
-    # 结论：HTML 回退不可靠，只信任 API 返回的数据
-    # 
-    # 但评论数是固定格式 "评价 {数字}"，位置明确，可以单独从 HTML 抓取
-    api_result = _fetch_app_detail_api(app_id)
-    review_count = _fetch_review_count(app_id)
-    if review_count is not None:
-        api_result["review_count"] = review_count
-    return api_result
+    """获取稳定详情字段；HTML 评论抓取已停用，详情使用 TTL 缓存。"""
+    result = DETAIL_CACHE.get_or_fetch(app_id, CLIENT.fetch_detail)
+    return {**result, "review_count": None}
 
 
 def _fetch_review_count(app_id: int) -> int | None:
@@ -329,7 +289,9 @@ def find_best_rank(game_id: int, all_rankings: dict) -> dict:
 
 
 def save_history(result: dict):
-    """保存历史快照"""
+    """兼容的本地调试历史；生产默认关闭，小时历史写入 D1。"""
+    if os.environ.get("TTMRANK_LEGACY_HISTORY") != "1":
+        return
     os.makedirs(HISTORY_DIR, exist_ok=True)
     ts = result["updated_at"].replace(":", "-")
     hist_path = os.path.join(HISTORY_DIR, f"{ts}.json")
@@ -376,7 +338,16 @@ def main():
                 # 尝试从缓存恢复该榜单
                 if cache.get("platforms", {}).get(platform, {}).get(type_name):
                     result["platforms"][platform][type_name] = cache["platforms"][platform][type_name]
+                    result["platforms"][platform][type_name]["source"] = "cache"
                     print(f"    -> fallback to cache")
+
+    current_sizes = {(platform, chart): len(data.get("items", [])) for platform, charts in result["platforms"].items() for chart, data in charts.items()}
+    previous_sizes = {(platform, chart): len(data.get("items", [])) for platform, charts in cache.get("platforms", {}).items() for chart, data in charts.items()}
+    for issue in validate_chart_sizes(current_sizes, previous_sizes):
+        cached = cache.get("platforms", {}).get(issue.platform, {}).get(issue.chart)
+        if cached:
+            result["platforms"][issue.platform][issue.chart] = {**cached, "source": "cache"}
+            print(f"  [{issue.platform}/{issue.chart}] quality fallback: {issue.message}")
 
     # 2. 收集所有唯一游戏（用于详情补全和标签筛选）
     print("\n=== Collecting all unique games ===")
@@ -401,8 +372,6 @@ def main():
             try:
                 detail = fut.result()
                 detail_results[gid] = detail
-                # DEBUG: 打印每个游戏的详情API结果
-                print(f"  [DEBUG] app_id={gid}: ok={detail.get('ok')}, tags_count={len(detail.get('tags', []))}, tags={detail.get('tags', [])[:5]}")
             except Exception as e:
                 print(f"  [{gid}] detail error: {e}")
                 detail_results[gid] = {"developer": "未知", "tags": [], "ok": False}
@@ -471,10 +440,16 @@ def main():
     print(f"  -> Updated tags for {tag_update_count} games")
     print(f"  -> Updated review_count for {review_update_count} games")
 
-    # 保存完整数据（供 taptapmaker.html 等需要全量数据的页面使用）
+    # Timestamps alone must not create a repository commit or deployment.
+    comparable_result = {key: value for key, value in result.items() if key != "updated_at"}
+    comparable_cache = {key: value for key, value in cache.items() if key != "updated_at"}
+    if cache and comparable_result == comparable_cache:
+        print("No business data changes; keeping existing artifacts")
+        return
+
+    publisher = AtomicPublisher(Path(DATA_DIR))
     out_path = os.path.join(DATA_DIR, "rankings.json")
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
+    publisher.publish_json("rankings.json", result, pretty=True)
 
     # 保存分榜单文件（供首页懒加载）
     meta = {"updated_at": result["updated_at"], "platforms": {}}
@@ -482,26 +457,20 @@ def main():
         meta["platforms"][platform] = {}
         for chart_key, chart_data in charts.items():
             chart_file = os.path.join(DATA_DIR, f"rankings-{platform}-{chart_key}.json")
-            with open(chart_file, "w", encoding="utf-8") as f:
-                json.dump(chart_data, f, ensure_ascii=False, indent=2)
+            publisher.publish_json(os.path.basename(chart_file), chart_data, pretty=True)
             meta["platforms"][platform][chart_key] = {
                 "title": chart_data.get("title", ""),
                 "count": len(chart_data.get("items", [])),
             }
     meta["taptap_made_count"] = len(result.get("taptap_made", []))
     meta_path = os.path.join(DATA_DIR, "meta.json")
-    with open(meta_path, "w", encoding="utf-8") as f:
-        json.dump(meta, f, ensure_ascii=False, indent=2)
+    publisher.publish_json(os.path.basename(meta_path), meta, pretty=True)
 
     save_history(result)
 
     # Generate the normalized v2 analysis dataset for the interactive dashboard.
     # Keep this compatibility hook local so the legacy ranking files remain usable
     # while the collector is migrated into the package.
-    project_root = Path(__file__).resolve().parent.parent
-    source_root = project_root / "src"
-    if str(source_root) not in sys.path:
-        sys.path.insert(0, str(source_root))
     try:
         from ttmrank.pipeline import build_analysis_artifacts
 
