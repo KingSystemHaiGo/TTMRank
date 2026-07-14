@@ -1,6 +1,6 @@
 # TTMRank 部署指南
 
-TTMRank 的主站仍是 GitHub Pages 静态站点。当前排行榜与 v2 分析文件提交到仓库；小时快照可选地写入 Cloudflare D1。即使历史服务不可用，当前数据、生命周期日均热度和静态分析仍可使用。
+TTMRank 的主站仍是 GitHub Pages 静态站点。当前排行榜与 v2 分析文件提交到仓库；刷新任务默认直接读取已有 Git 提交中的 `rankings.json` 计算 1 小时、24 小时和 7 天基线，不再要求额外保存全量历史文件。Cloudflare D1 仅是可选替代数据源。
 
 ## 1. GitHub Pages
 
@@ -30,7 +30,7 @@ npx wrangler d1 execute ttmrank-history --file schema.sql --remote
 - `TTMRANK_HISTORY_URL`
 - `TTMRANK_HISTORY_TOKEN`
 
-两项均未设置时，采集自动降级，不影响 Pages 发布。网站若要使用图标代理，可把同一 Worker URL 配置给前端的可选图标代理地址。
+两项均未设置时，采集自动使用 Git 提交历史，不影响 Pages 发布。Action checkout 必须保留完整 Git 历史。网站若要使用图标代理，可把同一 Worker URL 配置给前端的可选图标代理地址。
 
 ## 3. LLM Worker（可选）
 

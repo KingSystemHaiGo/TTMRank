@@ -37,6 +37,19 @@ class PipelineTests(unittest.TestCase):
         self.assertTrue(manifest["history_available"])
         self.assertEqual(history.ingested[1], analysis["observed_at"])
 
+    def test_manifest_reports_history_when_any_game_has_a_baseline(self):
+        class PartialHistory:
+            def metrics(self, games, at):
+                return {1: {"heat_delta_1h": 5}}
+
+            def ingest(self, games, captured_at):
+                return False
+
+        fixture = json.loads((Path(__file__).parent / "fixtures" / "rankings-small.json").read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as tmp:
+            manifest = build_analysis_artifacts(fixture, Path(tmp), history_client=PartialHistory())
+        self.assertTrue(manifest["history_available"])
+
 
 if __name__ == "__main__":
     unittest.main()
