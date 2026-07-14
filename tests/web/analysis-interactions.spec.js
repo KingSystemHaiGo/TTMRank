@@ -40,6 +40,7 @@ test('fixed baseline, report mode and details drawer are interactive', async ({ 
   await page.locator('.game-row').first().click();
   await expect(page.locator('#drawerBg')).toHaveClass(/show/);
   await expect(page.locator('#drawerContent h2')).not.toBeEmpty();
+  await expect(page.locator('#drawerContent')).toContainText('近 24 小时增长');
   await page.keyboard.press('Escape');
   await expect(page.locator('#drawerBg')).not.toHaveClass(/show/);
 });

@@ -58,7 +58,10 @@ async function init(){
   try{
     document.documentElement.dataset.theme=localStorage.getItem('ttm_theme')||'dark'; filters=parseState(location.search,DEFAULT_FILTERS); syncControls(); bind();
     const loaded=await loadAnalysis(); manifest=loaded.manifest; original=loaded.data; byId('updatedAt').textContent=manifest.updated_at; const quality=await loadQuality();
-    if(quality?.issues?.length){byId('qualityBanner').classList.remove('hidden');byId('qualityBanner').textContent=`数据质量提示：本批次记录 ${quality.issues.length} 个跨榜字段差异，主数据使用最新有效值。`;}
+    const notices=[];
+    if(quality?.issues?.length)notices.push(`本批次记录 ${quality.issues.length} 个跨榜字段差异，主数据使用最新有效值。`);
+    if(!manifest.history_available)notices.push('近期增量暂不可用；当前仍可使用生命周期小时口径日均热度，配置 D1 后自动启用近期增长。');
+    if(notices.length){byId('qualityBanner').classList.remove('hidden');byId('qualityBanner').textContent=`数据质量提示：${notices.join(' ')}`;}
     render();
   }catch(error){byId('metrics').replaceChildren();const node=document.createElement('div');node.className='empty';node.textContent=`分析数据加载失败：${error.message}`;byId('metrics').append(node);console.error(error);}
 }

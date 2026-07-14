@@ -15,4 +15,5 @@ test('analysis page loads real v2 data and game icons', async ({ page }) => {
   await expect.poll(async () => icons.first().evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
   await expect(icons.first()).toHaveAttribute('referrerpolicy', 'no-referrer');
   await expect(page.locator('#imageBtn')).toBeVisible();
+  await expect(page.locator('#qualityBanner')).toContainText('近期增量暂不可用');
 });
