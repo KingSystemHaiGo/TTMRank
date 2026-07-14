@@ -3,6 +3,8 @@ import { test, expect } from '@playwright/test';
 test('existing ranking page loads', async ({ page }) => {
   await page.goto('/index.html');
   await expect(page).toHaveTitle(/TTMRank/);
+  await expect(page.getByRole('link', { name: 'TapTap制造分析' })).toHaveAttribute('href', 'analysis.html?scope=made');
+  await expect(page.getByRole('link', { name: '全站分析' })).toHaveAttribute('href', 'analysis.html');
 });
 
 test('analysis page loads real v2 data and game icons', async ({ page }) => {
