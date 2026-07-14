@@ -9,7 +9,7 @@ const SYSTEM_PROMPT = `你是游戏市场数据分析师。基于提供的榜单
 
 const WORKER_URL = 'https://ttmrank-proxy.kingsystem0613.workers.dev';
 let data = null, activePlat = 'android', activeKey = 'hot', charts = {}, currentItems = [];
-let cfg = JSON.parse(localStorage.getItem('ttm_llm')||'null');
+let cfg = JSON.parse(sessionStorage.getItem('ttm_llm')||'null');
 if (!cfg) cfg = {url: WORKER_URL, key: 'worker', model: 'deepseek-v4-flash'};
 
 function applyTheme(theme) {
@@ -347,7 +347,7 @@ function openModal() {
 function closeModal() { document.getElementById('modalBg').classList.remove('show'); }
 function saveModal() {
   cfg = { url: document.getElementById('iUrl').value.trim(), key: document.getElementById('iKey').value.trim(), model: document.getElementById('iModel').value.trim() };
-  localStorage.setItem('ttm_llm', JSON.stringify(cfg));
+  sessionStorage.setItem('ttm_llm', JSON.stringify(cfg));
   closeModal();
 }
 document.getElementById('btnSet').onclick = openModal;

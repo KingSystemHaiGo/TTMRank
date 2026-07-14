@@ -9,12 +9,57 @@ import sys
 import threading
 import time
 import webbrowser
+from dataclasses import dataclass
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(ROOT, "data")
+MAX_LLM_RESPONSE_BYTES = 2_000_000
+
+
+def _csv_env(name, default=""):
+    return frozenset(value.strip() for value in os.environ.get(name, default).split(",") if value.strip())
+
+
+@dataclass(frozen=True)
+class SecurityConfig:
+    bind_host: str
+    public_mode: bool
+    allow_refresh: bool
+    allow_llm: bool
+    allowed_origins: frozenset[str]
+    llm_urls: frozenset[str]
+    llm_models: frozenset[str]
+    max_request_bytes: int
+
+    def cors_origin(self, origin: str | None) -> str | None:
+        if not origin:
+            return None
+        return origin if origin in self.allowed_origins else None
+
+    def is_llm_request_allowed(self, url: str, model: str) -> bool:
+        if url not in self.llm_urls or model not in self.llm_models:
+            return False
+        parsed = urlsplit(url)
+        return parsed.scheme == "https" and bool(parsed.hostname) and not parsed.username and not parsed.password
+
+
+def load_security_config() -> SecurityConfig:
+    public_mode = os.environ.get("TTMRANK_PUBLIC", "0") == "1"
+    bind_host = os.environ.get("TTMRANK_BIND", "0.0.0.0" if public_mode else "127.0.0.1")
+    return SecurityConfig(
+        bind_host=bind_host,
+        public_mode=public_mode,
+        allow_refresh=not public_mode and os.environ.get("TTMRANK_ALLOW_REFRESH", "1") == "1",
+        allow_llm=not public_mode and os.environ.get("TTMRANK_ALLOW_LLM", "1") == "1",
+        allowed_origins=_csv_env("TTMRANK_ALLOWED_ORIGINS", "http://127.0.0.1:8080,http://localhost:8080"),
+        llm_urls=_csv_env("TTMRANK_LLM_URLS", "https://api.deepseek.com/chat/completions"),
+        llm_models=_csv_env("TTMRANK_LLM_MODELS", "deepseek-chat,deepseek-reasoner"),
+        max_request_bytes=max(1024, min(int(os.environ.get("TTMRANK_MAX_REQUEST_BYTES", "262144")), 1_000_000)),
+    )
 
 # 是否启用浏览器心跳（本地模式）
 ENABLE_WATCHDOG = os.environ.get("ENABLE_WATCHDOG", "1") == "1"
@@ -82,7 +127,18 @@ class Handler(SimpleHTTPRequestHandler):
             self.send_error(404)
 
     def _handle_llm(self):
-        content_length = int(self.headers.get('Content-Length', 0))
+        config = load_security_config()
+        if not config.allow_llm:
+            self._send_json(403, {"error": "LLM proxy disabled"})
+            return
+        try:
+            content_length = int(self.headers.get('Content-Length', 0))
+        except ValueError:
+            self._send_json(400, {"error": "Invalid Content-Length"})
+            return
+        if content_length <= 0 or content_length > config.max_request_bytes:
+            self._send_json(413, {"error": "Request body too large"})
+            return
         body = self.rfile.read(content_length).decode('utf-8')
         try:
             payload = json.loads(body)
@@ -92,8 +148,9 @@ class Handler(SimpleHTTPRequestHandler):
 
         url = payload.pop('url', '')
         key = payload.pop('key', '')
-        if not url or not key:
-            self._send_json(400, {"error": "Missing url or key"})
+        model = payload.get('model', '')
+        if not url or not key or not config.is_llm_request_allowed(url, model):
+            self._send_json(400, {"error": "LLM URL or model is not allowed"})
             return
 
         req = Request(url, data=json.dumps(payload).encode('utf-8'), headers={
@@ -103,7 +160,10 @@ class Handler(SimpleHTTPRequestHandler):
 
         try:
             with urlopen(req, timeout=120) as resp:
-                resp_body = resp.read()
+                resp_body = resp.read(MAX_LLM_RESPONSE_BYTES + 1)
+            if len(resp_body) > MAX_LLM_RESPONSE_BYTES:
+                self._send_json(502, {"error": "LLM response too large"})
+                return
             try:
                 text = resp_body.decode('utf-8')
             except UnicodeDecodeError:
@@ -125,14 +185,19 @@ class Handler(SimpleHTTPRequestHandler):
     def _send_json(self, status, data):
         self.send_response(status)
         self.send_header('Content-Type', 'application/json; charset=utf-8')
-        self.send_header('Access-Control-Allow-Origin', '*')
+        origin = load_security_config().cors_origin(self.headers.get('Origin'))
+        if origin:
+            self.send_header('Access-Control-Allow-Origin', origin)
+            self.send_header('Vary', 'Origin')
         self.end_headers()
         self.wfile.write(json.dumps(data, ensure_ascii=False).encode('utf-8'))
 
     def _handle_refresh(self):
+        if not load_security_config().allow_refresh:
+            self._send_json(403, {"success": False, "error": "Refresh disabled"})
+            return
         self.send_response(200)
         self.send_header('Content-Type', 'application/json; charset=utf-8')
-        self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
         try:
             result = subprocess.run(
@@ -157,12 +222,16 @@ class Handler(SimpleHTTPRequestHandler):
     def _handle_ping(self):
         _update_ping()
         self.send_response(204)
-        self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
 
     def do_OPTIONS(self):
+        origin = load_security_config().cors_origin(self.headers.get('Origin'))
+        if not origin:
+            self.send_error(403)
+            return
         self.send_response(204)
-        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Origin', origin)
+        self.send_header('Vary', 'Origin')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
@@ -212,6 +281,7 @@ def background_refresh():
 
 
 def main():
+    security = load_security_config()
     # 云部署时从环境变量读取端口
     port_env = os.environ.get("PORT")
     if port_env:
@@ -240,10 +310,10 @@ def main():
         threading.Thread(target=_scheduled_refresh, daemon=True).start()
 
     HTTPServer.allow_reuse_address = False
-    with HTTPServer(("", port), Handler) as httpd:
+    with HTTPServer((security.bind_host, port), Handler) as httpd:
         if ENABLE_WATCHDOG:
             threading.Thread(target=_watchdog, args=(httpd,), daemon=True).start()
-        url = f"http://localhost:{port}"
+        url = f"http://127.0.0.1:{port}"
         print(f"TTMRank running at {url}")
         print("Press Ctrl+C to stop")
         if not port_env:

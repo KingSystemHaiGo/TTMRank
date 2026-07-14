@@ -11,64 +11,40 @@
 // 5. 拿到 Worker URL（如 https://ttmrank-proxy.xxx.workers.dev）
 // 6. 把 URL 填到 app/js/app.js 和 app/taptapmaker.html 的 DEFAULT_WORKER_URL 里
 
+const origins = env => new Set((env.ALLOWED_ORIGINS || '').split(',').map(value => value.trim()).filter(Boolean));
+const models = env => new Set((env.LLM_MODELS || 'deepseek-chat').split(',').map(value => value.trim()).filter(Boolean));
+const isOriginAllowed = (origin, env) => Boolean(origin) && origins(env).has(origin);
+const bodyLimit = env => Math.max(1, Math.min(Number(env.MAX_BODY_BYTES || 262144), 1_000_000));
+const tokenLimit = env => Math.max(1, Math.min(Number(env.MAX_TOKENS || 4096), 8192));
+const cors = origin => ({ 'Access-Control-Allow-Origin': origin, 'Vary': 'Origin' });
+const json = (data, status, origin) => new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', ...cors(origin) } });
+
+function validatePayload(payload, env) {
+  if (!payload || typeof payload !== 'object' || !models(env).has(payload.model)) return { ok: false, error: 'model not allowed' };
+  if (!Array.isArray(payload.messages) || payload.messages.length > 64) return { ok: false, error: 'invalid messages' };
+  const maxTokens = Number(payload.max_tokens || tokenLimit(env));
+  if (!Number.isSafeInteger(maxTokens) || maxTokens < 1 || maxTokens > tokenLimit(env)) return { ok: false, error: 'max_tokens exceeds limit' };
+  return { ok: true, payload: { ...payload, max_tokens: maxTokens, stream: false } };
+}
+
 export default {
   async fetch(request, env) {
-    // CORS 预检
-    if (request.method === 'OPTIONS') {
-      return new Response(null, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-        }
-      });
-    }
-
-    const LLM_URL = env.LLM_URL || 'https://api.deepseek.com/chat/completions';
-    const LLM_KEY = env.LLM_KEY;
-
-    if (!LLM_KEY) {
-      return new Response(JSON.stringify({error: 'LLM_KEY not configured'}), {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Access-Control-Allow-Origin': '*'
-        }
-      });
-    }
-
-    if (request.method !== 'POST') {
-      return new Response('TTMRank LLM Proxy is running. Send a POST request with JSON body.', {
-        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
-      });
-    }
-
-    const body = await request.text();
-    if (!body) {
-      return new Response(JSON.stringify({error: 'Empty request body'}), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Access-Control-Allow-Origin': '*'
-        }
-      });
-    }
-
-    const resp = await fetch(LLM_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + LLM_KEY
-      },
-      body: body
-    });
-
-    return new Response(resp.body, {
-      status: resp.status,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'Access-Control-Allow-Origin': '*'
-      }
-    });
+    const origin = request.headers.get('Origin') || '';
+    if (!isOriginAllowed(origin, env)) return new Response('Forbidden', { status: 403 });
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...cors(origin), 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' } });
+    if (request.method !== 'POST') return json({ error: 'method not allowed' }, 405, origin);
+    if (!env.LLM_KEY || !env.LLM_URL) return json({ error: 'LLM proxy not configured' }, 503, origin);
+    const declared = Number(request.headers.get('Content-Length') || 0);
+    if (declared > bodyLimit(env)) return json({ error: 'request too large' }, 413, origin);
+    const text = await request.text();
+    if (!text || new TextEncoder().encode(text).length > bodyLimit(env)) return json({ error: 'request too large' }, 413, origin);
+    let payload;
+    try { payload = JSON.parse(text); } catch { return json({ error: 'invalid JSON' }, 400, origin); }
+    const checked = validatePayload(payload, env);
+    if (!checked.ok) return json({ error: checked.error }, 400, origin);
+    const upstream = await fetch(env.LLM_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${env.LLM_KEY}` }, body: JSON.stringify(checked.payload) });
+    return new Response(upstream.body, { status: upstream.status, headers: { 'Content-Type': 'application/json; charset=utf-8', ...cors(origin) } });
   }
 };
+
+export const __test = { bodyLimit, isOriginAllowed, validatePayload };
