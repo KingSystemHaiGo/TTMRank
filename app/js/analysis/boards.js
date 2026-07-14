@@ -34,9 +34,21 @@ export function buildBoards({ games, metrics, appearances }, { platform = 'all',
   const heatValues = games.map(game => game.heat);
   const dailyHeat = games.filter(game => metricMap.get(game.id)?.heat_per_day_lifetime !== null && metricMap.get(game.id)?.heat_per_day_lifetime !== undefined)
     .sort((a, b) => metricMap.get(b.id).heat_per_day_lifetime - metricMap.get(a.id).heat_per_day_lifetime);
+  const hasHistory = potential.some(game => metricMap.get(game.id)?.history_available && metricMap.get(game.id)?.growth_per_hour_24h !== null);
+  const scoreValuesPotential = potential.map(game => game.score);
+  const dailyValuesPotential = potential.map(game => metricMap.get(game.id)?.heat_per_day_lifetime);
+  const growthValuesPotential = potential.map(game => metricMap.get(game.id)?.growth_per_hour_24h);
+  const potentialRanked = potential.map(game => {
+    const metric = metricMap.get(game.id);
+    const scoreRank = percentileRank(scoreValuesPotential, game.score) || 0;
+    const dailyRank = percentileRank(dailyValuesPotential, metric?.heat_per_day_lifetime) || 0;
+    const growthRank = percentileRank(growthValuesPotential, metric?.growth_per_hour_24h) || 0;
+    const potentialScore = hasHistory ? (0.35 * scoreRank + 0.40 * dailyRank + 0.25 * growthRank) * 100 : (0.45 * scoreRank + 0.55 * dailyRank) * 100;
+    return { ...game, potentialScore: Math.round(potentialScore * 10) / 10, potentialFormula: hasHistory ? '评分35% · 日均40% · 近24h增长25%' : '历史不可用：评分45% · 日均55%' };
+  }).sort((a,b)=>b.potentialScore-a.potentialScore||(b.heat||0)-(a.heat||0));
   return {
     recentRelease: byHeat(games.filter(game => game.released_at && observedAt - game.released_at >= 0 && observedAt - game.released_at <= 14 * 86400)).slice(0, 15),
-    potential: byHeat(potential).slice(0, 15),
+    potential: potentialRanked.slice(0, 15),
     realized: byHeat(realized).slice(0, 15),
     dailyHeat: dailyHeat.slice(0, 15),
     hot: byHeat(games.filter(game => idsForChart('hot').has(game.id))).slice(0, 15),

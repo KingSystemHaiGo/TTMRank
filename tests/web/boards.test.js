@@ -21,3 +21,22 @@ test('buildBoards returns transparent analysis sections', () => {
   assert.equal(boards.nonHotNew[0].id, 1);
   assert.equal(boards.iosExclusive[0].id, 1);
 });
+
+test('potential board sorts by transparent percentile score with and without history', () => {
+  const games = [
+    { id: 1, heat: 20, score: 9.5, released_at: 1 },
+    { id: 2, heat: 30, score: 9, released_at: 1 },
+    { id: 3, heat: 1000, score: 5, released_at: 1 },
+  ];
+  const appearances = games.map((game, index) => ({ game_id: game.id, platform: 'ios', chart: 'casual', rank: index + 1 }));
+  const noHistory = [{ game_id: 1, heat_per_day_lifetime: 80, age_hours: 20 }, { game_id: 2, heat_per_day_lifetime: 100, age_hours: 20 }, { game_id: 3, heat_per_day_lifetime: 1, age_hours: 1000 }];
+  const baselineMetrics = { scoreMedian: 8, heatMedian: 500, dailyMedian: 50 };
+  const fallback = buildBoards({ games, metrics: noHistory, appearances }, { baselineMetrics });
+  assert.equal(fallback.potential[0].id, 2);
+  assert.equal(fallback.potential[0].potentialScore, 52.5);
+
+  const history = noHistory.map(metric => ({ ...metric, history_available: true, growth_per_hour_24h: metric.game_id === 1 ? 100 : 1 }));
+  const enriched = buildBoards({ games, metrics: history, appearances }, { baselineMetrics });
+  assert.equal(enriched.potential[0].id, 1);
+  assert.equal(enriched.potential[0].potentialScore, 55);
+});

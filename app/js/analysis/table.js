@@ -28,6 +28,7 @@ export function renderMetrics(container, metrics) {
 }
 
 function gameValue(key, game, metric) {
+  if (key === 'potential') return [decimal(game.potentialScore),'潜力指数'];
   if (key === 'dailyHeat') return [compactNumber(metric?.heat_per_day_lifetime),'日均热度'];
   if (key === 'rating' || key === 'reputationWarning') return [decimal(game.score),'评分'];
   if (key.includes('Outperformance')) return [`${Math.round((game.divergence||0)*100)}%`,'背离百分位'];
