@@ -1,5 +1,5 @@
 const ARRAY_KEYS = new Set(['charts', 'tags']);
-const NUMBER_KEYS = new Set(['heatMin', 'heatMax', 'dailyHeatMin', 'dailyHeatMax', 'scoreMin', 'scoreMax', 'rankMin', 'rankMax', 'releasedFrom', 'releasedTo']);
+const NUMBER_KEYS = new Set(['heatMin', 'heatMax', 'dailyHeatMin', 'dailyHeatMax', 'growth24hMin', 'growth24hMax', 'scoreMin', 'scoreMax', 'rankMin', 'rankMax', 'releasedFrom', 'releasedTo']);
 
 export function serializeState(state) {
   const params = new URLSearchParams();
@@ -13,7 +13,7 @@ export function serializeState(state) {
 export function parseState(search, defaults = null) {
   const base = defaults || {
     scope: 'all', platform: 'all', charts: [], tags: [], tagMode: 'or', released: 'all', releasedFrom: null, releasedTo: null,
-    heatMin: null, heatMax: null, dailyHeatMin: null, dailyHeatMax: null, scoreMin: null, scoreMax: null, rankMin: null, rankMax: null,
+    heatMin: null, heatMax: null, dailyHeatMin: null, dailyHeatMax: null, growth24hMin: null, growth24hMax: null, scoreMin: null, scoreMax: null, rankMin: null, rankMax: null,
     query: '', sort: 'heat_desc', baseline: 'dynamic', highScore: 8.5,
   };
   const state = { ...base, charts: [...base.charts], tags: [...base.tags] };
@@ -26,4 +26,3 @@ export function parseState(search, defaults = null) {
   });
   return state;
 }
-

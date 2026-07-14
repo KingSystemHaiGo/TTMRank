@@ -1,6 +1,6 @@
 export const DEFAULT_FILTERS = Object.freeze({
   scope: 'all', platform: 'all', charts: [], tags: [], tagMode: 'or', released: 'all', releasedFrom: null, releasedTo: null,
-  heatMin: null, heatMax: null, dailyHeatMin: null, dailyHeatMax: null, scoreMin: null, scoreMax: null, rankMin: null, rankMax: null,
+  heatMin: null, heatMax: null, dailyHeatMin: null, dailyHeatMax: null, growth24hMin: null, growth24hMax: null, scoreMin: null, scoreMax: null, rankMin: null, rankMax: null,
   query: '', sort: 'heat_desc', baseline: 'dynamic', highScore: 8.5,
 });
 
@@ -39,6 +39,7 @@ export function applyFilters(data, filters = DEFAULT_FILTERS) {
     if (!within(game.heat, filters.heatMin, filters.heatMax) || !within(game.score, filters.scoreMin, filters.scoreMax)) return false;
     const metric = metrics.get(game.id) || {};
     if (!within(metric.heat_per_day_lifetime, filters.dailyHeatMin, filters.dailyHeatMax)) return false;
+    if (!within(metric.growth_per_hour_24h, filters.growth24hMin, filters.growth24hMax)) return false;
     if (filters.tags.length) {
       const matches = filters.tags.map(tag => (game.tags || []).includes(tag));
       if (filters.tagMode === 'and' ? !matches.every(Boolean) : !matches.some(Boolean)) return false;
@@ -54,4 +55,3 @@ export function applyFilters(data, filters = DEFAULT_FILTERS) {
     appearances: data.appearances.filter(row => ids.has(row.game_id) && (filters.platform === 'all' || row.platform === filters.platform)),
   };
 }
-

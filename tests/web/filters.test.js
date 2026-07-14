@@ -22,6 +22,17 @@ test('scope, platform and ranking filters use appearances', () => {
 });
 
 test('URL state round-trips without losing ranges', () => {
-  const state = { ...DEFAULT_FILTERS, scope: 'made', platform: 'ios', heatMin: 1000, released: '14d', tags: ['模拟', '休闲'] };
+  const state = { ...DEFAULT_FILTERS, scope: 'made', platform: 'ios', heatMin: 1000, growth24hMin: -10, growth24hMax: 500, released: '14d', tags: ['模拟', '休闲'] };
   assert.deepEqual(parseState(serializeState(state)), state);
+});
+
+test('recent hourly growth range excludes unavailable and out-of-range history', () => {
+  const historyData = {
+    observed_at: 2000,
+    games: [{ id: 1 }, { id: 2 }, { id: 3 }],
+    appearances: [{ game_id: 1, platform: 'android', chart: 'hot', rank: 1 }, { game_id: 2, platform: 'android', chart: 'hot', rank: 2 }, { game_id: 3, platform: 'android', chart: 'hot', rank: 3 }],
+    metrics: [{ game_id: 1, growth_per_hour_24h: -20 }, { game_id: 2, growth_per_hour_24h: 30 }, { game_id: 3, growth_per_hour_24h: null }],
+  };
+  const result = applyFilters(historyData, { ...DEFAULT_FILTERS, growth24hMin: -10, growth24hMax: 100 });
+  assert.deepEqual(result.games.map(game => game.id), [2]);
 });
