@@ -487,7 +487,7 @@ def main():
 
     elapsed = time.time() - start_time
     print(f"\nSaved to {out_path}")
-    total = sum(len(v) for p in result["platforms"].values() for v in p.values())
+    total = sum(len(chart.get("items", [])) for charts in result["platforms"].values() for chart in charts.values())
     print(f"Total ranking entries: {total}")
     print(f"Elapsed: {elapsed:.1f}s")
 
