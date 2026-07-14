@@ -7,6 +7,7 @@ import os
 import shutil
 import sys
 import time
+from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone, timedelta
 from urllib.parse import quote
@@ -493,6 +494,23 @@ def main():
         json.dump(meta, f, ensure_ascii=False, indent=2)
 
     save_history(result)
+
+    # Generate the normalized v2 analysis dataset for the interactive dashboard.
+    # Keep this compatibility hook local so the legacy ranking files remain usable
+    # while the collector is migrated into the package.
+    project_root = Path(__file__).resolve().parent.parent
+    source_root = project_root / "src"
+    if str(source_root) not in sys.path:
+        sys.path.insert(0, str(source_root))
+    try:
+        from ttmrank.pipeline import build_analysis_artifacts
+
+        build_analysis_artifacts(result, Path(DATA_DIR) / "v2")
+        print("Generated v2 analysis artifacts")
+    except Exception as exc:
+        # The legacy files are already atomically independent from v2. Fail the
+        # workflow so an invalid analysis dataset is never deployed unnoticed.
+        raise RuntimeError(f"v2 analysis generation failed: {exc}") from exc
 
     elapsed = time.time() - start_time
     print(f"\nSaved to {out_path}")
