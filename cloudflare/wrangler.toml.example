@@ -1,0 +1,11 @@
+name = "ttmrank-analytics"
+main = "analytics-worker.js"
+compatibility_date = "2026-07-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ttmrank-history"
+database_id = "replace-with-database-id"
+
+[vars]
+ALLOWED_ORIGINS = "https://kingsystemhaigo.github.io,http://127.0.0.1:4173,http://127.0.0.1:4174"

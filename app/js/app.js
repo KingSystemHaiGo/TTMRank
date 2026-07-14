@@ -9,7 +9,7 @@ const SYSTEM_PROMPT = `你是游戏市场数据分析师。基于提供的榜单
 
 const WORKER_URL = 'https://ttmrank-proxy.kingsystem0613.workers.dev';
 let data = null, activePlat = 'android', activeKey = 'hot', charts = {}, currentItems = [];
-let cfg = JSON.parse(localStorage.getItem('ttm_llm')||'null');
+let cfg = JSON.parse(sessionStorage.getItem('ttm_llm')||'null');
 if (!cfg) cfg = {url: WORKER_URL, key: 'worker', model: 'deepseek-v4-flash'};
 
 function applyTheme(theme) {
@@ -147,7 +147,7 @@ async function switchTab(key) {
     const plats = (item.platforms||[]).map(p=>PLAT_ICON[p]||'').join('');
     return '<div class="game-card" onclick="openGameModal('+item.id+')">'+
       '<div class="rank '+rc+'">'+item.rank+'</div>'+
-      '<img class="gicon lazy-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="'+thumbUrl(item.icon)+'" alt="" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Crect width=%2248%22 height=%2248%22 fill=%22%23e8e8e8%22 rx=%2210%22/%3E%3C/svg%3E\'">'+
+      '<img class="gicon lazy-img" referrerpolicy="no-referrer" crossorigin="anonymous" loading="lazy" decoding="async" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="'+thumbUrl(item.icon)+'" alt="'+item.title+' 图标" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Crect width=%2248%22 height=%2248%22 fill=%22%23e8e8e8%22 rx=%2210%22/%3E%3C/svg%3E\'">'+
       '<div class="info">'+
         '<div class="line1"><span class="gtitle">'+item.title+'</span>'+hint+'</div>'+
         '<div class="line2"><span class="gscore">'+item.score+'</span>'+tags+'<span class="gplat">'+plats+'</span></div>'+
@@ -347,7 +347,7 @@ function openModal() {
 function closeModal() { document.getElementById('modalBg').classList.remove('show'); }
 function saveModal() {
   cfg = { url: document.getElementById('iUrl').value.trim(), key: document.getElementById('iKey').value.trim(), model: document.getElementById('iModel').value.trim() };
-  localStorage.setItem('ttm_llm', JSON.stringify(cfg));
+  sessionStorage.setItem('ttm_llm', JSON.stringify(cfg));
   closeModal();
 }
 document.getElementById('btnSet').onclick = openModal;
@@ -405,7 +405,7 @@ function filterGames() {
     const plats = (item.platforms||[]).map(p=>PLAT_ICON[p]||'').join('');
     return '<div class="game-card" onclick="openGameModal('+item.id+')">'+
       '<div class="rank '+rc+'">'+item.rank+'</div>'+
-      '<img class="gicon lazy-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="'+thumbUrl(item.icon)+'" alt="" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Crect width=%2248%22 height=%2248%22 fill=%22%23e8e8e8%22 rx=%2210%22/%3E%3C/svg%3E\'">'+
+      '<img class="gicon lazy-img" referrerpolicy="no-referrer" crossorigin="anonymous" loading="lazy" decoding="async" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="'+thumbUrl(item.icon)+'" alt="'+item.title+' 图标" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Crect width=%2248%22 height=%2248%22 fill=%22%23e8e8e8%22 rx=%2210%22/%3E%3C/svg%3E\'">'+
       '<div class="info">'+
         '<div class="line1"><span class="gtitle">'+item.title+'</span>'+hint+'</div>'+
         '<div class="line2"><span class="gscore">'+item.score+'</span>'+tags+'<span class="gplat">'+plats+'</span></div>'+
@@ -433,7 +433,7 @@ function openGameModal(id) {
   document.getElementById('gameModal').innerHTML =
     '<button class="gm-close" onclick="closeGameModal()">✕</button>'+
     '<div class="gm-head">'+
-      '<img class="gm-icon" src="'+thumbUrl(item.icon)+'" alt="" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Crect width=%2248%22 height=%2248%22 fill=%22%23e8e8e8%22 rx=%2210%22/%3E%3C/svg%3E\'">'+
+      '<img class="gm-icon" referrerpolicy="no-referrer" crossorigin="anonymous" src="'+thumbUrl(item.icon)+'" alt="'+item.title+' 图标" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Crect width=%2248%22 height=%2248%22 fill=%22%23e8e8e8%22 rx=%2210%22/%3E%3C/svg%3E\'">'+
       '<div class="gm-info">'+
         '<div class="gm-title">'+item.title+'</div>'+
         '<div class="gm-score">评分 '+item.score+'</div>'+

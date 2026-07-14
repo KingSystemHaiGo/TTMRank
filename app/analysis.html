@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="TTMRank TapTap 排行榜数据分析看板">
+  <title>数据洞察 - TTMRank</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/analysis.css">
+  <link rel="stylesheet" href="css/print.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+  <script type="module" src="js/analysis/app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="返回 TTMRank 排行榜">
+        <span class="brand-mark">T</span><span><strong>TTMRank</strong><span>非官方排行洞察</span></span>
+      </a>
+      <div class="pill-group" aria-label="分析范围">
+        <button class="pill" data-scope="all">全榜单</button>
+        <button class="pill" data-scope="made">TapTap制造</button>
+      </div>
+      <div class="header-actions">
+        <button id="reportBtn" class="btn btn-outline">报告模式</button>
+        <button id="imageBtn" class="btn btn-outline">导出长图</button>
+        <button id="printBtn" class="btn btn-primary">导出 PDF</button>
+        <button id="themeBtn" class="icon-btn" aria-label="切换主题">◐</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero">
+      <div><div class="eyebrow">TapTap ranking intelligence</div><h1>排行榜数据<br>全景洞察</h1><p>从 TTMRank 已采集的 TapTap 排行榜中，按游戏去重分析热度、日均热度、口碑、发布窗口和跨榜表现。所有指标都会响应当前筛选。</p></div>
+      <div class="hero-meta"><span>最近更新</span><strong id="updatedAt">正在读取…</strong><span id="scopeNote">全榜单 · 游戏 ID 去重</span></div>
+    </section>
+
+    <section class="filter-shell">
+      <div class="container">
+        <div class="quick-filter">
+          <div class="pill-group" aria-label="平台"><button class="pill" data-platform="all">全部平台</button><button class="pill" data-platform="android">Android</button><button class="pill" data-platform="ios">iOS</button></div>
+          <select id="released" class="select" aria-label="发布时间"><option value="all">全部发布时间</option><option value="24h">近 24 小时</option><option value="3d">近 3 天</option><option value="7d">近 7 天</option><option value="14d">近 14 天</option><option value="30d">近 30 天</option></select>
+          <input id="query" class="input" type="search" placeholder="搜索游戏或开发者" aria-label="搜索游戏或开发者">
+          <span class="filter-spacer"></span><button id="advancedBtn" class="btn btn-outline" aria-expanded="false">高级筛选</button><button id="resetBtn" class="btn">清除</button>
+        </div>
+        <div id="advancedPanel" class="filter-panel hidden">
+          <div class="field wide"><label>当前热度区间</label><div class="range"><input id="heatMin" class="input" type="number" min="0" placeholder="最低"><span>—</span><input id="heatMax" class="input" type="number" min="0" placeholder="最高"></div></div>
+          <div class="field wide"><label>日均热度区间</label><div class="range"><input id="dailyHeatMin" class="input" type="number" min="0" placeholder="最低"><span>—</span><input id="dailyHeatMax" class="input" type="number" min="0" placeholder="最高"></div></div>
+          <div class="field wide"><label>近 24 小时每小时增长</label><div class="range"><input id="growth24hMin" class="input" type="number" placeholder="最低"><span>—</span><input id="growth24hMax" class="input" type="number" placeholder="最高"></div><small class="muted">需配置小时历史；不可用时不会伪造结果</small></div>
+          <div class="field wide"><label>评分区间</label><div class="range"><input id="scoreMin" class="input" type="number" min="0" max="10" step=".1" placeholder="最低"><span>—</span><input id="scoreMax" class="input" type="number" min="0" max="10" step=".1" placeholder="最高"></div></div>
+          <div class="field wide"><label>榜单排名区间</label><div class="range"><input id="rankMin" class="input" type="number" min="1" placeholder="最低"><span>—</span><input id="rankMax" class="input" type="number" min="1" placeholder="最高"></div></div>
+          <div class="field wide"><label>榜单（可多选）</label><select id="charts" class="select" multiple size="4"><option value="hot">热门榜</option><option value="new">新品榜</option><option value="sell">热卖榜</option><option value="reserve">预约榜</option><option value="action">动作榜</option><option value="strategy">策略榜</option><option value="shooter">射击榜</option><option value="roguelike">Roguelike</option><option value="casual">休闲榜</option><option value="independent">独立榜</option><option value="acgn">二次元榜</option><option value="otome">乙女榜</option><option value="music">音乐榜</option><option value="idle">放置榜</option></select></div>
+          <div class="field wide"><label>标签（逗号分隔）</label><input id="tags" class="input" placeholder="模拟, 放置"><select id="tagMode" class="select"><option value="or">任一标签 OR</option><option value="and">全部标签 AND</option></select></div>
+          <div class="field"><label>基准模式</label><select id="baseline" class="select"><option value="dynamic">当前筛选动态基准</option><option value="fixed">全榜单固定基准</option></select></div>
+          <div class="field"><label>高分阈值</label><input id="highScore" class="input" type="number" min="0" max="10" step=".1" value="8.5"></div>
+          <div class="field wide"><label>自定义发布时间</label><div class="range"><input id="releasedFrom" class="input" type="datetime-local"><span>—</span><input id="releasedTo" class="input" type="datetime-local"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container"><div id="qualityBanner" class="quality-banner hidden"></div><section id="metrics" class="metrics-grid" aria-label="核心指标"></section>
+      <section class="chart-grid"><article class="panel"><div class="panel-head"><div><h2>热度分布</h2><p>中位数与 P75/P90 门槛</p></div><span id="heatSamples" class="tag"></span></div><div id="heatChart" class="chart"></div></article><article class="panel"><div class="panel-head"><div><h2>评分 × 热度</h2><p>动态中位数四象限 · 热度对数展示</p></div><span class="tag tag-cyan">游戏 ID 去重</span></div><div id="scatterChart" class="chart"></div></article></section>
+      <section class="panel"><div class="panel-head"><div><h2>类型分布 · 热度中位数</h2><p>按类型收录数量排序，同时显示代表性热度门槛</p></div></div><div id="typeList" class="type-list"></div></section>
+      <div class="section-kicker"><div><h2>分析榜</h2><p>旧报告逻辑的可交互版本；默认每榜展示前 15 款</p></div><span id="resultCount" class="tag tag-cyan"></span></div>
+      <section id="boards" class="boards"></section>
+      <footer class="footer"><span>数据来源 TapTap 排行榜 · 仅供学习研究 · 非 TapTap 官方产品</span><span id="reportMeta"></span></footer>
+    </div>
+  </main>
+
+  <div id="drawerBg" class="drawer-bg" aria-hidden="true"><aside id="drawer" class="drawer" role="dialog" aria-modal="true" aria-label="游戏详情"><button id="drawerClose" class="icon-btn" aria-label="关闭详情">×</button><div id="drawerContent"></div></aside></div>
+</body>
+</html>

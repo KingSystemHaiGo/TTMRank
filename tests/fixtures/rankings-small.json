@@ -1,0 +1,38 @@
+{
+  "updated_at": "2026-07-14 14:00:00",
+  "platforms": {
+    "android": {
+      "hot": {
+        "title": "热门榜",
+        "items": [
+          {"id": 1, "rank": 1, "title": "跨平台热门", "icon": "https://img-tc.tapimg.com/1.png/_tap_appicon.jpg", "score": "8.0", "tags": ["休闲"], "count": 30000, "released_time": 1783951200, "developer": "甲"},
+          {"id": 2, "rank": 2, "title": "制造新品", "icon": "https://img-tc.tapimg.com/2.png/_tap_appicon.jpg", "score": "9.0", "tags": ["TapTap制造", "模拟"], "count": 12000, "released_time": 1783864800, "developer": "乙"}
+        ]
+      },
+      "new": {
+        "title": "新品榜",
+        "items": [
+          {"id": 2, "rank": 3, "title": "制造新品", "icon": "https://img-tc.tapimg.com/2.png/_tap_appicon.jpg", "score": "9.0", "tags": ["TapTap制造", "模拟"], "count": 12000, "released_time": 1783864800, "developer": "乙"}
+        ]
+      },
+      "casual": {
+        "title": "休闲榜",
+        "items": [
+          {"id": 3, "rank": 4, "title": "安卓细分", "icon": "https://img-tc.tapimg.com/3.png/_tap_appicon.jpg", "score": "7.2", "tags": ["休闲"], "count": 6000, "released_time": null, "developer": "未知"}
+        ]
+      }
+    },
+    "ios": {
+      "hot": {"title": "热门榜", "items": []},
+      "new": {"title": "新品榜", "items": []},
+      "casual": {
+        "title": "休闲榜",
+        "items": [
+          {"id": 1, "rank": 8, "title": "跨平台热门", "icon": "https://img-tc.tapimg.com/1.png/_tap_appicon.jpg", "score": "8.1", "tags": ["休闲"], "count": 30500, "released_time": 1783951200, "developer": "甲"},
+          {"id": 4, "rank": 9, "title": "iOS 独占", "icon": "https://img-tc.tapimg.com/4.png/_tap_appicon.jpg", "score": "-", "tags": ["策略"], "count": 2000, "released_time": 1784041200, "developer": "丁"}
+        ]
+      }
+    }
+  },
+  "taptap_made": []
+}
