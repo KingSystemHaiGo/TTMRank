@@ -1,0 +1,41 @@
+:root {
+  color-scheme: dark;
+  --tap-cyan: #16d3c6;
+  --tap-cyan-strong: #00b9b0;
+  --tap-cyan-soft: rgba(22, 211, 198, .13);
+  --tap-blue: #4d8eff;
+  --tap-orange: #ffae38;
+  --tap-red: #ff5b6c;
+  --tap-violet: #9a6cff;
+  --canvas: #090b0d;
+  --surface: #12161a;
+  --surface-2: #181d22;
+  --surface-3: #21272e;
+  --text: #f5f8f8;
+  --text-2: rgba(245, 248, 248, .67);
+  --text-3: rgba(245, 248, 248, .43);
+  --line: rgba(255, 255, 255, .08);
+  --line-strong: rgba(255, 255, 255, .15);
+  --shadow: 0 18px 60px rgba(0, 0, 0, .28);
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --font: "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --display: "Microsoft YaHei UI", "PingFang SC", sans-serif;
+  --max: 1480px;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --canvas: #f1f4f4;
+  --surface: #fff;
+  --surface-2: #f7f9f9;
+  --surface-3: #edf1f1;
+  --text: #172022;
+  --text-2: rgba(23, 32, 34, .67);
+  --text-3: rgba(23, 32, 34, .45);
+  --line: rgba(18, 41, 42, .09);
+  --line-strong: rgba(18, 41, 42, .16);
+  --shadow: 0 18px 50px rgba(17, 50, 52, .09);
+}
