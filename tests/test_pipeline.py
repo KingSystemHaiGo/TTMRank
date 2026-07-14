@@ -17,6 +17,26 @@ class PipelineTests(unittest.TestCase):
             self.assertTrue((Path(tmp) / "quality.json").exists())
             self.assertLess(manifest["analysis_gzip_bytes"], manifest["analysis_bytes"])
 
+    def test_history_client_enriches_metrics_and_receives_snapshot(self):
+        class FakeHistory:
+            def metrics(self, games, at):
+                return {1: {"heat_delta_24h": 400, "growth_per_hour_24h": 20}}
+
+            def ingest(self, games, captured_at):
+                self.ingested = (games, captured_at)
+                return True
+
+        fixture = json.loads((Path(__file__).parent / "fixtures" / "rankings-small.json").read_text(encoding="utf-8"))
+        history = FakeHistory()
+        with tempfile.TemporaryDirectory() as tmp:
+            manifest = build_analysis_artifacts(fixture, Path(tmp), history_client=history)
+            analysis = json.loads((Path(tmp) / "analysis-current.json").read_text(encoding="utf-8"))
+        metric = next(row for row in analysis["metrics"] if row["game_id"] == 1)
+        self.assertEqual(metric["heat_delta_24h"], 400)
+        self.assertTrue(metric["history_available"])
+        self.assertTrue(manifest["history_available"])
+        self.assertEqual(history.ingested[1], analysis["observed_at"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -16,7 +16,7 @@ from .validators import validate_dataset
 SCHEMA_VERSION = "2.0"
 
 
-def build_analysis_artifacts(payload: dict, output_dir: Path) -> dict:
+def build_analysis_artifacts(payload: dict, output_dir: Path, history_client=None) -> dict:
     dataset = normalize_legacy_rankings(payload)
     validation_issues = validate_dataset(dataset.games, dataset.appearances)
     issues = dataset.issues + validation_issues
@@ -24,12 +24,14 @@ def build_analysis_artifacts(payload: dict, output_dir: Path) -> dict:
     if errors:
         raise ValueError("invalid normalized dataset: " + "; ".join(errors))
 
-    metrics = [calculate_game_metric(game, dataset.appearances) for game in dataset.games]
+    games_json = [game.to_dict() for game in dataset.games]
+    history_metrics = history_client.metrics(games_json, dataset.observed_at) if history_client else {}
+    metrics = [calculate_game_metric(game, dataset.appearances, history_metrics.get(game.id)) for game in dataset.games]
     analysis = {
         "schema_version": SCHEMA_VERSION,
         "updated_at": payload.get("updated_at"),
         "observed_at": dataset.observed_at,
-        "games": [game.to_dict() for game in dataset.games],
+        "games": games_json,
         "appearances": [appearance.to_dict() for appearance in dataset.appearances],
         "metrics": [metric.to_dict() for metric in metrics],
         "summary": summarize_games(dataset.games, metrics),
@@ -53,11 +55,12 @@ def build_analysis_artifacts(payload: dict, output_dir: Path) -> dict:
         "game_count": len(dataset.games),
         "appearance_count": len(dataset.appearances),
         "quality_issue_count": len(issues),
-        "history_available": False,
+        "history_available": any(metric.history_available for metric in metrics),
     }
     publisher = AtomicPublisher(output_dir)
     publisher.publish_json("analysis-current.json", analysis)
     publisher.publish_json("quality.json", quality, pretty=True)
     publisher.publish_json("manifest.json", manifest, pretty=True)
+    if history_client:
+        history_client.ingest(games_json, dataset.observed_at)
     return manifest
-

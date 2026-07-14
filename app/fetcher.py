@@ -21,6 +21,7 @@ if str(SOURCE_ROOT) not in sys.path:
 
 from ttmrank.detail_cache import DetailCache
 from ttmrank.exporters import AtomicPublisher
+from ttmrank.history_client import HistoryClient
 from ttmrank.tap_client import TapTapClient
 from ttmrank.validators import validate_chart_sizes
 
@@ -474,7 +475,11 @@ def main():
     try:
         from ttmrank.pipeline import build_analysis_artifacts
 
-        build_analysis_artifacts(result, Path(DATA_DIR) / "v2")
+        history_client = HistoryClient(
+            os.environ.get("TTMRANK_HISTORY_URL", ""),
+            os.environ.get("TTMRANK_HISTORY_TOKEN", ""),
+        )
+        build_analysis_artifacts(result, Path(DATA_DIR) / "v2", history_client=history_client)
         print("Generated v2 analysis artifacts")
     except Exception as exc:
         # The legacy files are already atomically independent from v2. Fail the
