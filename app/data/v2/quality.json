@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-07-15 12:14:24",
+  "updated_at": "2026-07-15 12:28:56",
   "issues": [
     {
       "code": "field_conflict",
@@ -11,8 +11,9 @@
       "chart": null,
       "field": "heat",
       "values": [
-        31745031,
-        31745041
+        31745918,
+        31745926,
+        31745941
       ]
     },
     {
@@ -24,8 +25,9 @@
       "chart": null,
       "field": "heat",
       "values": [
-        51272420,
-        51272432
+        51273815,
+        51273833,
+        51273858
       ]
     },
     {
@@ -37,8 +39,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        62167546,
-        62167564
+        62169129,
+        62169151
       ]
     },
     {
@@ -50,8 +52,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        58612054,
-        58612059
+        58612797,
+        58612806
       ]
     },
     {
@@ -63,8 +65,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        1184681,
-        1184683
+        1185244,
+        1185245
       ]
     },
     {
@@ -76,8 +78,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        3701629,
-        3701633
+        3702156,
+        3702163
       ]
     },
     {
@@ -89,8 +91,21 @@
       "chart": null,
       "field": "heat",
       "values": [
-        22753473,
-        22753478
+        22753749,
+        22753752
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 206776,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        38486910,
+        38486913
       ]
     },
     {
@@ -102,8 +117,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        2762559,
-        2762562
+        2763092,
+        2763097
       ]
     },
     {
@@ -115,8 +130,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        273519168,
-        273519178
+        273519659,
+        273519666
       ]
     },
     {
@@ -128,8 +143,9 @@
       "chart": null,
       "field": "heat",
       "values": [
-        7474178,
-        7474185
+        7474536,
+        7474537,
+        7474538
       ]
     },
     {
@@ -141,8 +157,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        2469441,
-        2469443
+        2469628,
+        2469635
       ]
     },
     {
@@ -154,8 +170,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        37843743,
-        37843746
+        37843910,
+        37843912
       ]
     },
     {
@@ -167,8 +183,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        90522450,
-        90522451
+        90522770,
+        90522778
       ]
     },
     {
@@ -180,8 +196,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        17138437,
-        17138443
+        17138831,
+        17138836
       ]
     },
     {
@@ -193,8 +209,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        9486686,
-        9486689
+        9487124,
+        9487130
       ]
     },
     {
@@ -206,8 +222,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        49001,
-        49004
+        49188,
+        49189
       ]
     },
     {
@@ -219,8 +235,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        43810735,
-        43810738
+        43811112,
+        43811113
       ]
     },
     {
@@ -232,8 +248,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        29535,
-        29544
+        30373,
+        30381
       ]
     },
     {
@@ -245,8 +261,22 @@
       "chart": null,
       "field": "heat",
       "values": [
-        14406627,
-        14406629
+        14406849,
+        14406850
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 70253,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        33570743,
+        33570744,
+        33570745
       ]
     },
     {
@@ -258,8 +288,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        821586,
-        821589
+        821761,
+        821762
       ]
     },
     {
@@ -271,8 +301,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        390203,
-        390204
+        390344,
+        390349
       ]
     },
     {
@@ -284,21 +314,9 @@
       "chart": null,
       "field": "heat",
       "values": [
-        1334991,
-        1334997
-      ]
-    },
-    {
-      "code": "field_conflict",
-      "message": "conflicting heat",
-      "severity": "warning",
-      "game_id": 194610,
-      "platform": null,
-      "chart": null,
-      "field": "heat",
-      "values": [
-        18137190,
-        18137192
+        1335126,
+        1335127,
+        1335129
       ]
     },
     {
@@ -310,8 +328,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        61920,
-        61921
+        61981,
+        61982
       ]
     },
     {
@@ -323,8 +341,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        19946673,
-        19946679
+        19946957,
+        19946959
       ]
     },
     {
@@ -336,21 +354,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        7823818,
-        7823819
-      ]
-    },
-    {
-      "code": "field_conflict",
-      "message": "conflicting heat",
-      "severity": "warning",
-      "game_id": 247977,
-      "platform": null,
-      "chart": null,
-      "field": "heat",
-      "values": [
-        5383312,
-        5383315
+        7823987,
+        7823993
       ]
     },
     {
@@ -362,8 +367,9 @@
       "chart": null,
       "field": "heat",
       "values": [
-        5261508,
-        5261510
+        5261711,
+        5261716,
+        5261717
       ]
     },
     {
@@ -375,8 +381,21 @@
       "chart": null,
       "field": "heat",
       "values": [
-        29399623,
-        29399626
+        29399840,
+        29399844
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 194778,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        2874190,
+        2874192
       ]
     },
     {
@@ -388,8 +407,21 @@
       "chart": null,
       "field": "heat",
       "values": [
-        52700987,
-        52700989
+        52701178,
+        52701179
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 397030,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        5522621,
+        5522624
       ]
     },
     {
@@ -401,8 +433,9 @@
       "chart": null,
       "field": "heat",
       "values": [
-        5691098,
-        5691099
+        5691222,
+        5691223,
+        5691225
       ]
     },
     {
@@ -414,8 +447,21 @@
       "chart": null,
       "field": "heat",
       "values": [
-        4405805,
-        4405806
+        4405880,
+        4405881
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 656640,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        3015328,
+        3015330
       ]
     },
     {
@@ -427,21 +473,9 @@
       "chart": null,
       "field": "heat",
       "values": [
-        16911414,
-        16911415
-      ]
-    },
-    {
-      "code": "field_conflict",
-      "message": "conflicting heat",
-      "severity": "warning",
-      "game_id": 747818,
-      "platform": null,
-      "chart": null,
-      "field": "heat",
-      "values": [
-        1535594,
-        1535597
+        16911528,
+        16911529,
+        16911530
       ]
     },
     {
@@ -453,34 +487,34 @@
       "chart": null,
       "field": "heat",
       "values": [
-        15119379,
-        15119380
+        15119470,
+        15119471
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 242251,
+      "game_id": 712249,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        5718226,
-        5718229
+        4837355,
+        4837356
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 188212,
+      "game_id": 835327,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        6307317,
-        6307319
+        155660,
+        155659
       ]
     },
     {
@@ -492,21 +526,21 @@
       "chart": null,
       "field": "heat",
       "values": [
-        16698633,
-        16698637
+        16698780,
+        16698782
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 70056,
+      "game_id": 77796,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        54953972,
-        54953974
+        8704553,
+        8704552
       ]
     },
     {
@@ -518,8 +552,21 @@
       "chart": null,
       "field": "heat",
       "values": [
-        16422650,
-        16422651
+        16422709,
+        16422706
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 881104,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        17757,
+        17756
       ]
     },
     {
@@ -531,48 +578,21 @@
       "chart": null,
       "field": "heat",
       "values": [
-        7010190,
-        7010192,
-        7010194
+        7010270,
+        7010269
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 159465,
+      "game_id": 860950,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        8913090,
-        8913091
-      ]
-    },
-    {
-      "code": "field_conflict",
-      "message": "conflicting heat",
-      "severity": "warning",
-      "game_id": 169380,
-      "platform": null,
-      "chart": null,
-      "field": "heat",
-      "values": [
-        1594993,
-        1594995
-      ]
-    },
-    {
-      "code": "field_conflict",
-      "message": "conflicting heat",
-      "severity": "warning",
-      "game_id": 786394,
-      "platform": null,
-      "chart": null,
-      "field": "heat",
-      "values": [
-        416159,
-        416160
+        670343,
+        670346
       ]
     },
     {
@@ -584,8 +604,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        10692559,
-        10692557
+        10692632,
+        10692631
       ]
     },
     {
@@ -597,34 +617,23 @@
       "chart": null,
       "field": "heat",
       "values": [
-        9859,
-        9854
+        10151,
+        10146,
+        10154
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 851434,
+      "game_id": 2247,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        225770,
-        225768
-      ]
-    },
-    {
-      "code": "field_conflict",
-      "message": "conflicting heat",
-      "severity": "warning",
-      "game_id": 717836,
-      "platform": null,
-      "chart": null,
-      "field": "heat",
-      "values": [
-        3299278,
-        3299277
+        14854658,
+        14854657,
+        14854660
       ]
     },
     {
@@ -636,8 +645,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        4404788,
-        4404785
+        4404968,
+        4404971
       ]
     },
     {
@@ -649,21 +658,34 @@
       "chart": null,
       "field": "heat",
       "values": [
-        1693863,
-        1693862
+        1693901,
+        1693900
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 240388,
+      "game_id": 301888,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        1278873,
-        1278872
+        1985390,
+        1985391
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 772773,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        462708,
+        462709
       ]
     },
     {
@@ -675,21 +697,9 @@
       "chart": null,
       "field": "heat",
       "values": [
-        2649418,
-        2649417
-      ]
-    },
-    {
-      "code": "field_conflict",
-      "message": "conflicting heat",
-      "severity": "warning",
-      "game_id": 229966,
-      "platform": null,
-      "chart": null,
-      "field": "heat",
-      "values": [
-        11750542,
-        11750538
+        2649480,
+        2649479,
+        2649481
       ]
     },
     {
@@ -701,21 +711,9 @@
       "chart": null,
       "field": "heat",
       "values": [
-        6664291,
-        6664288
-      ]
-    },
-    {
-      "code": "field_conflict",
-      "message": "conflicting heat",
-      "severity": "warning",
-      "game_id": 868710,
-      "platform": null,
-      "chart": null,
-      "field": "heat",
-      "values": [
-        22977,
-        22976
+        6664355,
+        6664353,
+        6664356
       ]
     },
     {
@@ -727,8 +725,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        3264631,
-        3264630
+        3264693,
+        3264689
       ]
     },
     {
@@ -740,8 +738,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        15568936,
-        15568932
+        15568999,
+        15568998
       ]
     },
     {
@@ -753,34 +751,86 @@
       "chart": null,
       "field": "heat",
       "values": [
-        5755151,
-        5755150
+        5755202,
+        5755201
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 744415,
+      "game_id": 817986,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        2481971,
-        2481970
+        424231,
+        424230
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 238437,
+      "game_id": 869974,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        468692,
-        468691
+        22179,
+        22178
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 880741,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        19467,
+        19466
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 783475,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        1117695,
+        1117696
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 201173,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        1544294,
+        1544295
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 172664,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        5155352,
+        5155351
       ]
     },
     {
@@ -792,8 +842,21 @@
       "chart": null,
       "field": "heat",
       "values": [
-        9517694,
-        9517693
+        9517750,
+        9517748
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 720041,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        2182462,
+        2182465
       ]
     },
     {
@@ -805,73 +868,125 @@
       "chart": null,
       "field": "heat",
       "values": [
-        2259061,
-        2259062
+        2259106,
+        2259107
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 239419,
+      "game_id": 614018,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        1934532,
-        1934533
+        917293,
+        917294
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 387279,
+      "game_id": 732091,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        300550,
-        300551
+        733352,
+        733353
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 868941,
+      "game_id": 381991,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        14525,
-        14526
+        431565,
+        431564
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 842728,
+      "game_id": 166257,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        68126,
-        68127
+        2419926,
+        2419927
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 878788,
+      "game_id": 734889,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        17280,
-        17281
+        351409,
+        351410
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 803292,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        36103,
+        36106
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 876002,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        41409,
+        41410
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 884051,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        5307,
+        5308
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 871558,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        31754,
+        31755
       ]
     },
     {
@@ -883,8 +998,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        5009,
-        5010
+        5017,
+        5018
       ]
     },
     {
@@ -896,21 +1011,34 @@
       "chart": null,
       "field": "heat",
       "values": [
-        34793,
-        34794
+        34800,
+        34801
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 392133,
+      "game_id": 874850,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        3776838,
-        3776839
+        1725,
+        1726
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 876817,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        4630,
+        4631
       ]
     },
     {
@@ -922,21 +1050,34 @@
       "chart": null,
       "field": "heat",
       "values": [
-        1573088,
-        1573089
+        1573107,
+        1573108
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 235001,
+      "game_id": 222089,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        3377938,
-        3377939
+        12769590,
+        12769589
+      ]
+    },
+    {
+      "code": "field_conflict",
+      "message": "conflicting heat",
+      "severity": "warning",
+      "game_id": 387264,
+      "platform": null,
+      "chart": null,
+      "field": "heat",
+      "values": [
+        2461966,
+        2461965
       ]
     },
     {
@@ -948,8 +1089,8 @@
       "chart": null,
       "field": "heat",
       "values": [
-        435831,
-        435832
+        435857,
+        435859
       ]
     },
     {
@@ -961,125 +1102,125 @@
       "chart": null,
       "field": "heat",
       "values": [
-        2323768,
-        2323769
+        2323790,
+        2323791
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 774186,
+      "game_id": 223138,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        564686,
-        564687
+        8066099,
+        8066101
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 67245,
+      "game_id": 190930,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        2593010,
-        2593012
+        3043203,
+        3043204
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 242888,
+      "game_id": 708927,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        485237,
-        485238
+        561761,
+        561762
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 227592,
+      "game_id": 222638,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        190529,
-        190530
+        4557187,
+        4557188
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 213627,
+      "game_id": 231086,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        3091596,
-        3091597
+        2078785,
+        2078787
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 758354,
+      "game_id": 67396,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        183743,
-        183744
+        11044744,
+        11044745
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 876632,
+      "game_id": 186316,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        28513,
-        28514
+        4512066,
+        4512067
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 877528,
+      "game_id": 178518,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        18553,
-        18554
+        683881,
+        683882
       ]
     },
     {
       "code": "field_conflict",
       "message": "conflicting heat",
       "severity": "warning",
-      "game_id": 717145,
+      "game_id": 179371,
       "platform": null,
       "chart": null,
       "field": "heat",
       "values": [
-        531501,
-        531502
+        19059155,
+        19059156
       ]
     }
   ]
