@@ -25,6 +25,16 @@ class WorkflowTests(unittest.TestCase):
             self.assertIn("actions: write", workflow)
             self.assertIn("gh workflow run refresh.yml", workflow)
 
+    def test_changed_refresh_explicitly_dispatches_pages_deploy(self):
+        refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")
+        deploy = (self.WORKFLOWS / "deploy.yml").read_text(encoding="utf-8")
+
+        self.assertIn("actions: write", refresh)
+        self.assertIn("id: commit", refresh)
+        self.assertIn("changed=true", refresh)
+        self.assertIn("gh workflow run deploy.yml", refresh)
+        self.assertNotIn("workflow_run:", deploy)
+
 
 if __name__ == "__main__":
     unittest.main()
