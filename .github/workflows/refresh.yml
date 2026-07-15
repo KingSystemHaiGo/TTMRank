@@ -2,6 +2,11 @@ name: Refresh Data
 
 on:
   workflow_dispatch:
+    inputs:
+      cycle_seconds:
+        description: Seconds until the next cycle; keep 1200 outside manual verification
+        required: false
+        default: '1200'
 
 permissions:
   actions: write
@@ -14,7 +19,12 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
+      - name: Record cycle start
+        id: cycle
+        run: echo "started_at=$(date +%s)" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v4
         with:
           # A queued run may start after an earlier refresh advances main.
@@ -75,3 +85,31 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
+
+      - name: Continue refresh cycle
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          CYCLE_STARTED_AT: ${{ steps.cycle.outputs.started_at }}
+          CYCLE_SECONDS: ${{ inputs.cycle_seconds || '1200' }}
+        run: |
+          cycle_started_at="${CYCLE_STARTED_AT:-$(date +%s)}"
+          cycle_seconds="${CYCLE_SECONDS:-1200}"
+          if ! [[ "$cycle_seconds" =~ ^[0-9]+$ ]] || [ "$cycle_seconds" -lt 60 ] || [ "$cycle_seconds" -gt 1200 ]; then
+            cycle_seconds=1200
+          fi
+          next_cycle_at=$((cycle_started_at + cycle_seconds))
+          now=$(date +%s)
+          delay=$((next_cycle_at - now))
+          if [ "$delay" -gt 0 ]; then
+            echo "Waiting ${delay}s for the next 20-minute cycle"
+            sleep "$delay"
+          fi
+
+          active_runs="$(gh run list --workflow refresh.yml --limit 20 --json databaseId,status --jq "[.[] | select(.databaseId != $GITHUB_RUN_ID and (.status == \"queued\" or .status == \"in_progress\"))] | length")"
+          if [ "$active_runs" -eq 0 ]; then
+            gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
+          else
+            echo "Another refresh is already queued or running"
+          fi
