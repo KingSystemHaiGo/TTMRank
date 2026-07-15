@@ -35,6 +35,28 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("gh workflow run deploy.yml", refresh)
         self.assertNotIn("workflow_run:", deploy)
 
+    def test_refresh_self_dispatches_on_a_twenty_minute_cycle(self):
+        refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")
+
+        self.assertIn("timeout-minutes: 30", refresh)
+        self.assertIn("cycle_seconds:", refresh)
+        self.assertIn("default: '1200'", refresh)
+        self.assertIn("started_at=", refresh)
+        self.assertIn("cycle_started_at + cycle_seconds", refresh)
+        self.assertIn("sleep \"$delay\"", refresh)
+        self.assertGreaterEqual(refresh.count("gh workflow run refresh.yml"), 1)
+
+    def test_cron_dispatchers_only_restart_an_idle_refresh_chain(self):
+        for filename in (
+            "schedule-refresh-07.yml",
+            "schedule-refresh-27.yml",
+            "schedule-refresh-47.yml",
+        ):
+            workflow = (self.WORKFLOWS / filename).read_text(encoding="utf-8")
+            self.assertIn("gh run list", workflow)
+            self.assertIn("status == \"queued\" or .status == \"in_progress\"", workflow)
+            self.assertIn('if [ "$active_runs" -eq 0 ]', workflow)
+
 
 if __name__ == "__main__":
     unittest.main()
