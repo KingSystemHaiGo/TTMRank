@@ -81,6 +81,12 @@ test('vendor registry exposes verification coverage and Maker pending queue', as
 
 test('analysis page loads real v2 data and game icons', async ({ page }) => {
   const requested = [];
+  await page.route(/https:\/\/[^/]*tapimg\.com\//, route => route.fulfill({
+    status: 200,
+    contentType: 'image/png',
+    headers: { 'access-control-allow-origin': '*' },
+    body: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64'),
+  }));
   page.on('request', request => requested.push(request.url()));
   await page.goto('/analysis.html?scope=made');
   await expect(page.getByText('从制造者样本中', { exact: false })).toBeVisible();
