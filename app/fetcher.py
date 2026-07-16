@@ -22,6 +22,7 @@ if str(SOURCE_ROOT) not in sys.path:
 from ttmrank.detail_cache import DetailCache
 from ttmrank.exporters import AtomicPublisher
 from ttmrank.history_client import GitHistoryClient, HistoryClient
+from ttmrank.normalize import merge_detail_tags
 from ttmrank.tap_client import TapTapClient
 from ttmrank.validators import validate_chart_sizes
 
@@ -75,6 +76,16 @@ def load_cache() -> dict:
     return {}
 
 
+def split_snapshot_roles(observed: dict, cache: dict) -> tuple[bool, dict, dict]:
+    """Keep static ranking writes stable without reusing an old observation time."""
+
+    comparable_observed = {key: value for key, value in observed.items() if key != "updated_at"}
+    comparable_cache = {key: value for key, value in cache.items() if key != "updated_at"}
+    business_changed = not cache or comparable_observed != comparable_cache
+    published = observed if business_changed else cache
+    return business_changed, published, observed
+
+
 def fetch_with_retry(req: Request, timeout: int = 30, retries: int = 3) -> dict:
     """带重试的 HTTP GET，返回 JSON"""
     last_err = None
@@ -116,7 +127,7 @@ def extract_app(entry: dict, rank: int, detail_tags: list = None) -> dict:
     app = entry.get("app", {})
     stat = app.get("stat", {})
     rating = stat.get("rating", {})
-    tags = detail_tags if detail_tags else [t.get("value", "") for t in app.get("tags", [])]
+    tags = merge_detail_tags([t.get("value", "") for t in app.get("tags", [])], detail_tags)
     count_val = stat.get("hits_total", 0)
     reserve_val = stat.get("reserve_count", 0)
 
@@ -384,8 +395,7 @@ def main():
         detail = detail_results.get(gid, {"developer": "未知", "tags": [], "ok": False})
         # 优先使用详情API返回的完整标签
         # 注意：空列表 [] 不是 None，但表示 API 没拿到标签，应回退到列表API标签
-        detail_tags = detail.get("tags")
-        full_tags = detail_tags if detail_tags else game.get("tags", [])
+        full_tags = merge_detail_tags(game.get("tags", []), detail.get("tags"))
         if any("TapTap制造" in t for t in full_tags):
             # 更新游戏的标签为完整标签
             taptap_candidates[gid] = {**game, "tags": full_tags}
@@ -430,9 +440,9 @@ def main():
                 if gid and gid in detail_results:
                     detail = detail_results[gid]
                     # 更新标签
-                    detail_tags = detail.get("tags")
-                    if detail_tags is not None:
-                        item["tags"] = detail_tags
+                    merged_tags = merge_detail_tags(item.get("tags", []), detail.get("tags"))
+                    if merged_tags != item.get("tags", []):
+                        item["tags"] = merged_tags
                         tag_update_count += 1
                     # 更新评论数
                     if detail.get("review_count") is not None:
@@ -441,22 +451,20 @@ def main():
     print(f"  -> Updated tags for {tag_update_count} games")
     print(f"  -> Updated review_count for {review_update_count} games")
 
-    # Timestamps alone must not create a repository commit or deployment.
-    comparable_result = {key: value for key, value in result.items() if key != "updated_at"}
-    comparable_cache = {key: value for key, value in cache.items() if key != "updated_at"}
-    business_changed = not cache or comparable_result != comparable_cache
+    # Timestamps alone must not rewrite static ranking files, but the fresh
+    # observation still needs to reach D1 for hourly baselines.
+    business_changed, published_result, history_observation = split_snapshot_roles(result, cache)
     if not business_changed:
-        print("No ranking changes; refreshing derived history metrics from the existing snapshot")
-        result = cache
+        print("No ranking changes; retaining static files while recording this observation")
 
     out_path = os.path.join(DATA_DIR, "rankings.json")
     if business_changed:
         publisher = AtomicPublisher(Path(DATA_DIR))
-        publisher.publish_json("rankings.json", result, pretty=True)
+        publisher.publish_json("rankings.json", published_result, pretty=True)
 
     # 保存分榜单文件（供首页懒加载）
-        meta = {"updated_at": result["updated_at"], "platforms": {}}
-        for platform, charts in result["platforms"].items():
+        meta = {"updated_at": published_result["updated_at"], "platforms": {}}
+        for platform, charts in published_result["platforms"].items():
             meta["platforms"][platform] = {}
             for chart_key, chart_data in charts.items():
                 chart_file = os.path.join(DATA_DIR, f"rankings-{platform}-{chart_key}.json")
@@ -465,10 +473,10 @@ def main():
                     "title": chart_data.get("title", ""),
                     "count": len(chart_data.get("items", [])),
                 }
-        meta["taptap_made_count"] = len(result.get("taptap_made", []))
+        meta["taptap_made_count"] = len(published_result.get("taptap_made", []))
         meta_path = os.path.join(DATA_DIR, "meta.json")
         publisher.publish_json(os.path.basename(meta_path), meta, pretty=True)
-        save_history(result)
+        save_history(published_result)
 
     # Generate the normalized v2 analysis dataset for the interactive dashboard.
     # Keep this compatibility hook local so the legacy ranking files remain usable
@@ -478,7 +486,7 @@ def main():
 
         history_url = os.environ.get("TTMRANK_HISTORY_URL", "")
         history_client = HistoryClient(history_url, os.environ.get("TTMRANK_HISTORY_TOKEN", "")) if history_url else GitHistoryClient(PROJECT_ROOT)
-        build_analysis_artifacts(result, Path(DATA_DIR) / "v2", history_client=history_client)
+        build_analysis_artifacts(history_observation, Path(DATA_DIR) / "v2", history_client=history_client)
         print("Generated v2 analysis artifacts")
     except Exception as exc:
         # The legacy files are already atomically independent from v2. Fail the

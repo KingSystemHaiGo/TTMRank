@@ -44,7 +44,7 @@ export function renderBoards(container, boards, context, openDetail) {
     list.forEach((game,index)=>{
       const metric=metricMap.get(game.id); const [value,label]=gameValue(key,game,metric);
       const row=element('div',{className:'game-row',attrs:{role:'button',tabindex:'0'},children:[element('div',{className:`rank ${index<3?'top':''}`,text:index+1}),createGameIcon(game,{proxyEndpoint:window.TTMRANK_ICON_PROXY||''}),element('div',{className:'game-main',children:[element('div',{className:'game-title',text:game.title}),element('div',{className:'game-meta',text:`${game.developer||'未知'} · ${dateTime(game.released_at)} · ${age(metric?.age_hours)}`})]}),element('div',{className:'game-value',children:[document.createTextNode(value),element('small',{text:label})]})]});
-      row.addEventListener('click',()=>openDetail(game.id)); row.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();openDetail(game.id);}}); board.append(row);
+      row.addEventListener('click',()=>openDetail(game.id,row)); row.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();openDetail(game.id,row);}}); board.append(row);
     }); container.append(board);
   });
 }
@@ -56,7 +56,9 @@ export function renderTypeList(container, types) {
 
 export function renderDrawer(content, game, metric, appearances) {
   clear(content); content.append(element('div',{className:'detail-head',children:[createGameIcon(game,{size:76,proxyEndpoint:window.TTMRANK_ICON_PROXY||''}),element('div',{children:[element('h2',{text:game.title}),element('div',{className:'muted',text:game.developer||'未知'})]})]}));
-  const stats=[['当前热度',compactNumber(game.heat)],['日均热度',compactNumber(metric?.heat_per_day_lifetime)],['评分',decimal(game.score)],['上线时长',age(metric?.age_hours)],['近 1 小时增长',metric?.history_available?compactNumber(metric.heat_delta_1h):'历史暂不可用'],['近 24 小时增长',metric?.history_available?compactNumber(metric.heat_delta_24h):'历史暂不可用'],['近 7 天增长',metric?.history_available?compactNumber(metric.heat_delta_7d):'历史暂不可用'],['近 24h 每小时',metric?.history_available?compactNumber(metric.growth_per_hour_24h):'历史暂不可用'],['榜单覆盖',metric?.chart_coverage||appearances.length],['平台覆盖',metric?.platform_coverage||new Set(appearances.map(row=>row.platform)).size]];
+  const scale={major:'大型厂商',professional:'专业厂商',unverified:'规模未核实'}[game.vendor_scale]||'规模未核实';
+  const role={developer:'开发',publisher:'发行',operator:'运营',mixed:'开发 / 发行 / 运营',unverified:'账号角色未核实'}[game.vendor_role]||'账号角色未核实';
+  const stats=[['当前热度',compactNumber(game.heat)],['日均热度',compactNumber(metric?.heat_per_day_lifetime)],['评分',decimal(game.score)],['上线时长',age(metric?.age_hours)],['近 1 小时增长',metric?.history_available?compactNumber(metric.heat_delta_1h):'历史暂不可用'],['近 24 小时增长',metric?.history_available?compactNumber(metric.heat_delta_24h):'历史暂不可用'],['近 7 天增长',metric?.history_available?compactNumber(metric.heat_delta_7d):'历史暂不可用'],['近 24h 每小时',metric?.history_available?compactNumber(metric.growth_per_hour_24h):'历史暂不可用'],['榜单覆盖',metric?.chart_coverage||appearances.length],['平台覆盖',metric?.platform_coverage||new Set(appearances.map(row=>row.platform)).size],['厂商规模',scale],['账号角色',role]];
   content.append(element('div',{className:'detail-grid',children:stats.map(([label,value])=>element('div',{className:'detail-stat',children:[element('span',{text:label}),element('strong',{text:value})]}))}));
   content.append(element('div',{className:'appearance-list',children:[element('h3',{text:'跨榜单表现'}),...appearances.sort((a,b)=>a.rank-b.rank).map(row=>element('div',{className:'appearance-item',children:[element('span',{text:`${platformName(row.platform)} · ${chartName(row.chart)}`}),element('strong',{text:`#${row.rank}`})]}))]}));
   if(game.url) content.append(element('a',{className:'btn btn-primary',text:'去 TapTap 查看详情 →',attrs:{href:game.url,target:'_blank',rel:'noopener noreferrer'}}));

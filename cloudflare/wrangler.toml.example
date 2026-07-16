@@ -9,3 +9,9 @@ database_id = "replace-with-database-id"
 
 [vars]
 ALLOWED_ORIGINS = "https://kingsystemhaigo.github.io,http://127.0.0.1:4173,http://127.0.0.1:4174"
+HOURLY_RETENTION_DAYS = "90"
+DAILY_RETENTION_DAYS = "730"
+
+# Configure secrets separately; never commit their values:
+# wrangler secret put INGEST_TOKEN
+# wrangler secret put MAINTENANCE_TOKEN

@@ -1,0 +1,209 @@
+name: Maintain History
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: history-maintenance
+  cancel-in-progress: false
+
+jobs:
+  compact-and-prune:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      HISTORY_URL: ${{ secrets.TTMRANK_HISTORY_URL }}
+      MAINTENANCE_TOKEN: ${{ secrets.TTMRANK_MAINTENANCE_TOKEN }}
+    steps:
+      - name: Compact hourly history and prune expired rows
+        env:
+          MAX_CALLS: '100'
+        run: |
+          MAX_CALLS=100
+          if [ -z "$HISTORY_URL" ] || [ -z "$MAINTENANCE_TOKEN" ]; then
+            {
+              echo '## History maintenance'
+              echo '- D1 history maintenance is not configured / skipped.'
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          endpoint="${HISTORY_URL%/}/v1/maintenance"
+          for attempt in $(seq 1 "$MAX_CALLS"); do
+            response_file="maintenance-response-${attempt}.json"
+            error_file="maintenance-error-${attempt}.txt"
+            control_file="maintenance-control-${attempt}.txt"
+            run_id="${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${attempt}"
+            : > "$response_file"
+            : > "$error_file"
+
+            if http_status="$(curl --silent --show-error \
+              --connect-timeout 10 \
+              --max-time 45 \
+              --max-filesize 1048576 \
+              --request POST "$endpoint" \
+              --header "X-Maintenance-Token: $MAINTENANCE_TOKEN" \
+              --header "X-Maintenance-Run: ${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${attempt}" \
+              --output "$response_file" \
+              --write-out '%{http_code}' \
+              2>"$error_file")"; then
+              curl_status=0
+            else
+              curl_status=$?
+            fi
+
+            if ! RESPONSE_FILE="$response_file" \
+              ERROR_FILE="$error_file" \
+              CONTROL_FILE="$control_file" \
+              HTTP_STATUS="$http_status" \
+              CURL_STATUS="$curl_status" \
+              ATTEMPT="$attempt" \
+              EXPECTED_RUN_ID="$run_id" \
+              python - <<'PY'
+          import html
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          response_path = Path(os.environ["RESPONSE_FILE"])
+          raw = response_path.read_text(encoding="utf-8", errors="replace")
+          curl_error = Path(os.environ["ERROR_FILE"]).read_text(encoding="utf-8", errors="replace")
+          http_status = os.environ["HTTP_STATUS"]
+          curl_status = int(os.environ["CURL_STATUS"])
+          attempt = int(os.environ["ATTEMPT"])
+          expected_run_id = os.environ["EXPECTED_RUN_ID"]
+          problems = []
+
+          def redact(value):
+              for secret_name in ("MAINTENANCE_TOKEN", "HISTORY_URL"):
+                  secret = os.environ.get(secret_name, "")
+                  if secret:
+                      value = value.replace(secret, "***")
+              return value
+
+          def non_negative_integer(value):
+              return type(value) is int and value >= 0
+
+          def validate_integer_fields(container, prefix, fields, *, positive=False):
+              if not isinstance(container, dict):
+                  problems.append(f"{prefix} was not an object")
+                  return
+              for field in fields:
+                  value = container.get(field)
+                  valid = non_negative_integer(value) and (not positive or value > 0)
+                  if not valid:
+                      requirement = "a positive integer" if positive else "a non-negative integer"
+                      problems.append(f"{prefix}.{field} was not {requirement}")
+
+          if curl_status != 0:
+              problems.append(f"curl exited with status {curl_status}")
+          if not http_status.isdigit() or not 200 <= int(http_status) < 300:
+              problems.append(f"HTTP status was {http_status or 'unavailable'}")
+
+          try:
+              result = json.loads(raw)
+          except json.JSONDecodeError as exc:
+              result = None
+              problems.append(f"response was not valid JSON: {exc.msg}")
+
+          if not isinstance(result, dict):
+              if result is not None:
+                  problems.append("response JSON was not an object")
+          else:
+              if result.get("ok") is not True:
+                  problems.append("response did not report ok=true")
+              if result.get("run_id") != expected_run_id:
+                  problems.append("response run_id did not match the request")
+              if result.get("processed_day") is not None and type(result.get("processed_day")) is not int:
+                  problems.append("processed_day was neither an integer nor null")
+              if type(result.get("has_more")) is not bool:
+                  problems.append("has_more was not a boolean")
+              retention = result.get("retention")
+              cutoffs = result.get("cutoffs")
+              rows = result.get("rows")
+              validate_integer_fields(retention, "retention", ("hourly_days", "daily_days"), positive=True)
+              validate_integer_fields(cutoffs, "cutoffs", ("hourly", "daily"), positive=True)
+              validate_integer_fields(
+                  rows,
+                  "rows",
+                  ("hourly_archived", "hourly_deleted", "daily_deleted"),
+              )
+              if (
+                  isinstance(retention, dict)
+                  and non_negative_integer(retention.get("hourly_days"))
+                  and non_negative_integer(retention.get("daily_days"))
+                  and retention["daily_days"] <= retention["hourly_days"]
+              ):
+                  problems.append("retention.daily_days was not greater than retention.hourly_days")
+              if result.get("processed_day") is None and result.get("has_more") is True:
+                  problems.append("has_more=true without a processed_day")
+
+          processed_day_label = "none"
+          if isinstance(result, dict) and type(result.get("processed_day")) is int:
+              try:
+                  processed_day_label = datetime.fromtimestamp(
+                      result["processed_day"], timezone.utc
+                  ).strftime("%Y-%m-%d UTC")
+              except (OverflowError, OSError, ValueError):
+                  processed_day_label = f"invalid (`{result['processed_day']}`)"
+                  problems.append("processed_day was outside the supported timestamp range")
+
+          summary_path = Path(os.environ["GITHUB_STEP_SUMMARY"])
+          with summary_path.open("a", encoding="utf-8") as summary:
+              if attempt == 1:
+                  summary.write("## History maintenance\n\n")
+              summary.write(f"### Call {attempt}\n\n")
+              summary.write(f"- Run: `{expected_run_id}`\n")
+              summary.write(f"- HTTP: `{http_status or 'unavailable'}`; curl: `{curl_status}`\n")
+              if isinstance(result, dict):
+                  summary.write(f"- Processed day: {processed_day_label}\n")
+                  summary.write(f"- More pending: `{result.get('has_more')}`\n")
+                  if isinstance(result.get("retention"), dict):
+                      retention = json.dumps(result["retention"], ensure_ascii=False, sort_keys=True)
+                      summary.write(f"- Retention: `{retention}`\n")
+                  if isinstance(result.get("cutoffs"), dict):
+                      cutoffs = json.dumps(result["cutoffs"], ensure_ascii=False, sort_keys=True)
+                      summary.write(f"- Cutoffs: `{cutoffs}`\n")
+                  if isinstance(result.get("rows"), dict):
+                      rows = json.dumps(result["rows"], ensure_ascii=False, sort_keys=True)
+                      summary.write(f"- Rows: `{rows}`\n")
+              if problems:
+                  summary.write(f"- Result: failed — {'; '.join(problems)}\n\n")
+                  details = raw[:4000] if raw else "<empty response>"
+                  if curl_error:
+                      details += f"\n\ncurl error:\n{curl_error[:2000]}"
+                  safe_raw = html.escape(redact(details))
+                  summary.write("<details><summary>Raw response</summary>\n\n")
+                  summary.write(f"<pre>{safe_raw}</pre>\n\n</details>\n\n")
+              else:
+                  summary.write("- Result: completed\n\n")
+
+          if problems:
+              raise SystemExit(1)
+
+          Path(os.environ["CONTROL_FILE"]).write_text(
+              "true" if result["has_more"] else "false",
+              encoding="utf-8",
+          )
+          PY
+            then
+              exit 1
+            fi
+
+            has_more="$(<"$control_file")"
+            if [ "$has_more" = "false" ]; then
+              exit 0
+            fi
+          done
+
+          {
+            echo '### Continuation limit reached'
+            echo
+            echo "Stopped after ${MAX_CALLS} calls; remaining days will resume on the next scheduled or manual run."
+          } >> "$GITHUB_STEP_SUMMARY"
