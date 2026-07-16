@@ -36,18 +36,28 @@ class HistoryClient:
         self.endpoint = endpoint.rstrip("/")
         self.token = token
         self.timeout = timeout
+        self.last_ingest_status = "not_configured"
+
+    def ingest_status(self) -> dict[str, bool | str]:
+        return {
+            "configured": bool(self.endpoint and self.token),
+            "status": self.last_ingest_status,
+        }
 
     def ingest(self, games: list[dict], captured_at: int) -> bool:
         if not self.endpoint or not self.token:
+            self.last_ingest_status = "not_configured"
             return False
         captured_hour = captured_at - captured_at % 3600
         snapshots = [{"game_id": game["id"], "captured_hour": captured_hour, "heat": game.get("heat"), "score": game.get("score")} for game in games]
         request = Request(f"{self.endpoint}/v1/snapshots", data=json.dumps({"snapshots": snapshots}).encode(), method="POST", headers={"Content-Type":"application/json","X-Ingest-Token":self.token})
         try:
             with urlopen(request, timeout=self.timeout) as response:
-                return response.status == 200
+                success = response.status == 200
         except Exception:
-            return False
+            success = False
+        self.last_ingest_status = "success" if success else "failed"
+        return success
 
     def baselines(self, game_ids: list[int], at: int) -> dict:
         if not self.endpoint or not game_ids:
@@ -105,13 +115,17 @@ class HistoryClient:
 
 
 class GitHistoryClient:
-    """Read compact baselines from existing Git ranking commits without new snapshots."""
+    """Compatibility fallback for local runs without configured D1 history."""
 
     TARGETS = ((3600, 40 * 60), (24 * 3600, 3 * 3600), (7 * 86400, 12 * 3600))
 
     def __init__(self, repository: Path, data_path: str = "app/data/rankings.json") -> None:
         self.repository = repository
         self.data_path = data_path
+        self.last_ingest_status = "not_configured"
+
+    def ingest_status(self) -> dict[str, bool | str]:
+        return {"configured": False, "status": self.last_ingest_status}
 
     def _run(self, *args: str) -> str:
         result = subprocess.run(["git", *args], cwd=self.repository, check=True, capture_output=True, text=True, encoding="utf-8")

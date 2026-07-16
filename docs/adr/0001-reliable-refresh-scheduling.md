@@ -1,6 +1,6 @@
 # ADR 0001: Self-Sustaining Refresh Scheduling
 
-Status: Accepted
+Status: Accepted; artifact publication amended by ADR-0002
 
 Date: 2026-07-15
 
@@ -14,22 +14,28 @@ cron into three independent workflows also failed to create its first natural
 event within the validation window.
 
 The repository has no configured external scheduler credentials. Ranking data
-must continue to be committed to GitHub and deployed to GitHub Pages.
+must continue to be collected and deployed to GitHub Pages. ADR-0002 later
+replaced scheduled Git snapshot commits with direct Pages artifacts.
 
 ## Decision
 
 `Refresh Data` records its cycle start, performs collection and deployment,
 waits until 20 minutes after that start, and dispatches the next `Refresh Data`
-run with the workflow-scoped GitHub token. A 30-minute job timeout bounds hung
-cycles.
+run with the workflow-scoped GitHub token. Collection and continuation each have
+a 30-minute job timeout; Pages deployment has a 10-minute timeout, so a stuck
+deployment cannot hold the serialized refresh chain for GitHub's default six-hour
+job limit.
 
 The three independent cron workflows remain as watchdogs. They query active
 `Refresh Data` runs and dispatch only when no run is queued or in progress.
 The central workflow's concurrency group serializes delayed or manual starts.
 
-Changed data explicitly dispatches the Pages workflow. It does not depend on a
-recursive `workflow_run` event, which GitHub did not emit for token-dispatched
-refreshes during production validation.
+The refresh workflow publishes its generated `app/` tree directly as a Pages
+artifact. The artifact records its source revision, and the deploy job compares
+that SHA with the latest default branch before publication. A stale refresh is
+skipped instead of overwriting a newer code deployment. Code-push deployments
+may cancel an older in-progress Pages publication. The workflow does not depend
+on a recursive `workflow_run` event.
 
 ## Consequences
 

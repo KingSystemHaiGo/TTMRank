@@ -2,7 +2,7 @@ import json
 import unittest
 from pathlib import Path
 
-from ttmrank.normalize import normalize_legacy_rankings
+from ttmrank.normalize import merge_detail_tags, normalize_legacy_rankings
 
 
 class NormalizeTests(unittest.TestCase):
@@ -27,6 +27,12 @@ class NormalizeTests(unittest.TestCase):
         dataset = normalize_legacy_rankings(self.payload)
         flags = {game.id: game.is_taptap_made for game in dataset.games}
         self.assertEqual(flags, {1: False, 2: True, 3: False, 4: False})
+
+    def test_empty_detail_tags_do_not_erase_maker_tag(self):
+        ranking_tags = ["TapTap制造", "模拟"]
+        self.assertEqual(merge_detail_tags(ranking_tags, []), ranking_tags)
+        self.assertEqual(merge_detail_tags(ranking_tags, None), ranking_tags)
+        self.assertEqual(merge_detail_tags(ranking_tags, ["经营", "模拟"]), ["经营", "模拟"])
 
 
 if __name__ == "__main__":

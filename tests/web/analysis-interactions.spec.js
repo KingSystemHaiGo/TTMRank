@@ -9,7 +9,7 @@ async function openAnalysis(page, query = '') {
 test('scope, platform, ranking, tag and hour-level release filters update URL and results', async ({ page }) => {
   await openAnalysis(page);
   const initial = await page.locator('#resultCount').textContent();
-  await page.locator('[data-scope="made"]').click();
+  await page.locator('.header-inner [data-scope="made"]').click();
   await page.locator('[data-platform="ios"]').click();
   await page.locator('#advancedBtn').click();
   await page.locator('#charts').selectOption(['hot', 'new']);
@@ -22,6 +22,9 @@ test('scope, platform, ranking, tag and hour-level release filters update URL an
   await expect(page).toHaveURL(/charts=hot%2Cnew/);
   await expect(page).toHaveURL(/releasedFrom=/);
   await expect(page.locator('#resultCount')).not.toHaveText(initial);
+  await page.locator('#resetBtn').click();
+  await expect(page).toHaveURL(/scope=made/);
+  await expect(page.locator('.header-inner [data-scope="made"]')).toHaveAttribute('aria-pressed', 'true');
 });
 
 test('fixed baseline, report mode and details drawer are interactive', async ({ page }) => {
@@ -37,19 +40,42 @@ test('fixed baseline, report mode and details drawer are interactive', async ({ 
   await expect(page.locator('#reportBtn')).toContainText('返回');
 
   await page.locator('#reportBtn').click();
-  await page.locator('.game-row').first().click();
+  const row = page.locator('.game-row').first();
+  await row.focus();
+  await page.keyboard.press('Enter');
   await expect(page.locator('#drawerBg')).toHaveClass(/show/);
+  await expect(page.locator('#drawerBg')).toHaveJSProperty('open', true);
+  await expect(page.locator('#drawerClose')).toBeFocused();
   await expect(page.locator('#drawerContent h2')).not.toBeEmpty();
   await expect(page.locator('#drawerContent')).toContainText('近 24 小时增长');
+  await page.keyboard.press('Shift+Tab');
+  await expect(page.locator('#drawerContent a')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.locator('#drawerClose')).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(page.locator('#drawerBg')).not.toHaveClass(/show/);
+  await expect(row).toBeFocused();
 });
 
-test('mobile layout has no horizontal page overflow', async ({ page }) => {
-  await page.setViewportSize({ width: 360, height: 800 });
-  await openAnalysis(page, '?scope=made');
-  const dimensions = await page.evaluate(() => ({ width: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth }));
-  expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.width);
+test('mobile layout keeps scope switching and type rows inside the viewport', async ({ page }) => {
+  for (const width of [320, 390]) {
+    await page.setViewportSize({ width, height: 800 });
+    await openAnalysis(page, '?scope=made');
+    const scope = page.locator('.mobile-scope');
+    await expect(scope).toBeVisible();
+    const all = scope.locator('[data-scope="all"]');
+    await all.click();
+    await expect(all).toHaveAttribute('aria-pressed', 'true');
+    await expect(page).toHaveURL(/scope=all/);
+    const dimensions = await page.evaluate(() => ({
+      width: document.documentElement.clientWidth,
+      scroll: document.documentElement.scrollWidth,
+      typeScroll: document.querySelector('#typeList')?.scrollWidth,
+      typeWidth: document.querySelector('#typeList')?.clientWidth,
+    }));
+    expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.width);
+    expect(dimensions.typeScroll).toBeLessThanOrEqual(dimensions.typeWidth);
+  }
 });
 
 test('long-image export splits canvases above the browser-safe height', async ({ page }) => {

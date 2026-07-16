@@ -18,6 +18,14 @@ class NormalizedDataset:
     observed_at: int
 
 
+def merge_detail_tags(ranking_tags: list | None, detail_tags: list | None) -> list[str]:
+    """Prefer a non-empty detail response while preserving useful ranking tags."""
+
+    fallback = [str(tag) for tag in (ranking_tags or []) if tag]
+    detailed = [str(tag) for tag in (detail_tags or []) if tag]
+    return detailed or fallback
+
+
 def _parse_observed_at(value: str | int | None) -> int:
     if isinstance(value, int):
         return value

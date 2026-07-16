@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""TTMRank 服务器 - 支持 /refresh /llm 端点，自动寻找可用端口，缓存优先+后台更新+定时刷新"""
+"""TTMRank 本地服务器：静态站点、受限刷新与可选定时采集。"""
 
-import json
 import os
 import socket
 import subprocess
@@ -11,17 +10,34 @@ import time
 import webbrowser
 from dataclasses import dataclass
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+import json
 from urllib.parse import urlsplit
-from urllib.request import Request, urlopen
-from urllib.error import HTTPError
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(ROOT, "data")
-MAX_LLM_RESPONSE_BYTES = 2_000_000
+REFRESH_LOCK = threading.Lock()
 
 
 def _csv_env(name, default=""):
     return frozenset(value.strip() for value in os.environ.get(name, default).split(",") if value.strip())
+
+
+def run_fetcher(*, capture_output=True):
+    """Run one collector process; return None when another collection is active."""
+
+    if not REFRESH_LOCK.acquire(blocking=False):
+        return None
+    try:
+        return subprocess.run(
+            [sys.executable, 'fetcher.py'],
+            cwd=ROOT,
+            capture_output=capture_output,
+            text=True,
+            encoding='utf-8',
+            timeout=180,
+        )
+    finally:
+        REFRESH_LOCK.release()
 
 
 @dataclass(frozen=True)
@@ -29,10 +45,7 @@ class SecurityConfig:
     bind_host: str
     public_mode: bool
     allow_refresh: bool
-    allow_llm: bool
     allowed_origins: frozenset[str]
-    llm_urls: frozenset[str]
-    llm_models: frozenset[str]
     max_request_bytes: int
 
     def cors_origin(self, origin: str | None) -> str | None:
@@ -40,12 +53,14 @@ class SecurityConfig:
             return None
         return origin if origin in self.allowed_origins else None
 
-    def is_llm_request_allowed(self, url: str, model: str) -> bool:
-        if url not in self.llm_urls or model not in self.llm_models:
+    def same_origin(self, origin: str | None, host: str | None) -> bool:
+        if not origin or not host:
             return False
-        parsed = urlsplit(url)
-        return parsed.scheme == "https" and bool(parsed.hostname) and not parsed.username and not parsed.password
-
+        try:
+            parsed = urlsplit(origin)
+        except ValueError:
+            return False
+        return parsed.scheme in {"http", "https"} and parsed.netloc.lower() == host.lower() and not parsed.path
 
 def load_security_config() -> SecurityConfig:
     public_mode = os.environ.get("TTMRANK_PUBLIC", "0") == "1"
@@ -54,10 +69,7 @@ def load_security_config() -> SecurityConfig:
         bind_host=bind_host,
         public_mode=public_mode,
         allow_refresh=not public_mode and os.environ.get("TTMRANK_ALLOW_REFRESH", "1") == "1",
-        allow_llm=not public_mode and os.environ.get("TTMRANK_ALLOW_LLM", "1") == "1",
         allowed_origins=_csv_env("TTMRANK_ALLOWED_ORIGINS", "http://127.0.0.1:8080,http://localhost:8080"),
-        llm_urls=_csv_env("TTMRANK_LLM_URLS", "https://api.deepseek.com/chat/completions"),
-        llm_models=_csv_env("TTMRANK_LLM_MODELS", "deepseek-chat,deepseek-reasoner"),
         max_request_bytes=max(1024, min(int(os.environ.get("TTMRANK_MAX_REQUEST_BYTES", "262144")), 1_000_000)),
     )
 
@@ -90,14 +102,10 @@ def _scheduled_refresh():
         time.sleep(SCHEDULE_INTERVAL)
         print(f"[schedule] 定时刷新启动（每{SCHEDULE_INTERVAL}秒）...")
         try:
-            result = subprocess.run(
-                [sys.executable, 'fetcher.py'],
-                cwd=ROOT,
-                capture_output=True,
-                text=True,
-                encoding='utf-8',
-                timeout=180,
-            )
+            result = run_fetcher()
+            if result is None:
+                print("[schedule] 已有刷新正在运行，本轮跳过")
+                continue
             if result.returncode == 0:
                 print("[schedule] 数据更新完成")
             else:
@@ -114,73 +122,19 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path.startswith('/refresh'):
-            self._handle_refresh()
+            self.send_response(405)
+            self.send_header('Allow', 'POST')
+            self.end_headers()
         elif self.path.startswith('/ping'):
             self._handle_ping()
         else:
             super().do_GET()
 
     def do_POST(self):
-        if self.path == '/llm':
-            self._handle_llm()
+        if self.path == '/refresh':
+            self._handle_refresh()
         else:
             self.send_error(404)
-
-    def _handle_llm(self):
-        config = load_security_config()
-        if not config.allow_llm:
-            self._send_json(403, {"error": "LLM proxy disabled"})
-            return
-        try:
-            content_length = int(self.headers.get('Content-Length', 0))
-        except ValueError:
-            self._send_json(400, {"error": "Invalid Content-Length"})
-            return
-        if content_length <= 0 or content_length > config.max_request_bytes:
-            self._send_json(413, {"error": "Request body too large"})
-            return
-        body = self.rfile.read(content_length).decode('utf-8')
-        try:
-            payload = json.loads(body)
-        except json.JSONDecodeError:
-            self._send_json(400, {"error": "Invalid JSON"})
-            return
-
-        url = payload.pop('url', '')
-        key = payload.pop('key', '')
-        model = payload.get('model', '')
-        if not url or not key or not config.is_llm_request_allowed(url, model):
-            self._send_json(400, {"error": "LLM URL or model is not allowed"})
-            return
-
-        req = Request(url, data=json.dumps(payload).encode('utf-8'), headers={
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + key,
-        }, method='POST')
-
-        try:
-            with urlopen(req, timeout=120) as resp:
-                resp_body = resp.read(MAX_LLM_RESPONSE_BYTES + 1)
-            if len(resp_body) > MAX_LLM_RESPONSE_BYTES:
-                self._send_json(502, {"error": "LLM response too large"})
-                return
-            try:
-                text = resp_body.decode('utf-8')
-            except UnicodeDecodeError:
-                text = resp_body.decode('utf-8', errors='replace')
-            try:
-                parsed = json.loads(text)
-            except json.JSONDecodeError:
-                parsed = {"raw_response": text}
-            self._send_json(200, parsed)
-        except HTTPError as e:
-            try:
-                err_body = e.read().decode('utf-8', errors='replace')
-            except Exception:
-                err_body = str(e)
-            self._send_json(e.code, {"error": err_body})
-        except Exception as e:
-            self._send_json(502, {"error": str(e)})
 
     def _send_json(self, status, data):
         self.send_response(status)
@@ -193,31 +147,36 @@ class Handler(SimpleHTTPRequestHandler):
         self.wfile.write(json.dumps(data, ensure_ascii=False).encode('utf-8'))
 
     def _handle_refresh(self):
-        if not load_security_config().allow_refresh:
+        config = load_security_config()
+        origin = self.headers.get('Origin')
+        same_origin = config.same_origin(origin, self.headers.get('Host'))
+        marked = self.headers.get('X-TTMRank-Request') == 'refresh'
+        fetch_site = self.headers.get('Sec-Fetch-Site')
+        if not config.allow_refresh:
             self._send_json(403, {"success": False, "error": "Refresh disabled"})
             return
-        self.send_response(200)
-        self.send_header('Content-Type', 'application/json; charset=utf-8')
-        self.end_headers()
+        if not same_origin or not marked or fetch_site not in (None, 'same-origin'):
+            self._send_json(403, {"success": False, "error": "Same-origin refresh request required"})
+            return
         try:
-            result = subprocess.run(
-                [sys.executable, 'fetcher.py'],
-                cwd=ROOT,
-                capture_output=True,
-                text=True,
-                encoding='utf-8',
-                timeout=180,
-            )
+            result = run_fetcher()
+            if result is None:
+                self._send_json(409, {"success": False, "error": "Refresh already running"})
+                return
             if result.returncode == 0:
                 resp = {"success": True, "message": "数据刷新成功"}
+                status = 200
             else:
                 err = (result.stderr or result.stdout or "未知错误").strip()[:300]
                 resp = {"success": False, "error": err}
+                status = 500
         except subprocess.TimeoutExpired:
             resp = {"success": False, "error": "刷新超时（超过180秒）"}
+            status = 504
         except Exception as e:
             resp = {"success": False, "error": str(e)}
-        self.wfile.write(json.dumps(resp, ensure_ascii=False).encode('utf-8'))
+            status = 500
+        self._send_json(status, resp)
 
     def _handle_ping(self):
         _update_ping()
@@ -225,19 +184,24 @@ class Handler(SimpleHTTPRequestHandler):
         self.end_headers()
 
     def do_OPTIONS(self):
-        origin = load_security_config().cors_origin(self.headers.get('Origin'))
-        if not origin:
+        config = load_security_config()
+        requested_origin = self.headers.get('Origin')
+        origin = config.cors_origin(requested_origin)
+        if self.path == '/refresh' and not config.same_origin(requested_origin, self.headers.get('Host')):
+            self.send_error(403)
+            return
+        if not origin and self.path != '/refresh':
             self.send_error(403)
             return
         self.send_response(204)
-        self.send_header('Access-Control-Allow-Origin', origin)
+        self.send_header('Access-Control-Allow-Origin', origin or requested_origin)
         self.send_header('Vary', 'Origin')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, X-TTMRank-Request')
         self.end_headers()
 
     def end_headers(self):
-        if self.path.startswith('/refresh') or self.path.startswith('/llm') or self.path.startswith('/ping'):
+        if self.path.startswith('/refresh') or self.path.startswith('/ping'):
             pass
         elif self.path.endswith(('.css', '.js')):
             self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
@@ -264,14 +228,10 @@ def background_refresh():
     time.sleep(2)
     print("[bg] 开始后台数据更新...")
     try:
-        result = subprocess.run(
-            [sys.executable, 'fetcher.py'],
-            cwd=ROOT,
-            capture_output=True,
-            text=True,
-            encoding='utf-8',
-            timeout=180,
-        )
+        result = run_fetcher()
+        if result is None:
+            print("[bg] 已有刷新正在运行，本轮跳过")
+            return
         if result.returncode == 0:
             print("[bg] 数据更新完成，刷新页面即可查看最新数据")
         else:
@@ -300,7 +260,9 @@ def main():
     else:
         print("未检测到缓存数据，首次启动需要稍等爬取...")
         try:
-            subprocess.run([sys.executable, 'fetcher.py'], cwd=ROOT, timeout=180)
+            result = run_fetcher(capture_output=False)
+            if result is None:
+                print("首次爬取已由其他刷新执行")
         except Exception as e:
             print(f"首次爬取失败: {e}")
 
