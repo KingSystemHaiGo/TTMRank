@@ -1,6 +1,6 @@
 export function describeReport(filters, count, generatedAt) {
   const parts = [
-    filters.scope === 'made' ? 'TapTap制造' : '全榜单',
+    filters.scope === 'made' ? 'TapTap制造' : '全部游戏',
     filters.platform === 'all' ? '全部平台' : filters.platform === 'ios' ? 'iOS' : 'Android',
   ];
   const released = /^(\d+)(h|d)$/.exec(filters.released || '');
@@ -14,7 +14,7 @@ export function describeReport(filters, count, generatedAt) {
 export function setReportMode(enabled) {
   document.body.classList.toggle('report-mode', enabled);
   document.getElementById('reportBtn').textContent = enabled ? '返回看板' : '报告模式';
-  document.title = enabled ? 'TTMRank 数据分析报告' : '数据洞察 - TTMRank';
+  document.title = enabled ? 'TTMRank 游戏分析报告' : '游戏分析 · TTMRank';
   return enabled;
 }
 export function printReport(){document.body.classList.add('report-mode');requestAnimationFrame(()=>window.print());}

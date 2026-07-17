@@ -7,7 +7,7 @@ import { describeReport, printReport, setReportMode } from './report.js';
 import { exportLongImage } from './export.js';
 import { renderBoards, renderDrawer, renderMetrics, renderTypeList } from './table.js';
 import { parseState, serializeState } from '../core/state-url.js';
-import { analyzeMakerOpportunities } from './opportunity.js';
+import { analyzeGameSignals } from './opportunity.js';
 import { renderOpportunities } from './opportunity-view.js';
 
 let original=null; let filtered=null; let manifest=null; let filters={...DEFAULT_FILTERS}; let reportMode=false; let debounceTimer=null; let lastDetailTrigger=null;
@@ -40,8 +40,8 @@ function closeDetail(){const dialog=byId('drawerBg');if(dialog.open)dialog.close
 function render(){
   filtered=applyFilters(original,filters); const metrics=coreMetrics(filtered,filters.highScore); const baselineData=filters.baseline==='fixed'?original:filtered; const baselineMetrics=coreMetrics(baselineData,filters.highScore); const boards=buildBoards(filtered,{platform:filters.platform,baselineMetrics});
   renderMetrics(byId('metrics'),metrics); renderCharts(filtered,metrics); renderTypeList(byId('typeList'),typeSummary(filtered)); renderBoards(byId('boards'),boards,filtered,openDetail);
-  renderOpportunities(byId('opportunities'),analyzeMakerOpportunities(original,byId('profileSelect').value));
-  byId('heatSamples').textContent=`${metrics.heatSamples} 个有效样本`; byId('resultCount').textContent=`当前收录 ${filtered.games.length} 款`; byId('scopeNote').textContent=`${filters.scope==='made'?'TapTap制造':'全榜单'} · ${filters.platform==='all'?'全部平台':filters.platform}`;
+  renderOpportunities(byId('opportunities'),analyzeGameSignals(original));
+  byId('heatSamples').textContent=`${metrics.heatSamples} 个有效样本`; byId('resultCount').textContent=`当前收录 ${filtered.games.length} 款`; byId('scopeNote').textContent=`${filters.scope==='made'?'TapTap制造':'全部游戏'} · ${filters.platform==='all'?'全部平台':filters.platform}`;
   byId('reportMeta').textContent=`${describeReport(filters,filtered.games.length,new Date().toLocaleString('zh-CN',{hour12:false}))} · schema ${manifest.schema_version}`;
   history.replaceState(null,'',`${location.pathname}${serializeState(filters)}`); syncControls();
 }
@@ -51,7 +51,6 @@ function bind(){
   document.querySelectorAll('[data-scope]').forEach(button=>button.addEventListener('click',()=>{filters.scope=button.dataset.scope;render();}));
   document.querySelectorAll('[data-platform]').forEach(button=>button.addEventListener('click',()=>{filters.platform=button.dataset.platform;render();}));
   ['released','query','heatMin','heatMax','dailyHeatMin','dailyHeatMax','growth24hMin','growth24hMax','scoreMin','scoreMax','rankMin','rankMax','baseline','highScore','releasedFrom','releasedTo','charts','tags','tagMode'].forEach(id=>byId(id).addEventListener(id==='query'||id==='tags'?'input':'change',scheduleRender));
-  byId('profileSelect').addEventListener('change',render);
   byId('advancedBtn').addEventListener('click',()=>{const hidden=byId('advancedPanel').classList.toggle('hidden');byId('advancedBtn').setAttribute('aria-expanded',String(!hidden));});
   byId('resetBtn').addEventListener('click',()=>{filters={...APP_DEFAULT_FILTERS};render();});
   byId('reportBtn').addEventListener('click',()=>{reportMode=setReportMode(!reportMode);setTimeout(resizeCharts,50);}); byId('printBtn').addEventListener('click',printReport);

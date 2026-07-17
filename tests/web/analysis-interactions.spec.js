@@ -57,7 +57,7 @@ test('fixed baseline, report mode and details drawer are interactive', async ({ 
   await expect(row).toBeFocused();
 });
 
-test('mobile layout keeps scope switching and type rows inside the viewport', async ({ page }) => {
+test('mobile layout keeps game scope switching and type rows inside the viewport', async ({ page }) => {
   for (const width of [320, 390]) {
     await page.setViewportSize({ width, height: 800 });
     await openAnalysis(page, '?scope=made');

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="TTMRank：聚焦 TapTap制造游戏的创作机会观察台，保留完整 TapTap 排行榜作为市场参照。">
-  <title>TTMRank · 制造者机会观察台</title>
+  <meta name="description" content="TTMRank：浏览 TapTap 原始排行榜，并从游戏类型、评分、热度与榜单表现中发现信号。">
+  <title>TTMRank · 游戏排行与分析</title>
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/home.css">
@@ -14,12 +14,11 @@
   <header class="home-header">
     <a class="home-brand" href="index.html" aria-label="TTMRank 首页">
       <span class="home-brand-mark" aria-hidden="true">T</span>
-      <span><strong>TTMRank</strong><small>非官方创作观察</small></span>
+      <span><strong>TTMRank</strong><small>游戏排行与分析</small></span>
     </a>
     <nav aria-label="主要导航">
-      <a href="analysis.html?scope=made">制造分析</a>
+      <a href="analysis.html?scope=made">游戏分析</a>
       <a href="rankings.html">原始排行榜</a>
-      <a href="vendors.html">厂商核实</a>
       <a class="github-link" href="https://github.com/KingSystemHaiGo/TTMRank" target="_blank" rel="noreferrer">GitHub ↗</a>
     </nav>
   </header>
@@ -27,28 +26,27 @@
   <main>
     <section class="home-hero">
       <div class="signal-chip"><i></i><span id="freshness">正在读取最新快照</span></div>
-      <p class="home-eyebrow">Maker opportunity workbench</p>
-      <h1>先看制造者样本，<br><em>再借全站理解市场。</em></h1>
-      <p class="home-lead">围绕 TapTap制造标签游戏寻找可验证的品类、口碑与增长信号。大厂和专业厂商作品只作为需求强度与制作上限参照，不当作个人开发可行性的直接证据。</p>
+      <h1>先看游戏，<br><em>再理解排行榜。</em></h1>
+      <p class="home-lead">从 TapTap制造标签游戏出发，观察类型、评分、热度、增长与跨榜表现；完整原始排行榜始终保留。</p>
       <div class="home-actions">
-        <a class="home-btn primary" href="analysis.html?scope=made">进入制造分析 <span>→</span></a>
+        <a class="home-btn primary" href="analysis.html?scope=made">进入游戏分析 <span>→</span></a>
         <a class="home-btn secondary" href="rankings.html">浏览原始排行榜</a>
       </div>
     </section>
 
     <section class="snapshot" aria-label="当前数据快照">
       <div class="snapshot-index"><span>LIVE SNAPSHOT</span><strong id="snapshotTime">--:--</strong></div>
-      <article><span>制造样本</span><strong id="makerCount">—</strong><small>核心分析人口</small></article>
-      <article><span>全站游戏</span><strong id="gameCount">—</strong><small>市场参照范围</small></article>
-      <article><span>榜单记录</span><strong id="appearanceCount">—</strong><small>跨平台入榜证据</small></article>
+      <article><span>TapTap制造</span><strong id="makerCount">—</strong><small>重点观察游戏</small></article>
+      <article><span>收录游戏</span><strong id="gameCount">—</strong><small>游戏 ID 去重</small></article>
+      <article><span>榜单记录</span><strong id="appearanceCount">—</strong><small>跨平台入榜表现</small></article>
     </section>
 
     <section class="home-grid">
       <article class="home-card focus-card">
         <div class="card-no">01 / FOCUS</div>
-        <h2>把“能做”与“市场大”分开</h2>
-        <p>机会判断优先使用制造者样本；全站高热作品用于识别需求，但不会自动提高个人开发适配度。</p>
-        <a href="analysis.html?scope=made">查看分析方法 →</a>
+        <h2>比较游戏，不判断身份</h2>
+        <p>类型信号只由游戏的评分、热度、增长和榜单覆盖计算，结果可复现、可核对。</p>
+        <a href="analysis.html?scope=made">查看游戏分析 →</a>
       </article>
       <article class="home-card evidence-card">
         <div class="card-no">02 / EVIDENCE</div>
@@ -56,10 +54,7 @@
         <p>Android、iOS 与全部榜单仍可按原方式浏览。你可以随时回到原始排名核对分析结论。</p>
         <a href="rankings.html">打开完整排行榜 →</a>
       </article>
-      <aside class="home-note">
-        <span>口径提示</span>
-        <p>“TapTap制造”与“独立游戏”标签都不等于单人开发；厂商身份未验证时明确标记未知，不做推测。</p>
-      </aside>
+      <aside class="home-note"><span>当前口径</span><p>“TapTap制造”是重点筛选范围；全站游戏可随时切换，所有结论均回到具体游戏和原始榜单。</p></aside>
     </section>
   </main>
 
