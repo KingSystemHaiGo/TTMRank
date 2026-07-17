@@ -2,6 +2,7 @@
   :root { color-scheme: light; --canvas:#fff; --surface:#fff; --surface-2:#f7f8f8; --surface-3:#eef1f1; --text:#172022; --text-2:#4a5759; --text-3:#748083; --line:#dfe5e5; --shadow:none; }
   body { background:#fff; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
   body::before, .site-header, .filter-shell, .header-actions, .drawer-bg, .no-print { display:none !important; }
+  .export-menu { display:none !important; }
   .container { width:100%; max-width:none; }
   .hero { padding:20px 0; }
   .hero h1 { font-size:38px; }

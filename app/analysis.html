@@ -8,10 +8,10 @@
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/analysis.css">
+  <link rel="stylesheet" href="css/analysis.css?v=2">
   <link rel="stylesheet" href="css/print.css">
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
-  <script type="module" src="js/analysis/app.js"></script>
+  <script type="module" src="js/analysis/app.js?v=2"></script>
 </head>
 <body>
   <header class="site-header">
@@ -26,8 +26,13 @@
       <div class="header-actions">
         <a class="btn btn-outline" href="rankings.html">原始排行</a>
         <button id="reportBtn" class="btn btn-outline">报告模式</button>
-        <button id="imageBtn" class="btn btn-outline">导出长图</button>
-        <button id="printBtn" class="btn btn-primary">导出 PDF</button>
+        <details class="export-menu">
+          <summary class="btn btn-outline">导出</summary>
+          <div class="export-popover">
+            <button id="imageBtn" class="btn">长图 PNG</button>
+            <button id="printBtn" class="btn btn-primary">PDF 报告</button>
+          </div>
+        </details>
         <button id="themeBtn" class="icon-btn" aria-label="切换主题">◐</button>
       </div>
     </div>
@@ -35,7 +40,7 @@
 
   <main>
     <section class="container hero">
-      <div><h1>从游戏表现中<br>看见类型信号</h1><p>围绕 TapTap制造标签游戏，比较类型、评分、热度、增长与榜单覆盖；全站游戏可随时切换查看。</p></div>
+      <div><h1>从游戏表现中看见类型信号</h1><p>TapTap制造是主分析样本；全站游戏用于同屏参考，结论始终回到具体游戏。</p></div>
       <div class="hero-meta"><span>最近更新</span><strong id="updatedAt">正在读取…</strong><span id="scopeNote">TapTap制造 · 游戏 ID 去重</span></div>
     </section>
 
@@ -62,9 +67,9 @@
       </div>
     </section>
 
-    <div class="container"><div class="method-banner"><strong>当前口径</strong><span>只从游戏数据出发</span><i></i><span>同类型之间比较</span><i></i><span>支持切换全站范围</span></div><div id="qualityBanner" class="quality-banner hidden"></div><section id="metrics" class="metrics-grid" aria-label="核心指标"></section>
+    <div class="container"><details id="qualityBanner" class="quality-banner hidden"><summary id="qualitySummary">数据状态</summary><p id="qualityMessage"></p></details><section id="metrics" class="metrics-grid" aria-label="核心指标"></section>
       <section class="opportunity-shell"><div class="opportunity-head"><div><h2>类型表现</h2><p>聚合 TapTap制造标签游戏的类型信号；全站范围只作同屏参考。</p></div></div><div id="opportunities" class="opportunity-list"></div><div class="formula-note"><strong>综合表现</strong> 日均热度 35% + 评分 30% + 近 24 小时增长 20% + 榜单覆盖 15%。分数只描述当前采集游戏的相对表现，不预测未来市场。</div></section>
-      <section class="chart-grid"><article class="panel"><div class="panel-head"><div><h2>热度分布</h2><p>中位数与 P75/P90 门槛</p></div><span id="heatSamples" class="tag"></span></div><div id="heatChart" class="chart"></div></article><article class="panel"><div class="panel-head"><div><h2>评分 × 热度</h2><p>动态中位数四象限 · 热度对数展示</p></div><span class="tag tag-cyan">游戏 ID 去重</span></div><div id="scatterChart" class="chart"></div></article></section>
+      <section class="chart-grid"><article class="panel"><div class="panel-head"><div><h2>热度分布 · 对数区间</h2><p>跨数量级观察样本聚集，避免头部游戏压平分布</p></div><span id="heatSamples" class="tag"></span></div><div id="heatChart" class="chart"></div></article><article class="panel"><div class="panel-head"><div><h2>评分 × 热度</h2><p>动态中位数四象限 · 热度对数展示</p></div><span class="tag tag-cyan">游戏 ID 去重</span></div><div id="scatterChart" class="chart"></div></article></section>
       <section class="panel"><div class="panel-head"><div><h2>类型分布 · 热度中位数</h2><p>按类型收录数量排序，同时显示代表性热度门槛</p></div></div><div id="typeList" class="type-list"></div></section>
       <div class="section-kicker"><div><h2>原有分析榜 · 升级版</h2><p>保留既有分析逻辑与 13 个榜单，所有指标继续响应筛选。</p></div><span id="resultCount" class="tag tag-cyan"></span></div>
       <section id="boards" class="boards"></section>

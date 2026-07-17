@@ -57,6 +57,18 @@ test('fixed baseline, report mode and details drawer are interactive', async ({ 
   await expect(row).toBeFocused();
 });
 
+test('type signals drill down to representative game details', async ({ page }) => {
+  await openAnalysis(page, '?scope=made');
+  const game = page.locator('.signal-game').first();
+  const title = await game.textContent();
+  await game.click();
+  await expect(page.locator('#drawerBg')).toHaveJSProperty('open', true);
+  await expect(page.locator('#drawerContent h2')).toHaveText(title);
+  await expect(page.locator('#drawerClose')).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(game).toBeFocused();
+});
+
 test('mobile layout keeps game scope switching and type rows inside the viewport', async ({ page }) => {
   for (const width of [320, 390]) {
     await page.setViewportSize({ width, height: 800 });
@@ -72,9 +84,11 @@ test('mobile layout keeps game scope switching and type rows inside the viewport
       scroll: document.documentElement.scrollWidth,
       typeScroll: document.querySelector('#typeList')?.scrollWidth,
       typeWidth: document.querySelector('#typeList')?.clientWidth,
+      signalGameHeight: document.querySelector('.signal-game')?.getBoundingClientRect().height,
     }));
     expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.width);
     expect(dimensions.typeScroll).toBeLessThanOrEqual(dimensions.typeWidth);
+    expect(dimensions.signalGameHeight).toBeGreaterThanOrEqual(32);
   }
 });
 
@@ -88,6 +102,7 @@ test('long-image export splits canvases above the browser-safe height', async ({
     };
   });
   await openAnalysis(page, '?scope=made');
+  await page.locator('.export-menu summary').click();
   await page.evaluate(() => {
     window.html2canvas = async () => {
       const canvas = document.createElement('canvas');
