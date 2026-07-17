@@ -43,6 +43,10 @@ export function analyzeGameSignals(data) {
       heatMedian: median(heat) || 0,
       coverageMedian: median(chartCoverage) || 0,
       confidence: sampleConfidence(matched.length),
+      representatives: [...matched].sort((a, b) => {
+        const dailyDifference = (metricMap.get(b.id)?.heat_per_day_lifetime || 0) - (metricMap.get(a.id)?.heat_per_day_lifetime || 0);
+        return dailyDifference || (b.heat || 0) - (a.heat || 0);
+      }).slice(0, 2).map(game => ({ id: game.id, title: game.title })),
     };
   }).filter(track => track.count > 0);
 

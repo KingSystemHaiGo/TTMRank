@@ -7,8 +7,8 @@
   <title>TTMRank · 游戏排行与分析</title>
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/home.css">
-  <script type="module" src="js/home.js"></script>
+  <link rel="stylesheet" href="css/home.css?v=3">
+  <script type="module" src="js/home.js?v=2"></script>
 </head>
 <body>
   <header class="home-header">
@@ -27,37 +27,19 @@
     <section class="home-hero">
       <div class="signal-chip"><i></i><span id="freshness">正在读取最新快照</span></div>
       <h1>先看游戏，<br><em>再理解排行榜。</em></h1>
-      <p class="home-lead">从 TapTap制造标签游戏出发，观察类型、评分、热度、增长与跨榜表现；完整原始排行榜始终保留。</p>
+      <p class="home-lead">从 TapTap制造游戏出发看类型信号；需要核对时，完整原始排行榜始终在旁。</p>
       <div class="home-actions">
         <a class="home-btn primary" href="analysis.html?scope=made">进入游戏分析 <span>→</span></a>
         <a class="home-btn secondary" href="rankings.html">浏览原始排行榜</a>
       </div>
-    </section>
-
-    <section class="snapshot" aria-label="当前数据快照">
-      <div class="snapshot-index"><span>LIVE SNAPSHOT</span><strong id="snapshotTime">--:--</strong></div>
-      <article><span>TapTap制造</span><strong id="makerCount">—</strong><small>重点观察游戏</small></article>
-      <article><span>收录游戏</span><strong id="gameCount">—</strong><small>游戏 ID 去重</small></article>
-      <article><span>榜单记录</span><strong id="appearanceCount">—</strong><small>跨平台入榜表现</small></article>
-    </section>
-
-    <section class="home-grid">
-      <article class="home-card focus-card">
-        <div class="card-no">01 / FOCUS</div>
-        <h2>比较游戏，不判断身份</h2>
-        <p>类型信号只由游戏的评分、热度、增长和榜单覆盖计算，结果可复现、可核对。</p>
-        <a href="analysis.html?scope=made">查看游戏分析 →</a>
-      </article>
-      <article class="home-card evidence-card">
-        <div class="card-no">02 / EVIDENCE</div>
-        <h2>原始数据完整保留</h2>
-        <p>Android、iOS 与全部榜单仍可按原方式浏览。你可以随时回到原始排名核对分析结论。</p>
-        <a href="rankings.html">打开完整排行榜 →</a>
-      </article>
-      <aside class="home-note"><span>当前口径</span><p>“TapTap制造”是重点筛选范围；全站游戏可随时切换，所有结论均回到具体游戏和原始榜单。</p></aside>
+      <section class="snapshot" aria-label="当前数据快照">
+        <article><strong id="makerCount">—</strong><span>TapTap制造游戏</span></article>
+        <article><strong id="gameCount">—</strong><span>全站参考游戏</span></article>
+        <article><strong id="appearanceCount">—</strong><span>原始榜单记录</span></article>
+      </section>
     </section>
   </main>
 
-  <footer class="home-footer"><span>数据来源 TapTap 排行榜</span><span>仅供学习研究 · 非 TapTap 官方产品</span></footer>
+  <footer class="home-footer"><span>数据来源 TapTap 排行榜</span><span>只看游戏数据 · 原始榜单完整保留 · 非 TapTap 官方产品</span></footer>
 </body>
 </html>

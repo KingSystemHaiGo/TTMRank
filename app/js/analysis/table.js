@@ -21,10 +21,10 @@ const BOARD_DEFS = [
 export function renderMetrics(container, metrics) {
   clear(container);
   const cards = [
-    ['收录',metrics.count,'游戏 ID 去重'],['均分',decimal(metrics.scoreMean),`${metrics.scoreSamples} 个有效样本`],['均热',compactNumber(metrics.heatMean),`P90 ${compactNumber(metrics.heatP90)}`],['日均热',compactNumber(metrics.dailyMean),`P90 ${compactNumber(metrics.dailyP90)}`],
-    ['日均热度中位数',compactNumber(metrics.dailyMedian),`P25 ${compactNumber(metrics.dailyP25)} · P75 ${compactNumber(metrics.dailyP75)}`],['热度中位数',compactNumber(metrics.heatMedian),`P25 ${compactNumber(metrics.heatP25)} · P75 ${compactNumber(metrics.heatP75)}`],['评分中位数',decimal(metrics.scoreMedian),`${metrics.scoreSamples} 个有效样本`],['高分',metrics.highScoreCount,`评分达到当前阈值`],
+    ['收录',metrics.count,'游戏 ID 去重','primary'],['日均热度中位数',compactNumber(metrics.dailyMedian),`P25 ${compactNumber(metrics.dailyP25)} · P75 ${compactNumber(metrics.dailyP75)}`,'primary'],['评分中位数',decimal(metrics.scoreMedian),`${metrics.scoreSamples} 个有效样本`,'primary'],['高分',metrics.highScoreCount,`评分达到当前阈值`,'primary'],
+    ['均分',decimal(metrics.scoreMean),`${metrics.scoreSamples} 个有效样本`,'supporting'],['均热',compactNumber(metrics.heatMean),`P90 ${compactNumber(metrics.heatP90)}`,'supporting'],['日均热',compactNumber(metrics.dailyMean),`P90 ${compactNumber(metrics.dailyP90)}`,'supporting'],['热度中位数',compactNumber(metrics.heatMedian),`P25 ${compactNumber(metrics.heatP25)} · P75 ${compactNumber(metrics.heatP75)}`,'supporting'],
   ];
-  cards.forEach(([label,value,note]) => container.append(element('article',{className:'metric-card',children:[element('div',{className:'metric-label',text:label}),element('div',{className:'metric-value num',text:value}),element('div',{className:'metric-note',text:note})]})));
+  cards.forEach(([label,value,note,priority]) => container.append(element('article',{className:`metric-card metric-${priority}`,attrs:{'data-priority':priority},children:[element('div',{className:'metric-label',text:label}),element('div',{className:'metric-value num',text:value}),element('div',{className:'metric-note',text:note})]})));
 }
 
 function gameValue(key, game, metric) {

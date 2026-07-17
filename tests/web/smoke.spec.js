@@ -7,6 +7,25 @@ test('concise home routes to game analysis and preserved rankings', async ({ pag
   await expect(page.getByRole('link', { name: /浏览原始排行榜/ })).toHaveAttribute('href', 'rankings.html');
   await expect(page.getByRole('link', { name: '厂商核实' })).toHaveCount(0);
   await expect(page.locator('#makerCount')).not.toHaveText('—');
+  await expect(page.locator('.home-grid')).toHaveCount(0);
+  await expect(page.locator('.snapshot article')).toHaveCount(3);
+});
+
+test('concise home fits the primary mobile experience in one viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/index.html');
+  const layout = await page.evaluate(() => ({
+    width: document.documentElement.clientWidth,
+    scrollWidth: document.documentElement.scrollWidth,
+    scrollHeight: document.documentElement.scrollHeight,
+    viewportHeight: window.innerHeight,
+    secondLineCount: document.querySelector('.home-hero h1 em')?.getClientRects().length,
+    snapshotColumns: getComputedStyle(document.querySelector('.snapshot')).gridTemplateColumns.split(' ').length,
+  }));
+  expect(layout.scrollWidth).toBe(layout.width);
+  expect(layout.scrollHeight).toBeLessThanOrEqual(layout.viewportHeight);
+  expect(layout.secondLineCount).toBe(1);
+  expect(layout.snapshotColumns).toBe(3);
 });
 
 test('preserved ranking browser starts with ranks one and two visible', async ({ page }) => {
@@ -78,8 +97,11 @@ test('analysis page loads real v2 data and game icons', async ({ page }) => {
   await page.goto('/analysis.html?scope=made');
   await expect(page.getByText('从游戏表现中', { exact: false })).toBeVisible();
   await expect(page.locator('.metric-card')).toHaveCount(8);
+  await expect(page.locator('.metric-primary')).toHaveCount(4);
+  await expect(page.locator('.metric-supporting')).toHaveCount(4);
   await expect(page.locator('.board')).toHaveCount(13);
   await expect(page.locator('.opportunity-row')).toHaveCount(6);
+  await expect(page.locator('.signal-game').first()).toBeVisible();
   await expect(page.locator('.opportunity-head p')).toContainText('全站范围只作同屏参考');
   await expect(page.locator('.formula-note')).toContainText('综合表现');
   await expect(page.locator('#profileSelect')).toHaveCount(0);
@@ -95,6 +117,8 @@ test('analysis page loads real v2 data and game icons', async ({ page }) => {
   await expect(icons.first()).toBeVisible();
   await expect.poll(async () => icons.first().evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
   await expect(icons.first()).toHaveAttribute('referrerpolicy', 'no-referrer');
+  await expect(page.locator('.export-menu summary')).toBeVisible();
+  await page.locator('.export-menu summary').click();
   await expect(page.locator('#imageBtn')).toBeVisible();
   const manifest = await page.evaluate(() => fetch('data/v2/manifest.json').then(response => response.json()));
   if (manifest.history_available) {

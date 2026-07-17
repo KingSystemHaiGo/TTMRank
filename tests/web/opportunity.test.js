@@ -32,6 +32,7 @@ test('game signal model uses only TapTap-made game performance', () => {
   assert.equal(shooter.count, 1);
   assert.equal(typeof shooter.signalScore, 'number');
   assert.match(shooter.confidence.label, /N=1/);
+  assert.deepEqual(casual.representatives.map(game => game.id), [2, 1]);
   assert.equal('personalScore' in casual, false);
   assert.equal('referenceCount' in casual, false);
 

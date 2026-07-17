@@ -1,14 +1,14 @@
 import { buildBoards } from './boards.js';
-import { renderCharts, resizeCharts } from './charts.js';
+import { renderCharts, resizeCharts } from './charts.js?v=2';
 import { loadAnalysis, loadQuality } from './data-client.js';
 import { DEFAULT_FILTERS, applyFilters } from './filters.js';
 import { coreMetrics, typeSummary } from './metrics.js';
 import { describeReport, printReport, setReportMode } from './report.js';
 import { exportLongImage } from './export.js';
-import { renderBoards, renderDrawer, renderMetrics, renderTypeList } from './table.js';
+import { renderBoards, renderDrawer, renderMetrics, renderTypeList } from './table.js?v=2';
 import { parseState, serializeState } from '../core/state-url.js';
-import { analyzeGameSignals } from './opportunity.js';
-import { renderOpportunities } from './opportunity-view.js';
+import { analyzeGameSignals } from './opportunity.js?v=2';
+import { renderOpportunities } from './opportunity-view.js?v=2';
 
 let original=null; let filtered=null; let manifest=null; let filters={...DEFAULT_FILTERS}; let reportMode=false; let debounceTimer=null; let lastDetailTrigger=null;
 const APP_DEFAULT_FILTERS={...DEFAULT_FILTERS,scope:'made'};
@@ -31,7 +31,7 @@ function readControls(){
 }
 
 function openDetail(gameId,trigger){
-  const game=filtered.games.find(item=>item.id===gameId); if(!game)return; const metric=filtered.metrics.find(item=>item.game_id===gameId); const rows=filtered.appearances.filter(item=>item.game_id===gameId);
+  const game=filtered.games.find(item=>item.id===gameId)||original.games.find(item=>item.id===gameId); if(!game)return; const metric=original.metrics.find(item=>item.game_id===gameId); const rows=original.appearances.filter(item=>item.game_id===gameId);
   lastDetailTrigger=trigger instanceof HTMLElement?trigger:document.activeElement instanceof HTMLElement?document.activeElement:null;
   renderDrawer(byId('drawerContent'),game,metric,rows); const dialog=byId('drawerBg'); if(!dialog.open)dialog.showModal();dialog.classList.add('show');document.body.style.overflow='hidden';byId('drawerClose').focus();
 }
@@ -40,7 +40,7 @@ function closeDetail(){const dialog=byId('drawerBg');if(dialog.open)dialog.close
 function render(){
   filtered=applyFilters(original,filters); const metrics=coreMetrics(filtered,filters.highScore); const baselineData=filters.baseline==='fixed'?original:filtered; const baselineMetrics=coreMetrics(baselineData,filters.highScore); const boards=buildBoards(filtered,{platform:filters.platform,baselineMetrics});
   renderMetrics(byId('metrics'),metrics); renderCharts(filtered,metrics); renderTypeList(byId('typeList'),typeSummary(filtered)); renderBoards(byId('boards'),boards,filtered,openDetail);
-  renderOpportunities(byId('opportunities'),analyzeGameSignals(original));
+  renderOpportunities(byId('opportunities'),analyzeGameSignals(original),openDetail);
   byId('heatSamples').textContent=`${metrics.heatSamples} 个有效样本`; byId('resultCount').textContent=`当前收录 ${filtered.games.length} 款`; byId('scopeNote').textContent=`${filters.scope==='made'?'TapTap制造':'全部游戏'} · ${filters.platform==='all'?'全部平台':filters.platform}`;
   byId('reportMeta').textContent=`${describeReport(filters,filtered.games.length,new Date().toLocaleString('zh-CN',{hour12:false}))} · schema ${manifest.schema_version}`;
   history.replaceState(null,'',`${location.pathname}${serializeState(filters)}`); syncControls();
@@ -66,7 +66,7 @@ async function init(){
     const notices=[];
     if(quality?.issues?.length)notices.push(`本批次记录 ${quality.issues.length} 个跨榜字段差异，主数据使用最新有效值。`);
     if(!manifest.history_available)notices.push('近期增量暂不可用；当前仍可使用生命周期小时口径日均热度，配置 D1 后自动启用近期增长。');
-    if(notices.length){byId('qualityBanner').classList.remove('hidden');byId('qualityBanner').textContent=`数据质量提示：${notices.join(' ')}`;}
+    if(notices.length){byId('qualityBanner').classList.remove('hidden');byId('qualitySummary').textContent=`数据状态 · ${quality?.issues?.length||0} 条字段差异${manifest.history_available?'':' · 近期增长待启用'}`;byId('qualityMessage').textContent=notices.join(' ');}
     render();
   }catch(error){byId('metrics').replaceChildren();const node=document.createElement('div');node.className='empty';node.textContent=`分析数据加载失败：${error.message}`;byId('metrics').append(node);console.error(error);}
 }

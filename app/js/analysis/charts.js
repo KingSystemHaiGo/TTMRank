@@ -11,15 +11,28 @@ function finiteNonNegative(value) {
 export function buildHeatBuckets(values, bucketCount = 12) {
   const samples = values.map(finiteNonNegative).filter(value => value !== null);
   const count = Math.max(1, Math.floor(bucketCount));
+  const positiveSamples = samples.filter(value => value > 0);
   const maximum = Math.max(...samples, 0);
-  const size = maximum > 0 ? maximum / count : 1;
+  const minimumPositive = positiveSamples.length > 0 ? Math.min(...positiveSamples) : 0;
+  const logarithmicMinimum = Math.log10(minimumPositive + 1);
+  const logarithmicMaximum = Math.log10(maximum + 1);
+  const logarithmicSpan = logarithmicMaximum - logarithmicMinimum;
+  const size = logarithmicSpan > 0 ? logarithmicSpan / count : 0;
   const buckets = Array.from({ length: count }, (_, index) => ({
-    start: index * size,
-    end: (index + 1) * size,
+    start: index === 0 ? 0 : Math.pow(10, logarithmicMinimum + index * size) - 1,
+    end: size > 0
+      ? Math.pow(10, logarithmicMinimum + (index + 1) * size) - 1
+      : maximum,
     count: 0,
+    scale: 'log',
   }));
   samples.forEach(value => {
-    const index = Math.min(Math.floor(value / size), count - 1);
+    const index = value === 0 || size === 0
+      ? 0
+      : Math.min(
+        Math.max(Math.floor((Math.log10(value + 1) - logarithmicMinimum) / size), 0),
+        count - 1,
+      );
     buckets[index].count += 1;
   });
   return buckets;
@@ -69,7 +82,7 @@ function renderHeatHistogram(container, games) {
     }));
   });
   container.setAttribute('role', 'img');
-  container.setAttribute('aria-label', `热度分布直方图，共 ${games.length} 款游戏，最高区间样本 ${largest} 款。`);
+  container.setAttribute('aria-label', `热度分布直方图，使用对数区间，共 ${games.length} 款游戏，最高区间样本 ${largest} 款。`);
   container.append(histogram);
 }
 
