@@ -44,7 +44,7 @@ export function applyFilters(data, filters = DEFAULT_FILTERS) {
       const matches = filters.tags.map(tag => (game.tags || []).includes(tag));
       if (filters.tagMode === 'and' ? !matches.every(Boolean) : !matches.some(Boolean)) return false;
     }
-    if (query && !`${game.title} ${game.developer}`.toLocaleLowerCase('zh-CN').includes(query)) return false;
+    if (query && !`${game.title} ${(game.tags || []).join(' ')}`.toLocaleLowerCase('zh-CN').includes(query)) return false;
     return true;
   });
   const ids = new Set(games.map(game => game.id));

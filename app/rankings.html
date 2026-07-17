@@ -6,8 +6,8 @@
   <meta name="description" content="TTMRank 原始排行榜：完整浏览 TapTap Android 与 iOS 多类榜单。">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>原始排行榜 · TTMRank</title>
-  <link rel="stylesheet" href="css/style.css?v=19">
-  <script src="js/app.js?v=19" defer></script>
+  <link rel="stylesheet" href="css/style.css?v=20">
+  <script src="js/app.js?v=20" defer></script>
 </head>
 <body>
   <header class="rank-header">
@@ -17,8 +17,7 @@
         <span><strong>TTMRank</strong><small>原始排行终端</small></span>
       </a>
       <nav class="rank-nav" aria-label="主要导航">
-        <a href="analysis.html?scope=made">制造分析</a>
-        <a href="vendors.html">厂商核实</a>
+        <a href="analysis.html?scope=made">游戏分析</a>
         <button class="icon-button" id="btnRefresh" title="刷新数据" aria-label="刷新数据">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
         </button>
@@ -28,11 +27,10 @@
   </header>
 
   <main class="rank-container">
-    <section class="rank-intro">
+    <section class="rank-intro" aria-labelledby="rankingTitle">
       <div>
-        <div class="rank-eyebrow">Raw ranking reference</div>
-        <h1>原始排行榜</h1>
-        <p>完整保留各平台、各榜单的原始排名浏览。这里是市场参照层，不直接代表个人开发机会。</p>
+        <h1 id="rankingTitle">原始排行榜</h1>
+        <p>按平台和榜单浏览游戏，排名、评分、热度与标签保持原始口径。</p>
       </div>
       <div class="rank-freshness"><span>最近更新</span><strong id="updateTime">正在读取…</strong><small>数据来源 TapTap 排行榜</small></div>
     </section>

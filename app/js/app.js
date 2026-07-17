@@ -16,13 +16,12 @@ function element(tag,{className='',text='',attrs={},children=[]}={}){
 function safeExternalUrl(value){try{const url=new URL(value);const tapTapHost=url.hostname==='taptap.cn'||url.hostname.endsWith('.taptap.cn');return url.protocol==='https:'&&tapTapHost?url.toString():'';}catch{return '';}}
 function safeIconUrl(value){try{const url=new URL(value);return url.protocol==='https:'&&url.hostname==='img-tc.tapimg.com'?url.toString():'';}catch{return '';}}
 function applyTheme(theme){document.documentElement.dataset.theme=theme==='light'?'light':'dark';}
-function toggleTheme(){const next=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme(next);localStorage.setItem('ttm_theme',next);renderDashboard(currentItems);}
+function toggleTheme(){const next=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme(next);localStorage.setItem('ttm_theme',next);}
 applyTheme(localStorage.getItem('ttm_theme')||'dark');
 
 function showSkeleton(){
-  const aside=element('aside',{className:'rank-insights',children:[element('div',{className:'dash',children:Array.from({length:4},()=>element('div',{className:'skeleton skeleton-dash'}))})]});
-  const results=element('section',{className:'rank-results',children:Array.from({length:8},()=>element('div',{className:'skeleton skeleton-card'}))});
-  byId('main').replaceChildren(element('div',{className:'rank-layout',children:[aside,results]}));
+  const results=element('section',{className:'rank-results',children:[element('div',{className:'skeleton skeleton-toolbar'}),...Array.from({length:8},()=>element('div',{className:'skeleton skeleton-card'}))]});
+  byId('main').replaceChildren(results);
 }
 function stateMessage(title,detail=''){return element('div',{className:'state-message',children:[element('strong',{text:title}),element('span',{text:detail})]});}
 
@@ -52,17 +51,14 @@ async function switchTab(key,restoreFocus=false){
   if(generation!==loadGeneration)return;currentItems=chart.items||[];renderRanking(chart);renderTabs();if(restoreFocus)byId('tabs').querySelector(`[data-key="${key}"]`)?.focus();
 }
 
-function chartBox(id,title){return element('article',{className:'dash-box',children:[element('div',{className:'dash-title',text:title}),element('div',{className:'dash-chart',attrs:{id}})]});}
 function renderRanking(chart){
-  const dashboard=element('div',{className:'dash',children:[chartBox('c-tag','游戏类型分布'),chartBox('c-plat','平台分布'),chartBox('c-score','评分分布'),chartBox('c-heat','热度区间分布')]});
-  const aside=element('aside',{className:'rank-insights',children:[dashboard]});
-  const search=element('input',{attrs:{id:'searchInput',type:'search',placeholder:'搜索游戏、厂商或标签','aria-label':'搜索游戏、厂商或标签',autocomplete:'off'}});search.addEventListener('input',debounceFilter);
+  const search=element('input',{attrs:{id:'searchInput',type:'search',placeholder:'搜索游戏或标签','aria-label':'搜索游戏或标签',autocomplete:'off'}});search.addEventListener('input',debounceFilter);
   const results=element('section',{className:'rank-results',children:[
     element('div',{className:'result-head',children:[element('div',{children:[element('h2',{text:chart.title||RANK_TYPES.find(type=>type.key===activeKey)?.name||'榜单'}),element('p',{text:chart.description||`${activePlat==='ios'?'iOS':'Android'} 当前榜单原始记录`})]}),element('strong',{className:'result-total',text:`${currentItems.length} 款`})]}),
     element('div',{className:'search-shell',children:[element('div',{className:'search-bar',children:[search]}),element('div',{className:'search-count',attrs:{id:'searchCount',role:'status','aria-live':'polite','aria-atomic':'true'}})]}),
     element('div',{className:'game-list',attrs:{id:'gameList'}}),
   ]});
-  byId('main').replaceChildren(element('div',{className:'rank-layout',children:[aside,results]}));filterGames();requestAnimationFrame(()=>renderDashboard(currentItems));
+  byId('main').replaceChildren(results);filterGames();
 }
 
 function createIcon(item,className='gicon'){
@@ -71,7 +67,7 @@ function createIcon(item,className='gicon'){
 function createGameCard(item){
   const rankClass=item.rank<=3?` top${item.rank}`:'';const tags=(item.tags||[]).slice(0,3).map(tag=>element('span',{className:'gtag',text:tag}));
   const platforms=element('span',{className:'gplat',text:(item.platforms||[]).filter(Boolean).map(value=>value.toUpperCase()).join(' · ')});
-  const meta=[element('span',{className:'gscore',text:item.score&&item.score!=='-'?`评分 ${item.score}`:'暂无评分'}),element('span',{className:'gdeveloper',text:item.developer||'厂商未知'}),...tags,platforms];
+  const meta=[element('span',{className:'gscore',text:item.score&&item.score!=='-'?`评分 ${item.score}`:'暂无评分'}),...tags,platforms];
   const hint=item.hints?.[0]?element('span',{className:'ghint',text:item.hints[0]}):null;
   const button=element('button',{className:'game-card',attrs:{type:'button','aria-label':`${item.rank} ${item.title}，查看详情`},children:[element('span',{className:`rank${rankClass}`,text:item.rank}),createIcon(item),element('span',{className:'info',children:[element('span',{className:'line1',children:[element('span',{className:'gtitle',text:item.title||'未知游戏'}),hint]}),element('span',{className:'line2',children:meta})]}),element('span',{className:'gcount',children:[element('span',{className:'gcount-v',text:item.count_str||String(item.count||0)}),element('span',{className:'gcount-l',text:item.count_label||'热度'})]})]});
   button.addEventListener('click',()=>openGameModal(item.id,button));return button;
@@ -79,17 +75,8 @@ function createGameCard(item){
 
 let filterTimer=null;function debounceFilter(){clearTimeout(filterTimer);filterTimer=setTimeout(filterGames,120);}
 function filterGames(){
-  const query=(byId('searchInput')?.value||'').trim().toLocaleLowerCase('zh-CN');const filtered=query?currentItems.filter(item=>`${item.title||''} ${item.developer||''} ${(item.tags||[]).join(' ')}`.toLocaleLowerCase('zh-CN').includes(query)):currentItems;
-  const list=byId('gameList');if(!list)return;list.replaceChildren(...(filtered.length?filtered.map(createGameCard):[stateMessage('没有匹配的游戏','换一个游戏名、厂商或标签试试')])) ;byId('searchCount').textContent=query?`找到 ${filtered.length} 款游戏`:`共 ${filtered.length} 款游戏`;setupLazyLoad();
-}
-
-function initChart(id,option){const root=byId(id);if(!root)return;const data=option.series?.[0]?.data||[];const maximum=Math.max(...data.map(row=>row.value),1);root.className='dash-chart chart-bars';root.setAttribute('role','img');const title=root.previousElementSibling?.textContent||'分布';root.setAttribute('aria-label',`${title}：${data.map(row=>`${row.name} ${row.value}`).join('，')||'暂无数据'}`);root.replaceChildren(...data.map(row=>element('div',{className:'chart-bar',children:[element('span',{className:'chart-bar-label',text:row.name}),element('span',{className:'chart-bar-track',children:[element('i',{attrs:{style:`--bar:${Math.max(4,Math.round(row.value/maximum*100))}%`}})]}),element('strong',{text:row.value})]})));}
-function donutOption(data){return{series:[{data}]};}
-function renderDashboard(items){
-  if(!items.length)return;const tagCounts={};items.forEach(item=>(item.tags||[]).forEach(tag=>tagCounts[tag]=(tagCounts[tag]||0)+1));initChart('c-tag',donutOption(Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([name,value])=>({name,value}))));
-  const platformCounts={};items.forEach(item=>{const key=(item.platforms||[]).filter(Boolean).sort().join('/')||'未知';platformCounts[key]=(platformCounts[key]||0)+1;});initChart('c-plat',donutOption(Object.entries(platformCounts).map(([name,value])=>({name:name.toUpperCase(),value}))));
-  const scores={'9+':0,'8–9':0,'7–8':0,'<7':0,'暂无':0};items.forEach(item=>{const value=Number(item.score);if(!value)scores['暂无']++;else if(value>=9)scores['9+']++;else if(value>=8)scores['8–9']++;else if(value>=7)scores['7–8']++;else scores['<7']++;});initChart('c-score',donutOption(Object.entries(scores).filter(([,value])=>value).map(([name,value])=>({name,value}))));
-  const max=Math.max(...items.map(item=>item.count||0),0);const heat=max>=10000?{'<1万':0,'1–10万':0,'10–100万':0,'100万+':0}:{'<1千':0,'1–5千':0,'5千–1万':0,'1万+':0};items.forEach(item=>{const value=item.count||0;if(max>=10000){if(value<10000)heat['<1万']++;else if(value<100000)heat['1–10万']++;else if(value<1000000)heat['10–100万']++;else heat['100万+']++;}else if(value<1000)heat['<1千']++;else if(value<5000)heat['1–5千']++;else if(value<10000)heat['5千–1万']++;else heat['1万+']++;});initChart('c-heat',donutOption(Object.entries(heat).filter(([,value])=>value).map(([name,value])=>({name,value}))));
+  const query=(byId('searchInput')?.value||'').trim().toLocaleLowerCase('zh-CN');const filtered=query?currentItems.filter(item=>`${item.title||''} ${(item.tags||[]).join(' ')}`.toLocaleLowerCase('zh-CN').includes(query)):currentItems;
+  const list=byId('gameList');if(!list)return;list.replaceChildren(...(filtered.length?filtered.map(createGameCard):[stateMessage('没有匹配的游戏','换一个游戏名或标签试试')])) ;byId('searchCount').textContent=query?`找到 ${filtered.length} 款游戏`:`共 ${filtered.length} 款游戏`;setupLazyLoad();
 }
 let lazyObserver=null;function setupLazyLoad(){lazyObserver?.disconnect();const images=[...document.querySelectorAll('.lazy-img')];images.slice(0,10).forEach(loadImage);if(!('IntersectionObserver'in window)){images.slice(10).forEach(loadImage);return;}lazyObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){loadImage(entry.target);lazyObserver.unobserve(entry.target);}}),{rootMargin:'100px'});images.slice(10).forEach(image=>lazyObserver.observe(image));}
 function loadImage(image){if(image.dataset.src){image.src=image.dataset.src;delete image.dataset.src;}}
@@ -99,7 +86,7 @@ function openGameModal(id,trigger){
   const item=currentItems.find(entry=>entry.id===id);if(!item)return;lastFocused=trigger;const released=item.released_time?new Date(Number(item.released_time)*1000).toISOString().slice(0,10):'未知';const url=safeExternalUrl(item.url);
   const close=element('button',{className:'gm-close',text:'×',attrs:{type:'button','aria-label':'关闭详情'}});close.addEventListener('click',closeGameModal);
   const head=element('div',{className:'gm-head',children:[createIcon(item,'gm-icon'),element('div',{className:'gm-info',children:[element('div',{className:'gm-title',text:item.title||'未知游戏'}),element('div',{className:'gm-score',text:item.score&&item.score!=='-'?`评分 ${item.score}`:'暂无评分'}),element('div',{className:'gm-tags',children:(item.tags||[]).map(tag=>element('span',{className:'gm-tag',text:tag}))}),item.hints?.[0]?element('div',{className:'gm-hint',text:item.hints[0]}):null]})]});
-  const body=element('div',{className:'gm-body',children:[modalRow('厂商 / 账号',item.developer||'未知'),modalRow('平台',(item.platforms||[]).filter(Boolean).join(' / ').toUpperCase()||'未知'),modalRow('排名',`#${item.rank}`),modalRow('热度',item.count_str||String(item.count||0)),modalRow('上线日期',released)]});
+  const body=element('div',{className:'gm-body',children:[modalRow('开发 / 发行',item.developer||'未知'),modalRow('平台',(item.platforms||[]).filter(Boolean).join(' / ').toUpperCase()||'未知'),modalRow('排名',`#${item.rank}`),modalRow('热度',item.count_str||String(item.count||0)),modalRow('上线日期',released)]});
   const children=[close,head,body];if(url)children.push(element('a',{className:'gm-link',text:'去 TapTap 查看详情 →',attrs:{href:url,target:'_blank',rel:'noopener noreferrer'}}));byId('gameModal').replaceChildren(...children);loadImage(byId('gameModal').querySelector('.gm-icon'));const dialog=byId('gameModalBg');dialog.classList.add('show');dialog.showModal();document.body.style.overflow='hidden';close.focus();
 }
 function closeGameModal(){const dialog=byId('gameModalBg');if(dialog.open)dialog.close();}

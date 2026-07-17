@@ -1,53 +1,12 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="TTMRank 厂商核实工作台：区分开发、发行、运营与厂商规模，记录证据和待核实队列。">
-  <title>厂商核实工作台 · TTMRank</title>
-  <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/vendors.css">
-  <script type="module" src="js/vendors.js"></script>
+  <meta http-equiv="refresh" content="0;url=analysis.html?scope=made">
+  <title>正在前往游戏分析 · TTMRank</title>
+  <link rel="canonical" href="analysis.html?scope=made">
+  <script>location.replace('analysis.html?scope=made');</script>
 </head>
-<body>
-  <header class="vendor-header">
-    <div class="vendor-container vendor-header-inner">
-      <a class="vendor-brand" href="index.html" aria-label="返回 TTMRank 首页"><span>T</span><strong>TTMRank</strong><small>厂商核实</small></a>
-      <nav><a href="analysis.html?scope=made">制造分析</a><a href="rankings.html">原始排行</a><a href="https://github.com/KingSystemHaiGo/TTMRank" target="_blank" rel="noreferrer">GitHub ↗</a></nav>
-    </div>
-  </header>
-
-  <main class="vendor-container">
-    <section class="vendor-hero">
-      <div><div class="vendor-eyebrow">Evidence-first vendor registry</div><h1>厂商核实工作台</h1><p>“开发者”字段可能实际指开发、发行或运营账号。这里记录每个当前名称的核实状态与公开证据；没有可靠来源时保持未知，不从名称猜测团队规模。</p></div>
-      <aside><span>当前规则</span><strong>先核实，再用于个人开发判断</strong><small id="vendorUpdated">正在读取登记表…</small></aside>
-    </section>
-
-    <section class="vendor-metrics" id="vendorMetrics" aria-label="厂商登记概览"></section>
-
-    <section class="vendor-method">
-      <strong>优先顺序</strong><span>制造样本待核实账号</span><i></i><span>覆盖游戏较多的账号</span><i></i><span>大型 / 专业厂商证据维护</span>
-    </section>
-
-    <section class="vendor-shell">
-      <div class="vendor-filter">
-        <div class="queue-pills" role="group" aria-label="核实队列">
-          <button type="button" class="active" data-queue="all" aria-pressed="true">全部</button>
-          <button type="button" data-queue="maker_pending" aria-pressed="false">制造样本待核实</button>
-          <button type="button" data-queue="verified" aria-pressed="false">已核实</button>
-          <button type="button" data-queue="pending" aria-pressed="false">其他待核实</button>
-        </div>
-        <input id="vendorQuery" type="search" placeholder="搜索厂商或账号" aria-label="搜索厂商或账号">
-        <select id="vendorScale" aria-label="厂商规模"><option value="all">全部规模</option><option value="major">大型厂商</option><option value="professional">专业厂商</option><option value="small_team">小型团队</option><option value="solo">个人 / 单人</option><option value="unverified">规模未核实</option></select>
-        <select id="vendorRole" aria-label="账号角色"><option value="all">全部账号角色</option><option value="developer">开发</option><option value="publisher">发行</option><option value="operator">运营</option><option value="mixed">混合角色</option><option value="unverified">角色未核实</option></select>
-      </div>
-      <div class="vendor-result-head"><div><h2>登记记录</h2><p>按制造样本影响、收录游戏数和热度范围排序</p></div><span id="vendorCount" role="status" aria-live="polite" aria-atomic="true" tabindex="-1">—</span></div>
-      <div class="vendor-table-head" aria-hidden="true"><span>厂商 / 账号</span><span>分类</span><span>样本覆盖</span><span>证据状态</span></div>
-      <div id="vendorList" class="vendor-list"></div>
-    </section>
-  </main>
-
-  <footer class="vendor-footer vendor-container"><span>当前登记不等于主体法律认定 · 非 TapTap 官方产品</span><a href="https://github.com/KingSystemHaiGo/TTMRank/blob/main/config/vendor-overrides.json" target="_blank" rel="noreferrer">查看版本化核实规则 ↗</a></footer>
-</body>
+<body><p><a href="analysis.html?scope=made">前往游戏分析</a></p></body>
 </html>
