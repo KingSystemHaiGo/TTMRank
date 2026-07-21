@@ -13,5 +13,11 @@
   "history_ingest": {
     "configured": false,
     "status": "not_configured"
-  }
+  },
+  "changes_file": "changes-current.json",
+  "changes_sha256": "505460b65b821dc1b057c8660ebccf42908ee9fa6e0c4f49a8c0b0c1822cad88",
+  "changes_bytes": 198,
+  "changes_event_count": 0,
+  "changes_comparison_available": false,
+  "changes_partial": false
 }

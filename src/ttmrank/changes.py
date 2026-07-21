@@ -4,9 +4,13 @@ from __future__ import annotations
 
 import hashlib
 import json
+from copy import deepcopy
 from collections import defaultdict
 from decimal import Decimal, InvalidOperation
+from pathlib import Path
 from typing import Any
+
+from .exporters import AtomicPublisher
 
 
 RANK_RISE = "rank_rise"
@@ -18,6 +22,11 @@ SCORE_RISE = "score_rise"
 SCORE_FALL = "score_fall"
 COVERAGE_INCREASE = "coverage_increase"
 COVERAGE_DECREASE = "coverage_decrease"
+
+STATE_SCHEMA_VERSION = "1.0"
+FEED_SCHEMA_VERSION = "1.0"
+FEED_RETENTION_SECONDS = 7 * 86_400
+MERGE_WINDOW_SECONDS = 2 * 3_600
 
 
 def rank_change_is_significant(previous_rank: int, current_rank: int) -> bool:
@@ -396,3 +405,204 @@ def event_importance(event: dict) -> int:
             score += min(abs(after - before) * 3, 15)
 
     return min(score, 100)
+
+
+def _event_first_observed_at(event: dict) -> int:
+    return int(event.get("first_observed_at", event.get("observed_at", 0)) or 0)
+
+
+def _event_last_observed_at(event: dict) -> int:
+    return int(event.get("last_observed_at", event.get("observed_at", 0)) or 0)
+
+
+def _normalized_event(event: dict) -> dict:
+    normalized = deepcopy(event)
+    first_observed_at = _event_first_observed_at(normalized)
+    last_observed_at = _event_last_observed_at(normalized)
+    if last_observed_at < first_observed_at:
+        first_observed_at, last_observed_at = last_observed_at, first_observed_at
+    normalized["first_observed_at"] = first_observed_at
+    normalized["last_observed_at"] = last_observed_at
+    normalized["observed_at"] = last_observed_at
+    normalized["occurrences"] = max(1, int(normalized.get("occurrences", 1) or 1))
+    return normalized
+
+
+def _event_series_key(event: dict) -> tuple:
+    kind = event.get("kind")
+    if kind in {RANK_RISE, RANK_FALL}:
+        series = "rank"
+    elif kind in {SCORE_RISE, SCORE_FALL}:
+        series = "score"
+    elif kind in {COVERAGE_INCREASE, COVERAGE_DECREASE}:
+        series = "coverage"
+    else:
+        series = "appearance"
+    return event.get("game_id"), series, event.get("platform"), event.get("chart")
+
+
+def _merge_event_pair(first: dict, second: dict) -> dict:
+    merged = deepcopy(first)
+    for key in ("game_title", "game_icon", "game_url", "rule"):
+        if second.get(key) not in {None, ""}:
+            merged[key] = second[key]
+    merged["scope"] = "made" if "made" in {first.get("scope"), second.get("scope")} else "all"
+    merged["after"] = second.get("after")
+    merged["first_observed_at"] = min(
+        _event_first_observed_at(first),
+        _event_first_observed_at(second),
+    )
+    merged["last_observed_at"] = max(
+        _event_last_observed_at(first),
+        _event_last_observed_at(second),
+    )
+    merged["observed_at"] = merged["last_observed_at"]
+    merged["occurrences"] = int(first.get("occurrences", 1) or 1) + int(
+        second.get("occurrences", 1) or 1
+    )
+    merged["importance"] = event_importance(merged)
+    return merged
+
+
+def merge_events(events: list[dict]) -> list[dict]:
+    """Merge consecutive same-direction events observed within two hours."""
+
+    chronological = sorted(
+        (_normalized_event(event) for event in events),
+        key=lambda event: (
+            _event_first_observed_at(event),
+            _event_last_observed_at(event),
+            str(event.get("id", "")),
+        ),
+    )
+    merged_events: list[dict] = []
+    latest_by_series: dict[tuple, int] = {}
+    seen_ids: set[str] = set()
+    for event in chronological:
+        event_id = str(event.get("id", ""))
+        if event_id and event_id in seen_ids:
+            continue
+        if event_id:
+            seen_ids.add(event_id)
+
+        series_key = _event_series_key(event)
+        candidate_index = latest_by_series.get(series_key)
+        candidate = merged_events[candidate_index] if candidate_index is not None else None
+        inside_window = bool(
+            candidate
+            and 0
+            <= _event_first_observed_at(event) - _event_last_observed_at(candidate)
+            <= MERGE_WINDOW_SECONDS
+        )
+        if candidate and candidate.get("kind") == event.get("kind") and inside_window:
+            merged_events[candidate_index] = _merge_event_pair(candidate, event)
+        else:
+            merged_events.append(event)
+            latest_by_series[series_key] = len(merged_events) - 1
+
+    return sorted(
+        merged_events,
+        key=lambda event: (
+            -_event_last_observed_at(event),
+            -int(event.get("importance", 0) or 0),
+            str(event.get("id", "")),
+        ),
+    )
+
+
+def _state_is_valid(state: Any) -> bool:
+    if not isinstance(state, dict) or state.get("schema_version") != STATE_SCHEMA_VERSION:
+        return False
+    observation = state.get("observation")
+    events = state.get("events")
+    if not isinstance(observation, dict) or not isinstance(events, list):
+        return False
+    if not isinstance(observation.get("observed_at"), int):
+        return False
+    if not all(
+        isinstance(observation.get(key), expected_type)
+        for key, expected_type in (
+            ("updated_at", (str, int)),
+            ("games", dict),
+            ("appearances", dict),
+            ("charts", dict),
+            ("seen_appearance_keys", list),
+        )
+    ):
+        return False
+    return all(
+        isinstance(event, dict)
+        and isinstance(event.get("id"), str)
+        and isinstance(event.get("kind"), str)
+        and isinstance(event.get("game_id"), int)
+        and isinstance(event.get("observed_at", event.get("last_observed_at")), int)
+        for event in events
+    )
+
+
+def load_state(path: Path | None) -> dict | None:
+    """Load a compatible rolling state, treating missing or invalid data as baseline."""
+
+    if path is None:
+        return None
+    try:
+        state = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError, TypeError, ValueError):
+        return None
+    return state if _state_is_valid(state) else None
+
+
+def _state_has_incomplete_charts(state: dict) -> bool:
+    charts = state.get("charts", {})
+    return any(not _chart_is_complete(state, *key.split("|", 1)) for key in charts)
+
+
+def build_feed(previous_state: dict | None, current_state: dict) -> tuple[dict, dict]:
+    """Build the public seven-day feed and the next comparison state."""
+
+    current = deepcopy(current_state)
+    previous = previous_state if _state_is_valid(previous_state) else None
+    previous_observation = previous["observation"] if previous else None
+
+    seen_appearance_keys = set(current.get("seen_appearance_keys", []))
+    seen_appearance_keys.update(current.get("appearances", {}))
+    if previous_observation:
+        seen_appearance_keys.update(previous_observation.get("seen_appearance_keys", []))
+    current["seen_appearance_keys"] = sorted(seen_appearance_keys)
+
+    suppressed_negative_event_count = 0
+    if previous_observation:
+        detected_events, suppressed_negative_event_count = detect_events(previous_observation, current)
+        events = merge_events([*previous.get("events", []), *detected_events])
+    else:
+        events = []
+
+    generated_at = int(current.get("observed_at", 0) or 0)
+    cutoff = generated_at - FEED_RETENTION_SECONDS
+    retained_events = [event for event in events if _event_last_observed_at(event) >= cutoff]
+    partial = _state_has_incomplete_charts(current) or suppressed_negative_event_count > 0
+    comparison_available = previous_observation is not None
+    status = "baseline" if not comparison_available else "partial" if partial else "ready"
+    feed = {
+        "schema_version": FEED_SCHEMA_VERSION,
+        "generated_at": generated_at,
+        "updated_at": current.get("updated_at", ""),
+        "status": status,
+        "comparison_available": comparison_available,
+        "partial": partial,
+        "suppressed_negative_event_count": suppressed_negative_event_count,
+        "events": retained_events,
+    }
+    next_state = {
+        "schema_version": STATE_SCHEMA_VERSION,
+        "observation": current,
+        "events": retained_events,
+    }
+    return feed, next_state
+
+
+def write_state_atomic(path: Path, state: dict) -> None:
+    """Replace rolling state only after its complete JSON has reached disk."""
+
+    target = Path(path)
+    AtomicPublisher(target.parent).publish_json(target.name, state)

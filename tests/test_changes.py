@@ -14,6 +14,7 @@ from ttmrank.changes import (
     build_observation_state,
     detect_events,
     event_importance,
+    merge_events,
     rank_change_is_significant,
 )
 from ttmrank.models import Appearance, DataQualityIssue, Game
@@ -304,6 +305,56 @@ class EventDetectionTests(unittest.TestCase):
 
         self.assertEqual(event_importance(top), event_importance(dict(reversed(list(top.items())))))
         self.assertGreater(event_importance(top), event_importance(tail))
+
+
+class EventMergeTests(unittest.TestCase):
+    @staticmethod
+    def rank_event(kind, observed_at, before, after, event_id):
+        return {
+            "id": event_id,
+            "kind": kind,
+            "scope": "made",
+            "game_id": 1,
+            "game_title": "Alpha",
+            "game_icon": "https://example.com/1.png",
+            "game_url": "https://www.taptap.cn/app/1",
+            "platform": "android",
+            "chart": "hot",
+            "before": before,
+            "after": after,
+            "observed_at": observed_at,
+            "rule": "rank_threshold_11_50",
+            "importance": 65,
+        }
+
+    def test_same_direction_rank_events_merge_inside_two_hours(self):
+        first = self.rank_event(RANK_RISE, 1_000, 30, 24, "evt_first")
+        second = self.rank_event(RANK_RISE, 1_000 + 3_600, 24, 18, "evt_second")
+
+        result = merge_events([second, first])
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["id"], "evt_first")
+        self.assertEqual((result[0]["before"], result[0]["after"]), (30, 18))
+        self.assertEqual(result[0]["first_observed_at"], 1_000)
+        self.assertEqual(result[0]["last_observed_at"], 4_600)
+        self.assertEqual(result[0]["occurrences"], 2)
+
+    def test_opposite_rank_directions_do_not_merge(self):
+        rise = self.rank_event(RANK_RISE, 1_000, 30, 24, "evt_rise")
+        fall = self.rank_event(RANK_FALL, 2_000, 24, 30, "evt_fall")
+
+        result = merge_events([rise, fall])
+
+        self.assertEqual({event["id"] for event in result}, {"evt_rise", "evt_fall"})
+
+    def test_events_outside_two_hours_remain_separate(self):
+        first = self.rank_event(RANK_RISE, 1_000, 30, 24, "evt_first")
+        second = self.rank_event(RANK_RISE, 1_000 + 7_201, 24, 18, "evt_second")
+
+        result = merge_events([first, second])
+
+        self.assertEqual({event["id"] for event in result}, {"evt_first", "evt_second"})
 
 
 if __name__ == "__main__":
