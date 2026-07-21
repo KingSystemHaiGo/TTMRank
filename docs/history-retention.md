@@ -12,6 +12,7 @@ inside Cloudflare D1. Scheduled refreshes do not commit generated snapshots, so 
 | GitHub Pages artifact | latest generated site | current deployment | public static site |
 | `game_heat_hourly` | game × UTC hour | 90 complete UTC days | recent growth and detailed charts |
 | `game_heat_daily` | game × UTC day | 730 complete UTC days | long-range trend reference |
+| `game_change_events` | one structured game-change event | 180 days | optional durable change ledger |
 | `history_maintenance_runs` | one row per API call | 730 days | operational diagnosis |
 
 The UTC day is inclusive at `00:00` and exclusive at the next `00:00`. A daily
@@ -57,6 +58,20 @@ Even when no history day is pending, maintenance records the completed call and
 prunes audit rows older than daily retention in one D1 batch. An idle database
 therefore does not accumulate maintenance audit rows without bound.
 
+Change events use the same ingest token as heat snapshots. `POST /v1/events`
+accepts at most 500 validated events and inserts them idempotently by stable
+`event_id`; retries therefore cannot duplicate a change. `GET /v1/events`
+requires a `since` timestamp, accepts only the `made` or `all` scope, and caps
+responses at 500 rows. The static seven-day feed remains the primary Pages
+source: an archive write failure is reported as `changes_archive.status=failed`
+in the manifest but never blocks publication.
+
+Each maintenance call also deletes at most 5,000 events older than
+`EVENT_RETENTION_DAYS`, which defaults to 180 days. The response includes
+`retention.event_days`, `cutoffs.events`, and `rows.events_deleted`; `has_more`
+stays true while either heat or event cleanup remains. This bounds individual D1
+mutations while allowing the existing Action loop to drain a backlog.
+
 The Action follows `has_more` for at most 100 calls per run. Each call receives a
 unique run id. This bounds database and runner work during a first deployment or
 long outage; remaining days continue on the next scheduled or manual run. HTTP
@@ -80,8 +95,9 @@ updated Worker. Configure:
 - GitHub secret `TTMRANK_HISTORY_URL` with the Worker base URL.
 
 Optional Worker variables `HOURLY_RETENTION_DAYS` and
-`DAILY_RETENTION_DAYS` default to `90` and `730`. The Worker constrains both
-ranges and requires daily retention to be longer than hourly retention.
+`DAILY_RETENTION_DAYS` default to `90` and `730`.
+`EVENT_RETENTION_DAYS` defaults to `180`. The Worker constrains all ranges and
+requires daily heat retention to be longer than hourly heat retention.
 
 After deployment, manually run `Maintain History` once and inspect its summary.
 If `has_more` remains true after 100 calls, rerun it until the backlog is clear.

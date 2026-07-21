@@ -51,6 +51,7 @@ def build_analysis_artifacts(
     current_change_state = build_observation_state(dataset, payload, issues)
     changes, next_change_state = build_feed(load_state(change_state_path), current_change_state)
     history_ingest = {"configured": False, "status": "not_configured"}
+    changes_archive = {"configured": False, "status": "not_configured"}
     if history_client:
         ingest_result = history_client.ingest(games_json, dataset.observed_at)
         status = getattr(history_client, "ingest_status", None)
@@ -58,6 +59,17 @@ def build_analysis_artifacts(
             "configured": True,
             "status": "success" if ingest_result else "failed",
         }
+        archive = getattr(history_client, "archive_events", None)
+        if callable(archive):
+            try:
+                archive_result = archive(changes["events"])
+            except Exception:
+                archive_result = False
+            archive_status = getattr(history_client, "archive_status", None)
+            changes_archive = archive_status() if callable(archive_status) else {
+                "configured": True,
+                "status": "success" if archive_result else "failed",
+            }
     compact = json.dumps(analysis, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     digest = hashlib.sha256(compact).hexdigest()
     changes_compact = json.dumps(changes, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
@@ -81,6 +93,7 @@ def build_analysis_artifacts(
         "changes_event_count": len(changes["events"]),
         "changes_comparison_available": changes["comparison_available"],
         "changes_partial": changes["partial"],
+        "changes_archive": changes_archive,
     }
     publisher = AtomicPublisher(output_dir)
     publisher.publish_json("analysis-current.json", analysis)

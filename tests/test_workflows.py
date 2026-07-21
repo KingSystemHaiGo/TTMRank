@@ -205,9 +205,9 @@ class WorkflowTests(unittest.TestCase):
 
         self.assertIn("def non_negative_integer", workflow)
         self.assertIn("type(value) is int and value >= 0", workflow)
-        self.assertIn('("hourly_days", "daily_days")', workflow)
-        self.assertIn('("hourly", "daily")', workflow)
-        self.assertIn('("hourly_archived", "hourly_deleted", "daily_deleted")', workflow)
+        self.assertIn('("hourly_days", "daily_days", "event_days")', workflow)
+        self.assertIn('("hourly", "daily", "events")', workflow)
+        self.assertIn('("hourly_archived", "hourly_deleted", "daily_deleted", "events_deleted")', workflow)
         self.assertIn('retention["daily_days"] <= retention["hourly_days"]', workflow)
 
         valid = {
@@ -215,9 +215,9 @@ class WorkflowTests(unittest.TestCase):
             "run_id": "42-1-1",
             "processed_day": None,
             "has_more": False,
-            "retention": {"hourly_days": 90, "daily_days": 730},
-            "cutoffs": {"hourly": 1_800_000_000, "daily": 1_700_000_000},
-            "rows": {"hourly_archived": 0, "hourly_deleted": 2, "daily_deleted": 0},
+            "retention": {"hourly_days": 90, "daily_days": 730, "event_days": 180},
+            "cutoffs": {"hourly": 1_800_000_000, "daily": 1_700_000_000, "events": 1_750_000_000},
+            "rows": {"hourly_archived": 0, "hourly_deleted": 2, "daily_deleted": 0, "events_deleted": 4},
         }
         result, summary = self.run_history_validator(valid)
         self.assertEqual(result.returncode, 0, result.stderr)
@@ -227,16 +227,16 @@ class WorkflowTests(unittest.TestCase):
             "empty nested objects": {**valid, "retention": {}, "cutoffs": {}, "rows": {}},
             "booleans disguised as integers": {
                 **valid,
-                "retention": {"hourly_days": True, "daily_days": 730},
+                "retention": {"hourly_days": True, "daily_days": 730, "event_days": 180},
             },
             "negative row count": {
                 **valid,
-                "rows": {"hourly_archived": -1, "hourly_deleted": 2, "daily_deleted": 0},
+                "rows": {"hourly_archived": -1, "hourly_deleted": 2, "daily_deleted": 0, "events_deleted": 4},
             },
-            "non-positive cutoff": {**valid, "cutoffs": {"hourly": 0, "daily": 1_700_000_000}},
+            "non-positive cutoff": {**valid, "cutoffs": {"hourly": 0, "daily": 1_700_000_000, "events": 1_750_000_000}},
             "daily retention not longer": {
                 **valid,
-                "retention": {"hourly_days": 90, "daily_days": 90},
+                "retention": {"hourly_days": 90, "daily_days": 90, "event_days": 180},
             },
         }
         for label, payload in invalid_payloads.items():

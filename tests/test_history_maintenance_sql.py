@@ -130,6 +130,7 @@ class HistoryMaintenanceSqlTests(unittest.TestCase):
         database = self.database()
         daily_cutoff = 1_750_032_000
         hourly_cutoff = daily_cutoff + 640 * 86_400
+        event_cutoff = daily_cutoff
         expired_daily_day = daily_cutoff - 86_400
         first_hourly_day = daily_cutoff + 86_400
         second_hourly_day = first_hourly_day + 86_400
@@ -163,14 +164,14 @@ class HistoryMaintenanceSqlTests(unittest.TestCase):
 
         oldest = database.execute(find_sql, (hourly_cutoff, daily_cutoff)).fetchone()
         self.assertEqual(oldest, (first_hourly_day + 3_600, expired_daily_day))
-        self.assertEqual(database.execute(has_more_sql, (hourly_cutoff, daily_cutoff)).fetchone(), (1,))
+        self.assertEqual(database.execute(has_more_sql, (hourly_cutoff, daily_cutoff, event_cutoff)).fetchone(), (1,))
 
         database.execute("DELETE FROM game_heat_daily WHERE captured_day=?", (expired_daily_day,))
         database.execute(delete_sql, (first_hourly_day, first_hourly_day + 86_400, first_hourly_day))
-        self.assertEqual(database.execute(has_more_sql, (hourly_cutoff, daily_cutoff)).fetchone(), (1,))
+        self.assertEqual(database.execute(has_more_sql, (hourly_cutoff, daily_cutoff, event_cutoff)).fetchone(), (1,))
 
         database.execute(delete_sql, (second_hourly_day, second_hourly_day + 86_400, second_hourly_day))
-        self.assertEqual(database.execute(has_more_sql, (hourly_cutoff, daily_cutoff)).fetchone(), (0,))
+        self.assertEqual(database.execute(has_more_sql, (hourly_cutoff, daily_cutoff, event_cutoff)).fetchone(), (0,))
 
     def test_failed_atomic_day_batch_rolls_back_archive_and_source_deletion(self):
         clear_sql = self.extract_sql("CLEAR_DAILY_DAY_SQL")

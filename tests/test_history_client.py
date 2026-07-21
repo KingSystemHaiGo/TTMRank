@@ -3,13 +3,30 @@ import json
 import os
 import subprocess
 import tempfile
+from unittest.mock import patch
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import parse_qs, urlparse
 from zoneinfo import ZoneInfo
 
 from ttmrank.history_client import GitHistoryClient, HistoryClient
 
 NOW = 1_800_000_000
+
+
+class FakeResponse:
+    def __init__(self, payload, status=200):
+        self.payload = payload
+        self.status = status
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        return False
+
+    def read(self):
+        return json.dumps(self.payload).encode("utf-8")
 
 
 class HistoryClientTests(unittest.TestCase):
@@ -38,6 +55,64 @@ class HistoryClientTests(unittest.TestCase):
         ]
         metrics = HistoryClient.metrics_from_points([{"id": 1, "heat": 1000}], NOW, points)
         self.assertEqual(metrics, {})
+
+    def test_archives_change_events_with_ingest_token(self):
+        event = {
+            "id": "evt_test",
+            "kind": "rank_rise",
+            "scope": "made",
+            "game_id": 1,
+            "before": 18,
+            "after": 9,
+            "observed_at": NOW,
+        }
+        captured = []
+
+        def fake_urlopen(request, timeout):
+            captured.append((request, timeout))
+            return FakeResponse({"ok": True, "written": 1})
+
+        client = HistoryClient("https://history.example", "secret", timeout=7)
+        with patch("ttmrank.history_client.urlopen", side_effect=fake_urlopen):
+            self.assertTrue(client.archive_events([event]))
+
+        request, timeout = captured[0]
+        self.assertEqual(request.full_url, "https://history.example/v1/events")
+        self.assertEqual(request.method, "POST")
+        self.assertEqual(request.get_header("X-ingest-token"), "secret")
+        self.assertEqual(json.loads(request.data), {"events": [event]})
+        self.assertEqual(timeout, 7)
+        self.assertEqual(client.archive_status(), {"configured": True, "status": "success"})
+
+    def test_reads_bounded_change_event_archive(self):
+        expected = [{"id": "evt_test", "kind": "rank_rise"}]
+        captured = []
+
+        def fake_urlopen(request, timeout):
+            captured.append((request, timeout))
+            return FakeResponse({"events": expected})
+
+        client = HistoryClient("https://history.example", "secret", timeout=9)
+        with patch("ttmrank.history_client.urlopen", side_effect=fake_urlopen):
+            self.assertEqual(client.events(NOW, scope="made"), expected)
+
+        target, timeout = captured[0]
+        url = target.full_url if hasattr(target, "full_url") else target
+        parsed = urlparse(url)
+        self.assertEqual(parsed.path, "/v1/events")
+        self.assertEqual(parse_qs(parsed.query), {
+            "since": [str(NOW)],
+            "scope": ["made"],
+            "limit": ["500"],
+        })
+        self.assertEqual(timeout, 9)
+
+    def test_change_archive_failures_degrade_without_error(self):
+        client = HistoryClient("https://history.example", "secret")
+        with patch("ttmrank.history_client.urlopen", side_effect=OSError("offline")):
+            self.assertFalse(client.archive_events([{"id": "evt_test"}]))
+            self.assertEqual(client.events(NOW, scope="made"), [])
+        self.assertEqual(client.archive_status(), {"configured": True, "status": "failed"})
 
     def test_git_history_uses_existing_ranking_commits_as_baselines(self):
         def payload(captured_at, heat):
