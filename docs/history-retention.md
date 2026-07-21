@@ -83,6 +83,30 @@ Refresh and code-push summaries also report the current snapshot ingest state as
 block the static site, but it is no longer silent. The public manifest records only
 that safe status and never includes the history URL, token, or exception text.
 
+## Rolling comparison state and refresh budget
+
+The comparison state lives at `.ttmrank/change-state.json`, outside the Pages
+artifact. Both refresh-on-schedule and deploy-on-code-push restore it with
+`actions/cache/restore`, using a unique key for each run and a shared
+`ttmrank-change-state-` restore prefix. The validated next state is saved only
+after the generated JSON and the focused change/pipeline tests pass. Refresh and
+deploy share the `data-publish` concurrency group, so two collectors cannot
+advance the comparison state at the same time.
+
+The three schedule workflows dispatch refreshes at minutes 07, 27, and 47.
+`refresh.yml` does not keep a runner asleep and does not dispatch a successor.
+A data-only refresh runs the change, state, pipeline, and validator suites plus
+JSON parsing; it does not install Chromium. Full Python, JavaScript, and browser
+coverage remains in `test.yml`, while code-push deployment also keeps the full
+checks before publishing.
+
+A missing, evicted, malformed, or schema-incompatible cache is safe. That run
+publishes `status=baseline` with no invented changes and creates a fresh state.
+The next successful scheduled run resumes normal comparison. To recover
+manually, dispatch `Refresh Data` once to establish the baseline and again after
+the next collection interval to produce a ready feed. A failed validation never
+saves the candidate state or uploads the candidate Pages artifact.
+
 ## One-time deployment
 
 Apply `cloudflare/schema.sql` to the existing D1 database before deploying the
