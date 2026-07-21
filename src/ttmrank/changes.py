@@ -39,7 +39,7 @@ def rank_change_is_significant(previous_rank: int, current_rank: int) -> bool:
         return movement >= 2
     if previous_rank <= 50:
         return movement >= 5
-    return movement >= 10 or Decimal(movement) / Decimal(previous_rank) >= Decimal("0.2")
+    return movement >= 10
 
 
 def _value(record: Any, name: str, default: Any = None) -> Any:
@@ -79,7 +79,7 @@ def build_observation_state(dataset, payload: dict, issues: list) -> dict:
         if not isinstance(platform_charts, dict):
             continue
         for chart, chart_payload in platform_charts.items():
-            source = chart_payload.get("source", "live") if isinstance(chart_payload, dict) else "live"
+            source = chart_payload.get("source", "live") if isinstance(chart_payload, dict) else None
             key = _chart_key(str(platform), str(chart))
             charts[key] = {
                 "platform": str(platform),
@@ -140,7 +140,10 @@ def _normalized_score(value: Any) -> Decimal | None:
     if value is None:
         return None
     try:
-        return Decimal(str(value)).quantize(Decimal("0.1"))
+        decimal_value = Decimal(str(value))
+        if not decimal_value.is_finite():
+            return None
+        return decimal_value.quantize(Decimal("0.1"))
     except (InvalidOperation, TypeError, ValueError):
         return None
 

@@ -69,9 +69,8 @@ class RankThresholdTests(unittest.TestCase):
         self.assertFalse(rank_change_is_significant(30, 26))
         self.assertTrue(rank_change_is_significant(30, 25))
 
-    def test_tail_rank_accepts_ten_places_or_twenty_percent(self):
+    def test_tail_rank_requires_ten_places(self):
         self.assertTrue(rank_change_is_significant(80, 70))
-        self.assertTrue(rank_change_is_significant(80, 64))
         self.assertFalse(rank_change_is_significant(80, 72))
 
 
@@ -113,6 +112,22 @@ class ObservationStateTests(unittest.TestCase):
             appearances=[appearance(rank=8)],
             at=100,
             issues=[issue],
+        )
+
+        self.assertFalse(result["charts"]["android|hot"]["complete"])
+
+    def test_malformed_chart_payload_is_never_treated_as_complete(self):
+        dataset = NormalizedDataset(
+            games=[game()],
+            appearances=[],
+            issues=[],
+            observed_at=200,
+        )
+
+        result = build_observation_state(
+            dataset,
+            {"updated_at": 200, "platforms": {"android": {"hot": None}}},
+            [],
         )
 
         self.assertFalse(result["charts"]["android|hot"]["complete"])
@@ -191,6 +206,41 @@ class EventDetectionTests(unittest.TestCase):
         self.assertNotIn(COVERAGE_DECREASE, {event["kind"] for event in events})
         self.assertEqual(suppressed, 2)
 
+    def test_previous_incomplete_chart_also_suppresses_negative_events(self):
+        previous = state(
+            games=[game()],
+            appearances=[appearance(rank=7, source="cache")],
+            at=100,
+        )
+        current = state(games=[game()], at=200, charts={("android", "hot"): "live"})
+
+        events, suppressed = detect_events(previous, current)
+
+        self.assertNotIn(EXITED, {event["kind"] for event in events})
+        self.assertNotIn(COVERAGE_DECREASE, {event["kind"] for event in events})
+        self.assertEqual(suppressed, 2)
+
+    def test_one_incomplete_removed_chart_suppresses_aggregate_coverage_decrease(self):
+        previous = state(
+            games=[game()],
+            appearances=[
+                appearance(rank=10),
+                appearance(platform="ios", chart="new", rank=3, source="cache"),
+            ],
+            at=100,
+        )
+        current = state(
+            games=[game()],
+            appearances=[appearance(rank=10, at=200)],
+            at=200,
+            charts={("android", "hot"): "live", ("ios", "new"): "live"},
+        )
+
+        events, suppressed = detect_events(previous, current)
+
+        self.assertNotIn(COVERAGE_DECREASE, {event["kind"] for event in events})
+        self.assertEqual(suppressed, 2)
+
     def test_score_rise_at_exact_normalized_tenth(self):
         previous = state(games=[game(score=8.04)], at=100)
         current = state(games=[game(score=8.14)], at=200)
@@ -218,6 +268,17 @@ class EventDetectionTests(unittest.TestCase):
 
         self.assertNotIn(SCORE_RISE, {event["kind"] for event in events})
         self.assertNotIn(SCORE_FALL, {event["kind"] for event in events})
+
+    def test_non_finite_scores_are_ignored(self):
+        for invalid_score in (float("nan"), float("inf"), float("-inf"), "NaN"):
+            with self.subTest(invalid_score=invalid_score):
+                previous = state(games=[game(score=8.0)], at=100)
+                current = state(games=[game(score=invalid_score)], at=200)
+
+                events, _ = detect_events(previous, current)
+
+                self.assertNotIn(SCORE_RISE, {event["kind"] for event in events})
+                self.assertNotIn(SCORE_FALL, {event["kind"] for event in events})
 
     def test_coverage_increase_is_always_recorded(self):
         previous = state(games=[game()], appearances=[appearance(rank=10)], at=100)
