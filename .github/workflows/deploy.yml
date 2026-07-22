@@ -62,10 +62,16 @@ jobs:
         run: |
           PYTHONPATH=src python -m unittest discover -s tests -v
           python -m json.tool app/data/v2/manifest.json >/dev/null
+          python -m json.tool app/data/v2/visual-current.json >/dev/null
           python -m json.tool .ttmrank/heat-history.json >/dev/null
 
       - name: Install frontend dependencies
         run: npm ci
+
+      - name: Build self-hosted visual engines
+        run: |
+          npm run build:visual
+          npm run check:visual-budget
 
       - name: Run JavaScript unit tests
         run: npm run test:unit

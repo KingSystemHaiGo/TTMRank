@@ -55,6 +55,22 @@ img, svg { display: block; }
 .intel-nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--tap-cyan); font-weight: 650; }
 .intel-nav-external { color: var(--text-3); }
 
+@media (max-width: 760px) {
+  .intel-header-inner { min-height: 62px; gap: 14px; }
+  .intel-brand-copy small { display: none; }
+  .intel-nav { max-width: calc(100vw - 104px); gap: 13px; overflow-x: auto; scrollbar-width: none; }
+  .intel-nav::-webkit-scrollbar { display: none; }
+  .intel-nav a { flex: 0 0 auto; min-height: 38px; font-size: 11px; }
+  .intel-nav-external { display: none !important; }
+}
+
+@media (max-width: 380px) {
+  .intel-brand { gap: 7px; }
+  .intel-brand-mark { width: 31px; height: 31px; }
+  .intel-brand-copy strong { font-size: 13px; }
+  .intel-nav { max-width: calc(100vw - 92px); gap: 10px; }
+}
+
 .range-switch, .scope-switch {
   display: inline-grid;
   grid-auto-flow: column;

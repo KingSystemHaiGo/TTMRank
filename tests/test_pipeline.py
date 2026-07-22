@@ -1,4 +1,5 @@
 import json
+import gzip
 import tempfile
 import unittest
 from pathlib import Path
@@ -18,6 +19,21 @@ class PipelineTests(unittest.TestCase):
             self.assertTrue((Path(tmp) / "quality.json").exists())
             self.assertEqual(manifest["changes_file"], "changes-current.json")
             self.assertTrue((Path(tmp) / "changes-current.json").exists())
+            self.assertEqual(manifest["visual_file"], "visual-current.json")
+            self.assertTrue((Path(tmp) / "visual-current.json").exists())
+            visual_bytes = (Path(tmp) / "visual-current.json").read_bytes()
+            visual = json.loads(visual_bytes)
+            self.assertEqual(visual["schema_version"], "1.0")
+            self.assertEqual(len(visual["games"]), 1)
+            self.assertEqual(visual["games"][0]["id"], 2)
+            self.assertEqual(visual["games"][0]["cluster"], "模拟")
+            self.assertNotIn("developer", visual["games"][0])
+            self.assertNotIn("is_taptap_made", visual["games"][0])
+            self.assertEqual(manifest["visual_bytes"], len(visual_bytes))
+            self.assertEqual(manifest["visual_gzip_bytes"], len(gzip.compress(visual_bytes)))
+            self.assertLess(manifest["visual_bytes"], 96 * 1024)
+            self.assertLess(manifest["visual_gzip_bytes"], 32 * 1024)
+            self.assertRegex(manifest["visual_sha256"], r"^[a-f0-9]{64}$")
             self.assertFalse(manifest["changes_comparison_available"])
             self.assertFalse((Path(tmp) / "vendors.json").exists())
             analysis = json.loads((Path(tmp) / "analysis-current.json").read_text(encoding="utf-8"))
