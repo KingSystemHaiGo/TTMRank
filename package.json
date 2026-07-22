@@ -4,11 +4,16 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build:visual": "node scripts/build-visual.mjs",
+    "check:visual-budget": "node scripts/check-visual-budget.mjs",
     "test:unit": "node --test tests/web/*.test.js tests/worker/*.test.js",
     "test:e2e": "playwright test",
     "test": "npm run test:unit && npm run test:e2e"
   },
   "devDependencies": {
-    "@playwright/test": "^1.54.1"
+    "@playwright/test": "^1.54.1",
+    "esbuild": "0.28.1",
+    "pixi.js": "8.19.0",
+    "three": "0.185.1"
   }
 }

@@ -31,6 +31,7 @@ export const DEFAULT_CHANGE_FILTERS = Object.freeze({
   type: 'all',
   platform: 'all',
   query: '',
+  view: 'list',
   event: '',
 });
 

@@ -19,6 +19,7 @@
       </a>
       <nav class="intel-nav" aria-label="主要导航">
         <a href="index.html" aria-current="page">情报</a>
+        <a href="universe.html">游戏宇宙</a>
         <a href="analysis.html?scope=made">游戏分析</a>
         <a href="rankings.html">原始排行</a>
         <a class="intel-nav-external" href="https://github.com/KingSystemHaiGo/TTMRank" target="_blank" rel="noreferrer">GitHub</a>
@@ -53,9 +54,28 @@
     </section>
 
     <section class="complete-feed" aria-labelledby="feedTitle">
-      <div class="complete-feed-head"><h2 id="feedTitle">变化记录</h2><span id="changeCount">—</span></div>
+      <div class="complete-feed-head">
+        <div><h2 id="feedTitle">变化记录</h2><span id="changeCount">—</span></div>
+        <div class="view-switch" role="group" aria-label="变化呈现方式">
+          <button type="button" data-view="list" aria-pressed="true">列表</button>
+          <button type="button" data-view="map" aria-pressed="false">变化图谱</button>
+        </div>
+      </div>
       <p id="changesPartialNotice" class="partial-notice" hidden>本轮采集不完整，已暂停生成跌出榜单和覆盖减少事件。</p>
-      <div id="changesFeed" class="change-feed" aria-live="polite"><div class="feed-state"><strong>正在读取最新变化</strong></div></div>
+      <div id="changesListView"><div id="changesFeed" class="change-feed" aria-live="polite"><div class="feed-state"><strong>正在读取最新变化</strong></div></div></div>
+      <div id="changesMapView" class="changes-map-view" hidden>
+        <div class="change-map-shell">
+          <div class="change-map-axis" aria-hidden="true"><span>排名变化</span><span>进出榜</span><span>评分变化</span><span>榜单覆盖</span></div>
+          <div id="changeMapCanvas" class="change-map-host" role="img" aria-label="变化时间图谱。横向位置表示观察时间，纵向泳道区分四类事件，节点大小表示重要度。"></div>
+          <div class="change-map-time" aria-hidden="true"><span id="changeMapStart">较早</span><span>最新观察</span></div>
+          <div id="changeMapState" class="change-map-state" role="status" aria-live="polite">切换到图谱后加载可视化引擎</div>
+        </div>
+        <div class="change-map-reading">
+          <div><strong>读图方式</strong><p>横轴为时间；纵向依次是排名、进出榜、评分和榜单覆盖。向上三角代表正向变化，向下三角代表负向变化，节点越大表示当前记录的重要度越高。</p></div>
+          <div><strong>重点事件</strong><p>下方列表保留精确值和键盘操作，点击图谱节点或事件名称均可打开同一详情。</p></div>
+        </div>
+        <div id="changeMapEvents" class="change-map-events" aria-label="图谱重点事件"></div>
+      </div>
     </section>
   </main>
 

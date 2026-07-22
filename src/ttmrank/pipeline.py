@@ -13,6 +13,7 @@ from .exporters import AtomicPublisher
 from .metrics import analysis_boards, calculate_game_metric, summarize_games
 from .normalize import normalize_legacy_rankings
 from .validators import validate_dataset
+from .visual_artifact import build_visual_artifact
 
 SCHEMA_VERSION = "2.0"
 
@@ -43,6 +44,12 @@ def build_analysis_artifacts(
         "summary": summarize_games(dataset.games, metrics),
         "boards": analysis_boards(dataset.games, dataset.appearances, metrics),
     }
+    visual = build_visual_artifact(
+        dataset.games,
+        metrics,
+        updated_at=payload.get("updated_at"),
+        observed_at=dataset.observed_at,
+    )
     quality = {
         "schema_version": SCHEMA_VERSION,
         "updated_at": payload.get("updated_at"),
@@ -74,6 +81,8 @@ def build_analysis_artifacts(
     digest = hashlib.sha256(compact).hexdigest()
     changes_compact = json.dumps(changes, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     changes_digest = hashlib.sha256(changes_compact).hexdigest()
+    visual_compact = json.dumps(visual, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    visual_digest = hashlib.sha256(visual_compact).hexdigest()
     manifest = {
         "schema_version": SCHEMA_VERSION,
         "updated_at": payload.get("updated_at"),
@@ -82,6 +91,10 @@ def build_analysis_artifacts(
         "analysis_sha256": digest,
         "analysis_bytes": len(compact),
         "analysis_gzip_bytes": len(gzip.compress(compact)),
+        "visual_file": "visual-current.json",
+        "visual_sha256": visual_digest,
+        "visual_bytes": len(visual_compact),
+        "visual_gzip_bytes": len(gzip.compress(visual_compact)),
         "game_count": len(dataset.games),
         "taptap_made_game_count": sum(game.is_taptap_made for game in dataset.games),
         "appearance_count": len(dataset.appearances),
@@ -105,6 +118,7 @@ def build_analysis_artifacts(
     publisher.publish_json("analysis-current.json", analysis)
     publisher.publish_json("quality.json", quality, pretty=True)
     publisher.publish_json("changes-current.json", changes)
+    publisher.publish_json("visual-current.json", visual)
     publisher.publish_json("manifest.json", manifest, pretty=True)
     if change_state_path is not None:
         write_state_atomic(change_state_path, next_change_state)

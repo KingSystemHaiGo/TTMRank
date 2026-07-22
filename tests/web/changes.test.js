@@ -133,9 +133,10 @@ test('change URL state defaults to 24 hours and made scope and round-trips known
     platform: 'ios',
     query: '星火',
     event: 'evt_detail',
+    view: 'map',
   };
   const search = serializeChangeState(state);
-  assert.equal(search, '?range=7d&scope=all&type=score&platform=ios&query=%E6%98%9F%E7%81%AB&event=evt_detail');
+  assert.equal(search, '?range=7d&scope=all&type=score&platform=ios&query=%E6%98%9F%E7%81%AB&view=map&event=evt_detail');
   assert.deepEqual(parseChangeState(search), state);
   assert.equal(serializeChangeState(DEFAULT_CHANGE_FILTERS), '');
 });

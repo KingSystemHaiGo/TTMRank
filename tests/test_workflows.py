@@ -94,6 +94,8 @@ class WorkflowTests(unittest.TestCase):
         self.assertNotIn("npm run test:unit", refresh)
         self.assertNotIn("playwright", refresh.lower())
         self.assertNotIn("npm run test:e2e", refresh)
+        self.assertIn("test -s app/js/vendor/universe-three.js", refresh)
+        self.assertIn("test -s app/js/vendor/change-map-pixi.js", refresh)
         self.assertNotIn("contents: write", refresh)
         self.assertNotIn("git add", refresh)
         self.assertNotIn("git commit", refresh)
@@ -107,6 +109,8 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("actions/setup-python@v5", deploy)
         self.assertIn("actions/setup-node@v4", deploy)
         self.assertIn("npm ci", deploy)
+        self.assertIn("npm run build:visual", deploy)
+        self.assertIn("npm run check:visual-budget", deploy)
         self.assertIn("npm run test:unit", deploy)
         self.assertIn("npx playwright install --with-deps chromium", deploy)
         self.assertIn("npm run test:e2e", deploy)
@@ -140,6 +144,7 @@ class WorkflowTests(unittest.TestCase):
         for artifact in (
             "app/data/v2/analysis-current.json",
             "app/data/v2/changes-current.json",
+            "app/data/v2/visual-current.json",
             "app/data/v2/manifest.json",
             "app/data/v2/quality.json",
             ".ttmrank/change-state.json",
@@ -165,6 +170,8 @@ class WorkflowTests(unittest.TestCase):
 
         self.assertIn("python -m unittest discover -s tests -v", workflow)
         self.assertIn("npm run test:unit", workflow)
+        self.assertIn("npm run build:visual", workflow)
+        self.assertIn("npm run check:visual-budget", workflow)
         self.assertIn("npx playwright install --with-deps chromium", workflow)
         self.assertIn("npm run test:e2e", workflow)
 

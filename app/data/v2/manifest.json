@@ -6,10 +6,20 @@
   "analysis_sha256": "bc590b3552c81d809e4f11237cc0638e9c81814271968757d81b4717dbbd9aa3",
   "analysis_bytes": 878786,
   "analysis_gzip_bytes": 116328,
+  "visual_file": "visual-current.json",
+  "visual_sha256": "4c80397b6c7c0c788485108b6d0f245ed4defb27d36f2227266a21ab9bbd6e73",
+  "visual_bytes": 25789,
+  "visual_gzip_bytes": 6231,
   "game_count": 887,
+  "taptap_made_game_count": 74,
   "appearance_count": 1655,
   "quality_issue_count": 1,
   "history_available": false,
+  "history_windows": {
+    "1h": false,
+    "24h": false,
+    "7d": false
+  },
   "history_ingest": {
     "configured": false,
     "status": "not_configured"
@@ -19,5 +29,9 @@
   "changes_bytes": 198,
   "changes_event_count": 0,
   "changes_comparison_available": false,
-  "changes_partial": false
+  "changes_partial": false,
+  "changes_archive": {
+    "configured": false,
+    "status": "not_configured"
+  }
 }

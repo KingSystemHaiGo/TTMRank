@@ -11,9 +11,11 @@ TTMRank 主站是 GitHub Pages 静态站点。源码保存在 Git；每次发布
 2. 保持工作流可使用 `pages: write`、`id-token: write`；仓库内容权限只需
    `contents: read`。不再需要为了自动数据提交开放 `contents: write`。
 3. 推送到 `main` 或 `master` 后，`Deploy to GitHub Pages` 会先抓取一份新
-   数据，再运行 Python、JavaScript 和 Chromium 回归测试，然后上传 `app/`。
+   数据，再构建自托管 Three.js/PixiJS 页面包，运行体积门禁、Python、JavaScript
+   和 Chromium 回归测试，然后上传 `app/`。
 4. `Refresh Data` 每轮同样生成并验证数据，再直接部署 artifact；它不会
-   执行 `git add`、`git commit` 或 `git push`。
+   安装 Node 或重建页面包，只复用代码发布已经验证并提交的静态包；也不会执行
+   `git add`、`git commit` 或 `git push`。
 
 两个发布工作流都会记录 artifact 对应的源码 SHA，并在部署前与默认分支最新
 SHA 再次比较。过时的刷新 artifact 会跳过，而不是覆盖刚发布的新代码；代码
@@ -42,6 +44,11 @@ SHA 再次比较。过时的刷新 artifact 会跳过，而不是覆盖刚发布
 不是由定时任务写回 Git。工作流摘要会显示游戏数、榜单记录数、质量告警、
 文件体积、小时历史基线、本轮 D1 摄入状态和变化事件归档状态。状态只显示
 `success`、`failed` 或 `not_configured`，不会公开 URL、token 或异常详情。
+
+游戏宇宙的数据由采集流水线同步生成到 `app/data/v2/visual-current.json`；manifest
+携带文件名、SHA-256 与原始/gzip 字节数。当前硬门禁为视觉数据 96 KiB/32 KiB、
+Three.js 包 200 KiB gzip、PixiJS 包 160 KiB gzip。首页不会加载这些资源；
+Three.js 只在游戏宇宙页且设备能力允许时加载，PixiJS 只在变化页切换到图谱后加载。
 
 ## 2. 小时历史与图标代理（可选）
 
