@@ -9,7 +9,7 @@ async function openAnalysis(page, query = '') {
 test('scope, platform, ranking, tag and hour-level release filters update URL and results', async ({ page }) => {
   await openAnalysis(page);
   const initial = await page.locator('#resultCount').textContent();
-  await page.locator('.header-inner [data-scope="made"]').click();
+  await page.locator('.quick-filter [data-scope="made"]').click();
   await page.locator('[data-platform="ios"]').click();
   await page.locator('#advancedBtn').click();
   await page.locator('#charts').selectOption(['hot', 'new']);
@@ -24,7 +24,22 @@ test('scope, platform, ranking, tag and hour-level release filters update URL an
   await expect(page.locator('#resultCount')).not.toHaveText(initial);
   await page.locator('#resetBtn').click();
   await expect(page).toHaveURL(/scope=made/);
-  await expect(page.locator('.header-inner [data-scope="made"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.quick-filter [data-scope="made"]')).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('clear filters only appears after the default analysis state changes', async ({ page }) => {
+  await openAnalysis(page, '?scope=made');
+  const reset = page.locator('#resetBtn');
+  await expect(reset).toBeHidden();
+
+  await page.locator('[data-platform="ios"]').click();
+  await expect(reset).toBeVisible();
+  await expect(page).toHaveURL(/platform=ios/);
+
+  await reset.click();
+  await expect(reset).toBeHidden();
+  await expect(page).not.toHaveURL(/platform=/);
+  await expect(page.locator('[data-platform="all"]')).toHaveAttribute('aria-pressed', 'true');
 });
 
 test('fixed baseline, report mode and details drawer are interactive', async ({ page }) => {
@@ -48,6 +63,7 @@ test('fixed baseline, report mode and details drawer are interactive', async ({ 
   await expect(page.locator('#drawerClose')).toBeFocused();
   await expect(page.locator('#drawerContent h2')).not.toBeEmpty();
   await expect(page.locator('#drawerContent')).toContainText('近 24 小时增长');
+  await expect(page.locator('#drawerContent')).not.toContainText('查看详情');
   await page.keyboard.press('Shift+Tab');
   await expect(page.locator('#drawerContent a')).toBeFocused();
   await page.keyboard.press('Tab');

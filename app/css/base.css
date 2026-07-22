@@ -184,7 +184,7 @@ img, svg { display: block; }
 @media (max-width: 720px) {
   .reading-container { width: min(calc(100% - 24px), var(--reading-max)); }
   .intel-header-inner { min-height: 62px; gap: 12px; }
-  .intel-brand-copy small, .intel-nav-external { display: none; }
+  .intel-brand-copy small, .intel-nav .intel-nav-external { display: none; }
   .intel-nav { gap: 13px; font-size: 12px; }
   .intel-nav a { min-height: 36px; }
   .range-switch button, .scope-switch button { min-height: 40px; padding-inline: 10px; }

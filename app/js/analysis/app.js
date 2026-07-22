@@ -12,6 +12,7 @@ import { renderOpportunities } from './opportunity-view.js?v=2';
 
 let original=null; let filtered=null; let manifest=null; let filters={...DEFAULT_FILTERS}; let reportMode=false; let debounceTimer=null; let lastDetailTrigger=null;
 const APP_DEFAULT_FILTERS={...DEFAULT_FILTERS,scope:'made'};
+const ANALYSIS_URL_DEFAULTS={...DEFAULT_FILTERS,scope:null};
 const byId=id=>document.getElementById(id);
 const numberValue=id=>byId(id).value===''?null:Number(byId(id).value);
 const timeValue=id=>byId(id).value?Math.floor(new Date(byId(id).value).getTime()/1000):null;
@@ -24,6 +25,16 @@ function syncControls(){
   ['releasedFrom','releasedTo'].forEach(id=>byId(id).value=filters[id]?new Date(filters[id]*1000).toISOString().slice(0,16):'');
   [...byId('charts').options].forEach(option=>option.selected=filters.charts.includes(option.value));
   byId('tags').value=filters.tags.join(', '); byId('tagMode').value=filters.tagMode;
+  byId('resetBtn').hidden=filtersAreDefault();
+}
+
+function filtersAreDefault(){
+  return Object.entries(APP_DEFAULT_FILTERS).every(([key,expected])=>{
+    const actual=filters[key];
+    return Array.isArray(expected)
+      ? Array.isArray(actual)&&actual.length===expected.length&&actual.every((value,index)=>value===expected[index])
+      : actual===expected;
+  });
 }
 
 function readControls(){
@@ -41,9 +52,9 @@ function render(){
   filtered=applyFilters(original,filters); const metrics=coreMetrics(filtered,filters.highScore); const baselineData=filters.baseline==='fixed'?original:filtered; const baselineMetrics=coreMetrics(baselineData,filters.highScore); const boards=buildBoards(filtered,{platform:filters.platform,baselineMetrics});
   renderMetrics(byId('metrics'),metrics); renderCharts(filtered,metrics); renderTypeList(byId('typeList'),typeSummary(filtered)); renderBoards(byId('boards'),boards,filtered,openDetail);
   renderOpportunities(byId('opportunities'),analyzeGameSignals(original),openDetail);
-  byId('heatSamples').textContent=`${metrics.heatSamples} 个有效样本`; byId('resultCount').textContent=`当前收录 ${filtered.games.length} 款`; byId('scopeNote').textContent=`${filters.scope==='made'?'TapTap制造':'全部游戏'} · ${filters.platform==='all'?'全部平台':filters.platform}`;
+  byId('heatSamples').textContent=`${metrics.heatSamples} 个有效样本`; byId('resultCount').textContent=`当前收录 ${filtered.games.length} 款`; byId('scopeNote').textContent=`${filters.scope==='made'?'TapTap制造':'全站参考'} · ${filters.platform==='all'?'全部平台':filters.platform}`;
   byId('reportMeta').textContent=`${describeReport(filters,filtered.games.length,new Date().toLocaleString('zh-CN',{hour12:false}))} · schema ${manifest.schema_version}`;
-  history.replaceState(null,'',`${location.pathname}${serializeState(filters)}`); syncControls();
+  history.replaceState(null,'',`${location.pathname}${serializeState(filters,ANALYSIS_URL_DEFAULTS)}`); syncControls();
 }
 function scheduleRender(){clearTimeout(debounceTimer);debounceTimer=setTimeout(()=>{readControls();render();},180);}
 
@@ -52,16 +63,15 @@ function bind(){
   document.querySelectorAll('[data-platform]').forEach(button=>button.addEventListener('click',()=>{filters.platform=button.dataset.platform;render();}));
   ['released','query','heatMin','heatMax','dailyHeatMin','dailyHeatMax','growth24hMin','growth24hMax','scoreMin','scoreMax','rankMin','rankMax','baseline','highScore','releasedFrom','releasedTo','charts','tags','tagMode'].forEach(id=>byId(id).addEventListener(id==='query'||id==='tags'?'input':'change',scheduleRender));
   byId('advancedBtn').addEventListener('click',()=>{const hidden=byId('advancedPanel').classList.toggle('hidden');byId('advancedBtn').setAttribute('aria-expanded',String(!hidden));});
-  byId('resetBtn').addEventListener('click',()=>{filters={...APP_DEFAULT_FILTERS};render();});
+  byId('resetBtn').addEventListener('click',()=>{filters={...APP_DEFAULT_FILTERS,charts:[],tags:[]};render();byId('advancedBtn').focus();});
   byId('reportBtn').addEventListener('click',()=>{reportMode=setReportMode(!reportMode);setTimeout(resizeCharts,50);}); byId('printBtn').addEventListener('click',printReport);
   byId('imageBtn').addEventListener('click',()=>exportLongImage(document.querySelector('main')));
-  byId('themeBtn').addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=next;localStorage.setItem('ttm_theme',next);setTimeout(()=>{render();},50);});
   byId('drawerClose').addEventListener('click',closeDetail);const drawerDialog=byId('drawerBg');drawerDialog.addEventListener('click',event=>{if(event.target===drawerDialog)closeDetail();});drawerDialog.addEventListener('keydown',event=>{if(event.key!=='Tab')return;const focusable=[...byId('drawer').querySelectorAll('button:not([disabled]),a[href]')];if(!focusable.length)return;const first=focusable[0],last=focusable.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}});drawerDialog.addEventListener('close',()=>{drawerDialog.classList.remove('show');document.body.style.overflow='';const trigger=lastDetailTrigger;lastDetailTrigger=null;trigger?.focus();});window.addEventListener('resize',resizeCharts);
 }
 
 async function init(){
   try{
-    document.documentElement.dataset.theme=localStorage.getItem('ttm_theme')||'dark'; filters=parseState(location.search,APP_DEFAULT_FILTERS); syncControls(); bind();
+    document.documentElement.dataset.theme='light'; filters=parseState(location.search,APP_DEFAULT_FILTERS); syncControls(); bind();
     const loaded=await loadAnalysis(); manifest=loaded.manifest; original=loaded.data; byId('updatedAt').textContent=manifest.updated_at; const quality=await loadQuality();
     const notices=[];
     if(quality?.issues?.length)notices.push(`本批次记录 ${quality.issues.length} 个跨榜字段差异，主数据使用最新有效值。`);

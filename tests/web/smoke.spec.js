@@ -24,6 +24,27 @@ test('change-intelligence home keeps the mobile feed ahead of snapshot metadata'
   expect(layout.feedTop).toBeLessThan(layout.snapshotTop);
 });
 
+test('global navigation and true-white shell stay consistent across primary pages', async ({ page }) => {
+  for (const path of ['/index.html', '/changes.html', '/analysis.html?scope=made', '/rankings.html']) {
+    await page.goto(path);
+    const navigation = page.getByRole('navigation', { name: '主要导航' });
+    await expect(navigation.getByRole('link', { name: '情报', exact: true })).toHaveAttribute('href', 'index.html');
+    await expect(navigation.getByRole('link', { name: '游戏分析', exact: true })).toHaveAttribute('href', 'analysis.html?scope=made');
+    await expect(navigation.getByRole('link', { name: '原始排行', exact: true })).toHaveAttribute('href', 'rankings.html');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+    await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(255, 255, 255)');
+  }
+});
+
+test('primary pages contain no retired developer or vendor framing', async ({ page }) => {
+  const retiredCopy = ['开发者画像', '厂商核实', '厂商规模', '个人工作室', '专业厂商', '查看详情', '了解更多'];
+  for (const path of ['/index.html', '/changes.html', '/analysis.html?scope=made', '/rankings.html']) {
+    await page.goto(path);
+    const visibleCopy = await page.locator('body').innerText();
+    for (const copy of retiredCopy) expect(visibleCopy).not.toContain(copy);
+  }
+});
+
 test('preserved ranking browser starts with ranks one and two visible', async ({ page }) => {
   await page.goto('/rankings.html');
   await expect(page.getByRole('heading', { name: '原始排行榜' })).toBeVisible();
@@ -42,6 +63,7 @@ test('preserved ranking browser starts with ranks one and two visible', async ({
   await expect(page.locator('#gameModalBg')).toHaveClass(/show/);
   await expect(page.locator('#gameModalBg')).toHaveJSProperty('open', true);
   await expect(page.locator('#gameModal')).toContainText('开发 / 发行');
+  await expect(page.locator('#gameModal')).not.toContainText('查看详情');
   await expect(page.locator('.gm-close')).toBeFocused();
   await page.keyboard.press('Shift+Tab');
   await expect(page.locator('.gm-link')).toBeFocused();
@@ -78,7 +100,7 @@ test('rankings have no mobile page overflow', async ({ page }) => {
 test('retired vendor route redirects to game analysis', async ({ page }) => {
   await page.goto('/vendors.html');
   await expect(page).toHaveURL(/analysis\.html\?scope=made/);
-  await expect(page.getByRole('heading', { name: /从游戏表现中/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '游戏分析', exact: true })).toBeVisible();
 });
 
 test('analysis page loads real v2 data and game icons', async ({ page }) => {
@@ -91,14 +113,14 @@ test('analysis page loads real v2 data and game icons', async ({ page }) => {
   }));
   page.on('request', request => requested.push(request.url()));
   await page.goto('/analysis.html?scope=made');
-  await expect(page.getByText('从游戏表现中', { exact: false })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '游戏分析', exact: true })).toBeVisible();
   await expect(page.locator('.metric-card')).toHaveCount(8);
   await expect(page.locator('.metric-primary')).toHaveCount(4);
   await expect(page.locator('.metric-supporting')).toHaveCount(4);
   await expect(page.locator('.board')).toHaveCount(13);
   await expect(page.locator('.opportunity-row')).toHaveCount(6);
   await expect(page.locator('.signal-game').first()).toBeVisible();
-  await expect(page.locator('.opportunity-head p')).toContainText('全站范围只作同屏参考');
+  await expect(page.locator('.opportunity-head p')).toContainText('全站范围仅作对照');
   await expect(page.locator('.formula-note')).toContainText('综合表现');
   await expect(page.locator('#profileSelect')).toHaveCount(0);
   await expect(page.getByText('个人适配')).toHaveCount(0);

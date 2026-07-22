@@ -7,7 +7,7 @@ export function renderOpportunities(container, signals, openDetail) {
     const representativeGames = element('div', { className: 'signal-games', children: [
       element('span', { text: '代表游戏' }),
       ...track.representatives.map(game => {
-        const button = element('button', { className: 'signal-game', text: game.title, attrs: { type: 'button', 'aria-label': `查看 ${game.title} 详情` } });
+        const button = element('button', { className: 'signal-game', text: game.title, attrs: { type: 'button', 'aria-label': `打开 ${game.title} 游戏信息` } });
         if (openDetail) button.addEventListener('click', () => openDetail(game.id, button));
         return button;
       }),
