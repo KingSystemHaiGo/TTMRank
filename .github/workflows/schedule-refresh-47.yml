@@ -10,11 +10,36 @@ permissions:
   contents: read
 
 jobs:
-  dispatch:
+  recover-stale-refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      CLOUDFLARE_SCHEDULER_ACTIVE: ${{ vars.TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE }}
+      MAX_AGE_SECONDS: '2700'
     steps:
-      - name: Dispatch central refresh
-        env:
-          GH_TOKEN: ${{ github.token }}
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-        run: gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
+      - name: Dispatch only when the central refresh is stale
+        run: |
+          if [ "$CLOUDFLARE_SCHEDULER_ACTIVE" != "true" ]; then
+            echo "Cloudflare scheduler is not marked active; preserving the existing dispatch."
+            gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
+            exit 0
+          fi
+
+          last_created="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow refresh.yml --limit 1 --json createdAt --jq '.[0].createdAt // ""')"
+
+          if [ -n "$last_created" ]; then
+            last_epoch="$(date --date="$last_created" +%s)"
+            now="$(date +%s)"
+            age=$((now - last_epoch))
+          else
+            age="$MAX_AGE_SECONDS"
+          fi
+
+          if [ "$age" -ge "$MAX_AGE_SECONDS" ]; then
+            echo "Last central refresh is ${age}s old; dispatching recovery."
+            gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
+          else
+            echo "Central refresh is healthy (${age}s old); no recovery needed."
+          fi

@@ -21,7 +21,12 @@ if str(SOURCE_ROOT) not in sys.path:
 
 from ttmrank.detail_cache import DetailCache
 from ttmrank.exporters import AtomicPublisher
-from ttmrank.history_client import GitHistoryClient, HistoryClient
+from ttmrank.history_client import (
+    GitHistoryClient,
+    HistoryClient,
+    LayeredHistoryClient,
+    RollingHistoryClient,
+)
 from ttmrank.normalize import merge_detail_tags
 from ttmrank.tap_client import TapTapClient
 from ttmrank.validators import validate_chart_sizes
@@ -485,7 +490,17 @@ def main():
         from ttmrank.pipeline import build_analysis_artifacts
 
         history_url = os.environ.get("TTMRANK_HISTORY_URL", "")
-        history_client = HistoryClient(history_url, os.environ.get("TTMRANK_HISTORY_TOKEN", "")) if history_url else GitHistoryClient(PROJECT_ROOT)
+        rolling_history_value = os.environ.get("TTMRANK_HEAT_HISTORY_PATH", "")
+        if rolling_history_value:
+            rolling_history = RollingHistoryClient(Path(rolling_history_value))
+            history_client = LayeredHistoryClient(
+                HistoryClient(history_url, os.environ.get("TTMRANK_HISTORY_TOKEN", "")),
+                rolling_history,
+            ) if history_url else rolling_history
+        elif history_url:
+            history_client = HistoryClient(history_url, os.environ.get("TTMRANK_HISTORY_TOKEN", ""))
+        else:
+            history_client = GitHistoryClient(PROJECT_ROOT)
         change_state_value = os.environ.get("TTMRANK_CHANGE_STATE_PATH", "")
         change_state_path = Path(change_state_value) if change_state_value else Path(DATA_DIR) / ".state" / "change-state.json"
         build_analysis_artifacts(

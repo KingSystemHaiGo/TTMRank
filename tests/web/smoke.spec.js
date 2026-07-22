@@ -6,7 +6,10 @@ test('change-intelligence home routes to analysis and preserved rankings', async
   await expect(page.getByRole('link', { name: '游戏分析' }).first()).toHaveAttribute('href', 'analysis.html?scope=made');
   await expect(page.getByRole('link', { name: '原始排行' }).first()).toHaveAttribute('href', 'rankings.html');
   await expect(page.getByRole('link', { name: '厂商核实' })).toHaveCount(0);
-  await expect(page.locator('#makerCount')).not.toHaveText('—');
+  // Older published manifests do not carry the lightweight made-game count.
+  // They may show an em dash, but must never turn a missing value into zero.
+  await expect(page.locator('#gameCount')).not.toHaveText('—');
+  await expect(page.locator('#makerCount')).not.toHaveText('0');
   await expect(page.locator('.home-grid')).toHaveCount(0);
   await expect(page.locator('.snapshot-item')).toHaveCount(3);
 });
@@ -139,18 +142,19 @@ test('analysis page loads real v2 data and game icons', async ({ page }) => {
   await page.locator('.export-menu summary').click();
   await expect(page.locator('#imageBtn')).toBeVisible();
   const manifest = await page.evaluate(() => fetch('data/v2/manifest.json').then(response => response.json()));
-  if (manifest.history_available) {
-    await expect(page.locator('#qualityBanner')).not.toContainText('近期增量暂不可用');
+  const historyWindows = manifest.history_windows || {};
+  const allHistoryWindowsReady = ['1h', '24h', '7d'].every(key => historyWindows[key] === true);
+  if (allHistoryWindowsReady) {
+    await expect(page.locator('#qualityBanner')).not.toContainText('近期增长积累中');
   } else {
-    await expect(page.locator('#qualityBanner')).toContainText('近期增量暂不可用');
+    await expect(page.locator('#qualityBanner')).toContainText('近期增长积累中');
   }
   await page.locator('.game-row').first().click();
   await expect(page.locator('#drawerContent')).toContainText('近 24 小时增长');
   await expect(page.locator('#drawerContent')).not.toContainText('厂商规模');
   await expect(page.locator('#drawerContent')).not.toContainText('账号角色');
-  if (manifest.history_available) {
-    await expect(page.locator('#drawerContent')).not.toContainText('历史暂不可用');
-  } else {
-    await expect(page.locator('#drawerContent')).toContainText('历史暂不可用');
+  await expect(page.locator('#drawerContent')).not.toContainText('历史暂不可用');
+  if (!allHistoryWindowsReady) {
+    await expect(page.locator('#drawerContent')).toContainText('历史积累中');
   }
 });

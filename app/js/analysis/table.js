@@ -54,9 +54,14 @@ export function renderTypeList(container, types) {
   types.forEach(item=>container.append(element('div',{className:'type-row',children:[element('strong',{text:item.tag}),element('div',{className:'type-bar',children:[element('i',{attrs:{style:`width:${item.count/max*100}%`}})]}),element('span',{className:'muted num',text:`${item.count} 款 · 中位 ${compactNumber(item.heatMedian)}`})]})));
 }
 
+export function historyMetricText(metric, field) {
+  const value = metric?.[field];
+  return value === null || value === undefined ? '历史积累中' : compactNumber(value);
+}
+
 export function renderDrawer(content, game, metric, appearances) {
   clear(content); content.append(element('div',{className:'detail-head',children:[createGameIcon(game,{size:76,proxyEndpoint:window.TTMRANK_ICON_PROXY||''}),element('div',{children:[element('h2',{text:game.title}),element('div',{className:'muted',text:(game.tags||[]).filter(tag=>tag!=='TapTap制造').slice(0,4).join(' · ')||'暂无类型标签'})]})]}));
-  const stats=[['当前热度',compactNumber(game.heat)],['日均热度',compactNumber(metric?.heat_per_day_lifetime)],['评分',decimal(game.score)],['上线时长',age(metric?.age_hours)],['近 1 小时增长',metric?.history_available?compactNumber(metric.heat_delta_1h):'历史暂不可用'],['近 24 小时增长',metric?.history_available?compactNumber(metric.heat_delta_24h):'历史暂不可用'],['近 7 天增长',metric?.history_available?compactNumber(metric.heat_delta_7d):'历史暂不可用'],['近 24h 每小时',metric?.history_available?compactNumber(metric.growth_per_hour_24h):'历史暂不可用'],['榜单覆盖',metric?.chart_coverage||appearances.length],['平台覆盖',metric?.platform_coverage||new Set(appearances.map(row=>row.platform)).size],['开发 / 发行',game.developer||'未知']];
+  const stats=[['当前热度',compactNumber(game.heat)],['日均热度',compactNumber(metric?.heat_per_day_lifetime)],['评分',decimal(game.score)],['上线时长',age(metric?.age_hours)],['近 1 小时增长',historyMetricText(metric,'heat_delta_1h')],['近 24 小时增长',historyMetricText(metric,'heat_delta_24h')],['近 7 天增长',historyMetricText(metric,'heat_delta_7d')],['近 24h 每小时',historyMetricText(metric,'growth_per_hour_24h')],['榜单覆盖',metric?.chart_coverage||appearances.length],['平台覆盖',metric?.platform_coverage||new Set(appearances.map(row=>row.platform)).size],['开发 / 发行',game.developer||'未知']];
   content.append(element('div',{className:'detail-grid',children:stats.map(([label,value])=>element('div',{className:'detail-stat',children:[element('span',{text:label}),element('strong',{text:value})]}))}));
   content.append(element('div',{className:'appearance-list',children:[element('h3',{text:'跨榜单表现'}),...appearances.sort((a,b)=>a.rank-b.rank).map(row=>element('div',{className:'appearance-item',children:[element('span',{text:`${platformName(row.platform)} · ${chartName(row.chart)}`}),element('strong',{text:`#${row.rank}`})]}))]}));
   if(game.url) content.append(element('a',{className:'btn btn-primary',text:'打开 TapTap 游戏页',attrs:{href:game.url,target:'_blank',rel:'noopener noreferrer'}}));

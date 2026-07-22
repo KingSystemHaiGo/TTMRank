@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 import subprocess
 from collections import defaultdict
 from datetime import datetime
@@ -10,6 +11,8 @@ from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
+
+from .exporters import AtomicPublisher
 
 
 def _payload_points(payload: dict) -> list[dict]:
@@ -168,6 +171,163 @@ class HistoryClient:
             if isinstance(rows, list):
                 points.extend(rows)
         return self.metrics_from_points(games, at, points)
+
+
+class RollingHistoryClient:
+    """Bounded hourly heat history stored outside the published site."""
+
+    SCHEMA_VERSION = "1.0"
+    BUCKET_SECONDS = 20 * 60
+    RETENTION_SECONDS = 8 * 86_400
+
+    def __init__(self, path: Path) -> None:
+        self.path = Path(path)
+        self.last_ingest_status = "not_started"
+
+    def ingest_status(self) -> dict[str, bool | str]:
+        return {
+            "configured": True,
+            "status": self.last_ingest_status,
+            "backend": "actions_cache",
+        }
+
+    @classmethod
+    def _valid_bucket(cls, value) -> bool:
+        if not isinstance(value, dict):
+            return False
+        captured_hour = value.get("captured_hour")
+        games = value.get("games")
+        if not isinstance(captured_hour, int) or captured_hour % cls.BUCKET_SECONDS != 0:
+            return False
+        if not isinstance(games, list):
+            return False
+        return all(
+            isinstance(row, list)
+            and len(row) in {2, 3}
+            and isinstance(row[0], int)
+            and row[0] > 0
+            and isinstance(row[1], (int, float))
+            and not isinstance(row[1], bool)
+            and math.isfinite(row[1])
+            and row[1] >= 0
+            and (len(row) == 2 or row[2] is None or (
+                isinstance(row[2], (int, float))
+                and not isinstance(row[2], bool)
+                and math.isfinite(row[2])
+            ))
+            for row in games
+        )
+
+    def _load_buckets(self) -> list[dict]:
+        try:
+            state = json.loads(self.path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError, TypeError, ValueError):
+            return []
+        if not isinstance(state, dict):
+            return []
+        buckets = state.get("buckets")
+        if state.get("schema_version") != self.SCHEMA_VERSION or not isinstance(buckets, list):
+            return []
+        if not all(self._valid_bucket(bucket) for bucket in buckets):
+            return []
+        unique = {bucket["captured_hour"]: bucket for bucket in buckets}
+        return [unique[key] for key in sorted(unique)]
+
+    @staticmethod
+    def _compact_games(games: list[dict]) -> list[list]:
+        rows: dict[int, list] = {}
+        for game in games:
+            game_id = game.get("id")
+            heat = game.get("heat")
+            score = game.get("score")
+            if not isinstance(game_id, int) or game_id <= 0:
+                continue
+            if (not isinstance(heat, (int, float)) or isinstance(heat, bool)
+                    or not math.isfinite(heat) or heat < 0):
+                continue
+            normalized_score = score if (
+                isinstance(score, (int, float))
+                and not isinstance(score, bool)
+                and math.isfinite(score)
+            ) else None
+            rows[game_id] = [game_id, heat, normalized_score]
+        return [rows[game_id] for game_id in sorted(rows)]
+
+    def metrics(self, games: list[dict], at: int) -> dict[int, dict]:
+        game_ids = {game.get("id") for game in games if isinstance(game.get("id"), int)}
+        points = []
+        for bucket in self._load_buckets():
+            for game_id, heat, *score in bucket["games"]:
+                if game_id not in game_ids:
+                    continue
+                points.append({
+                    "game_id": game_id,
+                    "captured_hour": bucket["captured_hour"],
+                    "heat": heat,
+                    "score": score[0] if score else None,
+                })
+        return HistoryClient.metrics_from_points(games, at, points)
+
+    def ingest(self, games: list[dict], captured_at: int) -> bool:
+        if not isinstance(captured_at, int) or captured_at <= 0:
+            self.last_ingest_status = "failed"
+            return False
+        captured_hour = captured_at - captured_at % self.BUCKET_SECONDS
+        cutoff = captured_hour - self.RETENTION_SECONDS
+        buckets = {
+            bucket["captured_hour"]: bucket
+            for bucket in self._load_buckets()
+            if cutoff <= bucket["captured_hour"] <= captured_hour
+        }
+        buckets[captured_hour] = {
+            "captured_hour": captured_hour,
+            "games": self._compact_games(games),
+        }
+        state = {
+            "schema_version": self.SCHEMA_VERSION,
+            "buckets": [buckets[key] for key in sorted(buckets)],
+        }
+        try:
+            AtomicPublisher(self.path.parent).publish_json(self.path.name, state)
+        except OSError:
+            self.last_ingest_status = "failed"
+            return False
+        self.last_ingest_status = "success"
+        return True
+
+
+class LayeredHistoryClient:
+    """Prefer durable remote history while continuously advancing local fallback."""
+
+    def __init__(self, primary, fallback: RollingHistoryClient) -> None:
+        self.primary = primary
+        self.fallback = fallback
+
+    def metrics(self, games: list[dict], at: int) -> dict[int, dict]:
+        fallback_metrics = self.fallback.metrics(games, at)
+        primary_metrics = self.primary.metrics(games, at)
+        merged = {game_id: dict(values) for game_id, values in fallback_metrics.items()}
+        for game_id, values in primary_metrics.items():
+            merged.setdefault(game_id, {}).update(values)
+        return merged
+
+    def ingest(self, games: list[dict], captured_at: int) -> bool:
+        fallback_ok = self.fallback.ingest(games, captured_at)
+        primary_ok = self.primary.ingest(games, captured_at)
+        return primary_ok and fallback_ok
+
+    def ingest_status(self) -> dict[str, bool | str]:
+        status = dict(self.primary.ingest_status())
+        status["fallback"] = self.fallback.ingest_status().get("status", "unknown")
+        return status
+
+    def archive_events(self, events: list[dict]) -> bool:
+        archive = getattr(self.primary, "archive_events", None)
+        return bool(archive(events)) if callable(archive) else False
+
+    def archive_status(self) -> dict[str, bool | str]:
+        status = getattr(self.primary, "archive_status", None)
+        return status() if callable(status) else {"configured": False, "status": "not_configured"}
 
 
 class GitHistoryClient:

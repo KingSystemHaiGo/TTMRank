@@ -1,0 +1,14 @@
+name = "ttmrank-scheduler"
+main = "scheduler-worker.js"
+compatibility_date = "2026-07-01"
+
+[triggers]
+crons = ["*/20 * * * *"]
+
+[vars]
+GITHUB_REPOSITORY = "KingSystemHaiGo/TTMRank"
+GITHUB_WORKFLOW = "refresh.yml"
+GITHUB_REF = "main"
+
+# Configure separately; never commit the value:
+# npx wrangler secret put GITHUB_ACTIONS_TOKEN --config wrangler.scheduler.toml

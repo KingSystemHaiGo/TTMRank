@@ -1,5 +1,6 @@
-import { loadChanges } from './changes/data-client.js';
+import { loadChanges, probeChanges } from './changes/data-client.js';
 import { DEFAULT_CHANGE_FILTERS, filterEvents, topEvents } from './changes/model.js';
+import { createLiveRefresh, freshnessText } from './changes/live-refresh.js';
 import { parseChangeState, serializeChangeState } from './changes/state.js';
 import { createDetailSurface, renderEventRows, renderFeedState } from './changes/view.js';
 
@@ -11,6 +12,7 @@ const rangeButtons = [...document.querySelectorAll('[data-range]')];
 
 let state = homeState(parseChangeState(window.location.search));
 let currentFeed = null;
+let currentManifest = null;
 let detailWasPushed = false;
 
 const detail = createDetailSurface({ onRequestClose: closeDetail });
@@ -24,7 +26,9 @@ function homeState(parsed) {
 }
 
 function compact(value) {
-  return new Intl.NumberFormat('zh-CN', { notation: 'compact', maximumFractionDigits: 1 }).format(Number(value) || 0);
+  const number = Number(value);
+  if (value === null || value === undefined || value === '' || !Number.isFinite(number)) return '—';
+  return new Intl.NumberFormat('zh-CN', { notation: 'compact', maximumFractionDigits: 1 }).format(number);
 }
 
 function pageUrl(nextState = state) {
@@ -90,19 +94,37 @@ function closeDetail() {
   detail.hide();
 }
 
-async function loadSnapshot(manifest) {
+function loadSnapshot(manifest) {
+  document.getElementById('makerCount').textContent = compact(manifest.taptap_made_game_count);
   document.getElementById('gameCount').textContent = compact(manifest.game_count);
   document.getElementById('appearanceCount').textContent = compact(manifest.appearance_count);
-  try {
-    const response = await fetch(`data/v2/${manifest.analysis_file}`, { cache: 'no-cache' });
-    if (!response.ok) return;
-    const analysis = await response.json();
-    const makerCount = analysis.games.filter(game => game.is_taptap_made).length;
-    document.getElementById('makerCount').textContent = compact(makerCount);
-  } catch {
-    // Snapshot counts are secondary; feed publication remains usable.
-  }
 }
+
+function applyPublication(manifest, feed) {
+  currentManifest = manifest;
+  currentFeed = feed;
+  freshness.textContent = freshnessText(manifest);
+  loadSnapshot(manifest);
+  render();
+}
+
+async function checkForUpdate() {
+  if (!currentManifest) return false;
+  const next = await probeChanges(currentManifest);
+  if (!next.changed) {
+    freshness.textContent = freshnessText(next.manifest);
+    return false;
+  }
+  applyPublication(next.manifest, next.feed);
+  return true;
+}
+
+const liveRefresh = createLiveRefresh({
+  check: checkForUpdate,
+  onError: () => {
+    if (currentManifest) freshness.textContent = freshnessText(currentManifest);
+  },
+});
 
 async function load() {
   currentFeed = null;
@@ -110,10 +132,8 @@ async function load() {
   renderFeedState(feedNode, { title: '正在读取最新变化' });
   try {
     const { manifest, feed } = await loadChanges();
-    currentFeed = feed;
-    freshness.textContent = `最近采集 ${manifest.updated_at}`;
-    loadSnapshot(manifest);
-    render();
+    applyPublication(manifest, feed);
+    liveRefresh.start();
   } catch {
     freshness.textContent = '变化数据暂不可用';
     renderFeedState(feedNode, {

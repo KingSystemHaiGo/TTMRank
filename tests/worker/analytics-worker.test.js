@@ -1,6 +1,56 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import worker, { __test } from '../../cloudflare/analytics-worker.js';
+import scheduler, { dispatchRefresh } from '../../cloudflare/scheduler-worker.js';
+
+test('Cloudflare cron dispatches the central refresh workflow once', async () => {
+  const requests = [];
+  const result = await dispatchRefresh({
+    GITHUB_ACTIONS_TOKEN: 'token',
+    GITHUB_REPOSITORY: 'KingSystemHaiGo/TTMRank',
+    GITHUB_WORKFLOW: 'refresh.yml',
+    GITHUB_REF: 'main',
+  }, async (url, options) => {
+    requests.push({ url, options });
+    return new Response(null, { status: 204 });
+  });
+
+  assert.equal(result.status, 204);
+  assert.equal(requests.length, 1);
+  assert.equal(
+    requests[0].url,
+    'https://api.github.com/repos/KingSystemHaiGo/TTMRank/actions/workflows/refresh.yml/dispatches',
+  );
+  assert.equal(requests[0].options.method, 'POST');
+  assert.equal(requests[0].options.headers.Authorization, 'Bearer token');
+  assert.deepEqual(JSON.parse(requests[0].options.body), { ref: 'main' });
+});
+
+test('Cloudflare cron rejects missing configuration and GitHub failures', async () => {
+  await assert.rejects(() => dispatchRefresh({}, async () => new Response(null, { status: 204 })), /configuration/);
+  await assert.rejects(() => dispatchRefresh({
+    GITHUB_ACTIONS_TOKEN: 'token',
+    GITHUB_REPOSITORY: 'KingSystemHaiGo/TTMRank',
+    GITHUB_WORKFLOW: 'refresh.yml',
+    GITHUB_REF: 'main',
+  }, async () => new Response('forbidden', { status: 403 })), /GitHub dispatch failed.*403/);
+  await assert.rejects(() => dispatchRefresh({
+    GITHUB_ACTIONS_TOKEN: 'token',
+    GITHUB_REPOSITORY: 'KingSystemHaiGo/TTMRank',
+    GITHUB_WORKFLOW: 'refresh.yml',
+    GITHUB_REF: 'main',
+  }, async () => { throw new Error('network down'); }), /network down/);
+});
+
+test('scheduler exposes a harmless health response and delegates scheduled work', async () => {
+  const response = await scheduler.fetch();
+  assert.equal(response.status, 200);
+  assert.equal(await response.text(), 'TTMRank scheduler is active.');
+  let scheduled;
+  scheduler.scheduled(null, {}, { waitUntil(promise) { scheduled = promise; } });
+  assert.ok(scheduled instanceof Promise);
+  await assert.rejects(scheduled);
+});
 
 test('worker integer validation and origins are strict', () => {
   assert.equal(__test.validInteger('42'),42); assert.equal(__test.validInteger('4.2'),null);

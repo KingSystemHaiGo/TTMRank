@@ -9,7 +9,12 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 from zoneinfo import ZoneInfo
 
-from ttmrank.history_client import GitHistoryClient, HistoryClient
+from ttmrank.history_client import (
+    GitHistoryClient,
+    HistoryClient,
+    LayeredHistoryClient,
+    RollingHistoryClient,
+)
 
 NOW = 1_800_000_000
 
@@ -30,6 +35,85 @@ class FakeResponse:
 
 
 class HistoryClientTests(unittest.TestCase):
+    def test_layered_history_prefers_remote_fields_and_always_advances_rolling_fallback(self):
+        class Remote:
+            def metrics(self, games, at):
+                return {1: {"heat_delta_24h": 450, "growth_per_hour_24h": 18}}
+
+            def ingest(self, games, captured_at):
+                self.ingested = (games, captured_at)
+                return False
+
+            def ingest_status(self):
+                return {"configured": True, "status": "failed"}
+
+            def archive_events(self, events):
+                self.archived = events
+                return True
+
+            def archive_status(self):
+                return {"configured": True, "status": "success"}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "heat-history.json"
+            rolling = RollingHistoryClient(path)
+            rolling.ingest([{"id": 1, "heat": 900}], NOW - 3700)
+            remote = Remote()
+            client = LayeredHistoryClient(remote, rolling)
+
+            metrics = client.metrics([{"id": 1, "heat": 1000}], NOW)
+            self.assertEqual(metrics[1]["heat_delta_1h"], 100)
+            self.assertEqual(metrics[1]["heat_delta_24h"], 450)
+            self.assertFalse(client.ingest([{"id": 1, "heat": 1000}], NOW))
+            self.assertTrue(path.exists())
+            self.assertEqual(client.ingest_status(), {
+                "configured": True,
+                "status": "failed",
+                "fallback": "success",
+            })
+            self.assertTrue(client.archive_events([{"id": "evt_test"}]))
+            self.assertEqual(client.archive_status(), {"configured": True, "status": "success"})
+
+    def test_rolling_history_persists_compact_points_and_restores_each_available_window(self):
+        games = [{"id": 1, "heat": 1_000, "score": 8.0}, {"id": 2, "heat": None, "score": 7.0}]
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "history-state.json"
+            client = RollingHistoryClient(path)
+
+            self.assertEqual(client.metrics(games, NOW), {})
+            self.assertTrue(client.ingest([{"id": 1, "heat": 100, "score": 8.0}], NOW - 7 * 86400 - 3600))
+            self.assertTrue(client.ingest([{"id": 1, "heat": 600, "score": 8.0}], NOW - 25 * 3600))
+            self.assertTrue(client.ingest([{"id": 1, "heat": 900, "score": 8.0}], NOW - 3700))
+
+            metrics = RollingHistoryClient(path).metrics(games, NOW)
+            self.assertEqual(metrics[1]["heat_delta_1h"], 100)
+            self.assertEqual(metrics[1]["heat_delta_24h"], 400)
+            self.assertEqual(metrics[1]["heat_delta_7d"], 900)
+            self.assertAlmostEqual(metrics[1]["growth_per_hour_24h"], 16)
+            state = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(state["schema_version"], "1.0")
+            self.assertEqual(len(state["buckets"]), 3)
+            self.assertLess(path.stat().st_size, 2_000)
+
+    def test_rolling_history_replaces_same_bucket_prunes_old_points_and_recovers_from_damage(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "history-state.json"
+            client = RollingHistoryClient(path)
+            client.ingest([{"id": 1, "heat": 100}], NOW - 9 * 86400)
+            client.ingest([{"id": 1, "heat": 200}], NOW - 300)
+            client.ingest([{"id": 1, "heat": 250}], NOW - 60)
+            state = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(len(state["buckets"]), 1)
+            self.assertEqual(state["buckets"][0]["games"][0][1], 250)
+
+            path.write_text("not json", encoding="utf-8")
+            recovered = RollingHistoryClient(path)
+            self.assertEqual(recovered.metrics([{"id": 1, "heat": 300}], NOW), {})
+            path.write_text("[]", encoding="utf-8")
+            self.assertEqual(recovered.metrics([{"id": 1, "heat": 300}], NOW), {})
+            self.assertTrue(recovered.ingest([{"id": 1, "heat": 300}], NOW))
+            self.assertEqual(len(json.loads(path.read_text(encoding="utf-8"))["buckets"]), 1)
+
     def test_missing_configuration_degrades_without_error(self):
         client=HistoryClient('')
         self.assertFalse(client.ingest([{'id':1,'heat':2}],1000))

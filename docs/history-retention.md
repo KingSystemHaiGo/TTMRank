@@ -10,6 +10,7 @@ inside Cloudflare D1. Scheduled refreshes do not commit generated snapshots, so 
 | Layer | Entity and grain | Default retention | Purpose |
 | --- | --- | ---: | --- |
 | GitHub Pages artifact | latest generated site | current deployment | public static site |
+| Actions rolling cache | game × 20-minute bucket | 8 days | zero-config 1h/24h/7d metric fallback |
 | `game_heat_hourly` | game × UTC hour | 90 complete UTC days | recent growth and detailed charts |
 | `game_heat_daily` | game × UTC day | 730 complete UTC days | long-range trend reference |
 | `game_change_events` | one structured game-change event | 180 days | optional durable change ledger |
@@ -93,8 +94,14 @@ after the generated JSON and the focused change/pipeline tests pass. Refresh and
 deploy share the `data-publish` concurrency group, so two collectors cannot
 advance the comparison state at the same time.
 
-The three schedule workflows dispatch refreshes at minutes 07, 27, and 47.
-`refresh.yml` does not keep a runner asleep and does not dispatch a successor.
+Cloudflare Cron dispatches refreshes every 20 minutes. `refresh.yml` does not keep
+a runner asleep and does not dispatch a successor. Until Cloudflare has been
+deployed and verified, leave the repository variable
+`TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE` unset; the existing GitHub schedule entries
+then preserve their original dispatch behavior. Set the variable to `true` only
+after a successful Cloudflare-triggered refresh. They then become watchdogs and
+dispatch only when the latest central refresh is older than 45 minutes. Neither
+Cloudflare nor D1 is part of the public site's loading path.
 A data-only refresh runs the change, state, pipeline, and validator suites plus
 JSON parsing; it does not install Chromium. Full Python, JavaScript, and browser
 coverage remains in `test.yml`, while code-push deployment also keeps the full

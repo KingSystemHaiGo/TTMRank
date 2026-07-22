@@ -48,8 +48,11 @@ const READY_FEED = {
 const MANIFEST = {
   schema_version: '2.0',
   updated_at: READY_FEED.updated_at,
+  observed_at: GENERATED_AT,
   analysis_file: 'analysis-current.json',
   changes_file: 'changes-current.json',
+  changes_sha256: 'a'.repeat(64),
+  taptap_made_game_count: 2,
   game_count: 887,
   appearance_count: 1655,
 };
@@ -65,14 +68,18 @@ const ANALYSIS = {
 };
 
 async function mockData(page, feed = READY_FEED, { changesStatus = 200 } = {}) {
-  await page.route('**/data/v2/manifest.json', route => route.fulfill({ json: MANIFEST }));
+  await page.route('**/data/v2/manifest.json*', route => route.fulfill({ json: MANIFEST }));
   await page.route('**/data/v2/analysis-current.json', route => route.fulfill({ json: ANALYSIS }));
-  await page.route('**/data/v2/changes-current.json', route => route.fulfill(
+  await page.route('**/data/v2/changes-current.json*', route => route.fulfill(
     changesStatus === 200 ? { json: feed } : { status: changesStatus, body: 'unavailable' },
   ));
 }
 
 test('home opens with the latest 24 hours and no more than five important changes', async ({ page }) => {
+  const analysisRequests = [];
+  page.on('request', request => {
+    if (request.url().includes('analysis-current.json')) analysisRequests.push(request.url());
+  });
   await mockData(page);
   await page.goto('/index.html');
 
@@ -83,6 +90,28 @@ test('home opens with the latest 24 hours and no more than five important change
   await expect(page.locator('.change-row')).toHaveCount(5);
   await expect(page.locator('.change-row').first()).toContainText('从第18名升至第9名');
   await expect(page.getByRole('link', { name: '查看全部变化' })).toHaveAttribute('href', 'changes.html');
+  expect(analysisRequests).toEqual([]);
+});
+
+test('an open home page discovers a newly deployed feed without reloading', async ({ page }) => {
+  await page.clock.install({ time: new Date('2026-07-22T04:00:00Z') });
+  let revision = 1;
+  await page.route('**/data/v2/manifest.json*', route => route.fulfill({ json: {
+    ...MANIFEST,
+    observed_at: GENERATED_AT + revision * 1_200,
+    changes_sha256: String(revision).repeat(64),
+  } }));
+  await page.route('**/data/v2/changes-current.json*', route => route.fulfill({ json: {
+    ...READY_FEED,
+    generated_at: GENERATED_AT + revision * 1_200,
+    events: [change({ game_title: revision === 1 ? '首轮游戏' : '新一轮游戏' })],
+  } }));
+  await page.goto('/index.html');
+  await expect(page.getByText('首轮游戏')).toBeVisible();
+
+  revision = 2;
+  await page.clock.fastForward(300_001);
+  await expect(page.getByText('新一轮游戏')).toBeVisible();
 });
 
 test('home range switching updates rows, URL, and complete-feed destination', async ({ page }) => {
