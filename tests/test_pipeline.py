@@ -12,6 +12,7 @@ class PipelineTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             manifest = build_analysis_artifacts(fixture, Path(tmp))
             self.assertEqual(manifest["game_count"], 4)
+            self.assertEqual(manifest["taptap_made_game_count"], 1)
             self.assertEqual(manifest["appearance_count"], 6)
             self.assertTrue((Path(tmp) / "analysis-current.json").exists())
             self.assertTrue((Path(tmp) / "quality.json").exists())

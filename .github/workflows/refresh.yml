@@ -44,6 +44,14 @@ jobs:
           restore-keys: |
             ttmrank-change-state-
 
+      - name: Restore rolling heat history
+        uses: actions/cache/restore@v4
+        with:
+          path: .ttmrank/heat-history.json
+          key: ttmrank-heat-history-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            ttmrank-heat-history-
+
       - name: Run fetcher
         run: python app/fetcher.py
         env:
@@ -51,21 +59,29 @@ jobs:
           TTMRANK_HISTORY_URL: ${{ secrets.TTMRANK_HISTORY_URL }}
           TTMRANK_HISTORY_TOKEN: ${{ secrets.TTMRANK_HISTORY_TOKEN }}
           TTMRANK_CHANGE_STATE_PATH: .ttmrank/change-state.json
+          TTMRANK_HEAT_HISTORY_PATH: .ttmrank/heat-history.json
 
       - name: Validate generated data
         run: |
-          PYTHONPATH=src python -m unittest tests.test_changes tests.test_change_state tests.test_pipeline tests.test_validators -v
+          PYTHONPATH=src python -m unittest tests.test_changes tests.test_change_state tests.test_history_client tests.test_pipeline tests.test_validators -v
           python -m json.tool app/data/v2/analysis-current.json >/dev/null
           python -m json.tool app/data/v2/changes-current.json >/dev/null
           python -m json.tool app/data/v2/manifest.json >/dev/null
           python -m json.tool app/data/v2/quality.json >/dev/null
           python -m json.tool .ttmrank/change-state.json >/dev/null
+          python -m json.tool .ttmrank/heat-history.json >/dev/null
 
       - name: Save validated rolling change state
         uses: actions/cache/save@v4
         with:
           path: .ttmrank/change-state.json
           key: ttmrank-change-state-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Save validated rolling heat history
+        uses: actions/cache/save@v4
+        with:
+          path: .ttmrank/heat-history.json
+          key: ttmrank-heat-history-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Write refresh summary
         run: |

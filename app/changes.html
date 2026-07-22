@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/changes.css?v=1">
-  <script type="module" src="js/changes/app.js?v=1"></script>
+  <script type="module" src="js/changes/app.js?v=2"></script>
 </head>
 <body data-page="changes">
   <header class="intel-header">
@@ -29,7 +29,7 @@
   <main class="reading-container changes-main">
     <section class="changes-intro" aria-labelledby="changesTitle">
       <div><h1 id="changesTitle">全部游戏变化</h1><p>筛选排名、进出榜、评分与榜单覆盖事件。</p></div>
-      <div class="changes-update"><span>最近采集</span><strong id="changesFreshness">正在读取最新变化</strong></div>
+      <div class="changes-update"><span>最近采集</span><strong id="changesFreshness" role="status" aria-live="polite" aria-atomic="true">正在读取最新变化</strong></div>
     </section>
 
     <section class="changes-filters" aria-label="变化筛选">

@@ -1,4 +1,5 @@
-import { loadChanges } from './data-client.js';
+import { loadChanges, probeChanges } from './data-client.js';
+import { createLiveRefresh, freshnessText } from './live-refresh.js';
 import { DEFAULT_CHANGE_FILTERS, filterEvents } from './model.js';
 import { parseChangeState, serializeChangeState } from './state.js';
 import { createDetailSurface, renderEventRows, renderFeedState } from './view.js';
@@ -16,6 +17,7 @@ const scopeButtons = [...document.querySelectorAll('[data-scope]')];
 
 let state = parseChangeState(window.location.search);
 let currentFeed = null;
+let currentManifest = null;
 let detailWasPushed = false;
 const detail = createDetailSurface({ onRequestClose: closeDetail });
 
@@ -113,9 +115,11 @@ async function load() {
   renderFeedState(feedNode, { title: '正在读取最新变化' });
   try {
     const { manifest, feed } = await loadChanges();
+    currentManifest = manifest;
     currentFeed = feed;
-    freshness.textContent = manifest.updated_at;
+    freshness.textContent = freshnessText(manifest).replace(/^最近采集 /, '');
     render();
+    liveRefresh.start();
   } catch {
     freshness.textContent = '变化数据暂不可用';
     renderFeedState(feedNode, {
@@ -126,6 +130,29 @@ async function load() {
     });
   }
 }
+
+async function checkForUpdate() {
+  if (!currentManifest) return false;
+  const next = await probeChanges(currentManifest);
+  if (!next.changed) {
+    freshness.textContent = freshnessText(next.manifest).replace(/^最近采集 /, '');
+    return false;
+  }
+  currentManifest = next.manifest;
+  currentFeed = next.feed;
+  freshness.textContent = freshnessText(next.manifest).replace(/^最近采集 /, '');
+  render();
+  return true;
+}
+
+const liveRefresh = createLiveRefresh({
+  check: checkForUpdate,
+  onError: () => {
+    if (currentManifest) {
+      freshness.textContent = freshnessText(currentManifest).replace(/^最近采集 /, '');
+    }
+  },
+});
 
 rangeButtons.forEach(button => button.addEventListener('click', () => changeFilter('range', button.dataset.range)));
 scopeButtons.forEach(button => button.addEventListener('click', () => changeFilter('scope', button.dataset.scope)));

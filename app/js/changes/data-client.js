@@ -38,15 +38,52 @@ function validChangesFile(value) {
     && !value.includes('..');
 }
 
-export async function loadChanges(fetcher = fetch) {
-  const manifestResponse = await fetcher('data/v2/manifest.json', { cache: 'no-cache' });
+function validManifest(manifest) {
+  return manifest?.schema_version === '2.0'
+    && Number.isSafeInteger(manifest.observed_at)
+    && validChangesFile(manifest.changes_file)
+    && typeof manifest.changes_sha256 === 'string'
+    && /^[a-f0-9]{64}$/i.test(manifest.changes_sha256);
+}
+
+function manifestRequestUrl(nowMs) {
+  const bucket = Math.floor(Number(nowMs) / (5 * 60_000));
+  return `data/v2/manifest.json?v=${Number.isFinite(bucket) ? bucket : 0}`;
+}
+
+function feedRequestUrl(manifest) {
+  return `data/v2/${manifest.changes_file}?v=${manifest.changes_sha256.slice(0, 16)}`;
+}
+
+export function manifestVersion(manifest) {
+  return `${manifest?.observed_at ?? ''}:${manifest?.changes_sha256 ?? ''}:${manifest?.changes_file ?? ''}`;
+}
+
+export async function loadManifest(fetcher = fetch, { nowMs = Date.now() } = {}) {
+  const manifestResponse = await fetcher(manifestRequestUrl(nowMs), { cache: 'no-store' });
   if (!manifestResponse.ok) throw new Error(`manifest HTTP ${manifestResponse.status}`);
   const manifest = await manifestResponse.json();
-  if (manifest?.schema_version !== '2.0' || !validChangesFile(manifest.changes_file)) {
-    throw new Error('变化数据清单格式无效');
-  }
-  const response = await fetcher(`data/v2/${manifest.changes_file}`, { cache: 'no-cache' });
+  if (!validManifest(manifest)) throw new Error('变化数据清单格式无效');
+  return manifest;
+}
+
+export async function loadFeed(manifest, fetcher = fetch) {
+  if (!validManifest(manifest)) throw new Error('变化数据清单格式无效');
+  const response = await fetcher(feedRequestUrl(manifest), { cache: 'force-cache' });
   if (!response.ok) throw new Error(`changes HTTP ${response.status}`);
-  const feed = validateChangeFeed(await response.json());
+  return validateChangeFeed(await response.json());
+}
+
+export async function loadChanges(fetcher = fetch, options = {}) {
+  const manifest = await loadManifest(fetcher, options);
+  const feed = await loadFeed(manifest, fetcher);
   return { manifest, feed };
+}
+
+export async function probeChanges(currentManifest, fetcher = fetch, options = {}) {
+  const manifest = await loadManifest(fetcher, options);
+  if (manifestVersion(manifest) === manifestVersion(currentManifest)) {
+    return { changed: false, manifest, feed: null };
+  }
+  return { changed: true, manifest, feed: await loadFeed(manifest, fetcher) };
 }

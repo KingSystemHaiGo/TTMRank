@@ -62,12 +62,31 @@ TTMRank 每轮采集都会发布结构化变化制品 `app/data/v2/changes-curre
 应用最新 `cloudflare/schema.sql` 并部署 Worker 后，再手动运行一次
 `Maintain History`。事件表不存在时，静态变化流仍可独立运行。
 
-## CI 预算
+## 自动调度与页面更新
+
+Cloudflare Cron 每 20 分钟派发中央 `Refresh Data` 工作流；调度器不抓取数据，
+也不等待发布完成。`refresh.yml` 不等待、不睡眠、不自我续跑。刷新与代码部署共享
+`data-publish` 并发组，避免两轮采集同时推进状态。
+
+仓库变量 `TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE` 未设置时，三个 GitHub 计划入口
+保持原有派发，确保仅合并代码不会造成停更。部署并验证 Cloudflare 至少成功触发
+一次刷新后，再把变量设为 `true`；此时三个入口切换为迁移看门狗，只在最近一次
+中央刷新已超过 45 分钟时补发。Cloudflare、D1 与滚动历史均不进入网页加载链路。
+
+情报首页和完整变化页仅在可见时每 5 分钟检查一次 manifest。检查请求带时间桶以
+绕过 Pages 的 10 分钟 CDN 缓存；manifest 版本不变时不会下载变化流。标签页隐藏时
+停止计时，重新可见时补查。超过 60 分钟没有新快照时，页面明确显示“数据更新延迟”。
+首页游戏计数直接来自 manifest，不再为了一个数字下载完整分析 JSON。
 
 数据刷新只运行变化、状态、流水线、校验器测试和 JSON 解析，不安装 Chromium。
 代码推送部署和 `test.yml` 才运行完整 Python、JavaScript 与 Playwright 套件。
-三份计划工作流在每小时 07、27、47 分钟派发刷新；`refresh.yml` 不等待、不睡眠、
-不自我续跑。刷新与代码部署共享 `data-publish` 并发组，避免两轮采集同时推进状态。
+
+## 滚动热度历史
+
+未配置 D1 时，`.ttmrank/heat-history.json` 在 Actions 缓存中保存 20 分钟桶，
+只保留 8 天。它与变化状态使用独立缓存 key，不进入 Pages artifact，也不提交 Git。
+损坏或被回收时会安全重建。1h、24h、7d 指标分别在真实时间窗口形成后启用，页面
+对尚未形成的单项显示“历史积累中”。D1 配置完成后仍作为长期历史主后端。
 
 ## 手动恢复
 

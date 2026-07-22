@@ -50,20 +50,32 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("fetch-depth: 2", workflow)
         self.assertNotIn("fetch-depth: 0", workflow)
 
-    def test_twenty_minute_schedule_uses_three_independent_dispatchers(self):
+    def test_twenty_minute_schedule_uses_cloudflare_cron_dispatcher(self):
         refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")
         self.assertNotIn("schedule:", refresh)
-
         schedules = {
             "schedule-refresh-07.yml": "7 * * * *",
             "schedule-refresh-27.yml": "27 * * * *",
             "schedule-refresh-47.yml": "47 * * * *",
         }
         for filename, cron in schedules.items():
-            workflow = (self.WORKFLOWS / filename).read_text(encoding="utf-8")
-            self.assertIn(f"cron: '{cron}'", workflow)
-            self.assertIn("actions: write", workflow)
-            self.assertIn("gh workflow run refresh.yml", workflow)
+            watchdog = (self.WORKFLOWS / filename).read_text(encoding="utf-8")
+            self.assertIn(f"cron: '{cron}'", watchdog)
+            self.assertIn("actions: write", watchdog)
+            self.assertIn("gh run list", watchdog)
+            self.assertIn("TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE", watchdog)
+            self.assertIn('!= "true"', watchdog)
+            self.assertIn("MAX_AGE_SECONDS: '2700'", watchdog)
+            self.assertIn('gh run list --repo "$GITHUB_REPOSITORY" --workflow refresh.yml', watchdog)
+            self.assertNotIn("gh run list \\\\", watchdog)
+            self.assertIn("gh workflow run refresh.yml", watchdog)
+
+        root = self.WORKFLOWS.parents[1]
+        worker = (root / "cloudflare" / "scheduler-worker.js").read_text(encoding="utf-8")
+        wrangler = (root / "cloudflare" / "wrangler.scheduler.toml.example").read_text(encoding="utf-8")
+        self.assertIn('crons = ["*/20 * * * *"]', wrangler)
+        self.assertIn("async scheduled(", worker)
+        self.assertIn("dispatchRefresh(env)", worker)
 
     def test_refresh_deploys_generated_pages_artifact_without_git_writes(self):
         refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")
@@ -122,7 +134,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("ttmrank-change-state-", collect)
         self.assertIn("TTMRANK_CHANGE_STATE_PATH: .ttmrank/change-state.json", collect)
         self.assertIn(
-            "python -m unittest tests.test_changes tests.test_change_state tests.test_pipeline tests.test_validators -v",
+            "python -m unittest tests.test_changes tests.test_change_state tests.test_history_client tests.test_pipeline tests.test_validators -v",
             collect,
         )
         for artifact in (
@@ -139,6 +151,14 @@ class WorkflowTests(unittest.TestCase):
         self.assertNotIn("sleep ", refresh)
         self.assertNotIn("  continue:", refresh)
         self.assertNotIn("gh workflow run refresh.yml", refresh)
+
+    def test_refresh_cache_also_carries_bounded_heat_history(self):
+        for filename in ("refresh.yml", "deploy.yml"):
+            workflow = (self.WORKFLOWS / filename).read_text(encoding="utf-8")
+            self.assertIn(".ttmrank/change-state.json", workflow)
+            self.assertIn(".ttmrank/heat-history.json", workflow)
+            self.assertIn("TTMRANK_HEAT_HISTORY_PATH: .ttmrank/heat-history.json", workflow)
+            self.assertIn("python -m json.tool .ttmrank/heat-history.json", workflow)
 
     def test_full_browser_checks_remain_in_code_test_workflow(self):
         workflow = (self.WORKFLOWS / "test.yml").read_text(encoding="utf-8")
@@ -182,16 +202,11 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("MAX_CALLS=100", workflow)
         self.assertIn("--max-time 45", workflow)
 
-    def test_cron_dispatchers_only_restart_an_idle_refresh_chain(self):
-        for filename in (
-            "schedule-refresh-07.yml",
-            "schedule-refresh-27.yml",
-            "schedule-refresh-47.yml",
-        ):
-            workflow = (self.WORKFLOWS / filename).read_text(encoding="utf-8")
-            self.assertIn("gh workflow run refresh.yml", workflow)
-            self.assertNotIn("gh run list", workflow)
-            self.assertNotIn("active_runs", workflow)
+    def test_refresh_has_no_sleep_or_self_dispatch_chain(self):
+        refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")
+        self.assertNotIn("sleep ", refresh)
+        self.assertNotIn("gh workflow run refresh.yml", refresh)
+        self.assertNotIn("  continue:", refresh)
 
     def test_history_maintenance_has_bounded_diagnosable_continuation(self):
         workflow = (self.WORKFLOWS / "history-maintenance.yml").read_text(encoding="utf-8")

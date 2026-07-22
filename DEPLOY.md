@@ -2,7 +2,8 @@
 
 TTMRank 主站是 GitHub Pages 静态站点。源码保存在 Git；每次发布时由 Action
 抓取最新 TapTap 数据、生成 `app/`、验证后直接上传 Pages artifact。变化比较
-使用 Actions 滚动状态，长期趋势与事件归档由可选的 Cloudflare D1 提供。
+使用 Actions 滚动状态；近 1 小时、24 小时和 7 天热度基线由有界缓存逐步积累，
+长期趋势与事件归档由可选的 Cloudflare D1 提供。
 
 ## 1. GitHub Pages
 
@@ -19,10 +20,23 @@ SHA 再次比较。过时的刷新 artifact 会跳过，而不是覆盖刚发布
 推送可以取消更旧的 Pages 发布。采集 job 上限为 30 分钟，Pages 部署上限为
 10 分钟，避免卡住的发布长期阻塞刷新。
 
-三个独立计划工作流在每小时的 07、27 和 47 分钟调度 `Refresh Data`。刷新
-工作流不会 `sleep`、等待下一轮或自我派发，因此每次 Runner 只承担一轮采集、
-校验和发布。GitHub 计划任务是尽力调度，仍可能延迟；需要更严格时间保证时，
-可改用 Cloudflare/Vercel Cron 等外部调度器调用 `workflow_dispatch`。
+可选的生产主时钟使用独立 Cloudflare Cron Worker 每 20 分钟派发一次 `Refresh Data`。
+刷新工作流不会 `sleep`、等待下一轮或自我派发，因此每次 Runner 只承担一轮
+采集、校验和发布。部署步骤：
+
+1. 复制 `cloudflare/wrangler.scheduler.toml.example` 为本地
+   `cloudflare/wrangler.scheduler.toml`。
+2. 创建 GitHub fine-grained token，只授予本仓库 Actions 读写权限；运行
+   `npx wrangler secret put GITHUB_ACTIONS_TOKEN --config wrangler.scheduler.toml`。
+3. 在 `cloudflare/` 运行
+   `npx wrangler deploy --config wrangler.scheduler.toml`。
+
+调度 Worker 不绑定 D1、不抓取 TapTap，只发送一次有 10 秒上限的 GitHub API
+请求。部署并验证 Cloudflare Cron 之前，不要设置仓库变量
+`TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE`；变量未设置时，三个 GitHub 计划入口仍按
+原频率派发，合并代码不会造成停更。确认 Cloudflare 至少成功触发一次刷新后，将
+变量设为 `true`，三个入口才切换为看门狗：仅当中央刷新超过 45 分钟没有启动时
+补发。Cloudflare 健康时它们不会重复采集，也不进入网页加载链路。
 
 采集失败不会部署空榜。最新线上快照存在 Pages deployment artifact 中，而
 不是由定时任务写回 Git。工作流摘要会显示游戏数、榜单记录数、质量告警、
@@ -51,8 +65,10 @@ npx wrangler d1 execute ttmrank-history --file schema.sql --remote
 - `TTMRANK_HISTORY_TOKEN`（与 `INGEST_TOKEN` 相同）
 - `TTMRANK_MAINTENANCE_TOKEN`（与 `MAINTENANCE_TOKEN` 相同）
 
-未配置 D1 时，静态发布仍可完成，近期增量指标会明确降级；本地运行可从已有
-Git 快照读取兼容基线。网站图标代理仍只接受 TapTap 图片域名。
+未配置 D1 时，静态发布仍可完成，Actions 缓存会按 20 分钟桶保留 8 天热度点。
+近 1 小时、24 小时和 7 天指标会在真实基线形成后逐项启用，等待期间显示
+“历史积累中”；本地运行仍可从已有 Git 快照读取兼容基线。网站图标代理只接受
+TapTap 图片域名。
 
 ## 3. 历史归档与滚动清理
 

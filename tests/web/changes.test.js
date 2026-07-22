@@ -6,7 +6,14 @@ import {
   filterEvents,
   topEvents,
 } from '../../app/js/changes/model.js';
-import { loadChanges, validateChangeFeed } from '../../app/js/changes/data-client.js';
+import {
+  loadChanges,
+  manifestVersion,
+  probeChanges,
+  validateChangeFeed,
+} from '../../app/js/changes/data-client.js';
+import { createLiveRefresh, freshnessText } from '../../app/js/changes/live-refresh.js';
+import { historyMetricText } from '../../app/js/analysis/table.js';
 import { parseChangeState, serializeChangeState } from '../../app/js/changes/state.js';
 
 const GENERATED_AT = 2_000_000;
@@ -156,14 +163,101 @@ test('validates and loads the static change feed through the manifest', async ()
   const requests = [];
   const fetcher = async url => {
     requests.push(url);
-    if (url === 'data/v2/manifest.json') {
-      return { ok: true, json: async () => ({ schema_version: '2.0', changes_file: 'changes-current.json' }) };
+    if (url === 'data/v2/manifest.json?v=6000000') {
+      return { ok: true, json: async () => ({
+        schema_version: '2.0',
+        observed_at: GENERATED_AT,
+        changes_file: 'changes-current.json',
+        changes_sha256: 'a'.repeat(64),
+      }) };
     }
     return { ok: true, json: async () => feed };
   };
-  const result = await loadChanges(fetcher);
-  assert.deepEqual(requests, ['data/v2/manifest.json', 'data/v2/changes-current.json']);
+  const result = await loadChanges(fetcher, { nowMs: 1_800_000_000_000 });
+  assert.deepEqual(requests, [
+    'data/v2/manifest.json?v=6000000',
+    `data/v2/changes-current.json?v=${'a'.repeat(16)}`,
+  ]);
   assert.equal(result.feed, feed);
+});
+
+test('manifest probes download the feed only after the published version changes', async () => {
+  const current = {
+    schema_version: '2.0',
+    observed_at: GENERATED_AT,
+    changes_file: 'changes-current.json',
+    changes_sha256: 'a'.repeat(64),
+  };
+  assert.equal(manifestVersion(current), `${GENERATED_AT}:${'a'.repeat(64)}:changes-current.json`);
+
+  const unchangedRequests = [];
+  const unchanged = await probeChanges(current, async url => {
+    unchangedRequests.push(url);
+    return { ok: true, json: async () => current };
+  }, { nowMs: 1_800_000_000_000 });
+  assert.equal(unchanged.changed, false);
+  assert.deepEqual(unchangedRequests, ['data/v2/manifest.json?v=6000000']);
+
+  const nextManifest = { ...current, observed_at: GENERATED_AT + 1_200, changes_sha256: 'b'.repeat(64) };
+  const changedRequests = [];
+  const changed = await probeChanges(current, async url => {
+    changedRequests.push(url);
+    return { ok: true, json: async () => (url.includes('manifest') ? nextManifest : {
+      schema_version: '1.0', generated_at: GENERATED_AT + 1_200, updated_at: 'later', status: 'ready',
+      comparison_available: true, partial: false, suppressed_negative_event_count: 0, events: [],
+    }) };
+  }, { nowMs: 1_800_000_000_000 });
+  assert.equal(changed.changed, true);
+  assert.deepEqual(changedRequests, [
+    'data/v2/manifest.json?v=6000000',
+    `data/v2/changes-current.json?v=${'b'.repeat(16)}`,
+  ]);
+});
+
+test('visible refresh suspends in the background, coalesces checks, and reports stale data', async () => {
+  class Target extends EventTarget { constructor() { super(); this.visibilityState = 'visible'; } }
+  const documentTarget = new Target();
+  const windowTarget = new EventTarget();
+  const timers = new Map();
+  let nextTimer = 1;
+  let now = 10_000;
+  let checks = 0;
+  let release;
+  const controller = createLiveRefresh({
+    documentTarget,
+    windowTarget,
+    intervalMs: 300_000,
+    minCheckGapMs: 30_000,
+    now: () => now,
+    setTimer(callback, delay) { const id = nextTimer++; timers.set(id, { callback, delay }); return id; },
+    clearTimer(id) { timers.delete(id); },
+    check: () => { checks += 1; return new Promise(resolve => { release = resolve; }); },
+  });
+
+  controller.start();
+  assert.equal(timers.size, 1);
+  documentTarget.visibilityState = 'hidden';
+  documentTarget.dispatchEvent(new Event('visibilitychange'));
+  assert.equal(timers.size, 0);
+
+  now += 60_000;
+  documentTarget.visibilityState = 'visible';
+  documentTarget.dispatchEvent(new Event('visibilitychange'));
+  windowTarget.dispatchEvent(new Event('focus'));
+  await Promise.resolve();
+  assert.equal(checks, 1);
+  release();
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.equal(timers.size, 1);
+  controller.stop();
+  assert.equal(timers.size, 0);
+
+  const manifest = { observed_at: 1_000, updated_at: '2026-07-22 10:00:00' };
+  assert.equal(freshnessText(manifest, 1_000), '最近采集 2026-07-22 10:00:00');
+  assert.equal(freshnessText(manifest, 4_601), '数据更新延迟 · 最后采集 2026-07-22 10:00:00');
 });
 
 test('rejects malformed change feed contracts', () => {
@@ -178,4 +272,11 @@ test('rejects malformed change feed contracts', () => {
     suppressed_negative_event_count: 0,
     events: [{ kind: 'rank_rise' }],
   }), /变化事件格式无效/);
+});
+
+test('history drawer copy distinguishes accumulated fields from fields still collecting', () => {
+  const metric = { history_available: true, heat_delta_1h: 120, heat_delta_24h: null };
+  assert.equal(historyMetricText(metric, 'heat_delta_1h'), '120');
+  assert.equal(historyMetricText(metric, 'heat_delta_24h'), '历史积累中');
+  assert.equal(historyMetricText(null, 'heat_delta_7d'), '历史积累中');
 });

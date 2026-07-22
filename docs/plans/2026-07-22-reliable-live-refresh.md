@@ -13,18 +13,18 @@
 ### Task 1: Add the Cloudflare Cron dispatcher
 
 **Files:**
-- Modify: `cloudflare/analytics-worker.js`
-- Modify: `cloudflare/wrangler.toml.example`
+- Create: `cloudflare/scheduler-worker.js`
+- Create: `cloudflare/wrangler.scheduler.toml.example`
 - Modify: `tests/worker/analytics-worker.test.js`
 - Modify: `tests/test_workflows.py`
-- Delete: `.github/workflows/schedule-refresh-07.yml`
-- Delete: `.github/workflows/schedule-refresh-27.yml`
-- Delete: `.github/workflows/schedule-refresh-47.yml`
+- Modify: `.github/workflows/schedule-refresh-07.yml`
+- Modify: `.github/workflows/schedule-refresh-27.yml`
+- Modify: `.github/workflows/schedule-refresh-47.yml`
 
 1. Write tests for a 204 GitHub dispatch, missing configuration, non-2xx response and fetch failure.
 2. Run `node --test tests/worker/analytics-worker.test.js` and `python -m unittest tests.test_workflows -v`; confirm they fail.
 3. Add a bounded `dispatchRefresh` function and Worker `scheduled()` handler.
-4. Configure the Cron example and remove GitHub schedule shims.
+4. Configure the Cron example and retain GitHub schedules as migration-safe watchdogs.
 5. Re-run both target suites and confirm they pass.
 
 ### Task 2: Publish lightweight counts and version metadata

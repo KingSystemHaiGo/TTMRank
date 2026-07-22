@@ -75,8 +75,9 @@ async function init(){
     const loaded=await loadAnalysis(); manifest=loaded.manifest; original=loaded.data; byId('updatedAt').textContent=manifest.updated_at; const quality=await loadQuality();
     const notices=[];
     if(quality?.issues?.length)notices.push(`本批次记录 ${quality.issues.length} 个跨榜字段差异，主数据使用最新有效值。`);
-    if(!manifest.history_available)notices.push('近期增量暂不可用；当前仍可使用生命周期小时口径日均热度，配置 D1 后自动启用近期增长。');
-    if(notices.length){byId('qualityBanner').classList.remove('hidden');byId('qualitySummary').textContent=`数据状态 · ${quality?.issues?.length||0} 条字段差异${manifest.history_available?'':' · 近期增长待启用'}`;byId('qualityMessage').textContent=notices.join(' ');}
+    const historyWindows=manifest.history_windows||{};const pendingHistory=[['1h','近 1 小时'],['24h','近 24 小时'],['7d','近 7 天']].filter(([key])=>historyWindows[key]!==true).map(([,label])=>label);
+    if(pendingHistory.length)notices.push(`近期增长历史正在积累：${pendingHistory.join('、')}会在对应基线形成后逐项启用。`);
+    if(notices.length){byId('qualityBanner').classList.remove('hidden');byId('qualitySummary').textContent=`数据状态 · ${quality?.issues?.length||0} 条字段差异${pendingHistory.length?' · 近期增长积累中':''}`;byId('qualityMessage').textContent=notices.join(' ');}
     render();
   }catch(error){byId('metrics').replaceChildren();const node=document.createElement('div');node.className='empty';node.textContent=`分析数据加载失败：${error.message}`;byId('metrics').append(node);console.error(error);}
 }
