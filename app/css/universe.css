@@ -18,25 +18,31 @@ body { min-height: 100vh; overflow-x: hidden; }
 .universe-toolbar button:hover, .universe-toolbar a:hover { background: var(--surface-2); color: var(--text); }
 .universe-toolbar-spacer { flex: 1; }
 
-.universe-stage { position: relative; min-height: 590px; overflow: hidden; background: #071013; isolation: isolate; }
-.universe-stage canvas, .universe-static { width: 100%; height: 590px; display: block; touch-action: none; }
-.universe-static { background: #071013; }
-.universe-static-grid ellipse, .universe-static-grid line { fill: none; stroke: rgba(72, 194, 187, .18); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.universe-static circle { cursor: pointer; opacity: .9; stroke: rgba(255,255,255,.25); stroke-width: 1; transition: opacity var(--motion-fast) ease, stroke-width var(--motion-fast) ease; }
-.universe-static circle:hover, .universe-static circle:focus { opacity: 1; stroke: #fff; stroke-width: 2; outline: none; }
-.universe-static circle.is-selected { stroke: #fff; stroke-width: 4; }
-.universe-axis { position: absolute; z-index: 2; color: rgba(230, 244, 244, .6); font-size: 9px; letter-spacing: .04em; pointer-events: none; }
-.universe-axis i { display: block; background: rgba(183, 221, 219, .28); }
-.universe-axis-score { inset: 32px auto 54px 16px; display: grid; grid-template-rows: auto 1fr auto; justify-items: center; gap: 7px; }
-.universe-axis-score i { width: 1px; height: 100%; }
-.universe-axis-heat { left: 50%; bottom: 22px; width: min(390px, 52%); display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 9px; transform: translateX(-50%); }
-.universe-axis-heat i { width: 100%; height: 1px; }
-.universe-stage-state { position: absolute; z-index: 3; left: 14px; bottom: 12px; padding: 6px 8px; border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius-xs); background: rgba(4, 12, 14, .74); color: rgba(238,248,248,.72); font-size: 10px; pointer-events: none; }
-.universe-stage[data-render-mode="error"] .universe-stage-state { inset: 0; display: grid; place-items: center; border: 0; border-radius: 0; font-size: 13px; }
-.universe-legend { min-height: 42px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 18px; padding: 9px 14px; border-top: 1px solid #112429; background: #091417; color: rgba(238,248,248,.7); font-size: 10px; }
-.universe-legend-item { display: inline-flex; align-items: center; gap: 6px; }
-.universe-legend-item i, .universe-game-row > i { background: var(--cluster); border-radius: 50%; }
-.universe-legend-item i { width: 7px; height: 7px; }
+.universe-stage { position: relative; height: 720px; overflow: hidden; background-color: var(--surface-2); isolation: isolate; }
+.universe-stage::before { content: ''; position: absolute; inset: 42px 18px 48px 106px; z-index: 0; background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(203, 211, 213, .72) 25%); pointer-events: none; }
+.universe-stage canvas { position: absolute; inset: 42px 18px 48px 106px; z-index: 1; pointer-events: none; }
+.universe-axis { position: absolute; inset: 12px 18px auto 106px; z-index: 4; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; color: var(--text-3); font-size: 9px; pointer-events: none; }
+.universe-axis i { height: 1px; background: var(--line-strong); }
+.universe-plot { position: absolute; inset: 42px 18px 48px 0; z-index: 3; }
+.universe-data-layer { position: absolute; inset: 0 0 0 106px; }
+.universe-lane-label { position: absolute; left: 7px; width: 90px; min-height: 30px; padding: 4px 8px; overflow: hidden; border: 1px solid transparent; border-radius: var(--radius-sm); background: transparent; color: var(--text-2); cursor: pointer; font-size: 9px; font-weight: 650; text-align: right; text-overflow: ellipsis; white-space: nowrap; transform: translateY(-50%); }
+.universe-lane-label:hover, .universe-lane-label.is-selected { border-color: var(--line); background: var(--surface); color: var(--text); }
+.universe-lane-line { position: absolute; left: 106px; right: 0; height: 1px; background: var(--line); pointer-events: none; }
+.universe-marker { --cluster: var(--tap-cyan); position: absolute; width: 38px; height: 38px; display: grid; place-items: center; padding: 2px; border: 2px solid var(--surface); border-radius: 12px; background: var(--surface); box-shadow: 0 2px 0 color-mix(in srgb, var(--cluster) 68%, transparent), 0 6px 13px rgba(27, 42, 45, .11); cursor: pointer; transform: translate(-50%, -50%); transition: transform var(--motion-fast) ease, box-shadow var(--motion-fast) ease, opacity var(--motion-fast) ease; }
+.universe-marker:hover, .universe-marker:focus-visible, .universe-marker.is-selected { z-index: 6; transform: translate(-50%, -50%) scale(1.12); box-shadow: 0 0 0 3px color-mix(in srgb, var(--cluster) 34%, transparent), 0 9px 20px rgba(27, 42, 45, .18); }
+.universe-marker .game-icon, .universe-marker .game-icon-fallback { width: 30px !important; height: 30px !important; border-radius: 9px; }
+.universe-marker-score { position: absolute; left: -3px; bottom: -6px; min-width: 24px; padding: 2px 3px; border: 2px solid var(--surface-2); border-radius: 6px; background: var(--surface); color: var(--text); font: 750 8px/1.1 var(--font); font-variant-numeric: tabular-nums; }
+.universe-marker-score[data-band="excellent"] { color: var(--positive); }
+.universe-marker-cover { position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; display: grid; place-items: center; padding: 0 3px; border: 2px solid var(--surface-2); border-radius: 6px; background: var(--cluster); color: #fff; font: 750 8px/1 var(--font); }
+.universe-stage-state { position: absolute; z-index: 5; left: 12px; bottom: 10px; color: var(--text-3); font-size: 9px; pointer-events: none; }
+.universe-stage[data-render-mode="error"] .universe-stage-state { inset: 0; display: grid; place-items: center; font-size: 13px; }
+.universe-stage[data-render-mode="error"] .universe-plot { display: none; }
+
+.universe-key { min-height: 44px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px 24px; padding: 8px 14px; border-top: 1px solid var(--line); color: var(--text-2); font-size: 10px; }
+.universe-key span { display: inline-flex; align-items: center; gap: 7px; }
+.key-position { width: 24px; height: 4px; border-radius: 99px; background: linear-gradient(90deg, var(--surface-3), var(--tap-cyan)); }
+.key-score, .key-cover { min-width: 24px; min-height: 20px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font-style: normal; font-weight: 750; }
+.key-cover { color: #fff; border-color: var(--tap-cyan); background: var(--tap-cyan); }
 .universe-reading-note { margin: 0; padding: 12px 14px 13px; border-top: 1px solid var(--line); color: var(--text-3); font-size: 10px; line-height: 1.55; }
 
 .universe-side { min-width: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); }
@@ -62,7 +68,7 @@ body { min-height: 100vh; overflow-x: hidden; }
 .universe-game-row { width: 100%; min-height: 54px; display: grid; grid-template-columns: 8px minmax(0, 1fr); align-items: center; gap: 11px; padding: 9px 16px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--text); text-align: left; cursor: pointer; }
 .universe-game-row:hover, .universe-game-row.is-selected { background: var(--surface-2); }
 .universe-game-row.is-selected { box-shadow: inset 3px 0 0 var(--tap-cyan); }
-.universe-game-row > i { width: 8px; height: 8px; }
+.universe-game-row > i { width: 8px; height: 8px; border-radius: 3px; background: var(--cluster); }
 .universe-game-copy { min-width: 0; }
 .universe-game-copy strong, .universe-game-copy small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .universe-game-copy strong { font-size: 12px; }
@@ -85,35 +91,26 @@ body { min-height: 100vh; overflow-x: hidden; }
   .universe-intro h1 { font-size: 28px; }
   .universe-update { min-width: 0; margin-top: 15px; text-align: left; }
   .universe-workspace { width: 100%; border-inline: 0; }
-  .universe-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) 120px auto; }
+  .universe-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) 116px; }
   .universe-toolbar label:first-child { min-width: 0; }
-  .universe-toolbar input { width: 100%; }
-  .universe-toolbar select { width: 100%; min-width: 0; }
+  .universe-toolbar input, .universe-toolbar select { width: 100%; min-width: 0; }
   .universe-toolbar-spacer { display: none; }
-  .universe-toolbar button, .universe-toolbar a { min-height: 36px; padding-inline: 8px; font-size: 10px; }
-  #universePause { grid-column: 1; }
-  #universeReset { grid-column: 2; }
-  #universeModeLink { grid-column: 3; }
-  .universe-toolbar > a:only-of-type { grid-column: 1 / -1; }
-  .universe-stage, .universe-stage canvas, .universe-static { min-height: 470px; height: 470px; }
-  .universe-axis-heat { width: 62%; }
+  #universeClear, #universeModeLink { grid-column: 1 / -1; }
+  .universe-stage { height: 660px; overflow: hidden; }
+  .universe-stage::before { left: 78px; }
+  .universe-stage canvas { left: 78px; }
+  .universe-axis { left: 78px; }
+  .universe-lane-label { left: 2px; width: 70px; padding-inline: 4px; }
+  .universe-lane-line { left: 78px; }
+  .universe-data-layer { left: 78px; }
   .universe-side { display: block; }
   .universe-detail-shell { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
   .universe-detail-empty { min-height: 120px; }
   .universe-list { max-height: 420px; }
+  .universe-key { gap: 9px 16px; }
   .universe-footer { min-height: 72px; align-items: flex-start; justify-content: center; flex-direction: column; gap: 5px; }
 }
 
-@media (max-width: 420px) {
-  .universe-toolbar { grid-template-columns: minmax(0, 1fr) 112px; }
-  #universeClear { grid-column: 1 / -1; }
-  #universePause { grid-column: 1; }
-  #universeReset { grid-column: 2; }
-  #universeModeLink { grid-column: 1 / -1; }
-  .universe-stage, .universe-stage canvas, .universe-static { min-height: 430px; height: 430px; }
-  .universe-axis-heat { width: 70%; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .universe-static circle { transition: none; }
+  .universe-marker { transition: none; }
 }

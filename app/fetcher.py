@@ -119,11 +119,32 @@ def fetch_ranking(platform: str, type_name: str, limit: int = None) -> dict:
     if not collected.ok:
         raise RuntimeError(collected.error)
     raw = collected.data or {}
+    items = raw.get("items", [])
+    expected_count = raw.get("total")
+    if (
+        limit is None
+        and (
+            not isinstance(items, list)
+            or type(expected_count) is not int
+            or expected_count < 0
+            or not raw.get("complete")
+            or len(items) != expected_count
+        )
+    ):
+        actual_count = len(items) if isinstance(items, list) else "invalid"
+        raise RuntimeError(
+            f"ranking completeness contract failed: expected {expected_count}, collected {actual_count}"
+        )
     return {
         "title": raw.get("title", RANK_TYPES[type_name]["name"]),
         "description": raw.get("description", ""),
         "source": "live",
-        "items": [extract_app(entry, idx) for idx, entry in enumerate(raw.get("items", []), start=1)],
+        "expected_count": expected_count if type(expected_count) is int else len(items),
+        "complete": bool(raw.get("complete")),
+        "items": [
+            extract_app(entry, int(entry.get("_source_rank") or idx))
+            for idx, entry in enumerate(items, start=1)
+        ],
     }
 
 
@@ -337,6 +358,7 @@ def main():
     # 1. 并发抓取所有平台的所有分类榜单
     print("=== Fetching all rankings (concurrent) ===")
     tasks = []
+    ranking_errors = []
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as exe:
         for platform in PLATFORMS:
             result["platforms"][platform] = {}
@@ -352,19 +374,22 @@ def main():
                     print(f"  [{platform}] {RANK_TYPES[type_name]['name']}: {len(ranking['items'])} items")
             except Exception as e:
                 print(f"  [{platform}] {RANK_TYPES[type_name]['name']}: failed - {e}")
-                # 尝试从缓存恢复该榜单
-                if cache.get("platforms", {}).get(platform, {}).get(type_name):
-                    result["platforms"][platform][type_name] = cache["platforms"][platform][type_name]
-                    result["platforms"][platform][type_name]["source"] = "cache"
-                    print(f"    -> fallback to cache")
+                ranking_errors.append(f"{platform}/{type_name}: {e}")
+
+    if ranking_errors:
+        raise RuntimeError(
+            "ranking collection incomplete; keeping the previous Pages deployment: "
+            + "; ".join(ranking_errors)
+        )
 
     current_sizes = {(platform, chart): len(data.get("items", [])) for platform, charts in result["platforms"].items() for chart, data in charts.items()}
     previous_sizes = {(platform, chart): len(data.get("items", [])) for platform, charts in cache.get("platforms", {}).items() for chart, data in charts.items()}
-    for issue in validate_chart_sizes(current_sizes, previous_sizes):
-        cached = cache.get("platforms", {}).get(issue.platform, {}).get(issue.chart)
-        if cached:
-            result["platforms"][issue.platform][issue.chart] = {**cached, "source": "cache"}
-            print(f"  [{issue.platform}/{issue.chart}] quality fallback: {issue.message}")
+    size_issues = validate_chart_sizes(current_sizes, previous_sizes)
+    if size_issues:
+        details = "; ".join(f"{issue.platform}/{issue.chart}: {issue.message}" for issue in size_issues)
+        raise RuntimeError(
+            "ranking size validation failed; keeping the previous Pages deployment: " + details
+        )
 
     # 2. 收集所有唯一游戏（用于详情补全和标签筛选）
     print("\n=== Collecting all unique games ===")

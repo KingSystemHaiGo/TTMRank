@@ -82,7 +82,7 @@ class ChangeStateTests(unittest.TestCase):
             self.assertIsNone(load_state(state_path))
             state_path.write_text("not json", encoding="utf-8")
             self.assertIsNone(load_state(state_path))
-            state_path.write_text(json.dumps({"schema_version": "0.9"}), encoding="utf-8")
+            state_path.write_text(json.dumps({"schema_version": "1.0"}), encoding="utf-8")
             self.assertIsNone(load_state(state_path))
             state_path.write_text(
                 json.dumps(

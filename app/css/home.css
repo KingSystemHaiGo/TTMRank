@@ -29,13 +29,13 @@ body { min-height: 100vh; overflow-x: hidden; }
 .home-explore-copy a { display: inline-flex; align-items: center; gap: 8px; color: var(--tap-cyan-strong); font-size: 12px; font-weight: 700; }
 .home-explore-copy a span { transition: transform var(--motion-fast) ease; }
 .home-explore-copy a:hover span { transform: translateX(3px); }
-.home-orbit { width: 100%; max-height: 170px; color: var(--tap-cyan); }
-.home-orbit-rings ellipse { fill: none; stroke: var(--line-strong); stroke-width: 1; }
-.home-orbit-nodes circle { fill: currentColor; stroke: #fff; stroke-width: 3; }
-.home-orbit-nodes circle:nth-child(2), .home-orbit-nodes circle:nth-child(5) { fill: #7b8cff; }
-.home-orbit-nodes circle:nth-child(3), .home-orbit-nodes circle:nth-child(7) { fill: #f3b65a; }
-.home-orbit-nodes circle:nth-child(4) { fill: #e8788d; }
-.home-orbit > path { fill: none; stroke: var(--line-strong); stroke-dasharray: 3 4; }
+.home-map { width: 100%; max-height: 170px; }
+.home-map-lines path { fill: none; stroke: var(--line); stroke-width: 1; }
+.home-map-labels { fill: var(--text-3); font: 10px var(--font); }
+.home-map-nodes rect { fill: var(--tap-cyan); stroke: #fff; stroke-width: 3; }
+.home-map-nodes rect:nth-child(2), .home-map-nodes rect:nth-child(5) { fill: #6f7ee8; }
+.home-map-nodes rect:nth-child(3), .home-map-nodes rect:nth-child(6) { fill: #e5a33d; }
+.home-map-nodes rect:nth-child(4) { fill: #dc7186; }
 
 .snapshot { display: grid; grid-template-columns: minmax(180px, .7fr) minmax(0, 1.5fr); gap: 36px; align-items: center; padding: 28px 0; border-bottom: 1px solid var(--line); }
 .snapshot-items { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -54,7 +54,7 @@ body { min-height: 100vh; overflow-x: hidden; }
   .range-switch { width: 100%; }
   .home-feed-actions { min-height: 0; padding: 16px 0; align-items: flex-start; flex-wrap: wrap; gap: 13px 20px; }
   .home-explore { min-height: 0; grid-template-columns: 1fr; gap: 18px; padding: 24px 0; }
-  .home-orbit { max-height: 138px; }
+  .home-map { max-height: 138px; }
   .snapshot { grid-template-columns: 1fr; gap: 18px; padding: 24px 0; }
   .snapshot-items { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .snapshot-item { padding: 4px 10px; }

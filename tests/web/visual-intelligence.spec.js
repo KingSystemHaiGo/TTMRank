@@ -53,18 +53,34 @@ test('home portal adds no Three, Pixi or visual-data request', async ({ page }) 
   page.on('request', request => requests.push(request.url()));
   await mockChanges(page);
   await page.goto('/index.html');
-  await expect(page.getByRole('link', { name: /进入游戏宇宙/ })).toBeVisible();
+  await expect(page.getByRole('link', { name: /打开游戏地图/ })).toBeVisible();
   expect(requests.some(url => /universe-three|change-map-pixi|visual-current/.test(url))).toBe(false);
 });
 
-test('game universe renders with WebGL and preserves exact DOM details', async ({ page }) => {
+test('flat game map renders with WebGL and preserves exact DOM details', async ({ page }) => {
   await mockVisualData(page);
   await page.goto('/universe.html');
   await expect(page.locator('#universeStage')).toHaveAttribute('data-render-mode', 'webgl');
   await expect(page.locator('#universeCanvas')).toHaveAttribute('data-render-ready', 'true');
+  await expect(page.locator('.universe-marker')).toHaveCount(2);
+  await expect(page.getByRole('heading', { name: 'TapTap制造游戏地图' })).toBeVisible();
+  await expect(page.locator('#universePause')).toHaveCount(0);
+  await expect(page.locator('#universeReset')).toHaveCount(0);
+  await expect(page.locator('#universeStage')).toHaveCSS('background-color', 'rgb(246, 248, 248)');
   await page.locator('.universe-game-row[data-game-id="1"]').click();
   await expect(page.locator('#universeDetail')).toContainText('100.0万');
   await expect(page).toHaveURL(/game=1/);
+});
+
+test('choosing a type removes empty lanes and reuses the map height', async ({ page }) => {
+  await mockVisualData(page);
+  await page.goto('/universe.html?render=static');
+  const initialHeight = await page.locator('#universeStage').evaluate(node => node.getBoundingClientRect().height);
+  await page.getByRole('button', { name: '模拟类型，共1款' }).click();
+  await expect(page.locator('.universe-lane-label')).toHaveCount(1);
+  await expect(page.locator('.universe-marker')).toHaveCount(1);
+  const focusedHeight = await page.locator('#universeStage').evaluate(node => node.getBoundingClientRect().height);
+  expect(focusedHeight).toBeLessThan(initialHeight);
 });
 
 test('explicit static universe never downloads Three.js', async ({ page }) => {
@@ -73,7 +89,7 @@ test('explicit static universe never downloads Three.js', async ({ page }) => {
   await mockVisualData(page);
   await page.goto('/universe.html?render=static');
   await expect(page.locator('#universeStage')).toHaveAttribute('data-render-mode', 'static');
-  await expect(page.locator('#universeStatic circle')).toHaveCount(2);
+  await expect(page.locator('.universe-marker')).toHaveCount(2);
   expect(requests.some(url => url.includes('universe-three.js'))).toBe(false);
 });
 
@@ -117,7 +133,7 @@ test('visual pages avoid horizontal overflow at 390px', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await mockVisualData(page);
   await page.goto('/universe.html?render=static');
-  await expect(page.locator('#universeStatic circle')).toHaveCount(2);
+  await expect(page.locator('.universe-marker')).toHaveCount(2);
   let width = await page.evaluate(() => [document.documentElement.clientWidth, document.documentElement.scrollWidth]);
   expect(width[1]).toBe(width[0]);
 

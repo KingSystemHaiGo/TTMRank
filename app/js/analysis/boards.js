@@ -1,24 +1,22 @@
 import { median, percentileRank } from '../core/statistics.js';
 
 export function nonHotNewIds(appearances, platform = 'all') {
-  const platforms = platform === 'all' ? [...new Set(appearances.map(row => row.platform))] : [platform];
-  const result = new Set();
-  platforms.forEach(current => {
-    const rows = appearances.filter(row => row.platform === current);
-    const excluded = new Set(rows.filter(row => row.chart === 'hot' || row.chart === 'new').map(row => row.game_id));
-    rows.filter(row => row.chart !== 'hot' && row.chart !== 'new').forEach(row => { if (!excluded.has(row.game_id)) result.add(row.game_id); });
-  });
-  return result;
+  const excluded = new Set(appearances.filter(row => row.chart === 'hot' || row.chart === 'new').map(row => row.game_id));
+  return new Set(appearances
+    .filter(row => row.chart !== 'hot' && row.chart !== 'new' && (platform === 'all' || row.platform === platform))
+    .map(row => row.game_id)
+    .filter(id => !excluded.has(id)));
 }
 
-export function buildBoards({ games, metrics, appearances }, { platform = 'all', baselineMetrics = null } = {}) {
+export function buildBoards({ games, metrics, appearances }, { platform = 'all', baselineMetrics = null, globalAppearances = appearances, eligibleIds = null } = {}) {
   const metricMap = new Map(metrics.map(metric => [metric.game_id, metric]));
   const heatMedian = baselineMetrics?.heatMedian ?? median(games.map(game => game.heat));
   const scoreMedian = baselineMetrics?.scoreMedian ?? median(games.map(game => game.score));
   const dailyMedian = baselineMetrics?.dailyMedian ?? median(metrics.map(metric => metric.heat_per_day_lifetime));
   const byHeat = list => [...list].sort((a, b) => (b.heat || 0) - (a.heat || 0));
   const idsForChart = chart => new Set(appearances.filter(row => row.chart === chart).map(row => row.game_id));
-  const nonHot = nonHotNewIds(appearances, platform);
+  const nonHot = nonHotNewIds(globalAppearances, platform);
+  const eligible = eligibleIds ? new Set(eligibleIds) : null;
   const androidIds = new Set(appearances.filter(row => row.platform === 'android').map(row => row.game_id));
   const iosIds = new Set(appearances.filter(row => row.platform === 'ios').map(row => row.game_id));
   const observedAt = Math.max(...games.map(game => game.observed_at || 0), 0);
@@ -53,7 +51,7 @@ export function buildBoards({ games, metrics, appearances }, { platform = 'all',
     dailyHeat: dailyHeat.slice(0, 15),
     hot: byHeat(games.filter(game => idsForChart('hot').has(game.id))).slice(0, 15),
     newGames: byHeat(games.filter(game => idsForChart('new').has(game.id))).slice(0, 15),
-    nonHotNew: byHeat(games.filter(game => nonHot.has(game.id))).slice(0, 15),
+    nonHotNew: byHeat(games.filter(game => nonHot.has(game.id) && (!eligible || eligible.has(game.id)))).slice(0, 15),
     rating: [...games].filter(game => game.score !== null).sort((a, b) => b.score - a.score || (b.heat || 0) - (a.heat || 0)).slice(0, 15),
     reputationWarning: [...games].filter(game => game.score !== null && game.heat >= heatMedian).sort((a, b) => a.score - b.score).slice(0, 15),
     iosExclusive: byHeat(games.filter(game => iosIds.has(game.id) && !androidIds.has(game.id))).slice(0, 15),

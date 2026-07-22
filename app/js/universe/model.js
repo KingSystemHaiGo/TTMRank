@@ -34,16 +34,6 @@ export function validateVisualArtifact(value) {
   return value;
 }
 
-function hashUnit(value) {
-  let hash = 2166136261;
-  const text = String(value);
-  for (let index = 0; index < text.length; index += 1) {
-    hash ^= text.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return (hash >>> 0) / 4_294_967_295;
-}
-
 function normalizedLog(value, minimum, maximum) {
   const current = Math.log10(Math.max(0, finite(value) || 0) + 1);
   const low = Math.log10(Math.max(0, minimum) + 1);
@@ -57,32 +47,88 @@ export function buildUniverseLayout(input) {
   const heats = games.map(game => Math.max(0, finite(game.heat) || 0));
   const minimumHeat = heats.length ? Math.min(...heats) : 0;
   const maximumHeat = heats.length ? Math.max(...heats) : 0;
-  const clusters = artifact.clusters.length ? artifact.clusters : ['其他'];
+  const declaredClusters = artifact.clusters.length ? artifact.clusters : ['其他'];
+  const usedClusters = new Set(games.map(game => declaredClusters.includes(game.cluster) ? game.cluster : '其他'));
+  const clusters = declaredClusters.filter(cluster => usedClusters.has(cluster));
+  if (usedClusters.has('其他') && !clusters.includes('其他')) clusters.push('其他');
+  if (!clusters.length) clusters.push('其他');
   const clusterIndex = new Map(clusters.map((cluster, index) => [cluster, index]));
-  const sector = (Math.PI * 2) / clusters.length;
   const nodes = games.map(game => {
     const heatLevel = normalizedLog(game.heat, minimumHeat, maximumHeat);
     const cluster = clusterIndex.has(game.cluster) ? game.cluster : '其他';
-    const index = clusterIndex.get(cluster) ?? 0;
-    const jitter = (hashUnit(game.id) - 0.5) * sector * 0.62;
-    const angle = index * sector + jitter - Math.PI / 2;
-    // Hotter games live nearer the core; cooler games form the outer discovery ring.
-    const radialDistance = 5.2 + (1 - heatLevel) * 11.8 + (hashUnit(`${game.id}:radius`) - 0.5) * 1.4;
     const score = finite(game.score);
-    const y = score === null ? -0.7 : Math.max(-2.6, Math.min(3.2, (score - 7.5) * 1.55));
     return {
       ...game,
       cluster,
-      angle,
-      radialDistance,
-      x: Math.cos(angle) * radialDistance,
-      y,
-      z: Math.sin(angle) * radialDistance,
-      size: 0.24 + heatLevel * 0.58,
+      lane: clusterIndex.get(cluster) ?? 0,
+      plotX: 0.025 + heatLevel * 0.95,
+      plotY: 0,
+      scoreBand: score === null ? 'unrated' : score >= 9 ? 'excellent' : score >= 8 ? 'good' : 'standard',
       heatLevel,
     };
   });
+
+  for (let lane = 0; lane < clusters.length; lane += 1) {
+    const laneNodes = nodes
+      .filter(node => node.lane === lane)
+      .sort((left, right) => left.plotX - right.plotX || left.id - right.id);
+    const slotEnds = [-1, -1];
+    const slotNodes = [[], []];
+    laneNodes.forEach((node, index) => {
+      let slot = slotEnds.findIndex(end => node.plotX - end >= 0.046);
+      if (slot < 0) slot = slotEnds.indexOf(Math.min(...slotEnds));
+      node.displayX = Math.max(node.plotX, slotEnds[slot] + 0.046);
+      slotEnds[slot] = node.displayX;
+      node.laneSlot = slot;
+      slotNodes[slot].push(node);
+      node.plotY = (lane + (slot === 0 ? 0.28 : 0.72)) / clusters.length;
+      node.featured = index === laneNodes.length - 1;
+    });
+    slotNodes.forEach(rows => {
+      const overflow = Math.max(0, (rows.at(-1)?.displayX || 0) - 0.975);
+      rows.forEach(node => { node.displayX = Math.max(0.025, node.displayX - overflow); });
+    });
+  }
   return { clusters, nodes };
+}
+
+export function selectMapNodes(nodes, {
+  focused = false,
+  maxPerLane = 5,
+  maxFocused = 12,
+  includeId = 0,
+} = {}) {
+  const cap = Math.max(1, focused ? maxFocused : maxPerLane);
+  const lanes = new Map();
+  for (const node of nodes || []) {
+    if (!lanes.has(node.lane)) lanes.set(node.lane, []);
+    lanes.get(node.lane).push(node);
+  }
+  const selected = [];
+  [...lanes.entries()].sort(([left], [right]) => left - right).forEach(([_lane, laneNodes]) => {
+    laneNodes.sort((left, right) => left.plotX - right.plotX || left.id - right.id);
+    if (laneNodes.length <= cap) {
+      selected.push(...laneNodes);
+      return;
+    }
+    const indices = new Set();
+    for (let index = 0; index < cap; index += 1) {
+      indices.add(Math.round((index * (laneNodes.length - 1)) / Math.max(1, cap - 1)));
+    }
+    const representatives = [...indices].map(index => laneNodes[index]);
+    const included = laneNodes.find(node => node.id === Number(includeId));
+    if (included && !representatives.some(node => node.id === included.id)) {
+      let nearestIndex = 0;
+      for (let index = 1; index < representatives.length; index += 1) {
+        if (Math.abs(representatives[index].plotX - included.plotX)
+          < Math.abs(representatives[nearestIndex].plotX - included.plotX)) nearestIndex = index;
+      }
+      representatives[nearestIndex] = included;
+      representatives.sort((left, right) => left.plotX - right.plotX || left.id - right.id);
+    }
+    selected.push(...representatives);
+  });
+  return selected;
 }
 
 export function renderMode({

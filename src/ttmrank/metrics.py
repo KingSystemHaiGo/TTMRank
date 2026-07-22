@@ -106,14 +106,13 @@ def summarize_games(games: Sequence[Game], metrics: Sequence[GameMetric], high_s
 
 
 def non_hot_new_candidates(appearances: Sequence[Appearance], platform: str = "all") -> set[int]:
-    platforms = {row.platform for row in appearances} if platform == "all" else {platform}
-    result: set[int] = set()
-    for current_platform in platforms:
-        rows = [row for row in appearances if row.platform == current_platform]
-        excluded = {row.game_id for row in rows if row.chart in {"hot", "new"}}
-        other = {row.game_id for row in rows if row.chart not in {"hot", "new"}}
-        result.update(other - excluded)
-    return result
+    excluded = {row.game_id for row in appearances if row.chart in {"hot", "new"}}
+    other = {
+        row.game_id
+        for row in appearances
+        if row.chart not in {"hot", "new"} and (platform == "all" or row.platform == platform)
+    }
+    return other - excluded
 
 
 def analysis_boards(games: Sequence[Game], appearances: Sequence[Appearance], metrics: Sequence[GameMetric]) -> dict[str, list[int]]:

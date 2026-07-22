@@ -9,7 +9,7 @@ const BOARD_DEFS = [
   ['dailyHeat','日均热度 TOP15','当前热度 ÷ 精确上线小时 × 24','orange'],
   ['hot','热门榜 TOP15','已采集热门榜中的游戏，按热度排序',''],
   ['newGames','新品榜 TOP15','已采集新品榜中的游戏，按热度排序','blue'],
-  ['nonHotNew','非热非新榜 TOP15','不在同平台热门/新品榜，但在其他榜单',''],
+  ['nonHotNew','非新非热榜 TOP15','未进入 Android 或 iOS 的任何热门榜、新品榜，但进入至少一个其他榜单',''],
   ['trafficOutperformance','流量超额 TOP15','热度百分位高于评分百分位','orange'],
   ['reputationOutperformance','口碑超额 TOP15','评分百分位高于热度百分位','blue'],
   ['rating','评分 TOP15','有效评分降序，同时展示热度',''],
