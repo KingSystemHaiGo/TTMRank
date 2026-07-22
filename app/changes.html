@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="TTMRank 全部游戏变化：按时间、范围、变化类型、平台和游戏名称筛选排名、评分及榜单覆盖事件。">
+  <title>全部游戏变化 · TTMRank</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/changes.css?v=1">
+  <script type="module" src="js/changes/app.js?v=1"></script>
+</head>
+<body data-page="changes">
+  <header class="intel-header">
+    <div class="reading-container intel-header-inner">
+      <a class="intel-brand" href="index.html" aria-label="TTMRank 情报首页">
+        <span class="intel-brand-mark" aria-hidden="true">T</span>
+        <span class="intel-brand-copy"><strong>TTMRank</strong><small>游戏变化情报</small></span>
+      </a>
+      <nav class="intel-nav" aria-label="主要导航">
+        <a href="index.html" aria-current="page">情报</a>
+        <a href="analysis.html?scope=made">游戏分析</a>
+        <a href="rankings.html">原始排行</a>
+        <a class="intel-nav-external" href="https://github.com/KingSystemHaiGo/TTMRank" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="reading-container changes-main">
+    <section class="changes-intro" aria-labelledby="changesTitle">
+      <div><h1 id="changesTitle">全部游戏变化</h1><p>筛选排名、进出榜、评分与榜单覆盖事件。</p></div>
+      <div class="changes-update"><span>最近采集</span><strong id="changesFreshness">正在读取最新变化</strong></div>
+    </section>
+
+    <section class="changes-filters" aria-label="变化筛选">
+      <div class="filter-modes">
+        <div class="range-switch" role="group" aria-label="变化时间范围">
+          <button type="button" data-range="1h" aria-pressed="false">最近1小时</button>
+          <button type="button" data-range="24h" aria-pressed="true">最近24小时</button>
+          <button type="button" data-range="7d" aria-pressed="false">最近7天</button>
+        </div>
+        <div class="scope-switch" role="group" aria-label="游戏范围">
+          <button type="button" data-scope="made" aria-pressed="true">TapTap制造</button>
+          <button type="button" data-scope="all" aria-pressed="false">全站参考</button>
+        </div>
+      </div>
+      <div class="filter-fields">
+        <label><span>变化类型</span><select id="changeType"><option value="all">全部变化</option><option value="rank">排名变化</option><option value="appearance">进出榜</option><option value="score">评分变化</option><option value="coverage">榜单覆盖</option></select></label>
+        <label><span>平台</span><select id="changePlatform"><option value="all">全部平台</option><option value="android">Android</option><option value="ios">iOS</option></select></label>
+        <label class="query-field"><span>游戏名称</span><input id="changeQuery" type="search" placeholder="搜索游戏" autocomplete="off"></label>
+        <button id="clearChanges" class="clear-filter" type="button" hidden>清除筛选</button>
+      </div>
+    </section>
+
+    <section class="complete-feed" aria-labelledby="feedTitle">
+      <div class="complete-feed-head"><h2 id="feedTitle">变化记录</h2><span id="changeCount">—</span></div>
+      <p id="changesPartialNotice" class="partial-notice" hidden>本轮采集不完整，已暂停生成跌出榜单和覆盖减少事件。</p>
+      <div id="changesFeed" class="change-feed" aria-live="polite"><div class="feed-state"><strong>正在读取最新变化</strong></div></div>
+    </section>
+  </main>
+
+  <footer class="reading-container changes-footer"><a href="index.html">返回重点变化</a><span>数据来源 TapTap 排行榜 · 非 TapTap 官方产品</span></footer>
+</body>
+</html>

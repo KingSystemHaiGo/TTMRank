@@ -1,31 +1,27 @@
 import { test, expect } from '@playwright/test';
 
-test('concise home routes to game analysis and preserved rankings', async ({ page }) => {
+test('change-intelligence home routes to analysis and preserved rankings', async ({ page }) => {
   await page.goto('/index.html');
   await expect(page).toHaveTitle(/TTMRank/);
-  await expect(page.getByRole('link', { name: /进入游戏分析/ })).toHaveAttribute('href', 'analysis.html?scope=made');
-  await expect(page.getByRole('link', { name: /浏览原始排行榜/ })).toHaveAttribute('href', 'rankings.html');
+  await expect(page.getByRole('link', { name: '游戏分析' }).first()).toHaveAttribute('href', 'analysis.html?scope=made');
+  await expect(page.getByRole('link', { name: '原始排行' }).first()).toHaveAttribute('href', 'rankings.html');
   await expect(page.getByRole('link', { name: '厂商核实' })).toHaveCount(0);
   await expect(page.locator('#makerCount')).not.toHaveText('—');
   await expect(page.locator('.home-grid')).toHaveCount(0);
-  await expect(page.locator('.snapshot article')).toHaveCount(3);
+  await expect(page.locator('.snapshot-item')).toHaveCount(3);
 });
 
-test('concise home fits the primary mobile experience in one viewport', async ({ page }) => {
+test('change-intelligence home keeps the mobile feed ahead of snapshot metadata', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/index.html');
   const layout = await page.evaluate(() => ({
     width: document.documentElement.clientWidth,
     scrollWidth: document.documentElement.scrollWidth,
-    scrollHeight: document.documentElement.scrollHeight,
-    viewportHeight: window.innerHeight,
-    secondLineCount: document.querySelector('.home-hero h1 em')?.getClientRects().length,
-    snapshotColumns: getComputedStyle(document.querySelector('.snapshot')).gridTemplateColumns.split(' ').length,
+    feedTop: document.querySelector('.change-feed')?.getBoundingClientRect().top,
+    snapshotTop: document.querySelector('.snapshot')?.getBoundingClientRect().top,
   }));
   expect(layout.scrollWidth).toBe(layout.width);
-  expect(layout.scrollHeight).toBeLessThanOrEqual(layout.viewportHeight);
-  expect(layout.secondLineCount).toBe(1);
-  expect(layout.snapshotColumns).toBe(3);
+  expect(layout.feedTop).toBeLessThan(layout.snapshotTop);
 });
 
 test('preserved ranking browser starts with ranks one and two visible', async ({ page }) => {
