@@ -23,7 +23,10 @@ SCORE_FALL = "score_fall"
 COVERAGE_INCREASE = "coverage_increase"
 COVERAGE_DECREASE = "coverage_decrease"
 
-STATE_SCHEMA_VERSION = "1.0"
+# Version 1.0 may contain observations produced from incomplete iOS rankings.
+# Invalidate that private rolling state once so the first complete collection
+# becomes a clean baseline instead of publishing false re-entry events.
+STATE_SCHEMA_VERSION = "1.1"
 FEED_SCHEMA_VERSION = "1.0"
 FEED_RETENTION_SECONDS = 7 * 86_400
 MERGE_WINDOW_SECONDS = 2 * 3_600

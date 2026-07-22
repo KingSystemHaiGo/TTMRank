@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="TTMRank 游戏宇宙：从类型、热度与评分位置探索 TapTap制造游戏。">
-  <title>游戏宇宙 · TTMRank</title>
+  <meta name="description" content="TTMRank 游戏地图：按类型与热度浏览 TapTap制造游戏，并查看评分和榜单覆盖。">
+  <title>游戏地图 · TTMRank</title>
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/universe.css?v=1">
-  <script type="module" src="js/universe/app.js?v=1"></script>
+  <link rel="stylesheet" href="css/universe.css?v=2">
+  <script type="module" src="js/universe/app.js?v=2"></script>
 </head>
 <body data-page="universe">
   <header class="intel-header">
@@ -19,7 +19,7 @@
       </a>
       <nav class="intel-nav" aria-label="主要导航">
         <a href="index.html">情报</a>
-        <a href="universe.html" aria-current="page">游戏宇宙</a>
+        <a href="universe.html" aria-current="page">游戏地图</a>
         <a href="analysis.html?scope=made">游戏分析</a>
         <a href="rankings.html">原始排行</a>
         <a class="intel-nav-external" href="https://github.com/KingSystemHaiGo/TTMRank" target="_blank" rel="noreferrer">GitHub</a>
@@ -29,35 +29,41 @@
 
   <main class="universe-main">
     <section class="reading-container universe-intro" aria-labelledby="universeTitle">
-      <div><h1 id="universeTitle">游戏宇宙</h1><p>从类型方位、热度层级与评分高度，探索 TapTap制造游戏。</p></div>
+      <div>
+        <h1 id="universeTitle">TapTap制造游戏地图</h1>
+        <p>横向比较热度，纵向区分类型；直接找到值得继续观察的游戏。</p>
+      </div>
       <div class="universe-update"><span>数据观察时间</span><strong id="universeFreshness" role="status">正在读取</strong></div>
     </section>
 
-    <section class="universe-workspace" aria-label="游戏宇宙探索器">
+    <section class="universe-workspace" aria-label="TapTap制造游戏地图">
       <div class="universe-stage-column">
         <div class="universe-toolbar">
           <label><span class="sr-only">搜索游戏或标签</span><input id="universeQuery" type="search" placeholder="搜索游戏或标签" autocomplete="off"></label>
           <label><span class="sr-only">按类型筛选</span><select id="universeCluster"><option value="">全部类型</option></select></label>
           <button id="universeClear" type="button" hidden>清除筛选</button>
           <span class="universe-toolbar-spacer"></span>
-          <button id="universePause" type="button" aria-pressed="false" hidden>暂停旋转</button>
-          <button id="universeReset" type="button" hidden>重置视角</button>
-          <a id="universeModeLink" href="universe.html?render=static">使用静态投影</a>
+          <a id="universeModeLink" href="universe.html?render=static">使用轻量模式</a>
         </div>
+
         <div id="universeStage" class="universe-stage" data-render-mode="loading">
-          <canvas id="universeCanvas" hidden aria-label="TapTap制造游戏三维空间图。可拖动旋转，点击节点选择游戏。"></canvas>
-          <svg id="universeStatic" class="universe-static" aria-label="TapTap制造游戏静态空间投影"></svg>
-          <div class="universe-axis universe-axis-score" aria-hidden="true"><span>高评分</span><i></i><span>低评分</span></div>
-          <div class="universe-axis universe-axis-heat" aria-hidden="true"><span>核心 · 高热</span><i></i><span>外圈 · 低热</span></div>
+          <div class="universe-axis" aria-hidden="true"><span>低热度</span><i></i><span>高热度</span></div>
+          <canvas id="universeCanvas" hidden aria-hidden="true"></canvas>
+          <div id="universePlot" class="universe-plot" role="group" aria-label="按类型与热度排列的游戏标记"></div>
           <div class="universe-stage-state"><span id="universeStatus" role="status" aria-live="polite">正在读取游戏数据</span></div>
         </div>
-        <div id="universeLegend" class="universe-legend" aria-label="类型颜色"></div>
-        <p class="universe-reading-note">节点大小表示对数热度；位置越靠近核心，当前热度层级越高；垂直位置表示评分。空间位置由游戏数据稳定生成，不代表游戏之间存在直接关系。</p>
+
+        <div class="universe-key" aria-label="地图读法">
+          <span><i class="key-position"></i>横向顺序＝对数热度</span>
+          <span><i class="key-score">9.2</i>数字＝评分</span>
+          <span><i class="key-cover">3</i>右上角＝榜单覆盖</span>
+        </div>
+        <p class="universe-reading-note">地图只表达当前类型与热度层级；同一类型内会将相近标记上下错开，避免互相遮挡。精确数据始终显示在详情和游戏索引中。</p>
       </div>
 
       <aside class="universe-side" aria-label="游戏索引与选中游戏">
         <section class="universe-detail-shell">
-          <div id="universeDetailEmpty" class="universe-detail-empty"><strong>选择一款游戏</strong><p>点击空间节点或下方游戏名称，查看精确数据。</p></div>
+          <div id="universeDetailEmpty" class="universe-detail-empty"><strong>选择一款游戏</strong><p>点击地图标记或游戏名称，查看精确数据。</p></div>
           <article id="universeDetail" hidden></article>
         </section>
         <section class="universe-index" aria-labelledby="universeIndexTitle">
@@ -68,6 +74,6 @@
     </section>
   </main>
 
-  <footer class="reading-container universe-footer"><span>数据来源 TapTap 排行榜 · 非 TapTap 官方产品</span><a href="analysis.html?scope=made">打开精确游戏分析</a></footer>
+  <footer class="reading-container universe-footer"><span>数据来源 TapTap 排行榜 · 非 TapTap 官方产品</span><a href="analysis.html?scope=made">打开游戏分析</a></footer>
 </body>
 </html>

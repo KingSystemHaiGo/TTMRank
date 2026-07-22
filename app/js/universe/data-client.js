@@ -1,4 +1,4 @@
-import { validateVisualArtifact } from './model.js';
+import { validateVisualArtifact } from './model.js?v=2';
 
 function validFile(value) {
   return typeof value === 'string'
@@ -10,7 +10,7 @@ function validateManifest(manifest) {
     || !Number.isSafeInteger(manifest.observed_at)
     || !validFile(manifest.visual_file)
     || !/^[a-f0-9]{64}$/i.test(String(manifest.visual_sha256 || ''))) {
-    throw new Error('游戏宇宙数据清单格式无效');
+    throw new Error('游戏地图数据清单格式无效');
   }
   return manifest;
 }

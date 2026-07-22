@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   buildUniverseLayout,
   renderMode,
+  selectMapNodes,
   validateVisualArtifact,
 } from '../../app/js/universe/model.js';
 import { buildChangeMap } from '../../app/js/changes/map-model.js';
@@ -18,16 +19,53 @@ const VISUAL = {
   ],
 };
 
-test('universe artifact validation and layout are deterministic and data-bearing', () => {
+test('game map layout is deterministic, flat and data-bearing', () => {
   assert.equal(validateVisualArtifact(VISUAL), VISUAL);
   const first = buildUniverseLayout(VISUAL);
   const second = buildUniverseLayout(VISUAL);
   assert.deepEqual(first, second);
   assert.equal(first.nodes.length, 2);
-  assert.ok(first.nodes[0].size > first.nodes[1].size, 'heat controls node size');
-  assert.ok(first.nodes[0].y > first.nodes[1].y, 'score controls node height');
-  assert.notEqual(first.nodes[0].angle, first.nodes[1].angle, 'clusters occupy distinct sectors');
+  assert.ok(first.nodes[0].plotX > first.nodes[1].plotX, 'heat controls horizontal position');
+  assert.ok(first.nodes.every(node => node.displayX >= 0.025 && node.displayX <= 0.975), 'collision avoidance stays in the plot');
+  assert.notEqual(first.nodes[0].lane, first.nodes[1].lane, 'clusters occupy distinct lanes');
+  assert.equal(first.nodes[0].scoreBand, 'excellent');
+  assert.equal(first.nodes[1].scoreBand, 'standard');
+  assert.equal('angle' in first.nodes[0], false, 'flat map has no fake polar relationship');
+  assert.equal('radialDistance' in first.nodes[0], false, 'flat map has no fake depth');
   assert.throws(() => validateVisualArtifact({ ...VISUAL, games: [{ id: 1 }] }), /视觉数据格式无效/);
+});
+test('game map overview samples heat levels while focused view expands a lane', () => {
+  const layout = buildUniverseLayout({
+    ...VISUAL,
+    games: Array.from({ length: 20 }, (_, index) => ({
+      ...VISUAL.games[0],
+      id: index + 1,
+      title: `游戏${index + 1}`,
+      heat: 10 ** (index / 4),
+    })),
+    clusters: ['模拟'],
+  });
+  const overview = selectMapNodes(layout.nodes, { maxPerLane: 5 });
+  const focused = selectMapNodes(layout.nodes, { focused: true, maxFocused: 12 });
+  assert.equal(overview.length, 5);
+  assert.equal(focused.length, 12);
+  assert.equal(overview[0].id, 1);
+  assert.equal(overview.at(-1).id, 20);
+});
+test('game map selection replaces the nearest representative without increasing density', () => {
+  const layout = buildUniverseLayout({
+    ...VISUAL,
+    games: Array.from({ length: 20 }, (_, index) => ({
+      ...VISUAL.games[0],
+      id: index + 1,
+      title: `游戏${index + 1}`,
+      heat: 10 ** (index / 4),
+    })),
+    clusters: ['模拟'],
+  });
+  const selected = selectMapNodes(layout.nodes, { maxPerLane: 5, includeId: 10 });
+  assert.equal(selected.length, 5);
+  assert.ok(selected.some(node => node.id === 10));
 });
 test('static mode wins before engine download for constrained devices', () => {
   assert.equal(renderMode({ requested: 'auto', webgl: true, saveData: false, hardwareConcurrency: 8 }), 'webgl');
