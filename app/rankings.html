@@ -1,28 +1,32 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="TTMRank 原始排行榜：完整浏览 TapTap Android 与 iOS 多类榜单。">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>原始排行榜 · TTMRank</title>
-  <link rel="stylesheet" href="css/style.css?v=21">
-  <script src="js/app.js?v=21" defer></script>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/style.css?v=22">
+  <script src="js/app.js?v=22" defer></script>
 </head>
-<body>
-  <header class="rank-header">
-    <div class="rank-container header-inner">
-      <a class="rank-brand" href="index.html" aria-label="返回 TTMRank 首页">
-        <span class="rank-brand-mark" aria-hidden="true">T</span>
-        <span><strong>TTMRank</strong><small>原始排行终端</small></span>
+<body data-page="rankings">
+  <header class="intel-header">
+    <div class="container intel-header-inner">
+      <a class="intel-brand" href="index.html" aria-label="TTMRank 情报首页">
+        <span class="intel-brand-mark" aria-hidden="true">T</span>
+        <span class="intel-brand-copy"><strong>TTMRank</strong><small>游戏变化情报</small></span>
       </a>
-      <nav class="rank-nav" aria-label="主要导航">
+      <nav class="intel-nav" aria-label="主要导航">
+        <a href="index.html">情报</a>
         <a href="analysis.html?scope=made">游戏分析</a>
-        <button class="icon-button" id="btnRefresh" title="刷新数据" aria-label="刷新数据">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-        </button>
-        <button class="icon-button" id="btnTheme" title="切换主题" aria-label="切换主题">◐</button>
+        <a href="rankings.html" aria-current="page">原始排行</a>
+        <a class="intel-nav-external" href="https://github.com/KingSystemHaiGo/TTMRank" target="_blank" rel="noreferrer">GitHub</a>
       </nav>
+      <button class="icon-action rank-refresh" id="btnRefresh" type="button" title="重新读取本地数据" aria-label="重新读取本地数据" hidden>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+      </button>
     </div>
   </header>
 
@@ -30,7 +34,7 @@
     <section class="rank-intro" aria-labelledby="rankingTitle">
       <div>
         <h1 id="rankingTitle">原始排行榜</h1>
-        <p>按平台和榜单浏览游戏，排名、评分、热度与标签保持原始口径。</p>
+        <p>按平台与榜单查看完整原始顺序；全站范围仅作核对和参考。</p>
       </div>
       <div class="rank-freshness"><span>最近更新</span><strong id="updateTime">正在读取…</strong><small>数据来源 TapTap 排行榜</small></div>
     </section>
@@ -44,9 +48,9 @@
     <noscript><div class="state-message">此页面需要 JavaScript 才能读取排行榜数据。</div></noscript>
   </main>
 
-  <footer class="rank-footer rank-container"><span>仅供学习研究 · 非 TapTap 官方产品</span><a href="https://www.taptap.cn/top" target="_blank" rel="noreferrer">前往 TapTap 排行榜 ↗</a></footer>
+  <footer class="rank-footer rank-container"><span>数据来源 TapTap 排行榜 · 非 TapTap 官方产品</span><a href="https://www.taptap.cn/top" target="_blank" rel="noreferrer">打开 TapTap 排行榜</a></footer>
 
-  <dialog class="game-modal-bg" id="gameModalBg" aria-label="游戏详情">
+  <dialog class="game-modal-bg" id="gameModalBg" aria-label="游戏信息">
     <aside class="game-modal" id="gameModal"></aside>
   </dialog>
 </body>

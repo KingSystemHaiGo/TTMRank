@@ -37,11 +37,18 @@ class HistoryClient:
         self.token = token
         self.timeout = timeout
         self.last_ingest_status = "not_configured"
+        self.last_archive_status = "not_configured"
 
     def ingest_status(self) -> dict[str, bool | str]:
         return {
             "configured": bool(self.endpoint and self.token),
             "status": self.last_ingest_status,
+        }
+
+    def archive_status(self) -> dict[str, bool | str]:
+        return {
+            "configured": bool(self.endpoint and self.token),
+            "status": self.last_archive_status,
         }
 
     def ingest(self, games: list[dict], captured_at: int) -> bool:
@@ -68,6 +75,55 @@ class HistoryClient:
                 return json.loads(response.read().decode("utf-8"))
         except Exception:
             return {}
+
+    def archive_events(self, events: list[dict]) -> bool:
+        """Append change events to the optional idempotent D1 ledger."""
+
+        if not self.endpoint or not self.token:
+            self.last_archive_status = "not_configured"
+            return False
+        if not events:
+            self.last_archive_status = "success"
+            return True
+        try:
+            for offset in range(0, len(events), 500):
+                request = Request(
+                    f"{self.endpoint}/v1/events",
+                    data=json.dumps(
+                        {"events": events[offset:offset + 500]},
+                        ensure_ascii=False,
+                        separators=(",", ":"),
+                    ).encode("utf-8"),
+                    method="POST",
+                    headers={
+                        "Content-Type": "application/json",
+                        "X-Ingest-Token": self.token,
+                    },
+                )
+                with urlopen(request, timeout=self.timeout) as response:
+                    if response.status != 200:
+                        self.last_archive_status = "failed"
+                        return False
+        except Exception:
+            self.last_archive_status = "failed"
+            return False
+        self.last_archive_status = "success"
+        return True
+
+    def events(self, since: int, scope: str = "made", limit: int = 500) -> list[dict]:
+        """Read a bounded slice of the optional event archive."""
+
+        if not self.endpoint:
+            return []
+        bounded_limit = min(max(int(limit), 1), 500)
+        query = urlencode({"since": int(since), "scope": scope, "limit": bounded_limit})
+        try:
+            with urlopen(f"{self.endpoint}/v1/events?{query}", timeout=self.timeout) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+        except Exception:
+            return []
+        rows = payload.get("events", []) if isinstance(payload, dict) else []
+        return rows if isinstance(rows, list) and all(isinstance(row, dict) for row in rows) else []
 
     @staticmethod
     def metrics_from_points(games: list[dict], at: int, points: list[dict]) -> dict[int, dict]:

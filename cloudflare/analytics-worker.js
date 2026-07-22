@@ -1,6 +1,20 @@
 const DAY_SECONDS = 86_400;
 const DEFAULT_HOURLY_RETENTION_DAYS = 90;
 const DEFAULT_DAILY_RETENTION_DAYS = 730;
+const DEFAULT_EVENT_RETENTION_DAYS = 180;
+const MAX_EVENT_BATCH = 500;
+const EVENT_DELETE_BATCH = 5_000;
+const EVENT_KINDS = new Set([
+  'rank_rise',
+  'rank_fall',
+  'entered',
+  'reentered',
+  'exited',
+  'score_rise',
+  'score_fall',
+  'coverage_increase',
+  'coverage_decrease',
+]);
 
 const json = (data, status = 200, headers = {}) => new Response(JSON.stringify(data), {
   status,
@@ -35,6 +49,53 @@ function validSnapshot(row) {
   return { game_id: gameId, captured_hour: capturedHour, heat, score };
 }
 
+function validNullableNumber(value) {
+  if (value === null || value === undefined) return null;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : undefined;
+}
+
+function validEvent(row) {
+  if (!row || typeof row !== 'object' || Array.isArray(row)) return null;
+  const eventId = typeof row.id === 'string' && /^evt_[a-z0-9]{16,128}$/i.test(row.id)
+    ? row.id
+    : null;
+  const gameId = validInteger(row.game_id);
+  const scope = row.scope;
+  const kind = row.kind;
+  const platform = row.platform == null ? null : row.platform;
+  const chart = row.chart == null ? null : row.chart;
+  const before = validNullableNumber(row.before);
+  const after = validNullableNumber(row.after);
+  const observedAt = validInteger(row.observed_at);
+  const firstObservedAt = validInteger(row.first_observed_at ?? observedAt);
+  const lastObservedAt = validInteger(row.last_observed_at ?? observedAt);
+  const occurrences = validInteger(row.occurrences ?? 1);
+  const importance = validInteger(row.importance);
+  if (!eventId || !gameId || !['made', 'all'].includes(scope) || !EVENT_KINDS.has(kind)
+    || platform !== null && (typeof platform !== 'string' || platform.length > 64)
+    || chart !== null && (typeof chart !== 'string' || chart.length > 64)
+    || before === undefined || after === undefined
+    || !firstObservedAt || !lastObservedAt || firstObservedAt > lastObservedAt
+    || !occurrences || occurrences > 10_000
+    || importance === null || importance < 0 || importance > 100) return null;
+  return {
+    event_id: eventId,
+    game_id: gameId,
+    scope,
+    kind,
+    platform,
+    chart,
+    before_value: before,
+    after_value: after,
+    first_observed_at: firstObservedAt,
+    last_observed_at: lastObservedAt,
+    occurrences,
+    importance,
+    payload_json: JSON.stringify(row),
+  };
+}
+
 function retentionDays(value, fallback, minimum, maximum) {
   const parsed = validInteger(value);
   return parsed !== null && parsed >= minimum && parsed <= maximum ? parsed : fallback;
@@ -44,12 +105,15 @@ function maintenanceCutoffs(nowSeconds, env = {}) {
   const today = Math.floor(nowSeconds / DAY_SECONDS) * DAY_SECONDS;
   const hourlyDays = retentionDays(env.HOURLY_RETENTION_DAYS, DEFAULT_HOURLY_RETENTION_DAYS, 7, 365);
   const dailyDays = retentionDays(env.DAILY_RETENTION_DAYS, DEFAULT_DAILY_RETENTION_DAYS, hourlyDays + 1, 3650);
+  const eventDays = retentionDays(env.EVENT_RETENTION_DAYS, DEFAULT_EVENT_RETENTION_DAYS, 30, 3650);
   return {
     today,
     hourly_days: hourlyDays,
     daily_days: dailyDays,
+    event_days: eventDays,
     hourly_cutoff: today - hourlyDays * DAY_SECONDS,
     daily_cutoff: today - dailyDays * DAY_SECONDS,
+    event_cutoff: today - eventDays * DAY_SECONDS,
   };
 }
 
@@ -229,6 +293,80 @@ async function ingest(request, env) {
   return json({ ok: true, written: statements.length }, 200, cors(request, env));
 }
 
+async function ingestEvents(request, env) {
+  if (!env.INGEST_TOKEN || request.headers.get('X-Ingest-Token') !== env.INGEST_TOKEN) {
+    return json({ error: 'unauthorized' }, 401, cors(request, env));
+  }
+  if (Number(request.headers.get('Content-Length') || 0) > 1_000_000) {
+    return json({ error: 'request too large' }, 413, cors(request, env));
+  }
+  let bytes;
+  try {
+    bytes = await readLimitedBytes(request, 1_000_000);
+  } catch {
+    return json({ error: 'request too large' }, 413, cors(request, env));
+  }
+  let body;
+  try {
+    body = JSON.parse(new TextDecoder().decode(bytes));
+  } catch {
+    return json({ error: 'invalid JSON' }, 400, cors(request, env));
+  }
+  if (!Array.isArray(body.events)) return json({ error: 'invalid events' }, 400, cors(request, env));
+  if (body.events.length > MAX_EVENT_BATCH) return json({ error: 'too many events' }, 413, cors(request, env));
+  const events = body.events.map(validEvent);
+  if (events.some(row => !row)) return json({ error: 'invalid event row' }, 400, cors(request, env));
+  const statements = events.map(row => env.DB.prepare(`INSERT INTO game_change_events(
+      event_id,game_id,scope,kind,platform,chart,before_value,after_value,
+      first_observed_at,last_observed_at,occurrences,importance,payload_json
+    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
+    ON CONFLICT(event_id) DO NOTHING`)
+    .bind(
+      row.event_id,
+      row.game_id,
+      row.scope,
+      row.kind,
+      row.platform,
+      row.chart,
+      row.before_value,
+      row.after_value,
+      row.first_observed_at,
+      row.last_observed_at,
+      row.occurrences,
+      row.importance,
+      row.payload_json,
+    ));
+  if (statements.length) await env.DB.batch(statements);
+  return json({ ok: true, written: statements.length }, 200, cors(request, env));
+}
+
+async function events(request, env, url) {
+  const since = validInteger(url.searchParams.get('since'));
+  const scope = url.searchParams.get('scope') || 'made';
+  const requestedLimit = validInteger(url.searchParams.get('limit')) ?? MAX_EVENT_BATCH;
+  const limit = Math.min(Math.max(requestedLimit, 1), MAX_EVENT_BATCH);
+  if (since === null || since < 0 || !['made', 'all'].includes(scope)) {
+    return json({ error: 'invalid event parameters' }, 400, cors(request, env));
+  }
+  const result = await env.DB.prepare(`SELECT payload_json FROM game_change_events
+    WHERE last_observed_at >= ? AND scope = ?
+    ORDER BY last_observed_at DESC, importance DESC, event_id ASC LIMIT ?`)
+    .bind(since, scope, limit).all();
+  const rows = [];
+  for (const row of result.results || []) {
+    try {
+      const event = JSON.parse(row.payload_json);
+      if (event && typeof event === 'object' && !Array.isArray(event)) rows.push(event);
+    } catch {
+      // Skip a corrupt archive row instead of breaking all bounded reads.
+    }
+  }
+  return json({ events: rows }, 200, {
+    ...cors(request, env),
+    'Cache-Control': 'public, max-age=300',
+  });
+}
+
 const COMPACT_DAILY_SQL = `INSERT INTO game_heat_daily (
     game_id, captured_day, first_captured_hour, last_captured_hour,
     sample_count, heat_min, heat_max, heat_sum, heat_last,
@@ -308,10 +446,19 @@ const FIND_OLDEST_PENDING_SQL = `SELECT
 const HAS_MORE_SQL = `SELECT CASE WHEN
     EXISTS (SELECT 1 FROM game_heat_hourly WHERE captured_hour < ?)
     OR EXISTS (SELECT 1 FROM game_heat_daily WHERE captured_day < ?)
+    OR EXISTS (SELECT 1 FROM game_change_events WHERE last_observed_at < ?)
   THEN 1 ELSE 0 END AS has_more`;
 
 const PRUNE_MAINTENANCE_RUNS_SQL = `DELETE FROM history_maintenance_runs
   WHERE started_at < ? AND run_id <> ?`;
+
+const DELETE_EXPIRED_EVENTS_SQL = `DELETE FROM game_change_events
+  WHERE event_id IN (
+    SELECT event_id FROM game_change_events
+    WHERE last_observed_at < ?
+    ORDER BY last_observed_at ASC, event_id ASC
+    LIMIT ?
+  )`;
 
 const ADVANCE_ARCHIVED_THROUGH_SQL = `UPDATE history_retention_state
   SET archived_through = MAX(archived_through, ?)
@@ -339,7 +486,7 @@ async function maintain(request, env) {
     const processedDay = oldestPendingDay(oldest, cutoffs.daily_cutoff, cutoffs.hourly_cutoff);
     if (processedDay === null) {
       const completedAt = Math.floor(Date.now() / 1000);
-      await env.DB.batch([
+      const results = await env.DB.batch([
         env.DB.prepare(`INSERT INTO history_maintenance_runs
             (run_id,started_at,completed_at,status,hourly_cutoff,daily_cutoff)
             VALUES(?,?,?,'completed',?,?)
@@ -349,15 +496,36 @@ async function maintain(request, env) {
               hourly_rows_archived=0,hourly_rows_deleted=0,daily_rows_deleted=0,error=NULL`)
           .bind(runId, now, completedAt, cutoffs.hourly_cutoff, cutoffs.daily_cutoff),
         env.DB.prepare(PRUNE_MAINTENANCE_RUNS_SQL).bind(cutoffs.daily_cutoff, runId),
+        env.DB.prepare(DELETE_EXPIRED_EVENTS_SQL).bind(cutoffs.event_cutoff, EVENT_DELETE_BATCH),
+        env.DB.prepare(HAS_MORE_SQL).bind(
+          cutoffs.hourly_cutoff,
+          cutoffs.daily_cutoff,
+          cutoffs.event_cutoff,
+        ),
       ]);
+      const eventsDeleted = databaseChanges(results[2]);
+      const hasMore = firstResultInteger(results[3], 'has_more') === 1;
       return json({
         ok: true,
         run_id: runId,
         processed_day: null,
-        has_more: false,
-        retention: { hourly_days: cutoffs.hourly_days, daily_days: cutoffs.daily_days },
-        cutoffs: { hourly: cutoffs.hourly_cutoff, daily: cutoffs.daily_cutoff },
-        rows: { hourly_archived: 0, hourly_deleted: 0, daily_deleted: 0 },
+        has_more: hasMore,
+        retention: {
+          hourly_days: cutoffs.hourly_days,
+          daily_days: cutoffs.daily_days,
+          event_days: cutoffs.event_days,
+        },
+        cutoffs: {
+          hourly: cutoffs.hourly_cutoff,
+          daily: cutoffs.daily_cutoff,
+          events: cutoffs.event_cutoff,
+        },
+        rows: {
+          hourly_archived: 0,
+          hourly_deleted: 0,
+          daily_deleted: 0,
+          events_deleted: eventsDeleted,
+        },
       }, 200, cors(request, env));
     }
 
@@ -439,7 +607,13 @@ async function maintain(request, env) {
       ),
       env.DB.prepare(PRUNE_MAINTENANCE_RUNS_SQL)
         .bind(cutoffs.daily_cutoff, runId),
-      env.DB.prepare(HAS_MORE_SQL).bind(cutoffs.hourly_cutoff, cutoffs.daily_cutoff),
+      env.DB.prepare(DELETE_EXPIRED_EVENTS_SQL)
+        .bind(cutoffs.event_cutoff, EVENT_DELETE_BATCH),
+      env.DB.prepare(HAS_MORE_SQL).bind(
+        cutoffs.hourly_cutoff,
+        cutoffs.daily_cutoff,
+        cutoffs.event_cutoff,
+      ),
     );
     // D1 batches are atomic: aggregate, source deletion and completed audit
     // either all commit for this UTC day or none do.
@@ -450,18 +624,29 @@ async function maintain(request, env) {
     const dailyDeleteIndex = selectedHourlyDay ? hourlyDeleteIndex + 1 : watermarkIndex;
     const hourlyRowsDeleted = selectedHourlyDay ? databaseChanges(results[hourlyDeleteIndex]) : 0;
     const dailyRowsDeleted = databaseChanges(results[dailyDeleteIndex]);
+    const eventsDeleteIndex = results.length - 2;
+    const eventsDeleted = databaseChanges(results[eventsDeleteIndex]);
     const hasMore = firstResultInteger(results.at(-1), 'has_more') === 1;
     return json({
       ok: true,
       run_id: runId,
       processed_day: processedDay,
       has_more: hasMore,
-      retention: { hourly_days: cutoffs.hourly_days, daily_days: cutoffs.daily_days },
-      cutoffs: { hourly: cutoffs.hourly_cutoff, daily: cutoffs.daily_cutoff },
+      retention: {
+        hourly_days: cutoffs.hourly_days,
+        daily_days: cutoffs.daily_days,
+        event_days: cutoffs.event_days,
+      },
+      cutoffs: {
+        hourly: cutoffs.hourly_cutoff,
+        daily: cutoffs.daily_cutoff,
+        events: cutoffs.event_cutoff,
+      },
       rows: {
         hourly_archived: archiveDay ? archivedRows : 0,
         hourly_deleted: hourlyRowsDeleted,
         daily_deleted: dailyRowsDeleted,
+        events_deleted: eventsDeleted,
       },
     }, 200, cors(request, env));
   } catch (error) {
@@ -506,7 +691,9 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...cors(request, env), 'Access-Control-Allow-Methods': 'GET,POST,OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type,X-Ingest-Token,X-Maintenance-Token,X-Maintenance-Run' } });
     if (url.pathname === '/v1/series' && request.method === 'GET') return series(request, env, url);
     if (url.pathname === '/v1/baselines' && request.method === 'GET') return baselines(request, env, url);
+    if (url.pathname === '/v1/events' && request.method === 'GET') return events(request, env, url);
     if (url.pathname === '/v1/snapshots' && request.method === 'POST') return ingest(request, env);
+    if (url.pathname === '/v1/events' && request.method === 'POST') return ingestEvents(request, env);
     if (url.pathname === '/v1/maintenance' && request.method === 'POST') return maintain(request, env);
     if (url.pathname === '/v1/icon' && request.method === 'GET') return icon(request, env, url);
     return json({ error: 'not found' }, 404, cors(request, env));
@@ -523,5 +710,6 @@ export const __test = {
   readLimitedBytes,
   snapshotWindowError,
   validInteger,
+  validEvent,
   validSnapshot,
 };

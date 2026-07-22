@@ -1,45 +1,73 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="TTMRank：浏览 TapTap 原始排行榜，并从游戏类型、评分、热度与榜单表现中发现信号。">
-  <title>TTMRank · 游戏排行与分析</title>
+  <meta name="description" content="TTMRank：直接查看 TapTap制造游戏的排名、评分与榜单覆盖变化，并保留完整游戏分析和原始排行榜。">
+  <title>游戏变化情报 · TTMRank</title>
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/home.css?v=3">
-  <script type="module" src="js/home.js?v=2"></script>
+  <link rel="stylesheet" href="css/home.css?v=4">
+  <script type="module" src="js/home.js?v=3"></script>
 </head>
-<body>
-  <header class="home-header">
-    <a class="home-brand" href="index.html" aria-label="TTMRank 首页">
-      <span class="home-brand-mark" aria-hidden="true">T</span>
-      <span><strong>TTMRank</strong><small>游戏排行与分析</small></span>
-    </a>
-    <nav aria-label="主要导航">
-      <a href="analysis.html?scope=made">游戏分析</a>
-      <a href="rankings.html">原始排行榜</a>
-      <a class="github-link" href="https://github.com/KingSystemHaiGo/TTMRank" target="_blank" rel="noreferrer">GitHub ↗</a>
-    </nav>
+<body data-page="home">
+  <header class="intel-header">
+    <div class="reading-container intel-header-inner">
+      <a class="intel-brand" href="index.html" aria-label="TTMRank 情报首页">
+        <span class="intel-brand-mark" aria-hidden="true">T</span>
+        <span class="intel-brand-copy"><strong>TTMRank</strong><small>游戏变化情报</small></span>
+      </a>
+      <nav class="intel-nav" aria-label="主要导航">
+        <a href="index.html" aria-current="page">情报</a>
+        <a href="analysis.html?scope=made">游戏分析</a>
+        <a href="rankings.html">原始排行</a>
+        <a class="intel-nav-external" href="https://github.com/KingSystemHaiGo/TTMRank" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <section class="home-hero">
-      <div class="signal-chip"><i></i><span id="freshness">正在读取最新快照</span></div>
-      <h1>先看游戏，<br><em>再理解排行榜。</em></h1>
-      <p class="home-lead">从 TapTap制造游戏出发看类型信号；需要核对时，完整原始排行榜始终在旁。</p>
-      <div class="home-actions">
-        <a class="home-btn primary" href="analysis.html?scope=made">进入游戏分析 <span>→</span></a>
-        <a class="home-btn secondary" href="rankings.html">浏览原始排行榜</a>
+  <main class="reading-container home-main">
+    <section class="home-intro" aria-labelledby="homeTitle">
+      <div>
+        <h1 id="homeTitle">TapTap制造游戏变化</h1>
+        <p>直接查看排名、评分与榜单覆盖的变化。</p>
       </div>
-      <section class="snapshot" aria-label="当前数据快照">
-        <article><strong id="makerCount">—</strong><span>TapTap制造游戏</span></article>
-        <article><strong id="gameCount">—</strong><span>全站参考游戏</span></article>
-        <article><strong id="appearanceCount">—</strong><span>原始榜单记录</span></article>
-      </section>
+      <div class="home-update"><span>每20分钟采集</span><strong id="freshness">正在读取最新变化</strong></div>
+    </section>
+
+    <section class="home-feed-section" aria-labelledby="focusTitle">
+      <div class="home-feed-toolbar">
+        <div>
+          <h2 id="focusTitle">重点变化</h2>
+          <p>优先显示排名、评分与榜单覆盖中更明显的变化。</p>
+        </div>
+        <div class="range-switch" role="group" aria-label="变化时间范围">
+          <button type="button" data-range="1h" aria-pressed="false">最近1小时</button>
+          <button type="button" data-range="24h" aria-pressed="true">最近24小时</button>
+          <button type="button" data-range="7d" aria-pressed="false">最近7天</button>
+        </div>
+      </div>
+      <p id="partialNotice" class="partial-notice" hidden>本轮采集不完整，已暂停生成跌出榜单和覆盖减少事件。</p>
+      <div id="changeFeed" class="change-feed" aria-live="polite">
+        <div class="feed-state"><strong>正在读取最新变化</strong></div>
+      </div>
+      <div class="home-feed-actions">
+        <a id="allChangesLink" class="text-action primary" href="changes.html">查看全部变化</a>
+        <a class="text-action" href="analysis.html?scope=made">打开游戏分析</a>
+        <a class="text-action" href="rankings.html">浏览原始排行</a>
+      </div>
+    </section>
+
+    <section class="snapshot" aria-label="当前数据快照">
+      <div class="snapshot-heading"><h2>当前快照</h2><p>仅作当前覆盖参考，不替代变化情报。</p></div>
+      <div class="snapshot-items">
+        <div class="snapshot-item"><strong id="makerCount">—</strong><span>TapTap制造游戏</span></div>
+        <div class="snapshot-item"><strong id="gameCount">—</strong><span>全站参考游戏</span></div>
+        <div class="snapshot-item"><strong id="appearanceCount">—</strong><span>原始榜单记录</span></div>
+      </div>
     </section>
   </main>
 
-  <footer class="home-footer"><span>数据来源 TapTap 排行榜</span><span>只看游戏数据 · 原始榜单完整保留 · 非 TapTap 官方产品</span></footer>
+  <footer class="reading-container home-footer"><span>数据来源 TapTap 排行榜</span><span>非 TapTap 官方产品</span></footer>
 </body>
 </html>

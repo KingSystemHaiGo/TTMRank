@@ -68,7 +68,6 @@ class WorkflowTests(unittest.TestCase):
     def test_refresh_deploys_generated_pages_artifact_without_git_writes(self):
         refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")
 
-        self.assertIn("actions: write", refresh)
         self.assertIn("contents: read", refresh)
         self.assertIn("pages: write", refresh)
         self.assertIn("id-token: write", refresh)
@@ -76,14 +75,13 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("actions/upload-pages-artifact@v3", refresh)
         self.assertIn("actions/deploy-pages@v4", refresh)
         self.assertIn("path: app/", refresh)
-        self.assertIn("actions/setup-node@v4", refresh)
-        self.assertIn("npm ci", refresh)
-        self.assertIn("npm run test:unit", refresh)
-        self.assertIn("npx playwright install --with-deps chromium", refresh)
-        self.assertIn("npm run test:e2e", refresh)
         self.assertIn("history_ingest", refresh)
-        self.assertLess(refresh.index("npm run test:e2e"), refresh.index("actions/upload-pages-artifact@v3"))
         self.assertLess(refresh.index("python app/fetcher.py"), refresh.index("actions/upload-pages-artifact@v3"))
+        self.assertNotIn("actions/setup-node@v4", refresh)
+        self.assertNotIn("npm ci", refresh)
+        self.assertNotIn("npm run test:unit", refresh)
+        self.assertNotIn("playwright", refresh.lower())
+        self.assertNotIn("npm run test:e2e", refresh)
         self.assertNotIn("contents: write", refresh)
         self.assertNotIn("git add", refresh)
         self.assertNotIn("git commit", refresh)
@@ -104,27 +102,58 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("actions/deploy-pages@v4", deploy)
         self.assertIn("path: app/", deploy)
         self.assertIn("history_ingest", deploy)
+        self.assertIn("group: data-publish", deploy)
+        self.assertIn("actions/cache/restore@v4", deploy)
+        self.assertIn("actions/cache/save@v4", deploy)
+        self.assertIn("TTMRANK_CHANGE_STATE_PATH: .ttmrank/change-state.json", deploy)
         self.assertLess(deploy.index("python app/fetcher.py"), deploy.index("actions/upload-pages-artifact@v3"))
         self.assertLess(deploy.index("npm run test:e2e"), deploy.index("actions/upload-pages-artifact@v3"))
 
-    def test_refresh_self_dispatches_on_a_twenty_minute_cycle(self):
+    def test_refresh_restores_validates_and_saves_rolling_change_state(self):
         refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")
 
         collect = refresh.split("  collect:\n", 1)[1].split("  deploy:\n", 1)[0]
         self.assertIn("timeout-minutes: 30", collect)
-        self.assertIn("cycle_seconds:", refresh)
-        self.assertIn("default: '1200'", refresh)
-        self.assertIn("started_at=", refresh)
-        self.assertIn("cycle_started_at + cycle_seconds", refresh)
-        self.assertIn("sleep \"$delay\"", refresh)
-        self.assertGreaterEqual(refresh.count("gh workflow run refresh.yml"), 1)
+        self.assertIn("group: data-publish", refresh)
+        self.assertIn("actions/cache/restore@v4", collect)
+        self.assertIn("actions/cache/save@v4", collect)
+        self.assertIn("path: .ttmrank/change-state.json", collect)
+        self.assertIn("restore-keys: |", collect)
+        self.assertIn("ttmrank-change-state-", collect)
+        self.assertIn("TTMRANK_CHANGE_STATE_PATH: .ttmrank/change-state.json", collect)
+        self.assertIn(
+            "python -m unittest tests.test_changes tests.test_change_state tests.test_pipeline tests.test_validators -v",
+            collect,
+        )
+        for artifact in (
+            "app/data/v2/analysis-current.json",
+            "app/data/v2/changes-current.json",
+            "app/data/v2/manifest.json",
+            "app/data/v2/quality.json",
+            ".ttmrank/change-state.json",
+        ):
+            self.assertIn(artifact, collect)
+        self.assertLess(collect.index("actions/cache/restore@v4"), collect.index("python app/fetcher.py"))
+        self.assertLess(collect.index("Validate generated data"), collect.index("actions/cache/save@v4"))
+        self.assertNotIn("cycle_seconds:", refresh)
+        self.assertNotIn("sleep ", refresh)
+        self.assertNotIn("  continue:", refresh)
+        self.assertNotIn("gh workflow run refresh.yml", refresh)
+
+    def test_full_browser_checks_remain_in_code_test_workflow(self):
+        workflow = (self.WORKFLOWS / "test.yml").read_text(encoding="utf-8")
+
+        self.assertIn("python -m unittest discover -s tests -v", workflow)
+        self.assertIn("npm run test:unit", workflow)
+        self.assertIn("npx playwright install --with-deps chromium", workflow)
+        self.assertIn("npm run test:e2e", workflow)
 
     def test_pages_deployments_are_bounded_and_refresh_artifacts_are_checked_for_freshness(self):
         refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")
         deploy = (self.WORKFLOWS / "deploy.yml").read_text(encoding="utf-8")
 
         collect = refresh.split("  collect:\n", 1)[1].split("  deploy:\n", 1)[0]
-        refresh_deploy = refresh.split("  deploy:\n", 1)[1].split("  continue:\n", 1)[0]
+        refresh_deploy = refresh.split("  deploy:\n", 1)[1]
         code_build = deploy.split("  build:\n", 1)[1].split("  deploy:\n", 1)[0]
         code_deploy = deploy.split("  deploy:\n", 1)[1]
 
@@ -160,10 +189,9 @@ class WorkflowTests(unittest.TestCase):
             "schedule-refresh-47.yml",
         ):
             workflow = (self.WORKFLOWS / filename).read_text(encoding="utf-8")
-            self.assertIn("gh run list", workflow)
-            self.assertIn('gh run list --repo "$GITHUB_REPOSITORY"', workflow)
-            self.assertIn("status == \"queued\" or .status == \"in_progress\"", workflow)
-            self.assertIn('if [ "$active_runs" -eq 0 ]', workflow)
+            self.assertIn("gh workflow run refresh.yml", workflow)
+            self.assertNotIn("gh run list", workflow)
+            self.assertNotIn("active_runs", workflow)
 
     def test_history_maintenance_has_bounded_diagnosable_continuation(self):
         workflow = (self.WORKFLOWS / "history-maintenance.yml").read_text(encoding="utf-8")
@@ -205,9 +233,9 @@ class WorkflowTests(unittest.TestCase):
 
         self.assertIn("def non_negative_integer", workflow)
         self.assertIn("type(value) is int and value >= 0", workflow)
-        self.assertIn('("hourly_days", "daily_days")', workflow)
-        self.assertIn('("hourly", "daily")', workflow)
-        self.assertIn('("hourly_archived", "hourly_deleted", "daily_deleted")', workflow)
+        self.assertIn('("hourly_days", "daily_days", "event_days")', workflow)
+        self.assertIn('("hourly", "daily", "events")', workflow)
+        self.assertIn('("hourly_archived", "hourly_deleted", "daily_deleted", "events_deleted")', workflow)
         self.assertIn('retention["daily_days"] <= retention["hourly_days"]', workflow)
 
         valid = {
@@ -215,9 +243,9 @@ class WorkflowTests(unittest.TestCase):
             "run_id": "42-1-1",
             "processed_day": None,
             "has_more": False,
-            "retention": {"hourly_days": 90, "daily_days": 730},
-            "cutoffs": {"hourly": 1_800_000_000, "daily": 1_700_000_000},
-            "rows": {"hourly_archived": 0, "hourly_deleted": 2, "daily_deleted": 0},
+            "retention": {"hourly_days": 90, "daily_days": 730, "event_days": 180},
+            "cutoffs": {"hourly": 1_800_000_000, "daily": 1_700_000_000, "events": 1_750_000_000},
+            "rows": {"hourly_archived": 0, "hourly_deleted": 2, "daily_deleted": 0, "events_deleted": 4},
         }
         result, summary = self.run_history_validator(valid)
         self.assertEqual(result.returncode, 0, result.stderr)
@@ -227,16 +255,16 @@ class WorkflowTests(unittest.TestCase):
             "empty nested objects": {**valid, "retention": {}, "cutoffs": {}, "rows": {}},
             "booleans disguised as integers": {
                 **valid,
-                "retention": {"hourly_days": True, "daily_days": 730},
+                "retention": {"hourly_days": True, "daily_days": 730, "event_days": 180},
             },
             "negative row count": {
                 **valid,
-                "rows": {"hourly_archived": -1, "hourly_deleted": 2, "daily_deleted": 0},
+                "rows": {"hourly_archived": -1, "hourly_deleted": 2, "daily_deleted": 0, "events_deleted": 4},
             },
-            "non-positive cutoff": {**valid, "cutoffs": {"hourly": 0, "daily": 1_700_000_000}},
+            "non-positive cutoff": {**valid, "cutoffs": {"hourly": 0, "daily": 1_700_000_000, "events": 1_750_000_000}},
             "daily retention not longer": {
                 **valid,
-                "retention": {"hourly_days": 90, "daily_days": 90},
+                "retention": {"hourly_days": 90, "daily_days": 90, "event_days": 180},
             },
         }
         for label, payload in invalid_payloads.items():

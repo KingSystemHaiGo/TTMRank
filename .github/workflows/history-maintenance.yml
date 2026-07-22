@@ -127,12 +127,12 @@ jobs:
               retention = result.get("retention")
               cutoffs = result.get("cutoffs")
               rows = result.get("rows")
-              validate_integer_fields(retention, "retention", ("hourly_days", "daily_days"), positive=True)
-              validate_integer_fields(cutoffs, "cutoffs", ("hourly", "daily"), positive=True)
+              validate_integer_fields(retention, "retention", ("hourly_days", "daily_days", "event_days"), positive=True)
+              validate_integer_fields(cutoffs, "cutoffs", ("hourly", "daily", "events"), positive=True)
               validate_integer_fields(
                   rows,
                   "rows",
-                  ("hourly_archived", "hourly_deleted", "daily_deleted"),
+                  ("hourly_archived", "hourly_deleted", "daily_deleted", "events_deleted"),
               )
               if (
                   isinstance(retention, dict)

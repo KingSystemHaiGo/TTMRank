@@ -1,13 +1,24 @@
 const ARRAY_KEYS = new Set(['charts', 'tags']);
 const NUMBER_KEYS = new Set(['heatMin', 'heatMax', 'dailyHeatMin', 'dailyHeatMax', 'growth24hMin', 'growth24hMax', 'scoreMin', 'scoreMax', 'rankMin', 'rankMax', 'releasedFrom', 'releasedTo']);
 
-export function serializeState(state) {
+function valuesEqual(left, right) {
+  if (Array.isArray(left) || Array.isArray(right)) {
+    return Array.isArray(left) && Array.isArray(right)
+      && left.length === right.length
+      && left.every((value, index) => value === right[index]);
+  }
+  return left === right;
+}
+
+export function serializeState(state, defaults = null) {
   const params = new URLSearchParams();
   Object.entries(state).forEach(([key, value]) => {
     if (value === null || value === undefined || value === '' || (Array.isArray(value) && !value.length)) return;
+    if (defaults && key in defaults && valuesEqual(value, defaults[key])) return;
     params.set(key, Array.isArray(value) ? value.join(',') : String(value));
   });
-  return `?${params.toString()}`;
+  const query = params.toString();
+  return query ? `?${query}` : '';
 }
 
 export function parseState(search, defaults = null) {

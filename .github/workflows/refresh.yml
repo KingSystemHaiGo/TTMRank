@@ -2,20 +2,14 @@ name: Refresh Data
 
 on:
   workflow_dispatch:
-    inputs:
-      cycle_seconds:
-        description: Seconds until the next cycle; keep 1200 outside manual verification
-        required: false
-        default: '1200'
 
 permissions:
-  actions: write
   contents: read
   pages: write
   id-token: write
 
 concurrency:
-  group: refresh-data
+  group: data-publish
   cancel-in-progress: false
 
 jobs:
@@ -23,13 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     outputs:
-      started_at: ${{ steps.cycle.outputs.started_at }}
       source_sha: ${{ steps.source.outputs.sha }}
     steps:
-      - name: Record cycle start
-        id: cycle
-        run: echo "started_at=$(date +%s)" >> "$GITHUB_OUTPUT"
-
       - uses: actions/checkout@v4
         with:
           # A queued run may start after an earlier refresh advances main.
@@ -47,11 +36,13 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Restore rolling change state
+        uses: actions/cache/restore@v4
         with:
-          node-version: '22'
-          cache: npm
+          path: .ttmrank/change-state.json
+          key: ttmrank-change-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            ttmrank-change-state-
 
       - name: Run fetcher
         run: python app/fetcher.py
@@ -59,23 +50,22 @@ jobs:
           PYTHONIOENCODING: utf-8
           TTMRANK_HISTORY_URL: ${{ secrets.TTMRANK_HISTORY_URL }}
           TTMRANK_HISTORY_TOKEN: ${{ secrets.TTMRANK_HISTORY_TOKEN }}
+          TTMRANK_CHANGE_STATE_PATH: .ttmrank/change-state.json
 
       - name: Validate generated data
         run: |
-          PYTHONPATH=src python -m unittest discover -s tests -v
+          PYTHONPATH=src python -m unittest tests.test_changes tests.test_change_state tests.test_pipeline tests.test_validators -v
+          python -m json.tool app/data/v2/analysis-current.json >/dev/null
+          python -m json.tool app/data/v2/changes-current.json >/dev/null
           python -m json.tool app/data/v2/manifest.json >/dev/null
+          python -m json.tool app/data/v2/quality.json >/dev/null
+          python -m json.tool .ttmrank/change-state.json >/dev/null
 
-      - name: Install frontend dependencies
-        run: npm ci
-
-      - name: Run JavaScript unit tests
-        run: npm run test:unit
-
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
-
-      - name: Run Chromium smoke tests
-        run: npm run test:e2e
+      - name: Save validated rolling change state
+        uses: actions/cache/save@v4
+        with:
+          path: .ttmrank/change-state.json
+          key: ttmrank-change-state-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Write refresh summary
         run: |
@@ -85,6 +75,7 @@ jobs:
           manifest = json.loads(Path('app/data/v2/manifest.json').read_text(encoding='utf-8'))
           quality = json.loads(Path('app/data/v2/quality.json').read_text(encoding='utf-8'))
           history_ingest = manifest.get('history_ingest', {})
+          changes_archive = manifest.get('changes_archive', {})
           print('## TTMRank refresh')
           print(f"- Games: {manifest['game_count']}")
           print(f"- Appearances: {manifest['appearance_count']}")
@@ -92,6 +83,7 @@ jobs:
           print(f"- Analysis JSON: {manifest['analysis_bytes']:,} bytes ({manifest['analysis_gzip_bytes']:,} gzip)")
           print(f"- Hourly history baselines: {'available' if manifest.get('history_available') else 'unavailable / graceful fallback'}")
           print(f"- Current history ingest: {history_ingest.get('status', 'unknown')} (configured: {history_ingest.get('configured', False)})")
+          print(f"- Change archive: {changes_archive.get('status', 'unknown')} (configured: {changes_archive.get('configured', False)})")
           PY
 
       - name: Setup Pages
@@ -143,36 +135,3 @@ jobs:
         id: deployment
         if: steps.fresh.outputs.current == 'true'
         uses: actions/deploy-pages@v4
-
-  continue:
-    needs: collect
-    if: always()
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - name: Continue refresh cycle
-        env:
-          GH_TOKEN: ${{ github.token }}
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          CYCLE_STARTED_AT: ${{ needs.collect.outputs.started_at }}
-          CYCLE_SECONDS: ${{ inputs.cycle_seconds || '1200' }}
-        run: |
-          cycle_started_at="${CYCLE_STARTED_AT:-$(date +%s)}"
-          cycle_seconds="${CYCLE_SECONDS:-1200}"
-          if ! [[ "$cycle_seconds" =~ ^[0-9]+$ ]] || [ "$cycle_seconds" -lt 60 ] || [ "$cycle_seconds" -gt 1200 ]; then
-            cycle_seconds=1200
-          fi
-          next_cycle_at=$((cycle_started_at + cycle_seconds))
-          now=$(date +%s)
-          delay=$((next_cycle_at - now))
-          if [ "$delay" -gt 0 ]; then
-            echo "Waiting ${delay}s for the next 20-minute cycle"
-            sleep "$delay"
-          fi
-
-          active_runs="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow refresh.yml --limit 20 --json databaseId,status --jq "[.[] | select(.databaseId != $GITHUB_RUN_ID and (.status == \"queued\" or .status == \"in_progress\"))] | length")"
-          if [ "$active_runs" -eq 0 ]; then
-            gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
-          else
-            echo "Another refresh is already queued or running"
-          fi

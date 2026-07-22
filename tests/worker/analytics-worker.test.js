@@ -15,6 +15,127 @@ test('snapshot rows reject malformed identifiers, hours, heat and score', () => 
   assert.equal(__test.validSnapshot({ game_id: 7, captured_hour: 1_800_000_000, heat: 20, score: 99 }), null);
 });
 
+function changeEvent(overrides = {}) {
+  return {
+    id: 'evt_0123456789abcdef0123456789abcdef',
+    game_id: 7,
+    scope: 'made',
+    kind: 'rank_rise',
+    platform: 'android',
+    chart: 'hot',
+    before: 18,
+    after: 9,
+    observed_at: 1_800_000_000,
+    first_observed_at: 1_800_000_000,
+    last_observed_at: 1_800_000_000,
+    occurrences: 1,
+    importance: 83,
+    ...overrides,
+  };
+}
+
+test('event ingest requires the configured ingest token', async () => {
+  const env = { INGEST_TOKEN: 'secret', DB: { prepare() { throw new Error('must not query'); } } };
+  for (const token of [null, 'wrong']) {
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers['X-Ingest-Token'] = token;
+    const response = await worker.fetch(new Request('https://example.test/v1/events', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ events: [changeEvent()] }),
+    }), env);
+    assert.equal(response.status, 401);
+    assert.deepEqual(await response.json(), { error: 'unauthorized' });
+  }
+});
+
+test('event ingest rejects invalid kinds and oversized batches', async () => {
+  const env = { INGEST_TOKEN: 'secret', DB: { prepare() { throw new Error('must not query'); } } };
+  const request = events => new Request('https://example.test/v1/events', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Ingest-Token': 'secret' },
+    body: JSON.stringify({ events }),
+  });
+
+  const invalid = await worker.fetch(request([changeEvent({ kind: 'vendor_verified' })]), env);
+  assert.equal(invalid.status, 400);
+  assert.deepEqual(await invalid.json(), { error: 'invalid event row' });
+
+  const oversized = await worker.fetch(request(Array.from({ length: 501 }, (_, index) => (
+    changeEvent({ id: `evt_${String(index).padStart(32, '0')}` })
+  ))), env);
+  assert.equal(oversized.status, 413);
+  assert.deepEqual(await oversized.json(), { error: 'too many events' });
+});
+
+test('valid events are inserted idempotently in one D1 batch', async () => {
+  const calls = [];
+  const batches = [];
+  const env = {
+    INGEST_TOKEN: 'secret',
+    DB: {
+      prepare(sql) {
+        return {
+          bind(...bindings) {
+            const statement = { sql, bindings };
+            calls.push(statement);
+            return statement;
+          },
+        };
+      },
+      async batch(statements) { batches.push(statements); return []; },
+    },
+  };
+  const event = changeEvent();
+  const response = await worker.fetch(new Request('https://example.test/v1/events', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Ingest-Token': 'secret' },
+    body: JSON.stringify({ events: [event] }),
+  }), env);
+
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { ok: true, written: 1 });
+  assert.equal(batches.length, 1);
+  assert.equal(calls.length, 1);
+  assert.match(calls[0].sql, /INSERT INTO game_change_events/i);
+  assert.match(calls[0].sql, /ON CONFLICT\(event_id\) DO NOTHING/i);
+  assert.equal(calls[0].bindings[0], event.id);
+  assert.equal(calls[0].bindings[1], event.game_id);
+  assert.equal(calls[0].bindings.at(-1), JSON.stringify(event));
+});
+
+test('event archive query uses bounded parameters and CORS', async () => {
+  const calls = [];
+  const stored = changeEvent();
+  const env = {
+    ALLOWED_ORIGINS: 'https://allowed.example',
+    DB: {
+      prepare(sql) {
+        return {
+          bind(...bindings) {
+            calls.push({ sql, bindings });
+            return this;
+          },
+          async all() { return { results: [{ payload_json: JSON.stringify(stored) }] }; },
+        };
+      },
+    },
+  };
+  const response = await worker.fetch(new Request(
+    'https://example.test/v1/events?since=1799990000&scope=made&limit=9999',
+    { headers: { Origin: 'https://allowed.example' } },
+  ), env);
+
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get('Access-Control-Allow-Origin'), 'https://allowed.example');
+  assert.deepEqual(await response.json(), { events: [stored] });
+  assert.equal(calls.length, 1);
+  assert.match(calls[0].sql, /last_observed_at\s*>=\s*\?/i);
+  assert.match(calls[0].sql, /scope\s*=\s*\?/i);
+  assert.match(calls[0].sql, /LIMIT\s*\?/i);
+  assert.deepEqual(calls[0].bindings, [1_799_990_000, 'made', 500]);
+});
+
 test('limited body reader enforces actual bytes without trusting Content-Length', async () => {
   const response = new Response(new Uint8Array([1, 2, 3, 4]));
   assert.deepEqual([...await __test.readLimitedBytes(response, 4)], [1, 2, 3, 4]);
@@ -27,12 +148,15 @@ test('maintenance cutoffs use UTC day boundaries and bounded retention settings'
   assert.equal(cutoffs.today, Date.UTC(2026, 6, 16) / 1000);
   assert.equal(cutoffs.hourly_days, 90);
   assert.equal(cutoffs.daily_days, 730);
+  assert.equal(cutoffs.event_days, 180);
   assert.equal(cutoffs.today - cutoffs.hourly_cutoff, 90 * 86400);
   assert.equal(cutoffs.today - cutoffs.daily_cutoff, 730 * 86400);
+  assert.equal(cutoffs.today - cutoffs.event_cutoff, 180 * 86400);
 
   const bounded = __test.maintenanceCutoffs(now, { HOURLY_RETENTION_DAYS: '1', DAILY_RETENTION_DAYS: '99999' });
   assert.equal(bounded.hourly_days, 90);
   assert.equal(bounded.daily_days, 730);
+  assert.equal(bounded.event_days, 180);
 });
 
 test('maintenance run identifiers accept only compact audit-safe values', () => {
@@ -390,6 +514,7 @@ test('maintenance handles only one UTC day and completes its audit in the mutati
       { meta: { changes: 3 } },
       { meta: { changes: 1 } },
       { meta: { changes: 4 } },
+      { meta: { changes: 0 } },
       { results: [{ has_more: 1 }] },
     ],
   });
@@ -424,8 +549,8 @@ test('maintenance day mutations all recheck that the selected hourly day is stil
   const processedDay = __test.maintenanceCutoffs(now, {}).hourly_cutoff - 86_400;
   const db = fakeMaintenanceDb({
     oldestDay: processedDay,
-    batchResults: Array.from({ length: 9 }, (_, index) => (
-      index === 8 ? { results: [{ has_more: 1 }] } : { meta: { changes: 0 } }
+    batchResults: Array.from({ length: 10 }, (_, index) => (
+      index === 9 ? { results: [{ has_more: 1 }] } : { meta: { changes: 0 } }
     )),
   });
   const response = await worker.fetch(maintenanceRequest('race-run'), {
@@ -488,6 +613,33 @@ test('maintenance no-op records the run and prunes expired audit rows', async ()
   assert.match(cleanup.sql, /started_at\s*<\s*\?/i);
   assert.equal(cleanup.bindings.length, 2);
   assert.equal(cleanup.bindings[1], 'empty-run');
+});
+
+test('maintenance deletes a bounded batch of events older than event retention', async () => {
+  const db = fakeMaintenanceDb({
+    oldestDay: null,
+    batchResults: [
+      { meta: { changes: 1 } },
+      { meta: { changes: 0 } },
+      { meta: { changes: 37 } },
+      { results: [{ has_more: 0 }] },
+    ],
+  });
+  const response = await worker.fetch(maintenanceRequest('event-prune'), {
+    DB: db,
+    MAINTENANCE_TOKEN: 'maintain-secret',
+  });
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(body.retention.event_days, 180);
+  assert.equal(body.rows.events_deleted, 37);
+  const cleanup = db.batches[0].find(item => /DELETE FROM game_change_events/.test(item.sql));
+  assert.ok(cleanup);
+  assert.match(cleanup.sql, /last_observed_at\s*<\s*\?/i);
+  assert.match(cleanup.sql, /LIMIT\s*\?/i);
+  assert.equal(cleanup.bindings.length, 2);
+  assert.equal(cleanup.bindings[1], 5_000);
 });
 
 test('maintenance batch failure writes failed audit separately and never completed', async () => {

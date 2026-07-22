@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { DEFAULT_FILTERS, applyFilters } from '../../app/js/analysis/filters.js';
 import { parseState, serializeState } from '../../app/js/core/state-url.js';
 
@@ -26,6 +27,12 @@ test('URL state round-trips without losing ranges', () => {
   assert.deepEqual(parseState(serializeState(state)), state);
 });
 
+test('analysis URL omits standard defaults while keeping the made scope explicit', () => {
+  const urlDefaults = { ...DEFAULT_FILTERS, scope: null };
+  assert.equal(serializeState({ ...DEFAULT_FILTERS, scope: 'made' }, urlDefaults), '?scope=made');
+  assert.equal(serializeState({ ...DEFAULT_FILTERS, scope: 'all' }, urlDefaults), '?scope=all');
+});
+
 test('recent hourly growth range excludes unavailable and out-of-range history', () => {
   const historyData = {
     observed_at: 2000,
@@ -35,4 +42,12 @@ test('recent hourly growth range excludes unavailable and out-of-range history',
   };
   const result = applyFilters(historyData, { ...DEFAULT_FILTERS, growth24hMin: -10, growth24hMax: 100 });
   assert.deepEqual(result.games.map(game => game.id), [2]);
+});
+
+test('primary page styles contain no decorative radial background', () => {
+  const styles = [
+    readFileSync(new URL('../../app/css/analysis.css', import.meta.url), 'utf8'),
+    readFileSync(new URL('../../app/css/style.css', import.meta.url), 'utf8'),
+  ].join('\n');
+  assert.doesNotMatch(styles, /radial-gradient|\borb\b/i);
 });

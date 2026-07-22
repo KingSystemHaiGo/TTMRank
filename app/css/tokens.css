@@ -1,12 +1,47 @@
 :root {
+  color-scheme: light;
+  --tap-cyan: #0aaea8;
+  --tap-cyan-strong: #078c88;
+  --tap-cyan-soft: #e5f7f6;
+  --tap-blue: #276fca;
+  --tap-orange: #a85e00;
+  --tap-red: #b63f49;
+  --tap-violet: #7251b5;
+  --positive: #137a4f;
+  --positive-soft: #e9f6ef;
+  --negative: #b33b45;
+  --negative-soft: #fbecee;
+  --canvas: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f6f8f8;
+  --surface-3: #edf1f1;
+  --text: #172124;
+  --text-2: #526064;
+  --text-3: #748084;
+  --line: #e0e5e6;
+  --line-strong: #cbd3d5;
+  --shadow: 0 18px 50px rgba(27, 42, 45, .12);
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 8px;
+  --font: "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --display: "Microsoft YaHei UI", "PingFang SC", "Noto Sans SC", sans-serif;
+  --max: 1480px;
+  --reading-max: 1180px;
+  --motion-fast: 160ms;
+  --motion-base: 200ms;
+}
+
+:root[data-theme="dark"] {
   color-scheme: dark;
   --tap-cyan: #16d3c6;
   --tap-cyan-strong: #00b9b0;
   --tap-cyan-soft: rgba(22, 211, 198, .13);
-  --tap-blue: #4d8eff;
-  --tap-orange: #ffae38;
-  --tap-red: #ff5b6c;
-  --tap-violet: #9a6cff;
+  --positive: #52c98b;
+  --positive-soft: rgba(82, 201, 139, .12);
+  --negative: #ff7882;
+  --negative-soft: rgba(255, 120, 130, .12);
   --canvas: #090b0d;
   --surface: #12161a;
   --surface-2: #181d22;
@@ -17,25 +52,4 @@
   --line: rgba(255, 255, 255, .08);
   --line-strong: rgba(255, 255, 255, .15);
   --shadow: 0 18px 60px rgba(0, 0, 0, .28);
-  --radius-xs: 8px;
-  --radius-sm: 12px;
-  --radius-md: 18px;
-  --radius-lg: 26px;
-  --font: "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-  --display: "Microsoft YaHei UI", "PingFang SC", sans-serif;
-  --max: 1480px;
-}
-
-:root[data-theme="light"] {
-  color-scheme: light;
-  --canvas: #f1f4f4;
-  --surface: #fff;
-  --surface-2: #f7f9f9;
-  --surface-3: #edf1f1;
-  --text: #172022;
-  --text-2: rgba(23, 32, 34, .74);
-  --text-3: rgba(23, 32, 34, .62);
-  --line: rgba(18, 41, 42, .09);
-  --line-strong: rgba(18, 41, 42, .16);
-  --shadow: 0 18px 50px rgba(17, 50, 52, .09);
 }

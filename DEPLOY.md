@@ -1,8 +1,8 @@
 # TTMRank 部署指南
 
 TTMRank 主站是 GitHub Pages 静态站点。源码保存在 Git；每次发布时由 Action
-抓取最新 TapTap 数据、生成 `app/`、验证后直接上传 Pages artifact。1 小时、
-24 小时和 7 天基线以及长期趋势由可选的 Cloudflare D1 提供。
+抓取最新 TapTap 数据、生成 `app/`、验证后直接上传 Pages artifact。变化比较
+使用 Actions 滚动状态，长期趋势与事件归档由可选的 Cloudflare D1 提供。
 
 ## 1. GitHub Pages
 
@@ -16,19 +16,18 @@ TTMRank 主站是 GitHub Pages 静态站点。源码保存在 Git；每次发布
 
 两个发布工作流都会记录 artifact 对应的源码 SHA，并在部署前与默认分支最新
 SHA 再次比较。过时的刷新 artifact 会跳过，而不是覆盖刚发布的新代码；代码
-推送可以取消更旧的 Pages 发布。采集/续跑 job 上限为 30 分钟，Pages 部署上限
-为 10 分钟，避免卡住的发布长期阻塞刷新链。
+推送可以取消更旧的 Pages 发布。采集 job 上限为 30 分钟，Pages 部署上限为
+10 分钟，避免卡住的发布长期阻塞刷新。
 
-`Refresh Data` 从每轮开始时间起约每 20 分钟自行发起下一轮。三个独立计划
-工作流是断链看门狗：只有中央刷新既未运行也未排队时才会重启链路。GitHub
-计划任务是尽力调度，可能延迟。当前自续跑会让一个公共仓库 Runner 在周期
-末尾等待；若仓库改为私有或需控制 Runner 用量，应改用 Cloudflare/Vercel
-Cron 等外部调度器。
+三个独立计划工作流在每小时的 07、27 和 47 分钟调度 `Refresh Data`。刷新
+工作流不会 `sleep`、等待下一轮或自我派发，因此每次 Runner 只承担一轮采集、
+校验和发布。GitHub 计划任务是尽力调度，仍可能延迟；需要更严格时间保证时，
+可改用 Cloudflare/Vercel Cron 等外部调度器调用 `workflow_dispatch`。
 
 采集失败不会部署空榜。最新线上快照存在 Pages deployment artifact 中，而
 不是由定时任务写回 Git。工作流摘要会显示游戏数、榜单记录数、质量告警、
-文件体积、小时历史基线与本轮 D1 摄入状态。摄入状态只显示 `success`、
-`failed` 或 `not_configured`，不会公开 URL、token 或异常详情。
+文件体积、小时历史基线、本轮 D1 摄入状态和变化事件归档状态。状态只显示
+`success`、`failed` 或 `not_configured`，不会公开 URL、token 或异常详情。
 
 ## 2. 小时历史与图标代理（可选）
 
@@ -70,7 +69,8 @@ UTC 日，聚合、`archived_through` 水位、完成审计、精确日删除和
 3. 配置上述维护密钥。
 4. 手动运行 `Maintain History` 并检查 Action 摘要。
 
-完整指标口径、重试和失败安全机制见 `docs/history-retention.md`。
+完整指标口径、重试和失败安全机制见 `docs/history-retention.md`；变化情报状态、
+缓存恢复和事件抑制见 `docs/change-intelligence.md`。
 
 ## 4. 本地服务
 

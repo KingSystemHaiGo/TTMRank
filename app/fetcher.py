@@ -486,7 +486,14 @@ def main():
 
         history_url = os.environ.get("TTMRANK_HISTORY_URL", "")
         history_client = HistoryClient(history_url, os.environ.get("TTMRANK_HISTORY_TOKEN", "")) if history_url else GitHistoryClient(PROJECT_ROOT)
-        build_analysis_artifacts(history_observation, Path(DATA_DIR) / "v2", history_client=history_client)
+        change_state_value = os.environ.get("TTMRANK_CHANGE_STATE_PATH", "")
+        change_state_path = Path(change_state_value) if change_state_value else Path(DATA_DIR) / ".state" / "change-state.json"
+        build_analysis_artifacts(
+            history_observation,
+            Path(DATA_DIR) / "v2",
+            history_client=history_client,
+            change_state_path=change_state_path,
+        )
         print("Generated v2 analysis artifacts")
     except Exception as exc:
         # The legacy files are already atomically independent from v2. Fail the

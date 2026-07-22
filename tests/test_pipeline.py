@@ -15,6 +15,9 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(manifest["appearance_count"], 6)
             self.assertTrue((Path(tmp) / "analysis-current.json").exists())
             self.assertTrue((Path(tmp) / "quality.json").exists())
+            self.assertEqual(manifest["changes_file"], "changes-current.json")
+            self.assertTrue((Path(tmp) / "changes-current.json").exists())
+            self.assertFalse(manifest["changes_comparison_available"])
             self.assertFalse((Path(tmp) / "vendors.json").exists())
             analysis = json.loads((Path(tmp) / "analysis-current.json").read_text(encoding="utf-8"))
             self.assertTrue(all("developer" in game for game in analysis["games"]))
@@ -57,6 +60,26 @@ class PipelineTests(unittest.TestCase):
             manifest = build_analysis_artifacts(fixture, Path(tmp), history_client=PartialHistory())
         self.assertTrue(manifest["history_available"])
         self.assertEqual(manifest["history_ingest"], {"configured": True, "status": "failed"})
+
+    def test_change_archive_failure_does_not_block_static_publication(self):
+        class FailedArchive:
+            def metrics(self, games, at):
+                return {}
+
+            def ingest(self, games, captured_at):
+                return True
+
+            def archive_events(self, events):
+                raise OSError("D1 unavailable")
+
+        fixture = json.loads((Path(__file__).parent / "fixtures" / "rankings-small.json").read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as tmp:
+            manifest = build_analysis_artifacts(fixture, Path(tmp), history_client=FailedArchive())
+
+            self.assertTrue((Path(tmp) / "analysis-current.json").exists())
+            self.assertTrue((Path(tmp) / "changes-current.json").exists())
+            self.assertTrue((Path(tmp) / "manifest.json").exists())
+        self.assertEqual(manifest["changes_archive"], {"configured": True, "status": "failed"})
 
 
 if __name__ == "__main__":

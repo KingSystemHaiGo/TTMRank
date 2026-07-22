@@ -96,3 +96,28 @@ CREATE TABLE IF NOT EXISTS history_maintenance_runs (
 );
 
 CREATE INDEX IF NOT EXISTS idx_maintenance_started ON history_maintenance_runs(started_at);
+
+-- Change intelligence is append-only and idempotent by stable event id. The
+-- complete structured event remains available for future clients without any
+-- user-authored text fields.
+CREATE TABLE IF NOT EXISTS game_change_events (
+  event_id TEXT PRIMARY KEY,
+  game_id INTEGER NOT NULL,
+  scope TEXT NOT NULL CHECK (scope IN ('made', 'all')),
+  kind TEXT NOT NULL CHECK (kind IN (
+    'rank_rise', 'rank_fall', 'entered', 'reentered', 'exited',
+    'score_rise', 'score_fall', 'coverage_increase', 'coverage_decrease'
+  )),
+  platform TEXT,
+  chart TEXT,
+  before_value REAL,
+  after_value REAL,
+  first_observed_at INTEGER NOT NULL,
+  last_observed_at INTEGER NOT NULL,
+  occurrences INTEGER NOT NULL DEFAULT 1,
+  importance INTEGER NOT NULL,
+  payload_json TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_change_events_time
+  ON game_change_events(last_observed_at DESC);
