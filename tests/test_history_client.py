@@ -132,6 +132,17 @@ class HistoryClientTests(unittest.TestCase):
         self.assertEqual(metrics[1]["heat_delta_7d"], 800)
         self.assertAlmostEqual(metrics[1]["growth_per_hour_24h"], 16)
 
+    def test_metrics_estimate_one_hour_growth_when_scheduler_gap_exceeds_exact_window(self):
+        points = [
+            {"game_id": 1, "captured_hour": NOW - 2 * 3600, "heat": 800},
+        ]
+
+        metrics = HistoryClient.metrics_from_points([{"id": 1, "heat": 1000}], NOW, points)
+
+        self.assertEqual(metrics[1]["heat_delta_1h"], 100)
+        self.assertTrue(metrics[1]["heat_delta_1h_estimated"])
+        self.assertEqual(metrics[1]["heat_delta_1h_basis_hours"], 2)
+
     def test_metrics_ignore_points_after_target_or_outside_tolerance(self):
         points = [
             {"game_id": 1, "captured_hour": NOW - 1800, "heat": 950},

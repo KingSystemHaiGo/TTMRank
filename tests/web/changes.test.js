@@ -278,6 +278,7 @@ test('rejects malformed change feed contracts', () => {
 test('history drawer copy distinguishes accumulated fields from fields still collecting', () => {
   const metric = { history_available: true, heat_delta_1h: 120, heat_delta_24h: null };
   assert.equal(historyMetricText(metric, 'heat_delta_1h'), '120');
+  assert.equal(historyMetricText({ ...metric, heat_delta_1h_estimated: true }, 'heat_delta_1h'), '≈120');
   assert.equal(historyMetricText(metric, 'heat_delta_24h'), '历史积累中');
   assert.equal(historyMetricText(null, 'heat_delta_7d'), '历史积累中');
 });

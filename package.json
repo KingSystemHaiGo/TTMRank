@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build:analysis": "node scripts/build-analysis.mjs",
     "build:visual": "node scripts/build-visual.mjs",
+    "check:analysis-bundle": "git diff --exit-code -- app/js/dist/analysis-app.js",
     "check:visual-budget": "node scripts/check-visual-budget.mjs",
     "test:unit": "node --test tests/web/*.test.js tests/worker/*.test.js",
     "test:e2e": "playwright test",

@@ -8,9 +8,9 @@
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/analysis.css?v=3">
+  <link rel="stylesheet" href="css/analysis.css?v=4">
   <link rel="stylesheet" href="css/print.css">
-  <script type="module" src="js/analysis/app.js?v=5"></script>
+  <script type="module" src="js/dist/analysis-app.js?v=1"></script>
 </head>
 <body data-page="analysis">
   <header class="intel-header">
@@ -71,6 +71,10 @@
     </section>
 
     <div class="container"><details id="qualityBanner" class="quality-banner hidden"><summary id="qualitySummary">数据状态</summary><p id="qualityMessage"></p></details><section id="metrics" class="metrics-grid" aria-label="核心指标"></section>
+      <section class="latest-release-shell" aria-labelledby="latestReleaseTitle">
+        <div class="latest-release-head"><div><h2 id="latestReleaseTitle">最新发布</h2><p>当前筛选范围内，按 TapTap 游戏页面发布时间倒序。</p></div><span id="latestReleaseCount" class="tag"></span></div>
+        <div id="latestReleases" class="latest-release-list"></div>
+      </section>
       <section class="opportunity-shell"><div class="opportunity-head"><div><h2>类型表现</h2><p>TapTap制造标签下的类型表现；全站范围仅作对照。</p></div></div><div id="opportunities" class="opportunity-list"></div><div class="formula-note"><strong>综合表现</strong> 日均热度 35% + 评分 30% + 近 24 小时增长 20% + 榜单覆盖 15%。分数只描述当前采集游戏的相对表现，不预测未来市场。</div></section>
       <section class="chart-grid"><article class="panel"><div class="panel-head"><div><h2>热度分布 · 对数区间</h2><p>跨数量级观察样本聚集，避免头部游戏压平分布</p></div><span id="heatSamples" class="tag"></span></div><div id="heatChart" class="chart"></div></article><article class="panel"><div class="panel-head"><div><h2>评分 × 热度</h2><p>动态中位数四象限 · 热度对数展示</p></div><span class="tag tag-cyan">游戏 ID 去重</span></div><div id="scatterChart" class="chart"></div></article></section>
       <section class="panel"><div class="panel-head"><div><h2>类型分布 · 热度中位数</h2><p>按类型收录数量排序，同时显示代表性热度门槛</p></div></div><div id="typeList" class="type-list"></div></section>

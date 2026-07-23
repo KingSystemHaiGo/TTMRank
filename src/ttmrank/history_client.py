@@ -154,10 +154,24 @@ class HistoryClient:
                     continue
                 baseline = max(candidates, key=lambda point: point["captured_hour"])
                 values[field] = current_heat - baseline["heat"]
+                if field == "heat_delta_1h":
+                    values["heat_delta_1h_estimated"] = False
+                    values["heat_delta_1h_basis_hours"] = round((at - baseline["captured_hour"]) / 3600, 3)
                 if field == "heat_delta_24h":
                     interval_hours = (at - baseline["captured_hour"]) / 3600
                     if interval_hours > 0:
                         values["growth_per_hour_24h"] = values[field] / interval_hours
+            if "heat_delta_1h" not in values:
+                recent = [
+                    point for point in by_game.get(game_id, [])
+                    if at - 3 * 3600 <= point["captured_hour"] <= at - 45 * 60
+                ]
+                if recent:
+                    baseline = max(recent, key=lambda point: point["captured_hour"])
+                    interval_hours = (at - baseline["captured_hour"]) / 3600
+                    values["heat_delta_1h"] = round((current_heat - baseline["heat"]) / interval_hours)
+                    values["heat_delta_1h_estimated"] = True
+                    values["heat_delta_1h_basis_hours"] = round(interval_hours, 3)
             if values:
                 result[game_id] = values
         return result

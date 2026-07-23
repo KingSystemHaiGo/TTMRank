@@ -1,5 +1,6 @@
 import json
 import gzip
+import hashlib
 import tempfile
 import unittest
 from pathlib import Path
@@ -16,6 +17,7 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(manifest["taptap_made_game_count"], 1)
             self.assertEqual(manifest["appearance_count"], 6)
             self.assertTrue((Path(tmp) / "analysis-current.json").exists())
+            self.assertTrue((Path(tmp) / "analysis-made-current.json").exists())
             self.assertTrue((Path(tmp) / "quality.json").exists())
             self.assertEqual(manifest["changes_file"], "changes-current.json")
             self.assertTrue((Path(tmp) / "changes-current.json").exists())
@@ -37,8 +39,21 @@ class PipelineTests(unittest.TestCase):
             self.assertFalse(manifest["changes_comparison_available"])
             self.assertFalse((Path(tmp) / "vendors.json").exists())
             analysis = json.loads((Path(tmp) / "analysis-current.json").read_text(encoding="utf-8"))
+            made_analysis = json.loads((Path(tmp) / "analysis-made-current.json").read_text(encoding="utf-8"))
+            made_bytes = (Path(tmp) / "analysis-made-current.json").read_bytes()
+            quality_bytes = (Path(tmp) / "quality.json").read_bytes()
             self.assertTrue(all("developer" in game for game in analysis["games"]))
             self.assertTrue(all("vendor_scale" not in game for game in analysis["games"]))
+            self.assertEqual([game["id"] for game in made_analysis["games"]], [2])
+            self.assertTrue(all(row["game_id"] == 2 for row in made_analysis["appearances"]))
+            self.assertTrue(all(row["game_id"] == 2 for row in made_analysis["metrics"]))
+            self.assertEqual(manifest["analysis_made_file"], "analysis-made-current.json")
+            self.assertRegex(manifest["analysis_made_sha256"], r"^[a-f0-9]{64}$")
+            self.assertEqual(manifest["analysis_made_sha256"], hashlib.sha256(made_bytes).hexdigest())
+            self.assertLess(manifest["analysis_made_gzip_bytes"], manifest["analysis_gzip_bytes"])
+            self.assertEqual(manifest["quality_file"], "quality.json")
+            self.assertRegex(manifest["quality_sha256"], r"^[a-f0-9]{64}$")
+            self.assertEqual(manifest["quality_sha256"], hashlib.sha256(quality_bytes).hexdigest())
             self.assertNotIn("vendor_file", manifest)
             self.assertLess(manifest["analysis_gzip_bytes"], manifest["analysis_bytes"])
             self.assertEqual(manifest["history_ingest"], {"configured": False, "status": "not_configured"})
@@ -46,7 +61,13 @@ class PipelineTests(unittest.TestCase):
     def test_history_client_enriches_metrics_and_receives_snapshot(self):
         class FakeHistory:
             def metrics(self, games, at):
-                return {1: {"heat_delta_24h": 400, "growth_per_hour_24h": 20}}
+                return {1: {
+                    "heat_delta_1h": 100,
+                    "heat_delta_1h_estimated": True,
+                    "heat_delta_1h_basis_hours": 2,
+                    "heat_delta_24h": 400,
+                    "growth_per_hour_24h": 20,
+                }}
 
             def ingest(self, games, captured_at):
                 self.ingested = (games, captured_at)
@@ -58,9 +79,14 @@ class PipelineTests(unittest.TestCase):
             manifest = build_analysis_artifacts(fixture, Path(tmp), history_client=history)
             analysis = json.loads((Path(tmp) / "analysis-current.json").read_text(encoding="utf-8"))
         metric = next(row for row in analysis["metrics"] if row["game_id"] == 1)
+        self.assertEqual(metric["heat_delta_1h"], 100)
+        self.assertTrue(metric["heat_delta_1h_estimated"])
+        self.assertEqual(metric["heat_delta_1h_basis_hours"], 2)
         self.assertEqual(metric["heat_delta_24h"], 400)
         self.assertTrue(metric["history_available"])
         self.assertTrue(manifest["history_available"])
+        self.assertTrue(manifest["history_windows"]["1h"])
+        self.assertEqual(manifest["history_estimates"]["1h"], 1)
         self.assertEqual(manifest["history_ingest"], {"configured": True, "status": "success"})
         self.assertEqual(history.ingested[1], analysis["observed_at"])
 

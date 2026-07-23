@@ -33,6 +33,7 @@ jobs:
 
       - name: Verify committed visual engines
         run: |
+          test -s app/js/dist/analysis-app.js
           test -s app/js/vendor/universe-three.js
           test -s app/js/vendor/change-map-pixi.js
 
@@ -70,6 +71,7 @@ jobs:
         run: |
           PYTHONPATH=src python -m unittest tests.test_changes tests.test_change_state tests.test_history_client tests.test_pipeline tests.test_validators -v
           python -m json.tool app/data/v2/analysis-current.json >/dev/null
+          python -m json.tool app/data/v2/analysis-made-current.json >/dev/null
           python -m json.tool app/data/v2/changes-current.json >/dev/null
           python -m json.tool app/data/v2/visual-current.json >/dev/null
           python -m json.tool app/data/v2/manifest.json >/dev/null
