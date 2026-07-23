@@ -132,12 +132,12 @@ export function selectMapNodes(nodes, {
 }
 
 export function renderMode({
-  requested = 'auto',
+  requested = 'static',
   webgl = false,
   saveData = false,
   hardwareConcurrency = 4,
 } = {}) {
-  if (requested === 'static') return 'static';
+  if (requested !== 'webgl') return 'static';
   if (!webgl || saveData || Number(hardwareConcurrency) <= 2) return 'static';
   return 'webgl';
 }

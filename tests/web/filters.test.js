@@ -27,9 +27,9 @@ test('URL state round-trips without losing ranges', () => {
   assert.deepEqual(parseState(serializeState(state)), state);
 });
 
-test('analysis URL omits standard defaults while keeping the made scope explicit', () => {
-  const urlDefaults = { ...DEFAULT_FILTERS, scope: null };
-  assert.equal(serializeState({ ...DEFAULT_FILTERS, scope: 'made' }, urlDefaults), '?scope=made');
+test('analysis URL treats made as the canonical default while keeping all-site explicit', () => {
+  const urlDefaults = { ...DEFAULT_FILTERS, scope: 'made' };
+  assert.equal(serializeState({ ...DEFAULT_FILTERS, scope: 'made' }, urlDefaults), '');
   assert.equal(serializeState({ ...DEFAULT_FILTERS, scope: 'all' }, urlDefaults), '?scope=all');
 });
 

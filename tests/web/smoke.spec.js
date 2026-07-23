@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('change-intelligence home routes to analysis and preserved rankings', async ({ page }) => {
   await page.goto('/index.html');
   await expect(page).toHaveTitle(/TTMRank/);
-  await expect(page.getByRole('link', { name: '游戏分析' }).first()).toHaveAttribute('href', 'analysis.html?scope=made');
+  await expect(page.getByRole('link', { name: '游戏分析' }).first()).toHaveAttribute('href', 'analysis.html');
   await expect(page.getByRole('link', { name: '原始排行' }).first()).toHaveAttribute('href', 'rankings.html');
   await expect(page.getByRole('link', { name: '厂商核实' })).toHaveCount(0);
   // Older published manifests do not carry the lightweight made-game count.
@@ -32,7 +32,7 @@ test('global navigation and true-white shell stay consistent across primary page
     await page.goto(path);
     const navigation = page.getByRole('navigation', { name: '主要导航' });
     await expect(navigation.getByRole('link', { name: '情报', exact: true })).toHaveAttribute('href', 'index.html');
-    await expect(navigation.getByRole('link', { name: '游戏分析', exact: true })).toHaveAttribute('href', 'analysis.html?scope=made');
+    await expect(navigation.getByRole('link', { name: '游戏分析', exact: true })).toHaveAttribute('href', 'analysis.html');
     await expect(navigation.getByRole('link', { name: '原始排行', exact: true })).toHaveAttribute('href', 'rankings.html');
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
     await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(255, 255, 255)');
@@ -102,7 +102,7 @@ test('rankings have no mobile page overflow', async ({ page }) => {
 
 test('retired vendor route redirects to game analysis', async ({ page }) => {
   await page.goto('/vendors.html');
-  await expect(page).toHaveURL(/analysis\.html\?scope=made/);
+  await expect(page).toHaveURL(/analysis\.html$/);
   await expect(page.getByRole('heading', { name: '游戏分析', exact: true })).toBeVisible();
 });
 

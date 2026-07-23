@@ -1,3 +1,6 @@
+import { readBootstrap } from '../core/bootstrap.js';
+import { fetchJsonWithRetry, immutableDataUrl } from '../core/data-fetch.js';
+
 const SHA_PATTERN = /^[a-f0-9]{64}$/i;
 
 function validFile(value) {
@@ -33,30 +36,45 @@ function analysisArtifact(manifest, scope) {
   return { file: manifest.analysis_file, sha: manifest.analysis_sha256, scope: 'all' };
 }
 
-export async function loadAnalysis(scope = 'all', fetcher = fetch, { nowMs = Date.now(), manifest: knownManifest = null } = {}) {
-  let manifest = knownManifest ? validateManifest(knownManifest) : null;
+export async function loadAnalysis(scope = 'all', fetcher = fetch, {
+  nowMs = Date.now(),
+  manifest: knownManifest = null,
+  bootstrap = readBootstrap(),
+} = {}) {
+  const embeddedManifest = bootstrap?.manifest ? validateManifest(bootstrap.manifest) : null;
+  const embeddedScope = bootstrap?.analysis_scope || bootstrap?.analysis?.scope;
+  if (bootstrap?.analysis?.schema_version === '2.0'
+      && ((scope === 'made' && embeddedScope === 'made') || (scope === 'all' && embeddedScope === 'all'))) {
+    return { manifest: embeddedManifest, data: bootstrap.analysis, scope: embeddedScope };
+  }
+
+  let manifest = knownManifest ? validateManifest(knownManifest) : embeddedManifest;
   if (!manifest) {
     const bucket = Math.floor(Number(nowMs) / (5 * 60_000));
-    const response = await fetcher(`data/v2/manifest.json?v=${Number.isFinite(bucket) ? bucket : 0}`, { cache: 'no-store' });
-    if (!response.ok) throw new Error(`manifest HTTP ${response.status}`);
-    manifest = validateManifest(await response.json());
+    manifest = validateManifest(await fetchJsonWithRetry(
+      `data/v2/manifest.json?v=${Number.isFinite(bucket) ? bucket : 0}`,
+      { fetcher, cache: 'no-store' },
+    ));
   }
 
   const artifact = analysisArtifact(manifest, scope);
-  const response = await fetcher(`data/v2/${artifact.file}?v=${artifact.sha.slice(0, 16)}`, { cache: 'force-cache' });
-  if (!response.ok) throw new Error(`analysis HTTP ${response.status}`);
-  const data = await response.json();
+  const data = await fetchJsonWithRetry(
+    immutableDataUrl(`data/v2/${artifact.file}`, artifact.sha),
+    { fetcher, cache: 'force-cache' },
+  );
   if (data?.schema_version !== '2.0') throw new Error(`不支持的数据版本 ${data?.schema_version}`);
   return { manifest, data, scope: artifact.scope };
 }
 
-export async function loadQuality(manifest, fetcher = fetch) {
+export async function loadQuality(manifest, fetcher = fetch, { bootstrap = readBootstrap() } = {}) {
   try {
+    if (bootstrap?.quality?.schema_version === '2.0') return bootstrap.quality;
     const file = validFile(manifest?.quality_file) ? manifest.quality_file : 'quality.json';
     const sha = SHA_PATTERN.test(String(manifest?.quality_sha256 || '')) ? manifest.quality_sha256 : '';
-    const suffix = sha ? `?v=${sha.slice(0, 16)}` : '';
-    const response = await fetcher(`data/v2/${file}${suffix}`, { cache: sha ? 'force-cache' : 'no-cache' });
-    return response.ok ? response.json() : null;
+    return await fetchJsonWithRetry(immutableDataUrl(`data/v2/${file}`, sha), {
+      fetcher,
+      cache: sha ? 'force-cache' : 'no-cache',
+    });
   } catch {
     return null;
   }
@@ -64,7 +82,12 @@ export async function loadQuality(manifest, fetcher = fetch) {
 
 export async function loadSeries(gameId, historyEndpoint, days = 7) {
   if (!historyEndpoint) return null;
-  const to = Math.floor(Date.now() / 1000); const from = to - days * 86400;
-  try { const response = await fetch(`${historyEndpoint.replace(/\/$/, '')}/v1/series?game_id=${gameId}&from=${from}&to=${to}`); return response.ok ? response.json() : null; }
-  catch { return null; }
+  const to = Math.floor(Date.now() / 1000);
+  const from = to - days * 86400;
+  try {
+    const response = await fetch(`${historyEndpoint.replace(/\/$/, '')}/v1/series?game_id=${gameId}&from=${from}&to=${to}`);
+    return response.ok ? response.json() : null;
+  } catch {
+    return null;
+  }
 }

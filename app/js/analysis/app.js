@@ -13,7 +13,7 @@ import { renderOpportunities } from './opportunity-view.js?v=2';
 let original=null; let filtered=null; let manifest=null; let filters={...DEFAULT_FILTERS}; let reportMode=false; let debounceTimer=null; let lastDetailTrigger=null;
 let loadedScope='all'; let fullDataPromise=null; let quality=null; let scopeLoadError='';
 const APP_DEFAULT_FILTERS={...DEFAULT_FILTERS,scope:'made'};
-const ANALYSIS_URL_DEFAULTS={...DEFAULT_FILTERS,scope:null};
+const ANALYSIS_URL_DEFAULTS={...DEFAULT_FILTERS,scope:'made'};
 const byId=id=>document.getElementById(id);
 const numberValue=id=>byId(id).value===''?null:Number(byId(id).value);
 const timeValue=id=>byId(id).value?Math.floor(new Date(byId(id).value).getTime()/1000):null;

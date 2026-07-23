@@ -68,11 +68,11 @@ test('game map selection replaces the nearest representative without increasing 
   assert.ok(selected.some(node => node.id === 10));
 });
 test('static mode wins before engine download for constrained devices', () => {
-  assert.equal(renderMode({ requested: 'auto', webgl: true, saveData: false, hardwareConcurrency: 8 }), 'webgl');
+  assert.equal(renderMode({ requested: 'webgl', webgl: true, saveData: false, hardwareConcurrency: 8 }), 'webgl');
   assert.equal(renderMode({ requested: 'static', webgl: true, saveData: false, hardwareConcurrency: 8 }), 'static');
-  assert.equal(renderMode({ requested: 'auto', webgl: false, saveData: false, hardwareConcurrency: 8 }), 'static');
-  assert.equal(renderMode({ requested: 'auto', webgl: true, saveData: true, hardwareConcurrency: 8 }), 'static');
-  assert.equal(renderMode({ requested: 'auto', webgl: true, saveData: false, hardwareConcurrency: 2 }), 'static');
+  assert.equal(renderMode({ requested: 'webgl', webgl: false, saveData: false, hardwareConcurrency: 8 }), 'static');
+  assert.equal(renderMode({ requested: 'webgl', webgl: true, saveData: true, hardwareConcurrency: 8 }), 'static');
+  assert.equal(renderMode({ requested: 'webgl', webgl: true, saveData: false, hardwareConcurrency: 2 }), 'static');
 });
 
 test('change map encodes time, lane and importance with a bounded deterministic model', () => {
