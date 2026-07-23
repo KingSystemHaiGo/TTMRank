@@ -75,13 +75,13 @@ test('scope, platform, ranking, tag and hour-level release filters update URL an
   await page.locator('#releasedFrom').fill('2026-07-01T12:30');
   await page.locator('#tags').fill('TapTap制造');
   await page.waitForTimeout(250);
-  await expect(page).toHaveURL(/scope=made/);
+  await expect(page).not.toHaveURL(/scope=/);
   await expect(page).toHaveURL(/platform=ios/);
   await expect(page).toHaveURL(/charts=hot%2Cnew/);
   await expect(page).toHaveURL(/releasedFrom=/);
   await expect(page.locator('#resultCount')).not.toHaveText(initial);
   await page.locator('#resetBtn').click();
-  await expect(page).toHaveURL(/scope=made/);
+  await expect(page).not.toHaveURL(/scope=/);
   await expect(page.locator('.quick-filter [data-scope="made"]')).toHaveAttribute('aria-pressed', 'true');
 });
 

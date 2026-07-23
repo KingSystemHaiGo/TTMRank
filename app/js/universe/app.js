@@ -23,7 +23,7 @@ let state = {
   query: String(params.get('query') || '').trim().slice(0, 80),
   cluster: String(params.get('cluster') || '').trim().slice(0, 40),
   game: Number(params.get('game')) || 0,
-  requestedMode: params.get('render') === 'static' ? 'static' : 'auto',
+  requestedMode: params.get('render') === 'webgl' ? 'webgl' : 'static',
 };
 let layout = null;
 let renderer = null;
@@ -37,7 +37,7 @@ function syncUrl({ push = false } = {}) {
   if (state.query) next.set('query', state.query);
   if (state.cluster) next.set('cluster', state.cluster);
   if (state.game) next.set('game', String(state.game));
-  if (state.requestedMode === 'static') next.set('render', 'static');
+  if (state.requestedMode === 'webgl') next.set('render', 'webgl');
   const url = `${window.location.pathname}${next.size ? `?${next}` : ''}`;
   history[push ? 'pushState' : 'replaceState']({}, '', url);
 }
@@ -52,7 +52,7 @@ function webglCapability() {
 }
 
 function constrainedBeforeWebgl() {
-  return state.requestedMode === 'static'
+  return state.requestedMode !== 'webgl'
     || Boolean(navigator.connection?.saveData)
     || Number(navigator.hardwareConcurrency || 4) <= 2;
 }
@@ -178,7 +178,7 @@ function showDetail(node) {
   );
   const actions = element('div', { className: 'universe-detail-actions' });
   if (node.url) actions.append(element('a', { text: '打开 TapTap 游戏页', attrs: { href: node.url, target: '_blank', rel: 'noreferrer' } }));
-  actions.append(element('a', { text: '在游戏分析中查看', attrs: { href: `analysis.html?scope=made&query=${encodeURIComponent(node.title)}` } }));
+  actions.append(element('a', { text: '在游戏分析中查看', attrs: { href: `analysis.html?query=${encodeURIComponent(node.title)}` } }));
   detail.append(header, facts, actions);
 }
 
@@ -263,11 +263,11 @@ async function enableWebgl() {
   });
   if (mode !== 'webgl') {
     canvas.hidden = true;
-    modeLink.hidden = state.requestedMode !== 'static';
+    modeLink.hidden = false;
     modeLink.textContent = '启用增强地图';
     const dynamicParams = new URLSearchParams(window.location.search);
-    dynamicParams.delete('render');
-    modeLink.href = `universe.html${dynamicParams.size ? `?${dynamicParams}` : ''}`;
+    dynamicParams.set('render', 'webgl');
+    modeLink.href = `universe.html?${dynamicParams}`;
     stage.dataset.renderMode = 'static';
     status.textContent = mapStatus();
     return;
@@ -286,8 +286,8 @@ async function enableWebgl() {
     modeLink.hidden = false;
     modeLink.textContent = '使用轻量模式';
     const staticParams = new URLSearchParams(window.location.search);
-    staticParams.set('render', 'static');
-    modeLink.href = `universe.html?${staticParams}`;
+    staticParams.delete('render');
+    modeLink.href = `universe.html${staticParams.size ? `?${staticParams}` : ''}`;
     stage.dataset.renderMode = 'webgl';
     status.textContent = mapStatus();
     const nodes = filteredNodes();

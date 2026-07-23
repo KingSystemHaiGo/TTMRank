@@ -59,7 +59,7 @@ test('home portal adds no Three, Pixi or visual-data request', async ({ page }) 
 
 test('flat game map renders with WebGL and preserves exact DOM details', async ({ page }) => {
   await mockVisualData(page);
-  await page.goto('/universe.html');
+  await page.goto('/universe.html?render=webgl');
   await expect(page.locator('#universeStage')).toHaveAttribute('data-render-mode', 'webgl');
   await expect(page.locator('#universeCanvas')).toHaveAttribute('data-render-ready', 'true');
   await expect(page.locator('.universe-marker')).toHaveCount(2);
@@ -83,11 +83,11 @@ test('choosing a type removes empty lanes and reuses the map height', async ({ p
   expect(focusedHeight).toBeLessThan(initialHeight);
 });
 
-test('explicit static universe never downloads Three.js', async ({ page }) => {
+test('default lightweight universe never downloads Three.js', async ({ page }) => {
   const requests = [];
   page.on('request', request => requests.push(request.url()));
   await mockVisualData(page);
-  await page.goto('/universe.html?render=static');
+  await page.goto('/universe.html');
   await expect(page.locator('#universeStage')).toHaveAttribute('data-render-mode', 'static');
   await expect(page.locator('.universe-marker')).toHaveCount(2);
   expect(requests.some(url => url.includes('universe-three.js'))).toBe(false);

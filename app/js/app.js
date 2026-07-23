@@ -1,3 +1,6 @@
+import { readBootstrap } from './core/bootstrap.js';
+import { fetchJsonWithRetry, immutableDataUrl } from './core/data-fetch.js';
+
 const RANK_TYPES = [
   {key:'hot',name:'热门榜'},{key:'sell',name:'热卖榜'},{key:'reserve',name:'预约榜'},{key:'new',name:'新品榜'},
   {key:'action',name:'动作榜'},{key:'strategy',name:'策略榜'},{key:'shooter',name:'射击榜'},{key:'roguelike',name:'Roguelike'},
@@ -26,9 +29,10 @@ function stateMessage(title,detail=''){return element('div',{className:'state-me
 async function init(){
   showSkeleton();
   try{
-    const response=await fetch('data/meta.json',{cache:'no-cache'});let meta;
-    if(response.ok){meta=await response.json();data={updated_at:meta.updated_at,platforms:{},taptap_made_count:meta.taptap_made_count||0};Object.entries(meta.platforms||{}).forEach(([platform,entries])=>{data.platforms[platform]={};Object.entries(entries).forEach(([key,info])=>{data.platforms[platform][key]={title:info.title,description:info.description||'',items:[],_count:info.count};});});}
-    else{const fallback=await fetch('data/rankings.json',{cache:'no-cache'});if(!fallback.ok)throw new Error(`HTTP ${fallback.status}`);data=await fallback.json();}
+    const bootstrap=readBootstrap();let meta=bootstrap?.rankings?.meta;
+    if(!meta){try{meta=await fetchJsonWithRetry('data/meta.json',{cache:'no-cache'});}catch{data=await fetchJsonWithRetry('data/rankings.json',{cache:'no-cache'});}}
+    if(meta){data={updated_at:meta.updated_at,platforms:{},taptap_made_count:meta.taptap_made_count||0};Object.entries(meta.platforms||{}).forEach(([platform,entries])=>{data.platforms[platform]={};Object.entries(entries).forEach(([key,info])=>{data.platforms[platform][key]={title:info.title,description:info.description||'',items:[],_count:info.count,_file:info.file||'',_sha256:info.sha256||''};});});}
+    Object.entries(bootstrap?.rankings?.charts||{}).forEach(([platform,charts])=>Object.entries(charts||{}).forEach(([key,chart])=>{if(data?.platforms?.[platform]?.[key])data.platforms[platform][key]={...data.platforms[platform][key],...chart,_count:chart.items?.length??data.platforms[platform][key]._count};}));
     byId('updateTime').textContent=data.updated_at||'更新时间未知';renderPlatBar();renderTabs();await switchTab(activeKey);
   }catch(error){byId('main').replaceChildren(stateMessage('排行榜数据加载失败',error.message));}
 }
@@ -45,7 +49,7 @@ function renderTabs(){
 async function switchTab(key,restoreFocus=false){
   activeKey=key;const generation=++loadGeneration;document.querySelectorAll('.tab').forEach(button=>{const active=button.dataset.key===key;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));});
   const chart=data?.platforms?.[activePlat]?.[key];if(!chart){byId('main').replaceChildren(stateMessage('该榜单暂无数据'));return;}
-  if(chart._count!==undefined&&chart.items.length===0){showSkeleton();try{const response=await fetch(`data/rankings-${activePlat}-${key}.json`,{cache:'no-cache'});if(!response.ok)throw new Error(`HTTP ${response.status}`);const payload=await response.json();chart.items=payload.items||[];chart.title=payload.title||chart.title;chart.description=payload.description||chart.description||'';}catch(error){if(generation===loadGeneration)byId('main').replaceChildren(stateMessage('榜单数据加载失败',error.message));return;}}
+  if(chart._count!==undefined&&chart.items.length===0){showSkeleton();try{const file=chart._file||`rankings-${activePlat}-${key}.json`;const payload=await fetchJsonWithRetry(immutableDataUrl(`data/${file}`,chart._sha256),{cache:chart._sha256?'force-cache':'no-cache'});chart.items=payload.items||[];chart.title=payload.title||chart.title;chart.description=payload.description||chart.description||'';}catch(error){if(generation===loadGeneration)byId('main').replaceChildren(stateMessage('榜单数据加载失败',error.message));return;}}
   if(generation!==loadGeneration)return;currentItems=chart.items||[];renderRanking(chart);renderTabs();if(restoreFocus)byId('tabs').querySelector(`[data-key="${key}"]`)?.focus();
 }
 

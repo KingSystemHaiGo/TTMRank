@@ -33,6 +33,10 @@ jobs:
 
       - name: Verify committed visual engines
         run: |
+          test -s app/js/dist/home-app.js
+          test -s app/js/dist/changes-app.js
+          test -s app/js/dist/universe-app.js
+          test -s app/js/dist/rankings-app.js
           test -s app/js/dist/analysis-app.js
           test -s app/js/vendor/universe-three.js
           test -s app/js/vendor/change-map-pixi.js
@@ -79,6 +83,12 @@ jobs:
           python -m json.tool .ttmrank/change-state.json >/dev/null
           python -m json.tool .ttmrank/heat-history.json >/dev/null
 
+      - name: Build single-document Pages site
+        run: node scripts/build-site.mjs
+
+      - name: Validate optimized site artifacts
+        run: node --test tests/site/*.test.js
+
       - name: Save validated rolling change state
         uses: actions/cache/save@v4
         with:
@@ -118,7 +128,7 @@ jobs:
       - name: Upload generated site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: app/
+          path: work/site/
 
   deploy:
     needs: collect

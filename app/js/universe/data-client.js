@@ -1,4 +1,6 @@
 import { validateVisualArtifact } from './model.js?v=2';
+import { readBootstrap } from '../core/bootstrap.js';
+import { fetchJsonWithRetry, immutableDataUrl } from '../core/data-fetch.js';
 
 function validFile(value) {
   return typeof value === 'string'
@@ -15,12 +17,21 @@ function validateManifest(manifest) {
   return manifest;
 }
 
-export async function loadUniverse(fetcher = fetch, { nowMs = Date.now() } = {}) {
+export async function loadUniverse(fetcher = fetch, { nowMs = Date.now(), bootstrap = readBootstrap() } = {}) {
+  if (bootstrap?.manifest && bootstrap?.visual) {
+    return {
+      manifest: validateManifest(bootstrap.manifest),
+      artifact: validateVisualArtifact(bootstrap.visual),
+    };
+  }
   const bucket = Math.floor(Number(nowMs) / (5 * 60_000));
-  const manifestResponse = await fetcher(`data/v2/manifest.json?v=${Number.isFinite(bucket) ? bucket : 0}`, { cache: 'no-store' });
-  if (!manifestResponse.ok) throw new Error(`manifest HTTP ${manifestResponse.status}`);
-  const manifest = validateManifest(await manifestResponse.json());
-  const visualResponse = await fetcher(`data/v2/${manifest.visual_file}?v=${manifest.visual_sha256.slice(0, 16)}`, { cache: 'force-cache' });
-  if (!visualResponse.ok) throw new Error(`visual HTTP ${visualResponse.status}`);
-  return { manifest, artifact: validateVisualArtifact(await visualResponse.json()) };
+  const manifest = validateManifest(await fetchJsonWithRetry(
+    `data/v2/manifest.json?v=${Number.isFinite(bucket) ? bucket : 0}`,
+    { fetcher, cache: 'no-store' },
+  ));
+  const artifact = validateVisualArtifact(await fetchJsonWithRetry(
+    immutableDataUrl(`data/v2/${manifest.visual_file}`, manifest.visual_sha256),
+    { fetcher, cache: 'force-cache' },
+  ));
+  return { manifest, artifact };
 }

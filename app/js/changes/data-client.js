@@ -1,3 +1,6 @@
+import { readBootstrap } from '../core/bootstrap.js';
+import { fetchJsonWithRetry, immutableDataUrl } from '../core/data-fetch.js';
+
 const FEED_STATUSES = new Set(['baseline', 'ready', 'partial', 'error']);
 
 function validEvent(event) {
@@ -51,30 +54,29 @@ function manifestRequestUrl(nowMs) {
   return `data/v2/manifest.json?v=${Number.isFinite(bucket) ? bucket : 0}`;
 }
 
-function feedRequestUrl(manifest) {
-  return `data/v2/${manifest.changes_file}?v=${manifest.changes_sha256.slice(0, 16)}`;
-}
-
 export function manifestVersion(manifest) {
   return `${manifest?.observed_at ?? ''}:${manifest?.changes_sha256 ?? ''}:${manifest?.changes_file ?? ''}`;
 }
 
 export async function loadManifest(fetcher = fetch, { nowMs = Date.now() } = {}) {
-  const manifestResponse = await fetcher(manifestRequestUrl(nowMs), { cache: 'no-store' });
-  if (!manifestResponse.ok) throw new Error(`manifest HTTP ${manifestResponse.status}`);
-  const manifest = await manifestResponse.json();
+  const manifest = await fetchJsonWithRetry(manifestRequestUrl(nowMs), { fetcher, cache: 'no-store' });
   if (!validManifest(manifest)) throw new Error('变化数据清单格式无效');
   return manifest;
 }
 
 export async function loadFeed(manifest, fetcher = fetch) {
   if (!validManifest(manifest)) throw new Error('变化数据清单格式无效');
-  const response = await fetcher(feedRequestUrl(manifest), { cache: 'force-cache' });
-  if (!response.ok) throw new Error(`changes HTTP ${response.status}`);
-  return validateChangeFeed(await response.json());
+  return validateChangeFeed(await fetchJsonWithRetry(
+    immutableDataUrl(`data/v2/${manifest.changes_file}`, manifest.changes_sha256),
+    { fetcher, cache: 'force-cache' },
+  ));
 }
 
 export async function loadChanges(fetcher = fetch, options = {}) {
+  const bootstrap = options.bootstrap ?? readBootstrap();
+  if (validManifest(bootstrap?.manifest) && bootstrap?.changes) {
+    return { manifest: bootstrap.manifest, feed: validateChangeFeed(bootstrap.changes) };
+  }
   const manifest = await loadManifest(fetcher, options);
   const feed = await loadFeed(manifest, fetcher);
   return { manifest, feed };

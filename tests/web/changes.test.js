@@ -182,6 +182,35 @@ test('validates and loads the static change feed through the manifest', async ()
   assert.equal(result.feed, feed);
 });
 
+test('change data client uses embedded publication for the first render', async () => {
+  const manifest = {
+    schema_version: '2.0',
+    observed_at: GENERATED_AT,
+    updated_at: '2026-07-18 00:00:00',
+    changes_file: 'changes-current.0123456789abcdef.json',
+    changes_sha256: 'a'.repeat(64),
+  };
+  const feed = {
+    schema_version: '1.0',
+    generated_at: GENERATED_AT,
+    updated_at: manifest.updated_at,
+    status: 'ready',
+    comparison_available: true,
+    partial: false,
+    suppressed_negative_event_count: 0,
+    events: [],
+  };
+  const requests = [];
+
+  const result = await loadChanges(async (...args) => {
+    requests.push(args);
+    throw new Error('network should not be used');
+  }, { bootstrap: { manifest, changes: feed } });
+
+  assert.deepEqual(result, { manifest, feed });
+  assert.deepEqual(requests, []);
+});
+
 test('manifest probes download the feed only after the published version changes', async () => {
   const current = {
     schema_version: '2.0',

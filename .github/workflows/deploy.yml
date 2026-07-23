@@ -72,6 +72,7 @@ jobs:
       - name: Build static frontend bundles
         run: |
           npm run build:analysis
+          npm run build:apps
           npm run check:analysis-bundle
           npm run build:visual
           npm run check:visual-budget
@@ -79,11 +80,19 @@ jobs:
       - name: Run JavaScript unit tests
         run: npm run test:unit
 
+      - name: Build single-document Pages site
+        run: node scripts/build-site.mjs
+
+      - name: Validate optimized site artifacts
+        run: npm run test:site
+
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
       - name: Run Chromium smoke tests
-        run: npm run test:e2e
+        run: |
+          npm run test:e2e
+          npm run test:performance
 
       - name: Save validated rolling change state
         uses: actions/cache/save@v4
@@ -120,7 +129,7 @@ jobs:
       - name: Upload generated site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: app/
+          path: work/site/
 
   deploy:
     needs: build

@@ -86,15 +86,25 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("actions/configure-pages@v5", refresh)
         self.assertIn("actions/upload-pages-artifact@v3", refresh)
         self.assertIn("actions/deploy-pages@v4", refresh)
-        self.assertIn("path: app/", refresh)
+        self.assertIn("node scripts/build-site.mjs", refresh)
+        self.assertIn("node --test tests/site/*.test.js", refresh)
+        self.assertIn("path: work/site/", refresh)
         self.assertIn("history_ingest", refresh)
         self.assertLess(refresh.index("python app/fetcher.py"), refresh.index("actions/upload-pages-artifact@v3"))
+        self.assertLess(refresh.index("node scripts/build-site.mjs"), refresh.index("actions/upload-pages-artifact@v3"))
         self.assertNotIn("actions/setup-node@v4", refresh)
         self.assertNotIn("npm ci", refresh)
         self.assertNotIn("npm run test:unit", refresh)
         self.assertNotIn("playwright", refresh.lower())
         self.assertNotIn("npm run test:e2e", refresh)
-        self.assertIn("test -s app/js/dist/analysis-app.js", refresh)
+        for bundle in (
+            "home-app.js",
+            "changes-app.js",
+            "universe-app.js",
+            "rankings-app.js",
+            "analysis-app.js",
+        ):
+            self.assertIn(f"test -s app/js/dist/{bundle}", refresh)
         self.assertIn("test -s app/js/vendor/universe-three.js", refresh)
         self.assertIn("test -s app/js/vendor/change-map-pixi.js", refresh)
         self.assertNotIn("contents: write", refresh)
@@ -111,6 +121,11 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("actions/setup-node@v4", deploy)
         self.assertIn("npm ci", deploy)
         self.assertIn("npm run build:analysis", deploy)
+        self.assertIn("npm run build:apps", deploy)
+        self.assertIn("node scripts/check-page-bundles.mjs", (self.WORKFLOWS.parents[1] / "package.json").read_text(encoding="utf-8"))
+        self.assertIn("node scripts/build-site.mjs", deploy)
+        self.assertIn("npm run test:site", deploy)
+        self.assertIn("npm run test:performance", deploy)
         self.assertIn("npm run check:analysis-bundle", deploy)
         self.assertIn("npm run build:visual", deploy)
         self.assertIn("npm run check:visual-budget", deploy)
@@ -119,7 +134,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("npm run test:e2e", deploy)
         self.assertIn("actions/upload-pages-artifact@v3", deploy)
         self.assertIn("actions/deploy-pages@v4", deploy)
-        self.assertIn("path: app/", deploy)
+        self.assertIn("path: work/site/", deploy)
         self.assertIn("history_ingest", deploy)
         self.assertIn("group: data-publish", deploy)
         self.assertIn("actions/cache/restore@v4", deploy)
@@ -127,6 +142,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("TTMRANK_CHANGE_STATE_PATH: .ttmrank/change-state.json", deploy)
         self.assertLess(deploy.index("python app/fetcher.py"), deploy.index("actions/upload-pages-artifact@v3"))
         self.assertLess(deploy.index("npm run test:e2e"), deploy.index("actions/upload-pages-artifact@v3"))
+        self.assertLess(deploy.index("npm run test:performance"), deploy.index("actions/upload-pages-artifact@v3"))
 
     def test_refresh_restores_validates_and_saves_rolling_change_state(self):
         refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")
@@ -174,11 +190,15 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("python -m unittest discover -s tests -v", workflow)
         self.assertIn("npm run test:unit", workflow)
         self.assertIn("npm run build:analysis", workflow)
+        self.assertIn("npm run build:apps", workflow)
+        self.assertIn("node scripts/build-site.mjs", workflow)
+        self.assertIn("npm run test:site", workflow)
         self.assertIn("npm run check:analysis-bundle", workflow)
         self.assertIn("npm run build:visual", workflow)
         self.assertIn("npm run check:visual-budget", workflow)
         self.assertIn("npx playwright install --with-deps chromium", workflow)
         self.assertIn("npm run test:e2e", workflow)
+        self.assertIn("npm run test:performance", workflow)
 
     def test_pages_deployments_are_bounded_and_refresh_artifacts_are_checked_for_freshness(self):
         refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")

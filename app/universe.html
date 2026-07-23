@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/universe.css?v=2">
-  <script type="module" src="js/universe/app.js?v=2"></script>
+  <script type="module" src="js/dist/universe-app.js?v=1"></script>
 </head>
 <body data-page="universe">
   <header class="intel-header">
@@ -20,7 +20,7 @@
       <nav class="intel-nav" aria-label="主要导航">
         <a href="index.html">情报</a>
         <a href="universe.html" aria-current="page">游戏地图</a>
-        <a href="analysis.html?scope=made">游戏分析</a>
+        <a href="analysis.html">游戏分析</a>
         <a href="rankings.html">原始排行</a>
         <a class="intel-nav-external" href="https://github.com/KingSystemHaiGo/TTMRank" target="_blank" rel="noreferrer">GitHub</a>
       </nav>
@@ -43,7 +43,7 @@
           <label><span class="sr-only">按类型筛选</span><select id="universeCluster"><option value="">全部类型</option></select></label>
           <button id="universeClear" type="button" hidden>清除筛选</button>
           <span class="universe-toolbar-spacer"></span>
-          <a id="universeModeLink" href="universe.html?render=static">使用轻量模式</a>
+          <a id="universeModeLink" href="universe.html?render=webgl">启用增强地图</a>
         </div>
 
         <div id="universeStage" class="universe-stage" data-render-mode="loading">
@@ -74,6 +74,6 @@
     </section>
   </main>
 
-  <footer class="reading-container universe-footer"><span>数据来源 TapTap 排行榜 · 非 TapTap 官方产品</span><a href="analysis.html?scope=made">打开游戏分析</a></footer>
+  <footer class="reading-container universe-footer"><span>数据来源 TapTap 排行榜 · 非 TapTap 官方产品</span><a href="analysis.html">打开游戏分析</a></footer>
 </body>
 </html>

@@ -5,12 +5,16 @@
   "type": "module",
   "scripts": {
     "build:analysis": "node scripts/build-analysis.mjs",
+    "build:apps": "node scripts/build-page-bundles.mjs",
+    "build:site": "npm run build:apps && node scripts/build-site.mjs",
     "build:visual": "node scripts/build-visual.mjs",
-    "check:analysis-bundle": "git diff --exit-code -- app/js/dist/analysis-app.js",
+    "check:analysis-bundle": "node scripts/check-page-bundles.mjs",
     "check:visual-budget": "node scripts/check-visual-budget.mjs",
     "test:unit": "node --test tests/web/*.test.js tests/worker/*.test.js",
+    "test:site": "node --test tests/site/*.test.js",
     "test:e2e": "playwright test",
-    "test": "npm run test:unit && npm run test:e2e"
+    "test:performance": "playwright test --config playwright.performance.config.js",
+    "test": "npm run build:site && npm run test:unit && npm run test:site && npm run test:e2e && npm run test:performance"
   },
   "devDependencies": {
     "@playwright/test": "^1.54.1",

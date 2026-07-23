@@ -37,6 +37,47 @@ test('made scope loads the small SHA-versioned artifact after a bucketed manifes
   ]);
 });
 
+test('made scope renders from the page bootstrap without any data request', async () => {
+  const requests = [];
+  const bootstrap = {
+    manifest: manifest(),
+    analysis: { schema_version: '2.0', scope: 'made' },
+    quality: { schema_version: '2.0', issues: [] },
+  };
+
+  const result = await loadAnalysis('made', async (...args) => {
+    requests.push(args);
+    throw new Error('network should not be used');
+  }, { bootstrap });
+
+  assert.equal(result.data.scope, 'made');
+  assert.equal(result.scope, 'made');
+  assert.deepEqual(requests, []);
+  assert.deepEqual(await loadQuality(result.manifest, undefined, { bootstrap }), bootstrap.quality);
+});
+
+test('all-site scope reuses the bootstrap manifest but not made-only data', async () => {
+  const requests = [];
+  const fullManifest = {
+    ...manifest(),
+    analysis_file: 'analysis-current.0123456789abcdef.json',
+  };
+  const result = await loadAnalysis('all', async (url, options) => {
+    requests.push([url, options.cache]);
+    return { ok: true, status: 200, json: async () => ({ schema_version: '2.0', scope: 'all' }) };
+  }, {
+    bootstrap: {
+      manifest: fullManifest,
+      analysis: { schema_version: '2.0', scope: 'made' },
+    },
+  });
+
+  assert.equal(result.data.scope, 'all');
+  assert.deepEqual(requests, [
+    ['data/v2/analysis-current.0123456789abcdef.json', 'force-cache'],
+  ]);
+});
+
 test('all-site scope reuses a known manifest and loads only the full artifact', async () => {
   const requests = [];
   const fetcher = async (url, options) => {
