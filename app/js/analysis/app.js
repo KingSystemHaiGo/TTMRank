@@ -1,6 +1,6 @@
 import { buildBoards, latestReleasedGames } from './boards.js?v=3';
 import { renderCharts, resizeCharts } from './charts.js?v=2';
-import { loadAnalysis, loadQuality } from './data-client.js';
+import { loadAnalysis, loadQuality } from './data-client.js?v=2';
 import { DEFAULT_FILTERS, applyFilters } from './filters.js';
 import { coreMetrics, typeSummary } from './metrics.js';
 import { describeReport, printReport, setReportMode } from './report.js';
@@ -11,6 +11,7 @@ import { analyzeGameSignals } from './opportunity.js?v=2';
 import { renderOpportunities } from './opportunity-view.js?v=2';
 
 let original=null; let filtered=null; let manifest=null; let filters={...DEFAULT_FILTERS}; let reportMode=false; let debounceTimer=null; let lastDetailTrigger=null;
+let loadedScope='all'; let fullDataPromise=null; let quality=null; let scopeLoadError='';
 const APP_DEFAULT_FILTERS={...DEFAULT_FILTERS,scope:'made'};
 const ANALYSIS_URL_DEFAULTS={...DEFAULT_FILTERS,scope:null};
 const byId=id=>document.getElementById(id);
@@ -48,6 +49,43 @@ function openDetail(gameId,trigger){
 }
 function closeDetail(){const dialog=byId('drawerBg');if(dialog.open)dialog.close();}
 
+function renderDataStatus(){
+  const notices=[]; const issueCount=quality?.issues?.length||0;
+  if(scopeLoadError)notices.push(scopeLoadError);
+  if(issueCount)notices.push(`本批次记录 ${issueCount} 个跨榜字段差异，主数据使用最新有效值。`);
+  const historyWindows=manifest?.history_windows||{};
+  const pendingHistory=[['1h','近 1 小时'],['24h','近 24 小时'],['7d','近 7 天']]
+    .filter(([key])=>historyWindows[key]!==true).map(([,label])=>label);
+  if(pendingHistory.length)notices.push(`近期增长历史正在积累：${pendingHistory.join('、')}会在对应基线形成后逐项启用。`);
+  const banner=byId('qualityBanner'); banner.classList.toggle('hidden',notices.length===0);
+  if(!notices.length)return;
+  byId('qualitySummary').textContent=scopeLoadError?'全站参考暂未载入':`数据状态 · ${issueCount} 条字段差异${pendingHistory.length?' · 近期增长积累中':''}`;
+  byId('qualityMessage').textContent=notices.join(' ');
+}
+
+function setScopeLoading(active){
+  document.querySelectorAll('[data-scope]').forEach(button=>{button.disabled=active;});
+  document.querySelector('main').setAttribute('aria-busy',String(active));
+  if(active)byId('scopeNote').textContent='正在读取全站参考数据…';
+}
+
+async function selectScope(scope){
+  if(scope===filters.scope)return;
+  if(scope==='all'&&loadedScope!=='all'){
+    setScopeLoading(true); scopeLoadError=''; renderDataStatus();
+    try{
+      fullDataPromise=fullDataPromise||loadAnalysis('all',fetch,{manifest});
+      const loaded=await fullDataPromise; original=loaded.data; loadedScope='all'; filters.scope='all'; render();
+    }catch(error){
+      fullDataPromise=null;
+      scopeLoadError=`全站参考数据加载失败，TapTap制造分析仍可继续使用：${error.message}`;
+      renderDataStatus(); console.error(error);
+    }finally{setScopeLoading(false);}
+    return;
+  }
+  filters.scope=scope; render();
+}
+
 function render(){
   filtered=applyFilters(original,filters); const metrics=coreMetrics(filtered,filters.highScore); const baselineData=filters.baseline==='fixed'?original:filtered; const baselineMetrics=coreMetrics(baselineData,filters.highScore); const boards=buildBoards(filtered,{platform:filters.platform,baselineMetrics,globalAppearances:original.appearances,eligibleIds:filtered.games.map(game=>game.id)});
   const latestReleases=latestReleasedGames(filtered.games,filtered.observed_at); renderMetrics(byId('metrics'),metrics); renderLatestReleases(byId('latestReleases'),latestReleases,filtered,openDetail); renderCharts(filtered,metrics); renderTypeList(byId('typeList'),typeSummary(filtered)); renderBoards(byId('boards'),boards,filtered,openDetail);
@@ -59,7 +97,7 @@ function render(){
 function scheduleRender(){clearTimeout(debounceTimer);debounceTimer=setTimeout(()=>{readControls();render();},180);}
 
 function bind(){
-  document.querySelectorAll('[data-scope]').forEach(button=>button.addEventListener('click',()=>{filters.scope=button.dataset.scope;render();}));
+  document.querySelectorAll('[data-scope]').forEach(button=>button.addEventListener('click',()=>selectScope(button.dataset.scope)));
   document.querySelectorAll('[data-platform]').forEach(button=>button.addEventListener('click',()=>{filters.platform=button.dataset.platform;render();}));
   ['released','query','heatMin','heatMax','dailyHeatMin','dailyHeatMax','growth24hMin','growth24hMax','scoreMin','scoreMax','rankMin','rankMax','baseline','highScore','releasedFrom','releasedTo','charts','tags','tagMode'].forEach(id=>byId(id).addEventListener(id==='query'||id==='tags'?'input':'change',scheduleRender));
   byId('advancedBtn').addEventListener('click',()=>{const hidden=byId('advancedPanel').classList.toggle('hidden');byId('advancedBtn').setAttribute('aria-expanded',String(!hidden));});
@@ -72,13 +110,9 @@ function bind(){
 async function init(){
   try{
     document.documentElement.dataset.theme='light'; filters=parseState(location.search,APP_DEFAULT_FILTERS); syncControls(); bind();
-    const loaded=await loadAnalysis(); manifest=loaded.manifest; original=loaded.data; byId('updatedAt').textContent=manifest.updated_at; const quality=await loadQuality();
-    const notices=[];
-    if(quality?.issues?.length)notices.push(`本批次记录 ${quality.issues.length} 个跨榜字段差异，主数据使用最新有效值。`);
-    const historyWindows=manifest.history_windows||{};const pendingHistory=[['1h','近 1 小时'],['24h','近 24 小时'],['7d','近 7 天']].filter(([key])=>historyWindows[key]!==true).map(([,label])=>label);
-    if(pendingHistory.length)notices.push(`近期增长历史正在积累：${pendingHistory.join('、')}会在对应基线形成后逐项启用。`);
-    if(notices.length){byId('qualityBanner').classList.remove('hidden');byId('qualitySummary').textContent=`数据状态 · ${quality?.issues?.length||0} 条字段差异${pendingHistory.length?' · 近期增长积累中':''}`;byId('qualityMessage').textContent=notices.join(' ');}
-    render();
+    const loaded=await loadAnalysis(filters.scope); manifest=loaded.manifest; original=loaded.data; loadedScope=loaded.scope;
+    byId('updatedAt').textContent=manifest.updated_at; render(); renderDataStatus();
+    void loadQuality(manifest).then(result=>{quality=result;renderDataStatus();});
   }catch(error){byId('metrics').replaceChildren();const node=document.createElement('div');node.className='empty';node.textContent=`分析数据加载失败：${error.message}`;byId('metrics').append(node);console.error(error);}
 }
 init();

@@ -93,6 +93,8 @@ class GameMetric:
     heat_per_hour_lifetime: float | None = None
     heat_per_day_lifetime: float | None = None
     heat_delta_1h: int | None = None
+    heat_delta_1h_estimated: bool = False
+    heat_delta_1h_basis_hours: float | None = None
     heat_delta_24h: int | None = None
     heat_delta_7d: int | None = None
     growth_per_hour_24h: float | None = None

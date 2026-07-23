@@ -65,6 +65,8 @@ def calculate_game_metric(game: Game, appearances: Sequence[Appearance], history
         heat_per_hour_lifetime=per_hour,
         heat_per_day_lifetime=per_day,
         heat_delta_1h=history.get("heat_delta_1h"),
+        heat_delta_1h_estimated=bool(history.get("heat_delta_1h_estimated")),
+        heat_delta_1h_basis_hours=history.get("heat_delta_1h_basis_hours"),
         heat_delta_24h=history.get("heat_delta_24h"),
         heat_delta_7d=history.get("heat_delta_7d"),
         growth_per_hour_24h=history.get("growth_per_hour_24h"),

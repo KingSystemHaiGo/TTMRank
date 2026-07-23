@@ -18,6 +18,19 @@ from .visual_artifact import build_visual_artifact
 SCHEMA_VERSION = "2.0"
 
 
+def _analysis_payload(games, appearances, metrics, *, updated_at, observed_at) -> dict:
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "updated_at": updated_at,
+        "observed_at": observed_at,
+        "games": [game.to_dict() for game in games],
+        "appearances": [appearance.to_dict() for appearance in appearances],
+        "metrics": [metric.to_dict() for metric in metrics],
+        "summary": summarize_games(games, metrics),
+        "boards": analysis_boards(games, appearances, metrics),
+    }
+
+
 def build_analysis_artifacts(
     payload: dict,
     output_dir: Path,
@@ -34,16 +47,24 @@ def build_analysis_artifacts(
     games_json = [game.to_dict() for game in dataset.games]
     history_metrics = history_client.metrics(games_json, dataset.observed_at) if history_client else {}
     metrics = [calculate_game_metric(game, dataset.appearances, history_metrics.get(game.id)) for game in dataset.games]
-    analysis = {
-        "schema_version": SCHEMA_VERSION,
-        "updated_at": payload.get("updated_at"),
-        "observed_at": dataset.observed_at,
-        "games": games_json,
-        "appearances": [appearance.to_dict() for appearance in dataset.appearances],
-        "metrics": [metric.to_dict() for metric in metrics],
-        "summary": summarize_games(dataset.games, metrics),
-        "boards": analysis_boards(dataset.games, dataset.appearances, metrics),
-    }
+    analysis = _analysis_payload(
+        dataset.games,
+        dataset.appearances,
+        metrics,
+        updated_at=payload.get("updated_at"),
+        observed_at=dataset.observed_at,
+    )
+    made_games = [game for game in dataset.games if game.is_taptap_made]
+    made_ids = {game.id for game in made_games}
+    made_appearances = [row for row in dataset.appearances if row.game_id in made_ids]
+    made_metrics = [metric for metric in metrics if metric.game_id in made_ids]
+    made_analysis = _analysis_payload(
+        made_games,
+        made_appearances,
+        made_metrics,
+        updated_at=payload.get("updated_at"),
+        observed_at=dataset.observed_at,
+    )
     visual = build_visual_artifact(
         dataset.games,
         metrics,
@@ -79,6 +100,10 @@ def build_analysis_artifacts(
             }
     compact = json.dumps(analysis, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     digest = hashlib.sha256(compact).hexdigest()
+    made_compact = json.dumps(made_analysis, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    made_digest = hashlib.sha256(made_compact).hexdigest()
+    quality_compact = json.dumps(quality, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    quality_digest = hashlib.sha256(quality_compact).hexdigest()
     changes_compact = json.dumps(changes, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     changes_digest = hashlib.sha256(changes_compact).hexdigest()
     visual_compact = json.dumps(visual, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
@@ -91,6 +116,14 @@ def build_analysis_artifacts(
         "analysis_sha256": digest,
         "analysis_bytes": len(compact),
         "analysis_gzip_bytes": len(gzip.compress(compact)),
+        "analysis_made_file": "analysis-made-current.json",
+        "analysis_made_sha256": made_digest,
+        "analysis_made_bytes": len(made_compact),
+        "analysis_made_gzip_bytes": len(gzip.compress(made_compact)),
+        "quality_file": "quality.json",
+        "quality_sha256": quality_digest,
+        "quality_bytes": len(quality_compact),
+        "quality_gzip_bytes": len(gzip.compress(quality_compact)),
         "visual_file": "visual-current.json",
         "visual_sha256": visual_digest,
         "visual_bytes": len(visual_compact),
@@ -105,6 +138,9 @@ def build_analysis_artifacts(
             "24h": any(metric.heat_delta_24h is not None for metric in metrics),
             "7d": any(metric.heat_delta_7d is not None for metric in metrics),
         },
+        "history_estimates": {
+            "1h": sum(metric.heat_delta_1h_estimated for metric in metrics),
+        },
         "history_ingest": history_ingest,
         "changes_file": "changes-current.json",
         "changes_sha256": changes_digest,
@@ -116,7 +152,8 @@ def build_analysis_artifacts(
     }
     publisher = AtomicPublisher(output_dir)
     publisher.publish_json("analysis-current.json", analysis)
-    publisher.publish_json("quality.json", quality, pretty=True)
+    publisher.publish_json("analysis-made-current.json", made_analysis)
+    publisher.publish_json("quality.json", quality)
     publisher.publish_json("changes-current.json", changes)
     publisher.publish_json("visual-current.json", visual)
     publisher.publish_json("manifest.json", manifest, pretty=True)

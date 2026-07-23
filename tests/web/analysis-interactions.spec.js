@@ -1,10 +1,68 @@
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+
+const FULL_ANALYSIS = JSON.parse(readFileSync(new URL('../../app/data/v2/analysis-current.json', import.meta.url), 'utf8'));
+const MADE_IDS = new Set(FULL_ANALYSIS.games.filter(game => game.is_taptap_made).map(game => game.id));
+const MADE_ANALYSIS = {
+  ...FULL_ANALYSIS,
+  games: FULL_ANALYSIS.games.filter(game => MADE_IDS.has(game.id)),
+  appearances: FULL_ANALYSIS.appearances.filter(row => MADE_IDS.has(row.game_id)),
+  metrics: FULL_ANALYSIS.metrics.filter(metric => MADE_IDS.has(metric.game_id)).map(metric => ({
+    ...metric,
+    heat_delta_1h: 100,
+    heat_delta_1h_estimated: true,
+    heat_delta_1h_basis_hours: 2,
+  })),
+};
 
 async function openAnalysis(page, query = '') {
   await page.goto(`/analysis.html${query}`);
   await expect(page.locator('.metric-card')).toHaveCount(8);
   await expect(page.locator('.board')).toHaveCount(13);
 }
+
+test('made data renders before quality and all-site data loads only after scope switch', async ({ page }) => {
+  const requests = [];
+  let pendingQuality = null;
+  page.on('request', request => requests.push(request.url()));
+  await page.route('**/data/v2/manifest.json*', route => route.fulfill({ json: {
+    schema_version: '2.0',
+    updated_at: FULL_ANALYSIS.updated_at,
+    observed_at: FULL_ANALYSIS.observed_at,
+    analysis_file: 'analysis-current.json',
+    analysis_sha256: 'a'.repeat(64),
+    analysis_made_file: 'analysis-made-current.json',
+    analysis_made_sha256: 'b'.repeat(64),
+    quality_file: 'quality.json',
+    quality_sha256: 'c'.repeat(64),
+    history_windows: { '1h': true, '24h': true, '7d': true },
+  } }));
+  await page.route('**/data/v2/analysis-made-current.json*', route => route.fulfill({ json: MADE_ANALYSIS }));
+  await page.route('**/data/v2/analysis-current.json*', route => route.fulfill({ json: FULL_ANALYSIS }));
+  await page.route('**/data/v2/quality.json*', route => { pendingQuality = route; });
+
+  await page.goto('/analysis.html?scope=made');
+  await expect(page.locator('.metric-card')).toHaveCount(8);
+  await expect.poll(() => Boolean(pendingQuality)).toBe(true);
+  expect(requests.some(url => url.includes('/js/dist/analysis-app.js'))).toBe(true);
+  expect(requests.some(url => url.includes('/js/analysis/boards.js'))).toBe(false);
+  expect(requests.some(url => url.includes('analysis-made-current.json'))).toBe(true);
+  expect(requests.some(url => /\/analysis-current\.json/.test(url))).toBe(false);
+
+  await page.locator('.game-row').first().click();
+  const estimatedHour = page.locator('.detail-stat').filter({ hasText: '近 1 小时增长（估算）' });
+  await expect(estimatedHour).toHaveCount(1);
+  await expect(estimatedHour).toContainText('≈100');
+  await expect(estimatedHour).toHaveAttribute('title', /最近 2/);
+  await page.keyboard.press('Escape');
+
+  await pendingQuality.fulfill({ json: { schema_version: '2.0', issues: [] } });
+  const allScope = page.locator('[data-scope="all"]');
+  await allScope.click();
+  await expect(allScope).toHaveAttribute('aria-pressed', 'true');
+  await expect.poll(() => requests.some(url => /\/analysis-current\.json/.test(url))).toBe(true);
+  await expect(page).toHaveURL(/scope=all/);
+});
 
 test('scope, platform, ranking, tag and hour-level release filters update URL and results', async ({ page }) => {
   await openAnalysis(page);
