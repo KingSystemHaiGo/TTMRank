@@ -103,3 +103,17 @@ test('game map defaults to lightweight rendering and loads Three only on explici
   await expect(page.locator('#universeStage')).toHaveAttribute('data-render-mode', 'webgl');
   expect(requests.some(url => url.includes('universe-three.js'))).toBe(true);
 });
+
+test('complete changes loads only the selected immutable slice after user intent', async ({ page }) => {
+  const requests = [];
+  page.on('request', request => {
+    if (request.url().includes('/data/v2/changes-')) requests.push(request.url());
+  });
+  await page.goto('/changes.html');
+  await expect(page.locator('#changesFeed')).toBeVisible();
+  expect(requests).toEqual([]);
+  await page.locator('[data-range="7d"]').click();
+  await expect(page).toHaveURL(/range=7d/u);
+  await expect.poll(() => requests.length).toBe(1);
+  expect(requests[0]).toMatch(/changes-7d-made\.[a-f0-9]{16}\.json$/u);
+});

@@ -110,7 +110,7 @@ function applyPublication(manifest, feed) {
 
 async function checkForUpdate() {
   if (!currentManifest) return false;
-  const next = await probeChanges(currentManifest);
+  const next = await probeChanges(currentManifest, fetch, { view: 'home' });
   if (!next.changed) {
     freshness.textContent = freshnessText(next.manifest);
     return false;
@@ -131,7 +131,7 @@ async function load() {
   partialNotice.hidden = true;
   renderFeedState(feedNode, { title: '正在读取最新变化' });
   try {
-    const { manifest, feed } = await loadChanges();
+    const { manifest, feed } = await loadChanges(fetch, { view: 'home' });
     applyPublication(manifest, feed);
     liveRefresh.start();
   } catch {

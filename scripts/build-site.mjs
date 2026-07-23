@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { cp, mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { basename, dirname, join, resolve } from 'node:path';
 import { gzipSync } from 'node:zlib';
+import { buildChangePublication } from './change-publication.mjs';
 
 const APP_ROOT = resolve('app');
 const outputArg = process.argv.indexOf('--output');
@@ -14,7 +15,7 @@ const JSON_KEYS = [
   ['visual_file', 'visual_sha256'],
 ];
 const PAGES = {
-  'index.html': { css: ['tokens.css', 'base.css', 'home.css'], bundle: 'home-app.js', bootstrap: 'changes' },
+  'index.html': { css: ['tokens.css', 'base.css', 'home.css'], bundle: 'home-app.js', bootstrap: 'home' },
   'changes.html': { css: ['tokens.css', 'base.css', 'changes.css'], bundle: 'changes-app.js', bootstrap: 'changes' },
   'universe.html': { css: ['tokens.css', 'base.css', 'universe.css'], bundle: 'universe-app.js', bootstrap: 'visual' },
   'analysis.html': { css: ['tokens.css', 'base.css', 'components.css', 'analysis.css', 'print.css'], bundle: 'analysis-app.js', bootstrap: 'analysis' },
@@ -75,6 +76,14 @@ async function publishImmutable(sourceRoot, outputRoot, manifest, fileKey, shaKe
   manifest[fileKey] = file;
   manifest[shaKey] = digest;
   return { file, digest, bytes, payload: JSON.parse(bytes.toString('utf8')) };
+}
+
+async function publishPayload(outputRoot, sourceName, payload, metadata = {}) {
+  const bytes = compact(payload);
+  const digest = sha256(bytes);
+  const file = hashedName(sourceName, digest);
+  await writeFile(join(outputRoot, file), bytes);
+  return { file, sha256: digest, count: payload.events?.length ?? 0, ...metadata };
 }
 
 function replaceStyles(html, css) {
@@ -140,6 +149,30 @@ for (const [fileKey, shaKey] of JSON_KEYS) {
 if (!artifacts.analysis_made_file) {
   throw new Error('TapTap-made analysis bootstrap could not be built');
 }
+const changePublication = buildChangePublication(artifacts.changes_file.payload);
+const changeViews = {
+  home: await publishPayload(outputV2, 'changes-home.json', changePublication.home, {
+    view: 'home', complete: true,
+  }),
+  preview: await publishPayload(outputV2, 'changes-preview.json', changePublication.preview, {
+    view: 'preview', range: '24h', scope: 'made',
+    total: changePublication.previewTotal,
+    complete: changePublication.previewComplete,
+  }),
+  slices: {},
+};
+for (const [range, scopes] of Object.entries(changePublication.slices)) {
+  changeViews.slices[range] = {};
+  for (const [scope, payload] of Object.entries(scopes)) {
+    changeViews.slices[range][scope] = await publishPayload(
+      outputV2,
+      `changes-${range}-${scope}.json`,
+      payload,
+      { view: 'slice', range, scope, total: payload.events.length, complete: true },
+    );
+  }
+}
+manifest.changes_views = changeViews;
 await writeFile(join(outputV2, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
 
 const bootstrap = {
@@ -149,7 +182,8 @@ const bootstrap = {
     analysis: leanAnalysis(artifacts.analysis_made_file.payload),
     quality: artifacts.quality_file?.payload || { schema_version: '2.0', issues: [] },
   },
-  changes: { manifest, changes: artifacts.changes_file.payload },
+  home: { manifest, changes: changePublication.home, changes_view: 'home' },
+  changes: { manifest, changes: changePublication.preview, changes_view: 'preview' },
   visual: { manifest, visual: artifacts.visual_file.payload },
   rankings: { rankings: await buildRankingsBootstrap() },
 };

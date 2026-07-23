@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
+import { gzipSync } from 'node:zlib';
 
 const root = new URL('../../work/site/', import.meta.url);
 const pages = ['index.html', 'changes.html', 'universe.html', 'analysis.html', 'rankings.html'];
@@ -40,6 +41,13 @@ test('page bootstraps carry exactly the data required by the first view', () => 
   const home = bootstrap('index.html');
   assert.equal(home.changes.schema_version, '1.0');
   assert.ok(home.manifest.changes_file);
+  assert.equal(home.changes_view, 'home');
+  assert.ok(home.changes.events.length <= 15);
+
+  const changes = bootstrap('changes.html');
+  assert.equal(changes.changes_view, 'preview');
+  assert.ok(changes.changes.events.length <= 40);
+  assert.ok(changes.manifest.changes_views.preview);
 
   const universe = bootstrap('universe.html');
   assert.equal(universe.visual.schema_version, '1.0');
@@ -61,6 +69,15 @@ test('secondary data uses immutable filenames and every referenced file exists',
       assert.ok(existsSync(new URL(`data/v2/${manifest[key]}`, root)), manifest[key]);
     }
   }
+  const changeViews = bootstrap('changes.html').manifest.changes_views;
+  for (const info of [
+    changeViews.home,
+    changeViews.preview,
+    ...Object.values(changeViews.slices).flatMap(scopes => Object.values(scopes)),
+  ]) {
+    assert.match(info.file, /\.[a-f0-9]{16}\.json$/u);
+    assert.ok(existsSync(new URL(`data/v2/${info.file}`, root)), info.file);
+  }
   const rankings = bootstrap('rankings.html').rankings;
   for (const entries of Object.values(rankings.meta.platforms)) {
     for (const info of Object.values(entries)) {
@@ -75,4 +92,27 @@ test('page gzip budgets remain bounded', () => {
   for (const [page, size] of Object.entries(report.pages)) {
     assert.ok(size.gzipBytes <= 90 * 1024, `${page}: ${size.gzipBytes} gzip bytes`);
   }
+});
+
+test('a deployment-scale change archive cannot inflate first-view HTML', () => {
+  const generated = 2_000_000;
+  const source = JSON.parse(read('data/v2/changes-current.json'));
+  source.generated_at = generated;
+  source.status = 'ready';
+  source.comparison_available = true;
+  source.events = Array.from({ length: 5_000 }, (_, index) => ({
+    id: `evt_${index}`, kind: 'rank_rise', scope: index % 3 ? 'made' : 'all',
+    game_id: index + 1, game_title: `游戏${index}`, platform: 'android', chart: 'hot',
+    before: 20, after: 10, observed_at: generated - (index % 10_000),
+    first_observed_at: generated - (index % 10_000), last_observed_at: generated - (index % 10_000),
+    occurrences: 1, importance: index % 100, rule: 'rank_threshold_11_50',
+  }));
+  const html = read('index.html');
+  const current = bootstrap('index.html');
+  const inflated = html.replace(
+    JSON.stringify(current),
+    JSON.stringify({ ...current, changes: source }),
+  );
+  assert.ok(gzipSync(inflated).byteLength > 90 * 1024, 'fixture reproduces the failed deploy');
+  assert.ok(gzipSync(html).byteLength < 40 * 1024, 'bounded publication keeps the home page fast');
 });
