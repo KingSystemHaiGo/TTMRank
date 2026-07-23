@@ -42,6 +42,29 @@ test('clear filters only appears after the default analysis state changes', asyn
   await expect(page.locator('[data-platform="all"]')).toHaveAttribute('aria-pressed', 'true');
 });
 
+test('latest releases stay separate from existing boards, follow filters and open details', async ({ page }) => {
+  await openAnalysis(page, '?scope=made');
+  await expect(page.getByRole('heading', { name: '最新发布', exact: true })).toBeVisible();
+  const releases = page.locator('.latest-release-item');
+  await expect(releases).toHaveCount(6);
+  await expect(page.locator('.board')).toHaveCount(13);
+
+  const first = releases.first();
+  const title = await first.locator('.latest-release-title').textContent();
+  await page.locator('#query').fill(title);
+  await page.waitForTimeout(250);
+  await expect(page.locator('.latest-release-item')).toHaveCount(1);
+
+  const filteredRelease = page.locator('.latest-release-item');
+  await expect(filteredRelease).toHaveCSS('border-bottom-width', '1px');
+  await filteredRelease.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#drawerBg')).toHaveJSProperty('open', true);
+  await expect(page.locator('#drawerContent h2')).toHaveText(title);
+  await page.keyboard.press('Escape');
+  await expect(filteredRelease).toBeFocused();
+});
+
 test('fixed baseline, report mode and details drawer are interactive', async ({ page }) => {
   await openAnalysis(page, '?scope=made');
   await page.locator('#advancedBtn').click();

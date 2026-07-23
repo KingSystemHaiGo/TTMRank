@@ -1,6 +1,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildBoards, nonHotNewIds } from '../../app/js/analysis/boards.js';
+import { buildBoards, latestReleasedGames, nonHotNewIds } from '../../app/js/analysis/boards.js';
+
+test('latest release board sorts valid published games without changing the recent-release board', () => {
+  const observedAt = 2_000_000;
+  const games = [
+    { id: 1, title: '较早高热', released_at: 1_900_000, observed_at: observedAt, heat: 500 },
+    { id: 2, title: '同日低热', released_at: 1_950_000, observed_at: observedAt, heat: 20 },
+    { id: 3, title: '同日高热', released_at: 1_950_000, observed_at: observedAt, heat: 100 },
+    { id: 4, title: '未来发布', released_at: 2_000_001, observed_at: observedAt, heat: 900 },
+    { id: 5, title: '时间缺失', released_at: null, observed_at: observedAt, heat: 800 },
+  ];
+
+  assert.deepEqual(latestReleasedGames(games, observedAt, 2).map(game => game.id), [3, 2]);
+
+  const metrics = games.slice(0, 3).map(game => ({ game_id: game.id, heat_per_day_lifetime: 1, age_hours: 10 }));
+  const appearances = games.slice(0, 3).map((game, index) => ({ game_id: game.id, platform: 'ios', chart: 'casual', rank: index + 1 }));
+  const boards = buildBoards({ games: games.slice(0, 3), metrics, appearances });
+  assert.deepEqual(boards.recentRelease.map(game => game.id), [1, 3, 2]);
+});
 
 test('non-hot-new excludes games found in hot or new on either platform', () => {
   const rows = [

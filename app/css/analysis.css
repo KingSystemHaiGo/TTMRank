@@ -66,6 +66,40 @@
 .metric-supporting .metric-label { font-size: 10px; }
 .metric-supporting .metric-value { color: var(--text-2); font-size: 21px; }
 
+.latest-release-shell { margin: 18px 0 26px; border-top: 1px solid var(--line-strong); background: var(--surface); }
+.latest-release-head { min-height: 64px; padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.latest-release-head h2 { margin: 0; font: 740 18px/1.25 var(--display); }
+.latest-release-head p { margin: 5px 0 0; color: var(--text-3); font-size: 10px; }
+.latest-release-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.latest-release-item {
+  min-width: 0;
+  min-height: 72px;
+  padding: 10px 13px;
+  display: grid;
+  grid-template-columns: 22px 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+.latest-release-item:nth-child(3n) { border-right: 0; }
+.latest-release-item:hover, .latest-release-item:focus-visible { background: var(--surface-2); }
+.latest-release-rank { color: var(--tap-cyan-strong); font: 720 11px/1 var(--display); text-align: center; }
+.latest-release-item .game-icon, .latest-release-item .game-icon-fallback { width: 42px; height: 42px; border-radius: var(--radius-sm); }
+.latest-release-main { min-width: 0; }
+.latest-release-main strong, .latest-release-main small, .latest-release-time strong, .latest-release-time small { display: block; }
+.latest-release-title { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.latest-release-main small { margin-top: 5px; overflow: hidden; color: var(--text-3); font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.latest-release-time { min-width: 72px; text-align: right; font-variant-numeric: tabular-nums; }
+.latest-release-time strong { color: var(--text-2); font-size: 10px; }
+.latest-release-time small { margin-top: 5px; color: var(--text-3); font-size: 9px; }
+.latest-release-empty { grid-column: 1 / -1; padding: 24px 16px; border-bottom: 1px solid var(--line); color: var(--text-3); font-size: 11px; text-align: center; }
+
 .opportunity-shell { margin: 18px 0 26px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
 .opportunity-head { padding: 18px 20px 14px; border-bottom: 1px solid var(--line); }
 .opportunity-head h2 { margin: 0; font: 750 20px/1.25 var(--display); }
@@ -214,10 +248,15 @@ body.report-mode .board { break-inside: avoid; }
   .quick-filter #query { flex: 1 1 260px; }
   .filter-spacer { display: none; }
   .chart-grid, .boards { grid-template-columns: 1fr; }
+  .latest-release-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .latest-release-item:nth-child(3n) { border-right: 1px solid var(--line); }
+  .latest-release-item:nth-child(2n) { border-right: 0; }
   .filter-panel { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 640px) {
+  .latest-release-list { grid-template-columns: 1fr; }
+  .latest-release-item, .latest-release-item:nth-child(2n), .latest-release-item:nth-child(3n) { border-right: 0; border-bottom: 1px solid var(--line); }
   .opportunity-list { grid-template-columns: 1fr; }
   .opportunity-row, .opportunity-row:nth-child(2n), .opportunity-row:nth-child(3n), .opportunity-row:nth-last-child(-n+2), .opportunity-row:nth-last-child(-n+3) { border-right: 0; border-bottom: 1px solid var(--line); }
   .opportunity-row:last-child { border-bottom: 0; }
@@ -239,6 +278,10 @@ body.report-mode .board { break-inside: avoid; }
   .metric-card, .metric-card:nth-child(4) { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .metric-card:nth-child(2n) { border-right: 0; }
   .metric-card:nth-last-child(-n+2) { border-bottom: 0; }
+  .latest-release-head { align-items: flex-start; }
+  .latest-release-item { grid-template-columns: 22px 42px minmax(0, 1fr); }
+  .latest-release-time { grid-column: 3; min-width: 0; display: flex; align-items: baseline; gap: 8px; text-align: left; }
+  .latest-release-time small { margin-top: 0; }
   .section-kicker { align-items: flex-start; flex-direction: column; }
   .game-row { grid-template-columns: 26px 42px minmax(0, 1fr); }
   .game-row .game-value { grid-column: 3; text-align: left; }

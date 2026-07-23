@@ -27,6 +27,42 @@ export function renderMetrics(container, metrics) {
   cards.forEach(([label,value,note,priority]) => container.append(element('article',{className:`metric-card metric-${priority}`,attrs:{'data-priority':priority},children:[element('div',{className:'metric-label',text:label}),element('div',{className:'metric-value num',text:value}),element('div',{className:'metric-note',text:note})]})));
 }
 
+export function renderLatestReleases(container, games, context, openDetail) {
+  clear(container);
+  const metricMap = new Map(context.metrics.map(metric => [metric.game_id, metric]));
+  if (!games.length) {
+    container.append(element('div', { className: 'latest-release-empty', text: '当前筛选下暂无有效发布时间的游戏' }));
+    return;
+  }
+  games.forEach((game, index) => {
+    const metric = metricMap.get(game.id);
+    const tags = (game.tags || []).filter(tag => tag !== 'TapTap制造').slice(0, 2).join(' / ') || '暂无类型标签';
+    const released = dateTime(game.released_at);
+    const button = element('button', {
+      className: 'latest-release-item',
+      attrs: {
+        type: 'button',
+        'data-released-at': game.released_at,
+        'aria-label': `${index + 1} ${game.title}，发布于${released}，打开游戏信息`,
+      },
+      children: [
+        element('span', { className: 'latest-release-rank num', text: String(index + 1).padStart(2, '0') }),
+        createGameIcon(game, { size: 42, proxyEndpoint: window.TTMRANK_ICON_PROXY || '' }),
+        element('span', { className: 'latest-release-main', children: [
+          element('strong', { className: 'latest-release-title', text: game.title }),
+          element('small', { text: tags }),
+        ] }),
+        element('span', { className: 'latest-release-time', children: [
+          element('strong', { text: released }),
+          element('small', { text: age(metric?.age_hours) }),
+        ] }),
+      ],
+    });
+    button.addEventListener('click', () => openDetail(game.id, button));
+    container.append(button);
+  });
+}
+
 function gameValue(key, game, metric) {
   if (key === 'potential') return [decimal(game.potentialScore),'潜力指数'];
   if (key === 'dailyHeat') return [compactNumber(metric?.heat_per_day_lifetime),'日均热度'];

@@ -1,5 +1,17 @@
 import { median, percentileRank } from '../core/statistics.js';
 
+export function latestReleasedGames(games, observedAt, limit = 6) {
+  const ceiling = Number(observedAt);
+  const boundedLimit = Math.max(0, Math.trunc(Number(limit) || 0));
+  if (!Number.isFinite(ceiling) || ceiling <= 0 || boundedLimit === 0) return [];
+  return [...(Array.isArray(games) ? games : [])]
+    .filter(game => Number.isFinite(game?.released_at) && game.released_at > 0 && game.released_at <= ceiling)
+    .sort((left, right) => right.released_at - left.released_at
+      || (right.heat || 0) - (left.heat || 0)
+      || left.id - right.id)
+    .slice(0, boundedLimit);
+}
+
 export function nonHotNewIds(appearances, platform = 'all') {
   const excluded = new Set(appearances.filter(row => row.chart === 'hot' || row.chart === 'new').map(row => row.game_id));
   return new Set(appearances

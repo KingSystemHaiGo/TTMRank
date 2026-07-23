@@ -1,11 +1,11 @@
-import { buildBoards } from './boards.js?v=2';
+import { buildBoards, latestReleasedGames } from './boards.js?v=3';
 import { renderCharts, resizeCharts } from './charts.js?v=2';
 import { loadAnalysis, loadQuality } from './data-client.js';
 import { DEFAULT_FILTERS, applyFilters } from './filters.js';
 import { coreMetrics, typeSummary } from './metrics.js';
 import { describeReport, printReport, setReportMode } from './report.js';
 import { exportLongImage } from './export.js';
-import { renderBoards, renderDrawer, renderMetrics, renderTypeList } from './table.js?v=3';
+import { renderBoards, renderDrawer, renderLatestReleases, renderMetrics, renderTypeList } from './table.js?v=4';
 import { parseState, serializeState } from '../core/state-url.js';
 import { analyzeGameSignals } from './opportunity.js?v=2';
 import { renderOpportunities } from './opportunity-view.js?v=2';
@@ -50,9 +50,9 @@ function closeDetail(){const dialog=byId('drawerBg');if(dialog.open)dialog.close
 
 function render(){
   filtered=applyFilters(original,filters); const metrics=coreMetrics(filtered,filters.highScore); const baselineData=filters.baseline==='fixed'?original:filtered; const baselineMetrics=coreMetrics(baselineData,filters.highScore); const boards=buildBoards(filtered,{platform:filters.platform,baselineMetrics,globalAppearances:original.appearances,eligibleIds:filtered.games.map(game=>game.id)});
-  renderMetrics(byId('metrics'),metrics); renderCharts(filtered,metrics); renderTypeList(byId('typeList'),typeSummary(filtered)); renderBoards(byId('boards'),boards,filtered,openDetail);
+  const latestReleases=latestReleasedGames(filtered.games,filtered.observed_at); renderMetrics(byId('metrics'),metrics); renderLatestReleases(byId('latestReleases'),latestReleases,filtered,openDetail); renderCharts(filtered,metrics); renderTypeList(byId('typeList'),typeSummary(filtered)); renderBoards(byId('boards'),boards,filtered,openDetail);
   renderOpportunities(byId('opportunities'),analyzeGameSignals(original),openDetail);
-  byId('heatSamples').textContent=`${metrics.heatSamples} 个有效样本`; byId('resultCount').textContent=`当前收录 ${filtered.games.length} 款`; byId('scopeNote').textContent=`${filters.scope==='made'?'TapTap制造':'全站参考'} · ${filters.platform==='all'?'全部平台':filters.platform}`;
+  byId('latestReleaseCount').textContent=`${latestReleases.length} 款`; byId('heatSamples').textContent=`${metrics.heatSamples} 个有效样本`; byId('resultCount').textContent=`当前收录 ${filtered.games.length} 款`; byId('scopeNote').textContent=`${filters.scope==='made'?'TapTap制造':'全站参考'} · ${filters.platform==='all'?'全部平台':filters.platform}`;
   byId('reportMeta').textContent=`${describeReport(filters,filtered.games.length,new Date().toLocaleString('zh-CN',{hour12:false}))} · schema ${manifest.schema_version}`;
   history.replaceState(null,'',`${location.pathname}${serializeState(filters,ANALYSIS_URL_DEFAULTS)}`); syncControls();
 }
