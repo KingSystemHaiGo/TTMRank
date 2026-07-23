@@ -7,6 +7,8 @@ import {
   topEvents,
 } from '../../app/js/changes/model.js';
 import {
+  changeViewInfo,
+  loadFeed,
   loadChanges,
   manifestVersion,
   probeChanges,
@@ -207,8 +209,36 @@ test('change data client uses embedded publication for the first render', async 
     throw new Error('network should not be used');
   }, { bootstrap: { manifest, changes: feed } });
 
-  assert.deepEqual(result, { manifest, feed });
+  assert.deepEqual(result, { manifest, feed, publication: changeViewInfo(manifest) });
   assert.deepEqual(requests, []);
+});
+
+test('change data client selects immutable preview and range-scope slices', async () => {
+  const feed = {
+    schema_version: '1.0', generated_at: GENERATED_AT, updated_at: 'now', status: 'ready',
+    comparison_available: true, partial: false, suppressed_negative_event_count: 0, events: [],
+  };
+  const manifest = {
+    schema_version: '2.0', observed_at: GENERATED_AT,
+    changes_file: 'changes-current.aaaaaaaaaaaaaaaa.json', changes_sha256: 'a'.repeat(64),
+    changes_views: {
+      preview: { file: 'changes-preview.bbbbbbbbbbbbbbbb.json', sha256: 'b'.repeat(64), complete: false, total: 99 },
+      slices: { '7d': { all: { file: 'changes-7d-all.cccccccccccccccc.json', sha256: 'c'.repeat(64), complete: true, total: 500 } } },
+    },
+  };
+  const requests = [];
+  const fetcher = async (url, options) => {
+    requests.push([url, options.cache]);
+    return { ok: true, status: 200, json: async () => feed };
+  };
+
+  assert.equal(changeViewInfo(manifest, { view: 'preview' }).total, 99);
+  await loadFeed(manifest, fetcher, { view: 'preview' });
+  await loadFeed(manifest, fetcher, { view: 'slice', range: '7d', scope: 'all' });
+  assert.deepEqual(requests, [
+    ['data/v2/changes-preview.bbbbbbbbbbbbbbbb.json', 'force-cache'],
+    ['data/v2/changes-7d-all.cccccccccccccccc.json', 'force-cache'],
+  ]);
 });
 
 test('manifest probes download the feed only after the published version changes', async () => {

@@ -40,6 +40,9 @@ body { min-height: 100vh; overflow-x: hidden; }
 .change-map-reading p { margin: 5px 0 0; color: var(--text-3); font-size: 10px; line-height: 1.6; }
 .change-map-events { border-top: 0; }
 .change-map-events .change-row { min-height: 66px; }
+.load-complete-changes { width: 100%; min-height: 44px; margin-top: 14px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); background: var(--surface); color: var(--tap-cyan-strong); cursor: pointer; font-weight: 700; }
+.load-complete-changes:hover { background: var(--surface-2); }
+.load-complete-changes:disabled { color: var(--text-3); cursor: wait; }
 .changes-footer { min-height: 64px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); color: var(--text-3); font-size: 10px; }
 .changes-footer a { color: var(--tap-cyan-strong); font-weight: 650; }
 

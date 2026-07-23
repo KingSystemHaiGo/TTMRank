@@ -62,7 +62,10 @@
         </div>
       </div>
       <p id="changesPartialNotice" class="partial-notice" hidden>本轮采集不完整，已暂停生成跌出榜单和覆盖减少事件。</p>
-      <div id="changesListView"><div id="changesFeed" class="change-feed" aria-live="polite"><div class="feed-state"><strong>正在读取最新变化</strong></div></div></div>
+      <div id="changesListView">
+        <div id="changesFeed" class="change-feed" aria-live="polite"><div class="feed-state"><strong>正在读取最新变化</strong></div></div>
+        <button id="loadCompleteChanges" class="load-complete-changes" type="button" hidden>加载完整记录</button>
+      </div>
       <div id="changesMapView" class="changes-map-view" hidden>
         <div class="change-map-shell">
           <div class="change-map-axis" aria-hidden="true"><span>排名变化</span><span>进出榜</span><span>评分变化</span><span>榜单覆盖</span></div>

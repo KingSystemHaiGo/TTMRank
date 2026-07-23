@@ -1,4 +1,4 @@
-import { loadChanges, probeChanges } from './data-client.js';
+import { changeViewInfo, loadChanges, loadFeed, probeChanges } from './data-client.js';
 import { createLiveRefresh, freshnessText } from './live-refresh.js';
 import { DEFAULT_CHANGE_FILTERS, filterEvents } from './model.js';
 import { buildChangeMap } from './map-model.js';
@@ -22,10 +22,17 @@ const mapHost = document.getElementById('changeMapCanvas');
 const mapState = document.getElementById('changeMapState');
 const mapEvents = document.getElementById('changeMapEvents');
 const mapStart = document.getElementById('changeMapStart');
+const loadCompleteButton = document.getElementById('loadCompleteChanges');
 
 let state = parseChangeState(window.location.search);
 let currentFeed = null;
 let currentManifest = null;
+let currentPublication = null;
+let initialPreview = null;
+let sliceGeneration = 0;
+let slicePromise = null;
+let slicePromiseFile = '';
+let filterTimer = 0;
 let detailWasPushed = false;
 let mapRenderer = null;
 let mapImport = null;
@@ -41,6 +48,26 @@ function pageUrl(nextState = state) {
 function filtersActive() {
   return ['range', 'scope', 'type', 'platform', 'query']
     .some(key => state[key] !== DEFAULT_CHANGE_FILTERS[key]);
+}
+
+function publicationIsComplete() {
+  return currentPublication?.complete !== false;
+}
+
+function sliceOptions() {
+  return { view: 'slice', range: state.range, scope: state.scope };
+}
+
+function syncCompleteAction() {
+  const incomplete = !publicationIsComplete();
+  loadCompleteButton.hidden = !incomplete || state.view !== 'list';
+  if (!incomplete) return;
+  const total = Number(currentPublication?.total);
+  loadCompleteButton.textContent = filtersActive()
+    ? '加载完整记录以应用全部筛选'
+    : Number.isSafeInteger(total) && total > currentFeed.events.length
+      ? `加载全部 ${total} 条变化`
+      : '加载完整记录';
 }
 
 function syncControls() {
@@ -145,6 +172,7 @@ function showStateDetail() {
 function render() {
   syncControls();
   if (!currentFeed) return;
+  syncCompleteAction();
   partialNotice.hidden = !currentFeed.partial;
   if (currentFeed.status === 'baseline') {
     countNode.textContent = '0条';
@@ -161,7 +189,10 @@ function render() {
   }
 
   const events = filterEvents(currentFeed.events, state, currentFeed.generated_at);
-  countNode.textContent = `${events.length}条`;
+  const total = Number(currentPublication?.total);
+  countNode.textContent = !publicationIsComplete() && Number.isSafeInteger(total)
+    ? `${events.length} / ${total}条`
+    : `${events.length}条`;
   listView.hidden = state.view !== 'list';
   mapView.hidden = state.view !== 'map';
   if (state.view === 'list') destroyMap();
@@ -181,7 +212,46 @@ function replaceUrl() {
   history.replaceState({ ...(history.state || {}), scrollY: window.scrollY }, '', pageUrl());
 }
 
-function changeFilter(key, value) {
+async function ensureCurrentSlice() {
+  if (!currentManifest) return false;
+  const expected = changeViewInfo(currentManifest, sliceOptions());
+  if (currentPublication?.file === expected.file && publicationIsComplete()) return true;
+  if (slicePromise && slicePromiseFile === expected.file) return slicePromise;
+  const generation = ++sliceGeneration;
+  slicePromiseFile = expected.file;
+  loadCompleteButton.hidden = false;
+  loadCompleteButton.disabled = true;
+  loadCompleteButton.textContent = '正在读取完整记录…';
+  document.querySelector('main').setAttribute('aria-busy', 'true');
+  slicePromise = (async () => {
+    try {
+      const feed = await loadFeed(currentManifest, fetch, sliceOptions());
+      if (generation !== sliceGeneration) return false;
+      currentFeed = feed;
+      currentPublication = expected;
+      render();
+      return true;
+    } catch {
+      if (generation === sliceGeneration) {
+        loadCompleteButton.hidden = false;
+        loadCompleteButton.textContent = '读取失败，点击重试';
+      }
+      return false;
+    } finally {
+      if (generation === sliceGeneration) {
+        loadCompleteButton.disabled = false;
+        document.querySelector('main').setAttribute('aria-busy', 'false');
+      }
+      if (slicePromiseFile === expected.file) {
+        slicePromise = null;
+        slicePromiseFile = '';
+      }
+    }
+  })();
+  return slicePromise;
+}
+
+async function changeFilter(key, value) {
   if (state[key] === value && !state.event) return;
   state[key] = value;
   state.event = '';
@@ -189,6 +259,9 @@ function changeFilter(key, value) {
   detail.hide();
   replaceUrl();
   render();
+  const needsComplete = key === 'range' || key === 'scope' || key === 'view'
+    || ((key === 'type' || key === 'platform' || key === 'query') && !publicationIsComplete());
+  if (needsComplete) await ensureCurrentSlice();
 }
 
 function openDetail(event) {
@@ -216,11 +289,14 @@ async function load() {
   countNode.textContent = '—';
   renderFeedState(feedNode, { title: '正在读取最新变化' });
   try {
-    const { manifest, feed } = await loadChanges();
+    const { manifest, feed, publication } = await loadChanges(fetch, { view: 'preview' });
     currentManifest = manifest;
     currentFeed = feed;
+    currentPublication = publication;
+    initialPreview = { feed, publication };
     freshness.textContent = freshnessText(manifest).replace(/^最近采集 /, '');
     render();
+    if (filtersActive() || state.view === 'map' || state.event) await ensureCurrentSlice();
     liveRefresh.start();
   } catch {
     freshness.textContent = '变化数据暂不可用';
@@ -235,13 +311,18 @@ async function load() {
 
 async function checkForUpdate() {
   if (!currentManifest) return false;
-  const next = await probeChanges(currentManifest);
+  const options = publicationIsComplete() ? sliceOptions() : { view: 'preview' };
+  const next = await probeChanges(currentManifest, fetch, options);
   if (!next.changed) {
     freshness.textContent = freshnessText(next.manifest).replace(/^最近采集 /, '');
     return false;
   }
   currentManifest = next.manifest;
   currentFeed = next.feed;
+  currentPublication = next.publication;
+  initialPreview = options.view === 'preview'
+    ? { feed: next.feed, publication: next.publication }
+    : null;
   freshness.textContent = freshnessText(next.manifest).replace(/^最近采集 /, '');
   render();
   return true;
@@ -261,14 +342,24 @@ scopeButtons.forEach(button => button.addEventListener('click', () => changeFilt
 viewButtons.forEach(button => button.addEventListener('click', () => changeFilter('view', button.dataset.view)));
 typeSelect.addEventListener('change', () => changeFilter('type', typeSelect.value));
 platformSelect.addEventListener('change', () => changeFilter('platform', platformSelect.value));
-queryInput.addEventListener('input', () => changeFilter('query', queryInput.value.trim()));
-clearButton.addEventListener('click', () => {
+queryInput.addEventListener('input', () => {
+  clearTimeout(filterTimer);
+  filterTimer = setTimeout(() => changeFilter('query', queryInput.value.trim()), 180);
+});
+clearButton.addEventListener('click', async () => {
   state = { ...DEFAULT_CHANGE_FILTERS, view: state.view };
   detailWasPushed = false;
   detail.hide();
+  if (initialPreview) {
+    sliceGeneration += 1;
+    currentFeed = initialPreview.feed;
+    currentPublication = initialPreview.publication;
+  }
   replaceUrl();
   render();
+  if (state.view === 'map' || !initialPreview) await ensureCurrentSlice();
 });
+loadCompleteButton.addEventListener('click', ensureCurrentSlice);
 
 let resizeTimer = 0;
 window.addEventListener('resize', () => {
@@ -281,10 +372,11 @@ window.addEventListener('resize', () => {
 });
 window.addEventListener('pagehide', destroyMap, { once: true });
 
-window.addEventListener('popstate', event => {
+window.addEventListener('popstate', async event => {
   state = parseChangeState(window.location.search);
   detailWasPushed = false;
   render();
+  if (filtersActive() || state.view === 'map' || state.event) await ensureCurrentSlice();
   if (!state.event) {
     const scrollY = Number(event.state?.scrollY);
     if (Number.isFinite(scrollY)) requestAnimationFrame(() => window.scrollTo(0, scrollY));

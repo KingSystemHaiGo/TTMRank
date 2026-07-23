@@ -49,6 +49,35 @@ function validManifest(manifest) {
     && /^[a-f0-9]{64}$/i.test(manifest.changes_sha256);
 }
 
+function validViewInfo(info) {
+  return info
+    && validChangesFile(info.file)
+    && typeof info.sha256 === 'string'
+    && /^[a-f0-9]{64}$/i.test(info.sha256);
+}
+
+export function changeViewInfo(manifest, {
+  view = 'full',
+  range = '24h',
+  scope = 'made',
+} = {}) {
+  let candidate = null;
+  if (view === 'home') candidate = manifest?.changes_views?.home;
+  else if (view === 'preview') candidate = manifest?.changes_views?.preview;
+  else if (view === 'slice') candidate = manifest?.changes_views?.slices?.[range]?.[scope];
+  if (validViewInfo(candidate)) return candidate;
+  return {
+    file: manifest.changes_file,
+    sha256: manifest.changes_sha256,
+    view: 'full',
+    range: '7d',
+    scope: 'all',
+    count: Number(manifest.changes_event_count) || null,
+    total: Number(manifest.changes_event_count) || null,
+    complete: true,
+  };
+}
+
 function manifestRequestUrl(nowMs) {
   const bucket = Math.floor(Number(nowMs) / (5 * 60_000));
   return `data/v2/manifest.json?v=${Number.isFinite(bucket) ? bucket : 0}`;
@@ -64,10 +93,11 @@ export async function loadManifest(fetcher = fetch, { nowMs = Date.now() } = {})
   return manifest;
 }
 
-export async function loadFeed(manifest, fetcher = fetch) {
+export async function loadFeed(manifest, fetcher = fetch, options = {}) {
   if (!validManifest(manifest)) throw new Error('变化数据清单格式无效');
+  const publication = changeViewInfo(manifest, options);
   return validateChangeFeed(await fetchJsonWithRetry(
-    immutableDataUrl(`data/v2/${manifest.changes_file}`, manifest.changes_sha256),
+    immutableDataUrl(`data/v2/${publication.file}`, publication.sha256),
     { fetcher, cache: 'force-cache' },
   ));
 }
@@ -75,11 +105,16 @@ export async function loadFeed(manifest, fetcher = fetch) {
 export async function loadChanges(fetcher = fetch, options = {}) {
   const bootstrap = options.bootstrap ?? readBootstrap();
   if (validManifest(bootstrap?.manifest) && bootstrap?.changes) {
-    return { manifest: bootstrap.manifest, feed: validateChangeFeed(bootstrap.changes) };
+    const publication = changeViewInfo(bootstrap.manifest, {
+      ...options,
+      view: bootstrap.changes_view || options.view || 'full',
+    });
+    return { manifest: bootstrap.manifest, feed: validateChangeFeed(bootstrap.changes), publication };
   }
   const manifest = await loadManifest(fetcher, options);
-  const feed = await loadFeed(manifest, fetcher);
-  return { manifest, feed };
+  const publication = changeViewInfo(manifest, options);
+  const feed = await loadFeed(manifest, fetcher, options);
+  return { manifest, feed, publication };
 }
 
 export async function probeChanges(currentManifest, fetcher = fetch, options = {}) {
@@ -87,5 +122,10 @@ export async function probeChanges(currentManifest, fetcher = fetch, options = {
   if (manifestVersion(manifest) === manifestVersion(currentManifest)) {
     return { changed: false, manifest, feed: null };
   }
-  return { changed: true, manifest, feed: await loadFeed(manifest, fetcher) };
+  return {
+    changed: true,
+    manifest,
+    feed: await loadFeed(manifest, fetcher, options),
+    publication: changeViewInfo(manifest, options),
+  };
 }
