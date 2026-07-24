@@ -2,6 +2,7 @@ import { readBootstrap } from '../core/bootstrap.js';
 import { fetchJsonWithRetry, immutableDataUrl } from '../core/data-fetch.js';
 
 const SHA_PATTERN = /^[a-f0-9]{64}$/i;
+const FULL_ANALYSIS_TIMEOUT_MS = 30_000;
 
 function validFile(value) {
   return typeof value === 'string'
@@ -60,7 +61,12 @@ export async function loadAnalysis(scope = 'all', fetcher = fetch, {
   const artifact = analysisArtifact(manifest, scope);
   const data = await fetchJsonWithRetry(
     immutableDataUrl(`data/v2/${artifact.file}`, artifact.sha),
-    { fetcher, cache: 'force-cache' },
+    {
+      fetcher,
+      cache: 'force-cache',
+      timeoutMs: artifact.scope === 'all' ? FULL_ANALYSIS_TIMEOUT_MS : 10_000,
+      retryTimeouts: artifact.scope !== 'all',
+    },
   );
   if (data?.schema_version !== '2.0') throw new Error(`不支持的数据版本 ${data?.schema_version}`);
   return { manifest, data, scope: artifact.scope };

@@ -93,6 +93,24 @@ test('all-site scope reuses a known manifest and loads only the full artifact', 
   ]);
 });
 
+test('all-site analysis uses one extended request instead of retrying its timeout', async () => {
+  const nativeSetTimeout = globalThis.setTimeout;
+  let calls = 0;
+  globalThis.setTimeout = (callback, _delay, ...args) => nativeSetTimeout(callback, 5, ...args);
+  try {
+    await assert.rejects(
+      loadAnalysis('all', async () => {
+        calls += 1;
+        return new Promise(() => {});
+      }, { manifest: manifest(), bootstrap: null }),
+      /request timeout after 30000ms/,
+    );
+  } finally {
+    globalThis.setTimeout = nativeSetTimeout;
+  }
+  assert.equal(calls, 1);
+});
+
 test('quality uses its manifest hash and never throws when unavailable', async () => {
   const requests = [];
   const quality = await loadQuality(manifest(), async (url, options) => {
