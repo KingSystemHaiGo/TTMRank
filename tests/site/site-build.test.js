@@ -63,7 +63,7 @@ test('page bootstraps carry exactly the data required by the first view', () => 
 test('secondary data uses immutable filenames and every referenced file exists', () => {
   for (const page of ['index.html', 'analysis.html', 'universe.html']) {
     const manifest = bootstrap(page).manifest;
-    for (const key of ['analysis_file', 'analysis_made_file', 'changes_file', 'visual_file']) {
+    for (const key of ['analysis_file', 'analysis_made_file', 'analysis_web_file', 'changes_file', 'visual_file']) {
       if (!manifest[key]) continue;
       assert.match(manifest[key], /\.[a-f0-9]{16}\.json$/u);
       assert.ok(existsSync(new URL(`data/v2/${manifest[key]}`, root)), manifest[key]);
@@ -85,6 +85,25 @@ test('secondary data uses immutable filenames and every referenced file exists',
       assert.ok(existsSync(new URL(`data/${info.file}`, root)), info.file);
     }
   }
+});
+
+test('full-site web analysis preserves results with a materially smaller payload', () => {
+  const manifest = bootstrap('analysis.html').manifest;
+  assert.match(manifest.analysis_web_file, /^analysis-web\.[a-f0-9]{16}\.json$/u);
+  const canonicalText = read(`data/v2/${manifest.analysis_file}`);
+  const webText = read(`data/v2/${manifest.analysis_web_file}`);
+  const canonical = JSON.parse(canonicalText);
+  const web = JSON.parse(webText);
+
+  assert.equal(web.schema_version, canonical.schema_version);
+  assert.equal(web.observed_at, canonical.observed_at);
+  assert.equal(web.games.length, canonical.games.length);
+  assert.equal(web.appearances.length, canonical.appearances.length);
+  assert.equal(web.metrics.length, canonical.metrics.length);
+  assert.ok(web.games.every(game => !Object.hasOwn(game, 'icon_source_url')));
+  assert.ok(gzipSync(webText).byteLength <= gzipSync(canonicalText).byteLength * 0.75);
+  assert.equal(manifest.analysis_web_bytes, Buffer.byteLength(webText));
+  assert.equal(manifest.analysis_web_gzip_bytes, gzipSync(webText).byteLength);
 });
 
 test('page gzip budgets remain bounded', () => {

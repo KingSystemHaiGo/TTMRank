@@ -19,6 +19,7 @@ function validateManifest(manifest) {
   }
   const optionalPairs = [
     ['analysis_made_file', 'analysis_made_sha256'],
+    ['analysis_web_file', 'analysis_web_sha256'],
     ['quality_file', 'quality_sha256'],
   ];
   optionalPairs.forEach(([fileKey, shaKey]) => {
@@ -34,7 +35,24 @@ function analysisArtifact(manifest, scope) {
   if (scope === 'made' && manifest.analysis_made_file && manifest.analysis_made_sha256) {
     return { file: manifest.analysis_made_file, sha: manifest.analysis_made_sha256, scope: 'made' };
   }
+  if (scope === 'all' && manifest.analysis_web_file && manifest.analysis_web_sha256) {
+    return { file: manifest.analysis_web_file, sha: manifest.analysis_web_sha256, scope: 'all' };
+  }
   return { file: manifest.analysis_file, sha: manifest.analysis_sha256, scope: 'all' };
+}
+
+function restoreEmbeddedIcons(data, bootstrap) {
+  const icons = new Map((bootstrap?.analysis?.games || [])
+    .filter(game => game.icon_source_url)
+    .map(game => [game.id, game.icon_source_url]));
+  if (!icons.size || !Array.isArray(data?.games)) return data;
+  return {
+    ...data,
+    games: data.games.map(game => {
+      const icon = icons.get(game.id);
+      return !game.icon_source_url && icon ? { ...game, icon_source_url: icon } : game;
+    }),
+  };
 }
 
 export async function loadAnalysis(scope = 'all', fetcher = fetch, {
@@ -59,7 +77,7 @@ export async function loadAnalysis(scope = 'all', fetcher = fetch, {
   }
 
   const artifact = analysisArtifact(manifest, scope);
-  const data = await fetchJsonWithRetry(
+  let data = await fetchJsonWithRetry(
     immutableDataUrl(`data/v2/${artifact.file}`, artifact.sha),
     {
       fetcher,
@@ -69,6 +87,7 @@ export async function loadAnalysis(scope = 'all', fetcher = fetch, {
     },
   );
   if (data?.schema_version !== '2.0') throw new Error(`不支持的数据版本 ${data?.schema_version}`);
+  if (artifact.file === manifest.analysis_web_file) data = restoreEmbeddedIcons(data, bootstrap);
   return { manifest, data, scope: artifact.scope };
 }
 
