@@ -48,7 +48,7 @@ test('analysis keeps full-site data on demand and uses an immutable file', async
   await expect(page.locator('[data-scope="all"]')).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('#resultCount')).toContainText(/\d/u);
   expect(dataRequests).toHaveLength(1);
-  expect(dataRequests[0]).toMatch(/analysis-current\.[a-f0-9]{16}\.json$/u);
+  expect(dataRequests[0]).toMatch(/analysis-web\.[a-f0-9]{16}\.json$/u);
 });
 
 test('rankings switch hot platforms without data and fetch hashed secondary charts', async ({ page }) => {

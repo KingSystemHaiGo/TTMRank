@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { cp, mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { basename, dirname, join, resolve } from 'node:path';
 import { gzipSync } from 'node:zlib';
+import { buildWebAnalysis } from './analysis-publication.mjs';
 import { buildChangePublication } from './change-publication.mjs';
 
 const APP_ROOT = resolve('app');
@@ -79,11 +80,16 @@ async function publishImmutable(sourceRoot, outputRoot, manifest, fileKey, shaKe
 }
 
 async function publishPayload(outputRoot, sourceName, payload, metadata = {}) {
+  const artifact = await publishJson(outputRoot, sourceName, payload);
+  return { file: artifact.file, sha256: artifact.digest, count: payload.events?.length ?? 0, ...metadata };
+}
+
+async function publishJson(outputRoot, sourceName, payload) {
   const bytes = compact(payload);
   const digest = sha256(bytes);
   const file = hashedName(sourceName, digest);
   await writeFile(join(outputRoot, file), bytes);
-  return { file, sha256: digest, count: payload.events?.length ?? 0, ...metadata };
+  return { file, digest, bytes, payload };
 }
 
 function replaceStyles(html, css) {
@@ -149,6 +155,15 @@ for (const [fileKey, shaKey] of JSON_KEYS) {
 if (!artifacts.analysis_made_file) {
   throw new Error('TapTap-made analysis bootstrap could not be built');
 }
+artifacts.analysis_web_file = await publishJson(
+  outputV2,
+  'analysis-web.json',
+  buildWebAnalysis(full),
+);
+manifest.analysis_web_file = artifacts.analysis_web_file.file;
+manifest.analysis_web_sha256 = artifacts.analysis_web_file.digest;
+manifest.analysis_web_bytes = artifacts.analysis_web_file.bytes.length;
+manifest.analysis_web_gzip_bytes = gzipSync(artifacts.analysis_web_file.bytes).byteLength;
 const changePublication = buildChangePublication(artifacts.changes_file.payload);
 const changeViews = {
   home: await publishPayload(outputV2, 'changes-home.json', changePublication.home, {
@@ -205,7 +220,7 @@ for (const [page, config] of Object.entries(PAGES)) {
   report.pages[page] = { rawBytes, gzipBytes };
 }
 
-for (const [fileKey] of JSON_KEYS) {
+for (const fileKey of [...JSON_KEYS.map(([key]) => key), 'analysis_web_file']) {
   const artifact = artifacts[fileKey];
   if (artifact) report.immutableData.push({ file: artifact.file, bytes: artifact.bytes.length });
 }

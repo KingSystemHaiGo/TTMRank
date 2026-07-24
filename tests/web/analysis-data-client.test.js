@@ -6,6 +6,7 @@ import { loadAnalysis, loadQuality } from '../../app/js/analysis/data-client.js'
 const SHA = 'a'.repeat(64);
 const MADE_SHA = 'b'.repeat(64);
 const QUALITY_SHA = 'c'.repeat(64);
+const WEB_SHA = 'd'.repeat(64);
 
 function manifest() {
   return {
@@ -91,6 +92,46 @@ test('all-site scope reuses a known manifest and loads only the full artifact', 
   assert.deepEqual(requests, [
     [`data/v2/analysis-current.json?v=${SHA.slice(0, 16)}`, { cache: 'force-cache' }],
   ]);
+});
+
+test('all-site scope prefers the web artifact and restores embedded made-game icons', async () => {
+  const requests = [];
+  const webFile = 'analysis-web.0123456789abcdef.json';
+  const result = await loadAnalysis('all', async (url, options) => {
+    requests.push([url, options.cache]);
+    return {
+      ok: true,
+      status: 200,
+      json: async () => ({
+        schema_version: '2.0',
+        games: [
+          { id: 1, title: 'Made game' },
+          { id: 2, title: 'Reference game' },
+        ],
+        appearances: [],
+        metrics: [],
+      }),
+    };
+  }, {
+    bootstrap: {
+      manifest: {
+        ...manifest(),
+        analysis_web_file: webFile,
+        analysis_web_sha256: WEB_SHA,
+      },
+      analysis_scope: 'made',
+      analysis: {
+        schema_version: '2.0',
+        games: [{ id: 1, title: 'Made game', icon_source_url: 'https://example.com/made.png' }],
+        appearances: [],
+        metrics: [],
+      },
+    },
+  });
+
+  assert.deepEqual(requests, [[`data/v2/${webFile}`, 'force-cache']]);
+  assert.equal(result.data.games[0].icon_source_url, 'https://example.com/made.png');
+  assert.equal(result.data.games[1].icon_source_url, undefined);
 });
 
 test('all-site analysis uses one extended request instead of retrying its timeout', async () => {
