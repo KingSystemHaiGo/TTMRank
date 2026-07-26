@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write
   contents: read
   pages: write
   id-token: write
@@ -129,6 +130,21 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: work/site/
+
+  successor:
+    if: ${{ vars.TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Dispatch bounded successor
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          gh workflow run refresh-successor.yml \
+            --repo "$GITHUB_REPOSITORY" \
+            --ref "$DEFAULT_BRANCH" \
+            -f source_run_id="$GITHUB_RUN_ID"
 
   deploy:
     needs: collect
