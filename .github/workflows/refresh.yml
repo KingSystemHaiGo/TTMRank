@@ -132,8 +132,7 @@ jobs:
           path: work/site/
 
   successor:
-    needs: collect
-    if: ${{ always() && vars.TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE != 'true' }}
+    if: ${{ vars.TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

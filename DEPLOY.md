@@ -34,7 +34,7 @@ SHA 再次比较。过时的刷新 artifact 会跳过，而不是覆盖刚发布
    `npx wrangler deploy --config wrangler.scheduler.toml`。
 
 调度 Worker 不绑定 D1、不抓取 TapTap，只发送一次有 10 秒上限的 GitHub API
-请求。部署并验证 Cloudflare Cron 之前，刷新工作流会在发布完成后启动一个独立的
+请求。部署并验证 Cloudflare Cron 之前，刷新工作流会在采集启动时同时启动一个独立的
 `Refresh Successor` 计时任务；它等待 20 分钟，只在这段时间内没有出现更新的刷新
 时派发下一轮。计时任务使用单独并发组，不持有 `data-publish` 或 `pages` 锁，因此
 不会阻塞代码构建、数据采集和 Pages 发布。三个 GitHub schedule 继续作为恢复入口，

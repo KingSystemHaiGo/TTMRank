@@ -86,6 +86,9 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("gh workflow run refresh-successor.yml", refresh)
         self.assertIn("TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE", refresh)
         self.assertIn("!= 'true'", refresh)
+        successor_job = refresh.split("  successor:\n", 1)[1].split("  deploy:\n", 1)[0]
+        self.assertNotIn("needs: collect", successor_job)
+        self.assertNotIn("always()", successor_job)
 
         self.assertIn("workflow_dispatch:", successor)
         self.assertIn("source_run_id:", successor)
