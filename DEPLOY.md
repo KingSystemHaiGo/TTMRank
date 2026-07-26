@@ -34,11 +34,18 @@ SHA 再次比较。过时的刷新 artifact 会跳过，而不是覆盖刚发布
    `npx wrangler deploy --config wrangler.scheduler.toml`。
 
 调度 Worker 不绑定 D1、不抓取 TapTap，只发送一次有 10 秒上限的 GitHub API
-请求。部署并验证 Cloudflare Cron 之前，不要设置仓库变量
+请求。部署并验证 Cloudflare Cron 之前，刷新工作流会在发布完成后启动一个独立的
+`Refresh Successor` 计时任务；它等待 20 分钟，只在这段时间内没有出现更新的刷新
+时派发下一轮。计时任务使用单独并发组，不持有 `data-publish` 或 `pages` 锁，因此
+不会阻塞代码构建、数据采集和 Pages 发布。三个 GitHub schedule 继续作为恢复入口，
+但不再承担唯一时钟职责。
+
+确认 Cloudflare 至少成功触发一次刷新后，将仓库变量
+`TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE=true`。该变量会同时关闭 `Refresh Successor`
+兜底，并让三个 GitHub schedule 转为 45 分钟看门狗，避免双重时钟和重复 Runner
+等待。Cloudflare 未部署或尚未验证前，不要设置仓库变量
 `TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE`；变量未设置时，三个 GitHub 计划入口仍按
-原频率派发，合并代码不会造成停更。确认 Cloudflare 至少成功触发一次刷新后，将
-变量设为 `true`，三个入口才切换为看门狗：仅当中央刷新超过 45 分钟没有启动时
-补发。Cloudflare 健康时它们不会重复采集，也不进入网页加载链路。
+原频率派发。Cloudflare 健康时这些调度机制都不进入网页加载链路。
 
 采集失败不会部署空榜。最新线上快照存在 Pages deployment artifact 中，而
 不是由定时任务写回 Git。工作流摘要会显示游戏数、榜单记录数、质量告警、

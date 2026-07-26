@@ -1,0 +1,51 @@
+name: Refresh Successor
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Refresh run that scheduled this successor
+        required: true
+        type: string
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: refresh-successor
+  cancel-in-progress: true
+
+jobs:
+  wait-and-dispatch:
+    if: ${{ vars.TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+    steps:
+      - name: Wait for the next collection window
+        run: sleep 1200
+
+      - name: Dispatch only when no newer refresh exists
+        env:
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+        run: |
+          if ! [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ ]]; then
+            echo "Invalid source refresh run id."
+            exit 1
+          fi
+
+          newer_runs="$(gh run list \
+            --repo "$GITHUB_REPOSITORY" \
+            --workflow refresh.yml \
+            --limit 20 \
+            --json databaseId,status \
+            --jq "[.[] | select(.databaseId > ($SOURCE_RUN_ID | tonumber))] | length")"
+
+          if [ "$newer_runs" -eq 0 ]; then
+            gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
+          else
+            echo "A newer refresh already exists; no successor dispatch is needed."
+          fi

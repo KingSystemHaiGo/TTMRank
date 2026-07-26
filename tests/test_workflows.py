@@ -77,6 +77,31 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("async scheduled(", worker)
         self.assertIn("dispatchRefresh(env)", worker)
 
+    def test_refresh_starts_a_bounded_successor_when_external_clock_is_inactive(self):
+        refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")
+        successor = (self.WORKFLOWS / "refresh-successor.yml").read_text(encoding="utf-8")
+
+        self.assertIn("actions: write", refresh)
+        self.assertIn("Dispatch bounded successor", refresh)
+        self.assertIn("gh workflow run refresh-successor.yml", refresh)
+        self.assertIn("TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE", refresh)
+        self.assertIn("!= 'true'", refresh)
+
+        self.assertIn("workflow_dispatch:", successor)
+        self.assertIn("source_run_id:", successor)
+        self.assertIn("permissions:", successor)
+        self.assertIn("actions: write", successor)
+        self.assertIn("timeout-minutes: 25", successor)
+        self.assertIn("sleep 1200", successor)
+        self.assertIn("gh run list", successor)
+        self.assertIn("gh workflow run refresh.yml", successor)
+        self.assertIn("TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE", successor)
+        self.assertNotIn("schedule:", successor)
+
+        collect = refresh.split("  collect:\n", 1)[1].split("  successor:\n", 1)[0]
+        self.assertNotIn("sleep ", collect)
+        self.assertNotIn("gh workflow run refresh.yml", collect)
+
     def test_refresh_deploys_generated_pages_artifact_without_git_writes(self):
         refresh = (self.WORKFLOWS / "refresh.yml").read_text(encoding="utf-8")
 
@@ -239,6 +264,10 @@ class WorkflowTests(unittest.TestCase):
         self.assertNotIn("sleep ", refresh)
         self.assertNotIn("gh workflow run refresh.yml", refresh)
         self.assertNotIn("  continue:", refresh)
+
+        successor = (self.WORKFLOWS / "refresh-successor.yml").read_text(encoding="utf-8")
+        self.assertIn("sleep 1200", successor)
+        self.assertIn("gh workflow run refresh.yml", successor)
 
     def test_history_maintenance_has_bounded_diagnosable_continuation(self):
         workflow = (self.WORKFLOWS / "history-maintenance.yml").read_text(encoding="utf-8")
