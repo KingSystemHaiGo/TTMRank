@@ -1,0 +1,48 @@
+name: Cleanup Stale Runs
+
+# Guard against GitHub Actions "zombie" runs: a Refresh Data run stuck in
+# `queued` holds the `data-publish` concurrency group forever
+# (cancel-in-progress: false), so every later refresh waits, then gets
+# cancelled by the next dispatch. This workflow cancels any refresh run that
+# has been queued/requested/waiting for over 30 minutes (a healthy run starts
+# within seconds) or in_progress for over 60 minutes (collect times out at 30).
+
+on:
+  schedule:
+    - cron: '11,41 * * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Cancel stale Refresh Data runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -u
+          queued_cutoff=$(date -u -d '30 minutes ago' +%Y-%m-%dT%H:%M:%SZ)
+          running_cutoff=$(date -u -d '60 minutes ago' +%Y-%m-%dT%H:%M:%SZ)
+
+          cancel_stale() {
+            local status="$1" cutoff="$2"
+            gh run list --repo "$GITHUB_REPOSITORY" --workflow refresh.yml \
+              --status "$status" --limit 50 \
+              --json databaseId,createdAt \
+              --jq ".[] | select(.createdAt < \"$cutoff\") | .databaseId" \
+            | while read -r run_id; do
+                echo "Cancelling stale $status run $run_id (older than $cutoff)"
+                gh run cancel "$run_id" --repo "$GITHUB_REPOSITORY" || true
+              done
+          }
+
+          for status in queued requested waiting; do
+            cancel_stale "$status" "$queued_cutoff"
+          done
+          cancel_stale in_progress "$running_cutoff"
+
+          echo "Cleanup done."
