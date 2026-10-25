@@ -28,16 +28,22 @@ jobs:
       - name: Wait for the next collection window
         run: sleep 1200
 
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+
       - name: Dispatch only when no newer refresh exists
         env:
           SOURCE_RUN_ID: ${{ inputs.source_run_id }}
         run: |
+          source scripts/github-actions.sh
           if ! [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ ]]; then
             echo "Invalid source refresh run id."
             exit 1
           fi
 
-          newer_runs="$(gh run list \
+          newer_runs="$(github_retry gh run list \
             --repo "$GITHUB_REPOSITORY" \
             --workflow refresh.yml \
             --limit 20 \
@@ -45,7 +51,7 @@ jobs:
             --jq "[.[] | select(.databaseId > ($SOURCE_RUN_ID | tonumber))] | length")"
 
           if [ "$newer_runs" -eq 0 ]; then
-            gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
+            github_retry gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
           else
             echo "A newer refresh already exists; no successor dispatch is needed."
           fi

@@ -19,15 +19,21 @@ jobs:
       CLOUDFLARE_SCHEDULER_ACTIVE: ${{ vars.TTMRANK_CLOUDFLARE_SCHEDULER_ACTIVE }}
       MAX_AGE_SECONDS: '2700'
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+
       - name: Dispatch only when the central refresh is stale
         run: |
+          source scripts/github-actions.sh
           if [ "$CLOUDFLARE_SCHEDULER_ACTIVE" != "true" ]; then
             echo "Cloudflare scheduler is not marked active; preserving the existing dispatch."
-            gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
+            github_retry gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
             exit 0
           fi
 
-          last_created="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow refresh.yml --limit 1 --json createdAt --jq '.[0].createdAt // ""')"
+          last_created="$(github_retry gh run list --repo "$GITHUB_REPOSITORY" --workflow refresh.yml --limit 1 --json createdAt --jq '.[0].createdAt // ""')"
 
           if [ -n "$last_created" ]; then
             last_epoch="$(date --date="$last_created" +%s)"
@@ -39,7 +45,7 @@ jobs:
 
           if [ "$age" -ge "$MAX_AGE_SECONDS" ]; then
             echo "Last central refresh is ${age}s old; dispatching recovery."
-            gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
+            github_retry gh workflow run refresh.yml --repo "$GITHUB_REPOSITORY" --ref "$DEFAULT_BRANCH"
           else
             echo "Central refresh is healthy (${age}s old); no recovery needed."
           fi
